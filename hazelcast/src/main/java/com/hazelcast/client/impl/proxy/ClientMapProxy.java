@@ -1116,7 +1116,7 @@ public class ClientMapProxy<K, V> extends ClientProxy
     }
 
     protected void loadAllInternal(boolean replaceExistingValues, Collection<?> keys) {
-        Collection<Data> dataKeys = objectToDataCollection(keys, getSerializationService());
+        Collection<Data> dataKeys = objectToDataCollection(keys, this::toDataWithStrategy);
         ClientMessage request = MapLoadGivenKeysCodec.encodeRequest(name, dataKeys, replaceExistingValues);
         invoke(request);
     }
@@ -1632,7 +1632,7 @@ public class ClientMapProxy<K, V> extends ClientProxy
             return InternalCompletableFuture.newCompletedFuture(Collections.emptyMap());
         }
 
-        Collection<Data> dataCollection = objectToDataCollection(keys, getSerializationService());
+        Collection<Data> dataCollection = objectToDataCollection(keys, this::toDataWithStrategy);
 
         ClientMessage request = MapExecuteOnKeysCodec.encodeRequest(name, toData(entryProcessor), dataCollection);
         ClientInvocationFuture future = new ClientInvocation(getClient(), request, getName()).invoke();
@@ -1889,7 +1889,7 @@ public class ClientMapProxy<K, V> extends ClientProxy
         return (PagingPredicateImpl) unwrappedPredicate;
     }
 
-    private Data toDataWithStrategy(Object object) {
+    protected Data toDataWithStrategy(Object object) {
         return getSerializationService().toData(object, partitioningStrategy);
     }
 
