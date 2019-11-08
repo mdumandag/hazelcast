@@ -20,34 +20,37 @@ import com.hazelcast.config.InvalidConfigurationException;
 import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.config.matcher.MatchingPointConfigPatternMatcher;
 import com.hazelcast.test.HazelcastParallelClassRunner;
+import com.hazelcast.test.HazelcastParallelParametersRunnerFactory;
 import com.hazelcast.test.annotation.ParallelJVMTest;
 import com.hazelcast.test.annotation.QuickTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
-@RunWith(HazelcastParallelClassRunner.class)
+@RunWith(Parameterized.class)
+@Parameterized.UseParametersRunnerFactory(HazelcastParallelParametersRunnerFactory.class)
 @Category({QuickTest.class, ParallelJVMTest.class})
 public class MatchingPointConfigPatternMatcherTest {
 
     @Test
-    public void testNearCacheConfigWithoutWildcard() {
-        NearCacheConfig nearCacheConfig = new NearCacheConfig().setName("someNearCache");
+    public void testMapConfigWithoutWildcard() {
+        ClientMapConfig mapConfig = new ClientMapConfig().setName("someMap");
 
         ClientConfig config = new ClientConfig();
         config.setConfigPatternMatcher(new MatchingPointConfigPatternMatcher());
-        config.addNearCacheConfig(nearCacheConfig);
+        config.addMapConfig(mapConfig);
 
-        assertEquals(nearCacheConfig, config.getNearCacheConfig("someNearCache"));
+        assertEquals(mapConfig, config.getMapConfig("someMap"));
 
         // non-matching name
-        assertNotEquals(nearCacheConfig, config.getNearCacheConfig("doesNotExist"));
+        assertNotEquals(mapConfig, config.getMapConfig("doesNotExist"));
         // non-matching case
-        assertNotEquals(nearCacheConfig, config.getNearCacheConfig("SomeNearCache"));
+        assertNotEquals(mapConfig, config.getMapConfig("SomeMap"));
     }
 
     @Test

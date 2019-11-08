@@ -37,6 +37,7 @@ import javax.annotation.Nonnull;
 
 import com.hazelcast.client.Client;
 import com.hazelcast.client.LoadBalancer;
+import com.hazelcast.config.CacheConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigPatternMatcher;
 import com.hazelcast.config.InvalidConfigurationException;
@@ -45,6 +46,7 @@ import com.hazelcast.config.MetricsConfig;
 import com.hazelcast.config.NativeMemoryConfig;
 import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.config.QueryCacheConfig;
+import com.hazelcast.config.ReplicatedMapConfig;
 import com.hazelcast.config.SerializationConfig;
 import com.hazelcast.config.matcher.MatchingPointConfigPatternMatcher;
 import com.hazelcast.core.ManagedContext;
@@ -111,6 +113,8 @@ public class ClientConfig {
     private final ConcurrentMap<String, Object> userContext;
     private MetricsConfig metricsConfig = new MetricsConfig();
     private final Map<String, ClientMapConfig> mapConfigs;
+    private final Map<String, ClientReplicatedMapConfig> replicatedMapConfigs;
+    private final Map<String, ClientCacheConfig> cacheConfigs;
 
     public ClientConfig() {
         listenerConfigs = new LinkedList<>();
@@ -122,6 +126,8 @@ public class ClientConfig {
         labels = new HashSet<>();
         userContext = new ConcurrentHashMap<>();
         mapConfigs = new ConcurrentHashMap<>();
+        replicatedMapConfigs = new ConcurrentHashMap<>();
+        cacheConfigs = new ConcurrentHashMap<>();
     }
 
     @SuppressWarnings({"checkstyle:npathcomplexity", "checkstyle:executablestatementcount"})
@@ -178,6 +184,14 @@ public class ClientConfig {
         mapConfigs = new ConcurrentHashMap<>();
         for (Entry<String, ClientMapConfig> entry : config.mapConfigs.entrySet()) {
             mapConfigs.put(entry.getKey(), new ClientMapConfig(entry.getValue()));
+        }
+        replicatedMapConfigs = new ConcurrentHashMap<>();
+        for (Entry<String, ClientReplicatedMapConfig> entry : config.replicatedMapConfigs.entrySet()) {
+            replicatedMapConfigs.put(entry.getKey(), new ClientReplicatedMapConfig(entry.getValue()));
+        }
+        cacheConfigs = new ConcurrentHashMap<>();
+        for (Entry<String, ClientCacheConfig> entry : config.cacheConfigs.entrySet()) {
+            cacheConfigs.put(entry.getKey(), new ClientCacheConfig(entry.getValue()));
         }
     }
 
@@ -1013,13 +1027,215 @@ public class ClientConfig {
         return this;
     }
 
+    /**
+     * Returns the map of {@link com.hazelcast.replicatedmap.ReplicatedMap} configurations,
+     * mapped by the configuration name. The configuration name may be a pattern
+     * which the configuration will be obtained in the future.
+     *
+     * @return the map of {@link com.hazelcast.replicatedmap.ReplicatedMap} configurations
+     *         mapped by the configuration name.
+     */
+    public Map<String, ClientReplicatedMapConfig> getReplicatedMapConfigs() {
+        return replicatedMapConfigs;
+    }
+
+    /**
+     * Returns a {@link com.hazelcast.replicatedmap.ReplicatedMap} configuration for
+     * the given name.
+     * <p>
+     * The name is matched by pattern to the configuration and by stripping the
+     * partition ID qualifier from the given {@code name}.
+     * If there is no config found by the name, it will return the configuration
+     * with the name {@code default}.
+     *
+     * @param name name of the replicated map config
+     * @return the replicated map configuration
+     * @throws InvalidConfigurationException if ambiguous configurations are
+     *                                       found
+     * @see StringPartitioningStrategy#getBaseName(java.lang.String)
+     * @see #setConfigPatternMatcher(ConfigPatternMatcher)
+     * @see #getConfigPatternMatcher()
+     */
+    public ClientReplicatedMapConfig findReplicatedMapConfig(String name) {
+        name = getBaseName(name);
+        ClientReplicatedMapConfig config = lookupByPattern(configPatternMatcher, replicatedMapConfigs, name);
+        if (config != null) {
+            return config;
+        }
+        return getReplicatedMapConfig("default");
+    }
+
+    /**
+     * Returns the {@link ClientReplicatedMapConfig} for the given name, creating one
+     * if necessary and adding it to the collection of known configurations.
+     * <p>
+     * The configuration is found by matching the configuration name
+     * pattern to the provided {@code name} without the partition qualifier
+     * (the part of the name after {@code '@'}).
+     * If no configuration matches, it will create one by cloning the
+     * {@code "default"} configuration and add it to the configuration
+     * collection.
+     * <p>
+     * This method is intended to easily and fluently create and add
+     * configurations more specific than the default configuration without
+     * explicitly adding it by invoking
+     * {@link #addReplicatedMapConfig(ClientReplicatedMapConfig)}.
+     * <p>
+     * Because it adds new configurations if they are not already present,
+     * this method is intended to be used before this config is used to
+     * create a hazelcast instance. Afterwards, newly added configurations
+     * may be ignored.
+     *
+     * @param name name of the replicated map config
+     * @return the replicated map configuration
+     * @throws InvalidConfigurationException if ambiguous configurations are
+     *                                       found
+     * @see StringPartitioningStrategy#getBaseName(java.lang.String)
+     * @see #setConfigPatternMatcher(ConfigPatternMatcher)
+     * @see #getConfigPatternMatcher()
+     */
+    public ClientReplicatedMapConfig getReplicatedMapConfig(String name) {
+        return ConfigUtils.getConfig(configPatternMatcher, replicatedMapConfigs, name, ReplicatedMapConfig.class);
+    }
+
+    /**
+     * Adds the replicated map configuration. The configuration is saved under the config
+     * name, which may be a pattern with which the configuration will be
+     * obtained in the future.
+     *
+     * @param replicatedMapConfig the replicated map configuration
+     * @return the configured {@link ClientConfig} for chaining.
+     */
+    public ClientConfig addReplicatedMapConfig(ClientReplicatedMapConfig replicatedMapConfig) {
+        replicatedMapConfigs.put(replicatedMapConfig.getName(), replicatedMapConfig);
+        return this;
+    }
+
+    /**
+     * Sets the map of {@link ClientReplicatedMapConfig},
+     * mapped by the configuration name. The configuration name may be a pattern
+     * which the configuration will be obtained in the future.
+     *
+     * @param map the {@link ClientReplicatedMapConfig} map to set.
+     * @return the configured {@link ClientConfig} for chaining.
+     */
+    public ClientConfig setReplicatedMapConfigs(Map<String, ClientReplicatedMapConfig> map) {
+        isNotNull(map, "mapConfigs cannot be null.");
+        replicatedMapConfigs.clear();
+        replicatedMapConfigs.putAll(map);
+        for (Entry<String, ClientReplicatedMapConfig> entry : map.entrySet()) {
+            entry.getValue().setName(entry.getKey());
+        }
+        return this;
+    }
+
+    /**
+     * Returns the map of cache configurations, mapped by the configuration name.
+     * The configuration name may be a pattern which the configuration will be
+     * obtained in the future.
+     *
+     * @return the map of cache configurations mapped by the configuration name.
+     */
+    public Map<String, ClientCacheConfig> getCacheConfigs() {
+        return cacheConfigs;
+    }
+
+    /**
+     * Returns a cache configuration for the given name.
+     * <p>
+     * The name is matched by pattern to the configuration and by stripping the
+     * partition ID qualifier from the given {@code name}.
+     * If there is no config found by the name, it will return the configuration
+     * with the name {@code default}.
+     *
+     * @param name name of the cache config
+     * @return the cache configuration
+     * @throws InvalidConfigurationException if ambiguous configurations are
+     *                                       found
+     * @see StringPartitioningStrategy#getBaseName(java.lang.String)
+     * @see #setConfigPatternMatcher(ConfigPatternMatcher)
+     * @see #getConfigPatternMatcher()
+     */
+    public ClientCacheConfig findCacheConfig(String name) {
+        name = getBaseName(name);
+        ClientCacheConfig config = lookupByPattern(configPatternMatcher, cacheConfigs, name);
+        if (config != null) {
+            return config;
+        }
+        return getCacheConfig("default");
+    }
+
+    /**
+     * Returns the {@link ClientCacheConfig} for the given name, creating one
+     * if necessary and adding it to the collection of known configurations.
+     * <p>
+     * The configuration is found by matching the configuration name
+     * pattern to the provided {@code name} without the partition qualifier
+     * (the part of the name after {@code '@'}).
+     * If no configuration matches, it will create one by cloning the
+     * {@code "default"} configuration and add it to the configuration
+     * collection.
+     * <p>
+     * This method is intended to easily and fluently create and add
+     * configurations more specific than the default configuration without
+     * explicitly adding it by invoking
+     * {@link #addCacheConfig(ClientCacheConfig)}.
+     * <p>
+     * Because it adds new configurations if they are not already present,
+     * this method is intended to be used before this config is used to
+     * create a hazelcast instance. Afterwards, newly added configurations
+     * may be ignored.
+     *
+     * @param name name of the cache config
+     * @return the cache configuration
+     * @throws InvalidConfigurationException if ambiguous configurations are
+     *                                       found
+     * @see StringPartitioningStrategy#getBaseName(java.lang.String)
+     * @see #setConfigPatternMatcher(ConfigPatternMatcher)
+     * @see #getConfigPatternMatcher()
+     */
+    public ClientCacheConfig getCacheConfig(String name) {
+        return ConfigUtils.getConfig(configPatternMatcher, cacheConfigs, name, ClientCacheConfig.class);
+    }
+
+    /**
+     * Adds the cache configuration. The configuration is saved under the config
+     * name, which may be a pattern with which the configuration will be
+     * obtained in the future.
+     *
+     * @param cacheConfig the cache configuration
+     * @return the configured {@link ClientConfig} for chaining.
+     */
+    public ClientConfig addCacheConfig(ClientCacheConfig cacheConfig) {
+        cacheConfigs.put(cacheConfig.getName(), cacheConfig);
+        return this;
+    }
+
+    /**
+     * Sets the map of {@link ClientCacheConfig},
+     * mapped by the configuration name. The configuration name may be a pattern
+     * which the configuration will be obtained in the future.
+     *
+     * @param map the {@link ClientCacheConfig} map to set.
+     * @return the configured {@link ClientConfig} for chaining.
+     */
+    public ClientConfig setCacheConfigs(Map<String, ClientCacheConfig> map) {
+        isNotNull(map, "cacheConfigs cannot be null.");
+        cacheConfigs.clear();
+        cacheConfigs.putAll(map);
+        for (Entry<String, ClientCacheConfig> entry : map.entrySet()) {
+            entry.getValue().setName(entry.getKey());
+        }
+        return this;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(backupAckToClientEnabled, classLoader, clusterName, configPatternMatcher, connectionStrategyConfig,
                 executorPoolSize, flakeIdGeneratorConfigMap, instanceName, labels, listenerConfigs, loadBalancer,
                 managedContext, metricsConfig, nativeMemoryConfig, nearCacheConfigMap, networkConfig, properties,
                 proxyFactoryConfigs, queryCacheConfigs, reliableTopicConfigMap, securityConfig, serializationConfig,
-                userCodeDeploymentConfig, userContext, mapConfigs);
+                userCodeDeploymentConfig, userContext, mapConfigs, replicatedMapConfigs);
     }
 
     @Override
@@ -1054,7 +1270,8 @@ public class ClientConfig {
                 && Objects.equals(serializationConfig, other.serializationConfig)
                 && Objects.equals(userCodeDeploymentConfig, other.userCodeDeploymentConfig)
                 && Objects.equals(userContext, other.userContext)
-                && Objects.equals(mapConfigs, other.mapConfigs);
+                && Objects.equals(mapConfigs, other.mapConfigs)
+                && Objects.equals(replicatedMapConfigs, other.replicatedMapConfigs);
     }
 
     @Override
@@ -1082,6 +1299,7 @@ public class ClientConfig {
                 + ", labels=" + labels
                 + ", metricsConfig=" + metricsConfig
                 + ", mapConfigs=" + mapConfigs
+                + ", replicatedMapConfigs=" + replicatedMapConfigs
                 + '}';
     }
 }

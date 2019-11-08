@@ -16,6 +16,7 @@
 
 package com.hazelcast.client.impl.proxy;
 
+import com.hazelcast.client.config.ClientMapConfig;
 import com.hazelcast.client.impl.ClientDelegatingFuture;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.MapAddNearCacheInvalidationListenerCodec;
@@ -74,18 +75,19 @@ public class NearCachedClientMapProxy<K, V> extends ClientMapProxy<K, V> {
 
     private boolean serializeKeys;
     private NearCache<Object, Object> nearCache;
+    private NearCacheConfig nearCacheConfig;
 
     private volatile UUID invalidationListenerId;
 
-    public NearCachedClientMapProxy(String serviceName, String name, ClientContext context) {
-        super(serviceName, name, context);
+    public NearCachedClientMapProxy(String serviceName, String name, ClientContext context, ClientMapConfig mapConfig) {
+        super(serviceName, name, context, mapConfig);
+        this.nearCacheConfig = mapConfig.getNearCacheConfig();
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
 
-        NearCacheConfig nearCacheConfig = getContext().getClientConfig().getNearCacheConfig(name);
         serializeKeys = nearCacheConfig.isSerializeKeys();
 
         NearCacheManager nearCacheManager = getContext().getNearCacheManager();

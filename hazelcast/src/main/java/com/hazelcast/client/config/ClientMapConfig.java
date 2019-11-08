@@ -17,6 +17,7 @@
 package com.hazelcast.client.config;
 
 import com.hazelcast.config.NamedConfig;
+import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.config.PartitioningStrategyConfig;
 
 import java.util.Objects;
@@ -32,6 +33,7 @@ public class ClientMapConfig implements NamedConfig {
 
     private String name;
     private PartitioningStrategyConfig partitioningStrategyConfig;
+    private NearCacheConfig nearCacheConfig;
 
     public ClientMapConfig() {
     }
@@ -55,7 +57,9 @@ public class ClientMapConfig implements NamedConfig {
     public ClientMapConfig(ClientMapConfig config) {
         this.name = config.getName();
         this.partitioningStrategyConfig = config.partitioningStrategyConfig != null
-                ? new PartitioningStrategyConfig(config.getPartitioningStrategyConfig()) : null;
+                ? new PartitioningStrategyConfig(config.partitioningStrategyConfig) : null;
+        this.nearCacheConfig = config.nearCacheConfig != null
+                ? new NearCacheConfig(config.nearCacheConfig) : null;
     }
 
     /**
@@ -100,11 +104,41 @@ public class ClientMapConfig implements NamedConfig {
         return this;
     }
 
+    /**
+     * Returns the {@link NearCacheConfig} instance of this {@link ClientMapConfig}.
+     *
+     * @return the {@link NearCacheConfig} instance of this {@link ClientMapConfig}.
+     */
+    public NearCacheConfig getNearCacheConfig() {
+        return nearCacheConfig;
+    }
+
+    /**
+     * Sets the {@link NearCacheConfig} instance for this {@link ClientMapConfig}.
+     *
+     * @param nearCacheConfig the {@link NearCacheConfig} instance for this {@link ClientMapConfig}.
+     * @return configured {@link ClientMapConfig} for chaining.
+     */
+    public ClientMapConfig setNearCacheConfig(NearCacheConfig nearCacheConfig) {
+        this.nearCacheConfig = nearCacheConfig;
+        return this;
+    }
+
+    /**
+     * Checks if Near Cache is enabled or not.
+     *
+     * @return {@code true} if Near Cache is enabled, {@code false} otherwise
+     */
+    public boolean isNearCacheEnabled() {
+        return nearCacheConfig != null;
+    }
+
     @Override
     public String toString() {
         return "ClientMapConfig{"
                 + "name='" + name + '\''
                 + ", partitioningStrategyConfig=" + partitioningStrategyConfig
+                + ", nearCacheConfig=" + nearCacheConfig
                 + '}';
     }
 
@@ -118,11 +152,12 @@ public class ClientMapConfig implements NamedConfig {
         }
         ClientMapConfig that = (ClientMapConfig) o;
         return name.equals(that.name)
-                && Objects.equals(partitioningStrategyConfig, that.partitioningStrategyConfig);
+                && Objects.equals(partitioningStrategyConfig, that.partitioningStrategyConfig)
+                && Objects.equals(nearCacheConfig, that.nearCacheConfig);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, partitioningStrategyConfig);
+        return Objects.hash(name, partitioningStrategyConfig, nearCacheConfig);
     }
 }

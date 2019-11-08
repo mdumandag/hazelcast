@@ -204,9 +204,11 @@ public class ClientMapProxy<K, V> extends ClientProxy
     private ClientLockReferenceIdGenerator lockReferenceIdGenerator;
     private ClientQueryCacheContext queryCacheContext;
     private PartitioningStrategy partitioningStrategy;
+    private ClientMapConfig mapConfig;
 
-    public ClientMapProxy(String serviceName, String name, ClientContext context) {
+    public ClientMapProxy(String serviceName, String name, ClientContext context, ClientMapConfig mapConfig) {
         super(serviceName, name, context);
+        this.mapConfig = mapConfig;
     }
 
     @Override
@@ -216,7 +218,6 @@ public class ClientMapProxy<K, V> extends ClientProxy
         lockReferenceIdGenerator = getClient().getLockReferenceIdGenerator();
         queryCacheContext = getContext().getQueryCacheContext();
 
-        ClientMapConfig mapConfig = getClient().getClientConfig().findMapConfig(name);
         partitioningStrategy = getContext().getPartitioningStrategyFactory()
                 .getPartitioningStrategy(mapConfig.getName(), mapConfig.getPartitioningStrategyConfig());
     }

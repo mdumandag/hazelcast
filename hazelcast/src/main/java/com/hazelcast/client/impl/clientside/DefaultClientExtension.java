@@ -16,6 +16,7 @@
 
 package com.hazelcast.client.impl.clientside;
 
+import com.hazelcast.client.config.ClientMapConfig;
 import com.hazelcast.client.impl.ClientExtension;
 import com.hazelcast.client.HazelcastClientNotActiveException;
 import com.hazelcast.client.config.ClientConfig;
@@ -170,13 +171,14 @@ public class DefaultClientExtension implements ClientExtension {
     private ClientProxyFactory createClientMapProxyFactory() {
         return (id, context) -> {
             ClientConfig clientConfig = client.getClientConfig();
-            NearCacheConfig nearCacheConfig = clientConfig.getNearCacheConfig(id);
-            if (nearCacheConfig != null) {
+            ClientMapConfig mapConfig = clientConfig.findMapConfig(id);
+            if (mapConfig.isNearCacheEnabled()) {
+                NearCacheConfig nearCacheConfig = mapConfig.getNearCacheConfig();
                 checkNearCacheConfig(id, nearCacheConfig, clientConfig.getNativeMemoryConfig(), true);
                 initDefaultMaxSizeForOnHeapMaps(nearCacheConfig);
-                return new NearCachedClientMapProxy(MapService.SERVICE_NAME, id, context);
+                return new NearCachedClientMapProxy(MapService.SERVICE_NAME, id, context, mapConfig);
             } else {
-                return new ClientMapProxy(MapService.SERVICE_NAME, id, context);
+                return new ClientMapProxy(MapService.SERVICE_NAME, id, context, mapConfig);
             }
         };
     }
