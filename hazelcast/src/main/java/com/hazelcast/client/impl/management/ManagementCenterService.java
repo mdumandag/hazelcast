@@ -52,12 +52,14 @@ import com.hazelcast.client.impl.protocol.codec.MCTriggerHotRestartBackupCodec;
 import com.hazelcast.client.impl.protocol.codec.MCTriggerPartialStartCodec;
 import com.hazelcast.client.impl.protocol.codec.MCUpdateMapConfigCodec;
 import com.hazelcast.client.impl.protocol.codec.MCWanSyncMapCodec;
+import com.hazelcast.client.impl.spi.ClientClusterService;
 import com.hazelcast.client.impl.spi.impl.ClientInvocation;
 import com.hazelcast.cluster.ClusterState;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.cp.CPMember;
 import com.hazelcast.cp.CPSubsystemManagementService;
 import com.hazelcast.cp.internal.CPMemberInfo;
+import com.hazelcast.internal.cluster.ClusterService;
 import com.hazelcast.internal.management.TimedMemberState;
 import com.hazelcast.internal.management.dto.ClientBwListDTO;
 import com.hazelcast.internal.management.dto.MCEventDTO;
@@ -790,12 +792,13 @@ public class ManagementCenterService {
                 null
         );
 
+        final ClientClusterService clusterService = client.getClientClusterService();
         return new ClientDelegatingFuture<>(
                 invocation.invoke(),
                 serializationService,
                 clientMessage -> MCGetCPMembersCodec.decodeResponse(clientMessage).cpMembers
                         .stream()
-                        .map(uuid -> new CPMemberInfo(client.getClientClusterService().getMember(uuid)))
+                        .map(e -> new CPMemberInfo(e.getKey(), clusterService.getMember(e.getValue()).getAddress()))
                         .collect(Collectors.toList())
         );
     }
