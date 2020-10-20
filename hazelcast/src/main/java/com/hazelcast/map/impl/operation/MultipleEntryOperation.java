@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl.operation;
 
+import com.hazelcast.client.impl.client.GrpcAware;
 import com.hazelcast.core.ManagedContext;
 import com.hazelcast.internal.nio.IOUtil;
 import com.hazelcast.internal.serialization.SerializationService;
@@ -61,6 +62,9 @@ public class MultipleEntryOperation extends MapOperation
         final SerializationService serializationService = getNodeEngine().getSerializationService();
         final ManagedContext managedContext = serializationService.getManagedContext();
         entryProcessor = (EntryProcessor) managedContext.initialize(entryProcessor);
+        if (entryProcessor instanceof GrpcAware) {
+            ((GrpcAware) entryProcessor).setGrpcService(getNodeEngine().getGrpcService(), serializationService);
+        }
     }
 
     @Override

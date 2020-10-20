@@ -60,7 +60,6 @@ public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, E
         Grpc.ProcessReply response;
         try {
             response = grpcService.getStub(ClientType.CSHARP).process(request);
-
             HeapData data = new HeapData(response.getNewValueData().toByteArray());
             e.setValue(serializationService.toObject(data));
             return new HeapData(response.getResultData().toByteArray());
