@@ -152,6 +152,7 @@ public class SerializationServiceV1 extends AbstractSerializationService {
                 new JavaDefaultSerializers.ExternalizableSerializer(builder.enableCompression, builder.classNameFilter));
         registerConstantSerializers();
         registerJavaTypeSerializers();
+        registerUserCodeDeserializers();
     }
 
     @Override
@@ -188,6 +189,10 @@ public class SerializationServiceV1 extends AbstractSerializationService {
 
     public PortableContext getPortableContext() {
         return portableContext;
+    }
+
+    private void registerUserCodeDeserializers() {
+
     }
 
     private void registerConstantSerializers() {
