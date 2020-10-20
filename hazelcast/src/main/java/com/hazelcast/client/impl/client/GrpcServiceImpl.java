@@ -35,13 +35,9 @@ public class GrpcServiceImpl {
                 .build();
     }
 
-    public Grpc.RunRequest createRunRequest() {
-        return Grpc.RunRequest.newBuilder()
-                .build();
-    }
-
-    public Grpc.CallRequest createCallRequest() {
+    public Grpc.CallRequest createCallRequest(byte[] callable) {
         return Grpc.CallRequest.newBuilder()
+                .setCallableData(ByteString.copyFrom(callable))
                 .build();
     }
 }

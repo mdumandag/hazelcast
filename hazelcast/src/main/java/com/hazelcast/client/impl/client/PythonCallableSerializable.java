@@ -12,17 +12,17 @@ import io.grpc.StatusRuntimeException;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-public class CSharpCallableSerializable implements IdentifiedDataSerializable, Offloadable, GrpcAware, Callable {
+public class PythonCallableSerializable implements IdentifiedDataSerializable, Offloadable, GrpcAware, Callable {
     private byte[] callable;
     private GrpcServiceImpl grpcService;
     private SerializationService serializationService;
 
 
-    public CSharpCallableSerializable() {
+    public PythonCallableSerializable() {
     }
 
-    public static CSharpCallableSerializable from(byte[] b) {
-        CSharpCallableSerializable serializable = new CSharpCallableSerializable();
+    public static PythonCallableSerializable from(byte[] b) {
+        PythonCallableSerializable serializable = new PythonCallableSerializable();
         serializable.callable = b;
         return serializable;
     }
@@ -34,7 +34,7 @@ public class CSharpCallableSerializable implements IdentifiedDataSerializable, O
 
     @Override
     public int getClassId() {
-        return ClientDataSerializerHook.CSHARP_CALLABLE_SERIALIZABLE;
+        return ClientDataSerializerHook.PYTHON_CALLABLE_SERIALIZABLE;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CSharpCallableSerializable implements IdentifiedDataSerializable, O
 
     @Override
     public String getExecutorName() {
-        return ClientType.CSHARP.name();
+        return ClientType.PYTHON.name();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class CSharpCallableSerializable implements IdentifiedDataSerializable, O
     public Object call() throws Exception {
         Grpc.CallRequest request = grpcService.createCallRequest(callable);
         try {
-            Grpc.CallReply reply = grpcService.getStub(ClientType.CSHARP).call(request);
+            Grpc.CallReply reply = grpcService.getStub(ClientType.PYTHON).call(request);
             return serializationService.toObject(new HeapData(reply.getResultData().toByteArray()));
         } catch (StatusRuntimeException ignored) {
         }

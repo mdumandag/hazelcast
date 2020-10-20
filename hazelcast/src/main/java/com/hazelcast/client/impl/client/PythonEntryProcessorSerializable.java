@@ -15,18 +15,18 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-public class CSharpEntryProcessorSerializable implements IdentifiedDataSerializable, EntryProcessor, Offloadable, GrpcAware {
+public class PythonEntryProcessorSerializable implements IdentifiedDataSerializable, EntryProcessor, Offloadable, GrpcAware {
     private byte[] entryProcessor;
     private GrpcServiceImpl grpcService;
     private SerializationService serializationService;
 
 
-    public CSharpEntryProcessorSerializable() {
+    public PythonEntryProcessorSerializable() {
     }
 
 
-    public static CSharpEntryProcessorSerializable from(byte[] b) {
-        CSharpEntryProcessorSerializable serializable = new CSharpEntryProcessorSerializable();
+    public static PythonEntryProcessorSerializable from(byte[] b) {
+        PythonEntryProcessorSerializable serializable = new PythonEntryProcessorSerializable();
         serializable.entryProcessor = b;
         return serializable;
     }
@@ -38,7 +38,7 @@ public class CSharpEntryProcessorSerializable implements IdentifiedDataSerializa
 
     @Override
     public int getClassId() {
-        return ClientDataSerializerHook.CSHARP_ENTRY_PROCESSOR_SERIALIZABLE;
+        return ClientDataSerializerHook.PYTHON_ENTRY_PROCESSOR_SERIALIZABLE;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CSharpEntryProcessorSerializable implements IdentifiedDataSerializa
         LockAwareLazyMapEntry e = (LockAwareLazyMapEntry) entry;
         Grpc.ProcessRequest request = grpcService.createProcessRequest(entryProcessor, e);
         try {
-            Grpc.ProcessReply response = grpcService.getStub(ClientType.CSHARP).process(request);
+            Grpc.ProcessReply response = grpcService.getStub(ClientType.PYTHON).process(request);
             if (response.getMutate()) {
                 HeapData data = new HeapData(response.getNewValueData().toByteArray());
                 e.setValue(serializationService.toObject(data));
@@ -69,7 +69,7 @@ public class CSharpEntryProcessorSerializable implements IdentifiedDataSerializa
 
     @Override
     public String getExecutorName() {
-        return ClientType.CSHARP.name();
+        return ClientType.PYTHON.name();
     }
 
     @Override

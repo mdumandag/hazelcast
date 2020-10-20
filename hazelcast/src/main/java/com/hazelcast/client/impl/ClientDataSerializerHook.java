@@ -18,6 +18,8 @@ package com.hazelcast.client.impl;
 
 import com.hazelcast.client.impl.client.CSharpCallableSerializable;
 import com.hazelcast.client.impl.client.CSharpEntryProcessorSerializable;
+import com.hazelcast.client.impl.client.PythonCallableSerializable;
+import com.hazelcast.client.impl.client.PythonEntryProcessorSerializable;
 import com.hazelcast.client.impl.operations.GetConnectedClientsOperation;
 import com.hazelcast.client.impl.operations.OperationFactoryWrapper;
 import com.hazelcast.internal.serialization.DataSerializerHook;
@@ -36,6 +38,8 @@ public class ClientDataSerializerHook implements DataSerializerHook {
     public static final int OP_FACTORY_WRAPPER = 4;
     public static final int CSHARP_CALLABLE_SERIALIZABLE = 5;
     public static final int CSHARP_ENTRY_PROCESSOR_SERIALIZABLE = 6;
+    public static final int PYTHON_CALLABLE_SERIALIZABLE = 7;
+    public static final int PYTHON_ENTRY_PROCESSOR_SERIALIZABLE = 8;
 
     @Override
     public int getFactoryId() {
@@ -56,6 +60,10 @@ public class ClientDataSerializerHook implements DataSerializerHook {
                         return new CSharpCallableSerializable();
                     case CSHARP_ENTRY_PROCESSOR_SERIALIZABLE:
                         return new CSharpEntryProcessorSerializable();
+                    case PYTHON_CALLABLE_SERIALIZABLE:
+                        return new PythonCallableSerializable();
+                    case PYTHON_ENTRY_PROCESSOR_SERIALIZABLE:
+                        return new PythonEntryProcessorSerializable();
                     default:
                         return null;
                 }
