@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_package = "com.hazelcast.client.impl.client";
+
+
+service Processor {
+  rpc process (ProcessRequest) returns (ProcessReply) {}
+}
+
+message ProcessRequest {
+  bytes processorData = 1;
+  bytes keyData = 2;
+  bytes valueData = 3;
+}
+
+message ProcessReply {
+  bytes resultData = 1;
+}

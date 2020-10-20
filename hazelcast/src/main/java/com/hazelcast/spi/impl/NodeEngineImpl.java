@@ -16,6 +16,7 @@
 
 package com.hazelcast.spi.impl;
 
+import com.hazelcast.client.impl.client.GrpcServiceImpl;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.config.Config;
@@ -122,6 +123,7 @@ public class NodeEngineImpl implements NodeEngine {
     private final Diagnostics diagnostics;
     private final SplitBrainMergePolicyProvider splitBrainMergePolicyProvider;
     private final ConcurrencyDetection concurrencyDetection;
+    private final GrpcServiceImpl grpcService;
 
     @SuppressWarnings("checkstyle:executablestatementcount")
     public NodeEngineImpl(Node node) {
@@ -164,6 +166,7 @@ public class NodeEngineImpl implements NodeEngine {
             serviceManager.registerService(OperationParker.SERVICE_NAME, operationParker);
             serviceManager.registerService(UserCodeDeploymentService.SERVICE_NAME, userCodeDeploymentService);
             serviceManager.registerService(ClusterWideConfigurationService.SERVICE_NAME, configurationService);
+            this.grpcService = new GrpcServiceImpl();
         } catch (Throwable e) {
             try {
                 shutdown(true);
@@ -329,6 +332,11 @@ public class NodeEngineImpl implements NodeEngine {
     @Override
     public SqlServiceImpl getSqlService() {
         return sqlService;
+    }
+
+    @Override
+    public GrpcServiceImpl getGrpcService() {
+        return grpcService;
     }
 
     @Override

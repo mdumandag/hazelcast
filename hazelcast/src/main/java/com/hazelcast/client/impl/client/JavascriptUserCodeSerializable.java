@@ -4,6 +4,7 @@ import com.hazelcast.client.impl.ClientDataSerializerHook;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.IFunction;
+import com.hazelcast.core.Offloadable;
 import com.hazelcast.map.EntryProcessor;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class JavascriptUserCodeSerializable implements IdentifiedDataSerializable, Callable, Runnable,
-        HazelcastInstanceAware, EntryProcessor, IFunction {
+        HazelcastInstanceAware, EntryProcessor, IFunction, Offloadable {
     private HazelcastInstance member;
     private String functionDefinition;
     private JSObject function;
@@ -86,5 +87,10 @@ public class JavascriptUserCodeSerializable implements IdentifiedDataSerializabl
         } catch (ScriptException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getExecutorName() {
+        return "javascript";
     }
 }

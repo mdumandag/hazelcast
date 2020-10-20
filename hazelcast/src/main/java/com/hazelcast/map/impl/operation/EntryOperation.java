@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl.operation;
 
+import com.hazelcast.client.impl.client.GrpcAware;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.core.EntryEventType;
@@ -175,6 +176,9 @@ EntryOperation extends LockAwareOperation
         SerializationService serializationService = getNodeEngine().getSerializationService();
         ManagedContext managedContext = serializationService.getManagedContext();
         entryProcessor = (EntryProcessor) managedContext.initialize(entryProcessor);
+        if (entryProcessor instanceof GrpcAware) {
+            ((GrpcAware) entryProcessor).setGrpcService(getNodeEngine().getGrpcService());
+        }
     }
 
     @Override
@@ -324,6 +328,8 @@ EntryOperation extends LockAwareOperation
         @Override
         public void start() {
             verifyEntryProcessor();
+
+
 
             Object oldValue = getOldValueByInMemoryFormat();
             String executorName = ((Offloadable) entryProcessor).getExecutorName();

@@ -16,6 +16,7 @@
 
 package com.hazelcast.spi.impl;
 
+import com.hazelcast.client.impl.client.GrpcServiceImpl;
 import com.hazelcast.cluster.Cluster;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.config.Config;
@@ -71,6 +72,8 @@ public interface NodeEngine {
     SplitBrainProtectionService getSplitBrainProtectionService();
 
     SqlServiceImpl getSqlService();
+
+    GrpcServiceImpl getGrpcService();
 
     /**
      * Gets the TransactionManagerService.

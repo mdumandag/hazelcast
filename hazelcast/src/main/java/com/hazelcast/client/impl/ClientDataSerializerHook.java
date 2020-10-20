@@ -16,6 +16,7 @@
 
 package com.hazelcast.client.impl;
 
+import com.hazelcast.client.impl.client.CSharpUserCodeSerializable;
 import com.hazelcast.client.impl.client.JavascriptUserCodeSerializable;
 import com.hazelcast.client.impl.operations.GetConnectedClientsOperation;
 import com.hazelcast.client.impl.operations.OperationFactoryWrapper;
@@ -34,6 +35,7 @@ public class ClientDataSerializerHook implements DataSerializerHook {
     public static final int GET_CONNECTED_CLIENTS = 2;
     public static final int OP_FACTORY_WRAPPER = 4;
     public static final int JAVASCRIPT_USER_CODE_SERIALIZABLE = 5;
+    public static final int CSHARP_USER_CODE_SERIALIZABLE = 6;
 
     @Override
     public int getFactoryId() {
@@ -52,6 +54,8 @@ public class ClientDataSerializerHook implements DataSerializerHook {
                         return new OperationFactoryWrapper();
                     case JAVASCRIPT_USER_CODE_SERIALIZABLE:
                         return new JavascriptUserCodeSerializable();
+                    case CSHARP_USER_CODE_SERIALIZABLE:
+                        return new CSharpUserCodeSerializable();
                     default:
                         return null;
                 }
