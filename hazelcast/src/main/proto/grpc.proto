@@ -4,7 +4,6 @@ option java_package = "com.hazelcast.client.impl.client";
 
 service Processor {
   rpc process (ProcessRequest) returns (ProcessReply) {}
-  rpc run (RunRequest) returns (RunReply) {}
   rpc call (CallRequest) returns (CallReply) {}
 }
 
@@ -20,11 +19,9 @@ message ProcessReply {
   bool mutate = 3;
 }
 
-message RunRequest {}
-
-message RunReply {}
-
-message CallRequest{}
+message CallRequest{
+  bytes callableData = 1;
+}
 
 message CallReply {
   bytes resultData = 1;
