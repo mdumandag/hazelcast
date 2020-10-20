@@ -2,9 +2,8 @@ package com.hazelcast.client.impl.client;
 
 import com.google.protobuf.ByteString;
 import com.hazelcast.client.impl.ClientDataSerializerHook;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.Offloadable;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.internal.serialization.impl.HeapData;
 import com.hazelcast.map.EntryProcessor;
@@ -16,8 +15,9 @@ import io.grpc.StatusRuntimeException;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
-public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, EntryProcessor, Offloadable, GrpcAware {
+public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, EntryProcessor, Offloadable, GrpcAware, Callable {
     private byte[] entryProcessor;
     private GrpcServiceImpl grpcService;
     private SerializationService serializationService;
@@ -56,12 +56,13 @@ public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, E
     @Override
     public Object process(Map.Entry entry) {
         LockAwareLazyMapEntry e = (LockAwareLazyMapEntry) entry;
-        Grpc.ProcessRequest request = createRequest(e);
-        Grpc.ProcessReply response;
+        Grpc.ProcessRequest request = grpcService.createProcessRequest(entryProcessor, e);
         try {
-            response = grpcService.getStub(ClientType.CSHARP).process(request);
-            HeapData data = new HeapData(response.getNewValueData().toByteArray());
-            e.setValue(serializationService.toObject(data));
+            Grpc.ProcessReply response = grpcService.getStub(ClientType.CSHARP).process(request);
+            if (response.getMutate()) {
+                HeapData data = new HeapData(response.getNewValueData().toByteArray());
+                e.setValue(serializationService.toObject(data));
+            }
             return new HeapData(response.getResultData().toByteArray());
         } catch (StatusRuntimeException ignored) {
         }
@@ -79,11 +80,14 @@ public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, E
         this.serializationService = serializationService;
     }
 
-    private Grpc.ProcessRequest createRequest(LockAwareLazyMapEntry entry) {
-        return Grpc.ProcessRequest.newBuilder()
-                .setProcessorData(ByteString.copyFrom(entryProcessor))
-                .setKeyData(ByteString.copyFrom(entry.getKeyData().toByteArray()))
-                .setValueData(ByteString.copyFrom(entry.getValueData().toByteArray()))
-                .build();
+    @Override
+    public Object call() throws Exception {
+        Grpc.CallRequest request = grpcService.createCallRequest();
+        try {
+            Grpc.CallReply reply = grpcService.getStub(ClientType.CSHARP).call(request);
+            return serializationService.toObject(new HeapData(reply.getResultData().toByteArray()));
+        } catch (StatusRuntimeException ignored) {
+        }
+        return null;
     }
 }

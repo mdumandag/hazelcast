@@ -16,6 +16,7 @@
 
 package com.hazelcast.executor.impl.operations;
 
+import com.hazelcast.client.impl.client.GrpcAware;
 import com.hazelcast.core.ManagedContext;
 import com.hazelcast.internal.nio.IOUtil;
 import com.hazelcast.internal.util.UUIDSerializationUtil;
@@ -107,7 +108,12 @@ abstract class AbstractCallableTaskOperation extends Operation implements NamedO
             ManagedContext managedContext = serializationService.getManagedContext();
 
             Object object = serializationService.toObject(callableData);
-            return (T) managedContext.initialize(object);
+            T initialized = (T) managedContext.initialize(object);
+            if (initialized instanceof GrpcAware) {
+                ((GrpcAware) initialized).setGrpcService(getNodeEngine().getGrpcService(), serializationService);
+            }
+
+            return initialized;
         }
     }
 }
