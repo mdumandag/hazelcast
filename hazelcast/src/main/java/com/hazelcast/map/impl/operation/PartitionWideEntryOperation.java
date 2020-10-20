@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl.operation;
 
+import com.hazelcast.client.impl.client.GrpcAware;
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.core.EntryEventType;
 import com.hazelcast.core.ManagedContext;
@@ -74,6 +75,9 @@ public class PartitionWideEntryOperation extends MapOperation
         SerializationService serializationService = getNodeEngine().getSerializationService();
         ManagedContext managedContext = serializationService.getManagedContext();
         entryProcessor = (EntryProcessor) managedContext.initialize(entryProcessor);
+        if (entryProcessor instanceof GrpcAware) {
+            ((GrpcAware) entryProcessor).setGrpcService(getNodeEngine().getGrpcService(), serializationService);
+        }
 
         keysFromIndex = null;
         queryOptimizer = mapServiceContext.getQueryOptimizer();
