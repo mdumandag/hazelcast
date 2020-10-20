@@ -177,7 +177,7 @@ EntryOperation extends LockAwareOperation
         ManagedContext managedContext = serializationService.getManagedContext();
         entryProcessor = (EntryProcessor) managedContext.initialize(entryProcessor);
         if (entryProcessor instanceof GrpcAware) {
-            ((GrpcAware) entryProcessor).setGrpcService(getNodeEngine().getGrpcService());
+            ((GrpcAware) entryProcessor).setGrpcService(getNodeEngine().getGrpcService(), serializationService);
         }
     }
 

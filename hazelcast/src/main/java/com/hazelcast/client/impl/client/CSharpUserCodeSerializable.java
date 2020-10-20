@@ -2,7 +2,10 @@ package com.hazelcast.client.impl.client;
 
 import com.google.protobuf.ByteString;
 import com.hazelcast.client.impl.ClientDataSerializerHook;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.Offloadable;
+import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.internal.serialization.impl.HeapData;
 import com.hazelcast.map.EntryProcessor;
 import com.hazelcast.map.impl.LockAwareLazyMapEntry;
@@ -17,6 +20,7 @@ import java.util.Map;
 public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, EntryProcessor, Offloadable, GrpcAware {
     private byte[] entryProcessor;
     private GrpcServiceImpl grpcService;
+    private SerializationService serializationService;
 
 
     public CSharpUserCodeSerializable() {
@@ -51,10 +55,14 @@ public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, E
 
     @Override
     public Object process(Map.Entry entry) {
-        Grpc.ProcessRequest request = createRequest((LockAwareLazyMapEntry) entry);
+        LockAwareLazyMapEntry e = (LockAwareLazyMapEntry) entry;
+        Grpc.ProcessRequest request = createRequest(e);
         Grpc.ProcessReply response;
         try {
             response = grpcService.getStub(ClientType.CSHARP).process(request);
+
+            HeapData data = new HeapData(response.getNewValueData().toByteArray());
+            e.setValue(serializationService.toObject(data));
             return new HeapData(response.getResultData().toByteArray());
         } catch (StatusRuntimeException ignored) {
         }
@@ -67,8 +75,9 @@ public class CSharpUserCodeSerializable implements IdentifiedDataSerializable, E
     }
 
     @Override
-    public void setGrpcService(GrpcServiceImpl service) {
+    public void setGrpcService(GrpcServiceImpl service, SerializationService serializationService) {
         this.grpcService = service;
+        this.serializationService = serializationService;
     }
 
     private Grpc.ProcessRequest createRequest(LockAwareLazyMapEntry entry) {

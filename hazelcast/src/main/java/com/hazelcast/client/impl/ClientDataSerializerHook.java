@@ -17,7 +17,6 @@
 package com.hazelcast.client.impl;
 
 import com.hazelcast.client.impl.client.CSharpUserCodeSerializable;
-import com.hazelcast.client.impl.client.JavascriptUserCodeSerializable;
 import com.hazelcast.client.impl.operations.GetConnectedClientsOperation;
 import com.hazelcast.client.impl.operations.OperationFactoryWrapper;
 import com.hazelcast.internal.serialization.DataSerializerHook;
@@ -52,8 +51,6 @@ public class ClientDataSerializerHook implements DataSerializerHook {
                         return new GetConnectedClientsOperation();
                     case OP_FACTORY_WRAPPER:
                         return new OperationFactoryWrapper();
-                    case JAVASCRIPT_USER_CODE_SERIALIZABLE:
-                        return new JavascriptUserCodeSerializable();
                     case CSHARP_USER_CODE_SERIALIZABLE:
                         return new CSharpUserCodeSerializable();
                     default:
