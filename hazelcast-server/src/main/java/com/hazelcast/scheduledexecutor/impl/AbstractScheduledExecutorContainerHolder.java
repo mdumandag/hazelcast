@@ -16,8 +16,8 @@
 
 package com.hazelcast.scheduledexecutor.impl;
 
-import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.internal.util.ConstructorFunction;
+import com.hazelcast.spi.impl.NodeEngine;
 
 import java.util.Collection;
 import java.util.Collections;

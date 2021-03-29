@@ -17,14 +17,14 @@
 package com.hazelcast.scheduledexecutor.impl;
 
 import com.hazelcast.core.ManagedContext;
-import com.hazelcast.partition.PartitionAware;
 import com.hazelcast.instance.impl.Node;
+import com.hazelcast.internal.services.NodeAware;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
+import com.hazelcast.partition.PartitionAware;
 import com.hazelcast.scheduledexecutor.NamedTask;
 import com.hazelcast.scheduledexecutor.StatefulTask;
-import com.hazelcast.internal.services.NodeAware;
 
 import java.io.IOException;
 import java.util.Map;
