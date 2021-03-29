@@ -22,7 +22,7 @@ import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.impl.type.QueryDataTypeMismatchException;
 
 /**
- * An extractor that uses {@link com.hazelcast.query.impl.getters.Extractors} for field retrieval.
+ * An extractor that uses {@link Extractors} for field retrieval.
  */
 public class GenericFieldExtractor extends AbstractGenericExtractor {
 
