@@ -20,34 +20,28 @@ import com.hazelcast.sql.impl.type.QueryDataTypeFamily;
 
 import java.math.BigDecimal;
 
-import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMathBase.DECIMAL_MATH_CONTEXT;
+
 
 /**
- * Converter for {@link java.lang.Short} type.
+ * Converter for {@link java.lang.Byte} type.
  */
-public final class ShortConverter extends Converter {
+public final class ByteConverter extends Converter {
 
-    public static final ShortConverter INSTANCE = new ShortConverter();
+    public static final ByteConverter INSTANCE = new ByteConverter();
 
-    private ShortConverter() {
-        super(ID_SHORT, QueryDataTypeFamily.SMALLINT);
+    private ByteConverter() {
+        super(ID_BYTE, QueryDataTypeFamily.TINYINT);
     }
 
     @Override
     public Class<?> getValueClass() {
-        return Short.class;
+        return Byte.class;
     }
 
     @Override
     public byte asTinyint(Object val) {
-        short casted = cast(val);
-        byte converted = (byte) casted;
-
-        if (converted != casted) {
-            throw numericOverflowError(QueryDataTypeFamily.TINYINT);
-        }
-
-        return converted;
+        return cast(val);
     }
 
     @Override
@@ -82,16 +76,15 @@ public final class ShortConverter extends Converter {
 
     @Override
     public String asVarchar(Object val) {
-        return Short.toString(cast(val));
+        return Byte.toString(cast(val));
     }
 
     @Override
     public Object convertToSelf(Converter valConverter, Object val) {
-        return valConverter.asSmallint(val);
+        return valConverter.asTinyint(val);
     }
 
-    private short cast(Object val) {
-        return (short) val;
+    private byte cast(Object val) {
+        return (byte) val;
     }
-
 }

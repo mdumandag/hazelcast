@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.expression.math;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -408,7 +408,7 @@ public class DivideOperatorIntegrationTest extends ArithmeticOperatorIntegration
     public void testSerialization() {
         DivideFunction<?> original =
             DivideFunction.create(ConstantExpression.create(3, INT), ConstantExpression.create(2, INT), INT);
-        DivideFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_DIVIDE);
+        DivideFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_DIVIDE);
 
         checkEquals(original, restored, true);
     }

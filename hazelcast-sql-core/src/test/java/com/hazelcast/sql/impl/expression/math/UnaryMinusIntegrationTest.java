@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -156,7 +156,7 @@ public class UnaryMinusIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         UnaryMinusFunction<?> original = UnaryMinusFunction.create(ConstantExpression.create(1, INT), INT);
-        UnaryMinusFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_UNARY_MINUS);
+        UnaryMinusFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_UNARY_MINUS);
 
         checkEquals(original, restored, true);
     }

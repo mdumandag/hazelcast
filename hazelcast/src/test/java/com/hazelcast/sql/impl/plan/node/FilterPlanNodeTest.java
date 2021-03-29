@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.plan.node;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.expression.ConstantPredicateExpression;
 import com.hazelcast.sql.impl.type.QueryDataType;
@@ -68,7 +68,7 @@ public class FilterPlanNodeTest extends SqlTestSupport {
         ConstantPredicateExpression filter = new ConstantPredicateExpression(true);
 
         FilterPlanNode original = new FilterPlanNode(1, upstream, filter);
-        FilterPlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_FILTER);
+        FilterPlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_FILTER);
 
         checkEquals(original, restored, true);
     }

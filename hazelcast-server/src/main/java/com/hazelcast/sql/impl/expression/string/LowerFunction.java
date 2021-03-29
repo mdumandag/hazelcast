@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.UniExpression;
@@ -51,11 +51,11 @@ public class LowerFunction extends UniExpression<String> implements IdentifiedDa
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_LOWER;
+        return SqlDataSerializerHookBase.EXPRESSION_LOWER;
     }
 }

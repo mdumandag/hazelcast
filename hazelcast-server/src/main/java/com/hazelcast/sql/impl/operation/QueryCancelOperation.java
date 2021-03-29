@@ -20,7 +20,7 @@ import com.hazelcast.internal.util.UUIDSerializationUtil;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.sql.impl.QueryId;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -75,7 +75,7 @@ public class QueryCancelOperation extends QueryAbstractIdAwareOperation {
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.OPERATION_CANCEL;
+        return SqlDataSerializerHookBase.OPERATION_CANCEL;
     }
 
     @Override

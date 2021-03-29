@@ -20,7 +20,6 @@ import com.hazelcast.cluster.Member;
 import com.hazelcast.internal.util.collection.PartitionIdSet;
 import com.hazelcast.partition.Partition;
 import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.sql.HazelcastSqlException;
 import com.hazelcast.sql.SqlColumnMetadata;
 import com.hazelcast.sql.impl.schema.TableResolver;
 import com.hazelcast.sql.impl.type.QueryDataType;
@@ -38,7 +37,7 @@ import java.util.UUID;
 /**
  * Common SQL engine utility methods used by both "core" and "sql" modules.
  */
-public final class QueryUtils {
+public final class QueryUtils extends QueryUtilsBase {
 
     public static final String CATALOG = "hazelcast";
     public static final String SCHEMA_NAME_PARTITIONED = "partitioned";
@@ -57,26 +56,6 @@ public final class QueryUtils {
 
     public static String workerName(String instanceName, String workerType, long index) {
         return instanceName + "-" + workerType + "-" + index;
-    }
-
-    public static HazelcastSqlException toPublicException(Throwable e, UUID localMemberId) {
-        if (e instanceof HazelcastSqlException) {
-            return (HazelcastSqlException) e;
-        }
-
-        if (e instanceof QueryException) {
-            QueryException e0 = (QueryException) e;
-
-            UUID originatingMemberId = e0.getOriginatingMemberId();
-
-            if (originatingMemberId == null) {
-                originatingMemberId = localMemberId;
-            }
-
-            return new HazelcastSqlException(originatingMemberId, e0.getCode(), e0.getMessage(), e);
-        } else {
-            return new HazelcastSqlException(localMemberId, SqlErrorCode.GENERIC, e.getMessage(), e);
-        }
     }
 
     /**

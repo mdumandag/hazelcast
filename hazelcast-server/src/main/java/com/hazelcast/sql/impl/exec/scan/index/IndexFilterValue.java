@@ -23,7 +23,7 @@ import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.query.impl.AbstractIndex;
 import com.hazelcast.query.impl.CompositeValue;
 import com.hazelcast.sql.impl.QueryException;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.row.Row;
@@ -115,12 +115,12 @@ public class IndexFilterValue implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.INDEX_FILTER_VALUE;
+        return SqlDataSerializerHookBase.INDEX_FILTER_VALUE;
     }
 
     @Override

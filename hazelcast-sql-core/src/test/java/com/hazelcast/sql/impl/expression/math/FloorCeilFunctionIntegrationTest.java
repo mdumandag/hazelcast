@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.Expression;
@@ -202,7 +202,7 @@ public class FloorCeilFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         Expression<?> original = FloorCeilFunction.create(ConstantExpression.create(1, QueryDataType.DECIMAL), QueryDataType.DECIMAL, true);
-        Expression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_FLOOR_CEIL);
+        Expression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_FLOOR_CEIL);
 
         checkEquals(original, restored, true);
     }

@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.impl.type.converter.LocalDateConverter;
 import com.hazelcast.sql.impl.type.converter.LocalDateTimeConverter;
@@ -1113,7 +1113,7 @@ public class CastFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         CastExpression<?> original = CastExpression.create(ConstantExpression.create(1, INT), QueryDataType.BIGINT);
-        CastExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_CAST);
+        CastExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_CAST);
 
         checkEquals(original, restored, true);
     }

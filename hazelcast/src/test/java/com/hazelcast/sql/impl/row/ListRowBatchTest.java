@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.row;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -55,7 +55,7 @@ public class ListRowBatchTest extends SqlTestSupport {
         rows.add(new HeapRow(2));
 
         ListRowBatch original = new ListRowBatch(rows);
-        ListRowBatch restored = serializeAndCheck(original, SqlDataSerializerHook.ROW_BATCH_LIST);
+        ListRowBatch restored = serializeAndCheck(original, SqlDataSerializerHookBase.ROW_BATCH_LIST);
 
         assertEquals(original.getRowCount(), restored.getRowCount());
         assertEquals(original.getRow(0), restored.getRow(0));

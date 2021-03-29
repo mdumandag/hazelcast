@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.plan.node.io;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.plan.node.PlanNodeSchema;
 import com.hazelcast.sql.impl.type.QueryDataType;
@@ -71,7 +71,7 @@ public class ReceivePlanNodeTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         ReceivePlanNode original = new ReceivePlanNode(1, 2, true, Arrays.asList(QueryDataType.INT, QueryDataType.VARCHAR));
-        ReceivePlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_RECEIVE);
+        ReceivePlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_RECEIVE);
 
         checkEquals(original, restored, true);
     }

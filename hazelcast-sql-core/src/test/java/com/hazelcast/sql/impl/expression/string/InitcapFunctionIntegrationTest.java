@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.support.expressions.ExpressionValue.CharacterVal;
 import com.hazelcast.sql.support.expressions.ExpressionValue.StringVal;
@@ -104,7 +104,7 @@ public class InitcapFunctionIntegrationTest extends StringFunctionIntegrationTes
     @Test
     public void testSerialization() {
         InitcapFunction original = InitcapFunction.create(ConstantExpression.create("1", VARCHAR));
-        InitcapFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_INITCAP);
+        InitcapFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_INITCAP);
 
         checkEquals(original, restored, true);
     }

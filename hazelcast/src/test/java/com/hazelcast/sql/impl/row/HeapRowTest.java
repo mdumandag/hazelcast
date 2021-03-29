@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.row;
 
 import com.hazelcast.sql.impl.SqlCustomClass;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -86,7 +86,7 @@ public class HeapRowTest extends SqlTestSupport {
         original.set(0, 1);
         original.set(1, new SqlCustomClass(1));
 
-        HeapRow restored = serializeAndCheck(original, SqlDataSerializerHook.ROW_HEAP);
+        HeapRow restored = serializeAndCheck(original, SqlDataSerializerHookBase.ROW_HEAP);
 
         checkEquals(original, restored, true);
     }

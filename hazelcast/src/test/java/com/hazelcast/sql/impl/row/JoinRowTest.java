@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.row;
 
 import com.hazelcast.sql.impl.SqlCustomClass;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -73,7 +73,7 @@ public class JoinRowTest extends SqlTestSupport {
         row2.set(1, new SqlCustomClass(2));
 
         JoinRow original = new JoinRow(row1, row2);
-        JoinRow restored = serializeAndCheck(original, SqlDataSerializerHook.ROW_JOIN);
+        JoinRow restored = serializeAndCheck(original, SqlDataSerializerHookBase.ROW_JOIN);
 
         checkEquals(original, restored, true);
     }

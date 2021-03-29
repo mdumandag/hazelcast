@@ -25,7 +25,7 @@ import com.hazelcast.nio.serialization.DataSerializable;
 import com.hazelcast.query.impl.getters.Extractors;
 import com.hazelcast.sql.impl.LazyTarget;
 import com.hazelcast.sql.impl.QueryException;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.type.QueryDataType;
@@ -47,7 +47,7 @@ import static org.junit.Assert.assertTrue;
 public class GenericQueryTargetTest extends SqlTestSupport {
     @Test
     public void testTargetDescriptor() {
-        serializeAndCheck(new GenericQueryTargetDescriptor(), SqlDataSerializerHook.TARGET_DESCRIPTOR_GENERIC);
+        serializeAndCheck(new GenericQueryTargetDescriptor(), SqlDataSerializerHookBase.TARGET_DESCRIPTOR_GENERIC);
     }
 
     @Test

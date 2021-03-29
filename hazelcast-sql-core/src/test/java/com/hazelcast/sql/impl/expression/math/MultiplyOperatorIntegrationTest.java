@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.expression.math;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -370,7 +370,7 @@ public class MultiplyOperatorIntegrationTest extends ArithmeticOperatorIntegrati
     public void testSerialization() {
         MultiplyFunction<?> original =
             MultiplyFunction.create(ConstantExpression.create(3, INT), ConstantExpression.create(2, INT), INT);
-        MultiplyFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_MULTIPLY);
+        MultiplyFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_MULTIPLY);
 
         checkEquals(original, restored, true);
     }

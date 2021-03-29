@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.expression.math;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -171,7 +171,7 @@ public class DoubleBiFunctionIntegrationTest extends ExpressionTestSupport {
                 ConstantExpression.create(1d, QueryDataType.DOUBLE),
                 ATAN2
         );
-        DoubleBiFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_DOUBLE_DOUBLE);
+        DoubleBiFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_DOUBLE_DOUBLE);
 
         checkEquals(original, restored, true);
     }

@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.row.Row;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.impl.type.converter.Converter;
@@ -41,12 +41,12 @@ public final class CastExpression<T> extends UniExpressionWithType<T> implements
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_CAST;
+        return SqlDataSerializerHookBase.EXPRESSION_CAST;
     }
 
     @SuppressWarnings("unchecked")

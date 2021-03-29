@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.type;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -39,7 +39,7 @@ public class SqlDaySecondIntervalTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         SqlDaySecondInterval original = new SqlDaySecondInterval(1);
-        SqlDaySecondInterval restored = serializeAndCheck(original, SqlDataSerializerHook.INTERVAL_DAY_SECOND);
+        SqlDaySecondInterval restored = serializeAndCheck(original, SqlDataSerializerHookBase.INTERVAL_DAY_SECOND);
 
         checkEquals(original, restored, true);
     }

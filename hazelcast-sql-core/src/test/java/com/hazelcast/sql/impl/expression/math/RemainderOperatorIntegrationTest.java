@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.expression.math;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -386,7 +386,7 @@ public class RemainderOperatorIntegrationTest extends ArithmeticOperatorIntegrat
     @Test
     public void testSerialization() {
         RemainderFunction<?> original = RemainderFunction.create(create(3, INT), create(2, INT), INT);
-        RemainderFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_REMAINDER);
+        RemainderFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_REMAINDER);
 
         checkEquals(original, restored, true);
     }

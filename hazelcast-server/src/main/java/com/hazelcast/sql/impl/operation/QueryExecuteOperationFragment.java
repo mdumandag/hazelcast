@@ -20,7 +20,7 @@ import com.hazelcast.internal.util.UUIDSerializationUtil;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.plan.node.PlanNode;
 
 import java.io.IOException;
@@ -69,12 +69,12 @@ public class QueryExecuteOperationFragment implements IdentifiedDataSerializable
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.OPERATION_EXECUTE_FRAGMENT;
+        return SqlDataSerializerHookBase.OPERATION_EXECUTE_FRAGMENT;
     }
 
     @Override

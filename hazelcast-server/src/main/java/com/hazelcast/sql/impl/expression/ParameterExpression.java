@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.expression;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.row.Row;
 import com.hazelcast.sql.impl.type.QueryDataType;
 
@@ -48,12 +48,12 @@ public final class ParameterExpression<T> implements Expression<T>, IdentifiedDa
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_PARAMETER;
+        return SqlDataSerializerHookBase.EXPRESSION_PARAMETER;
     }
 
     @SuppressWarnings("unchecked")

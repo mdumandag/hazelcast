@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
 import com.hazelcast.sql.support.expressions.ExpressionBiValue;
@@ -133,7 +133,7 @@ public class ConcatFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         ConcatFunction original = ConcatFunction.create(ConstantExpression.create("1", VARCHAR), ConstantExpression.create("2", VARCHAR));
-        ConcatFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_CONCAT);
+        ConcatFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_CONCAT);
 
         checkEquals(original, restored, true);
     }

@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.SqlRow;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
@@ -199,7 +199,7 @@ public class RandFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         RandFunction original = RandFunction.create(ConstantExpression.create(1, QueryDataType.INT));
-        RandFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_RAND);
+        RandFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_RAND);
 
         checkEquals(original, restored, true);
     }

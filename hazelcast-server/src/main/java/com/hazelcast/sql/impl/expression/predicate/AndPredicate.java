@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.predicate;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.VariExpression;
@@ -43,12 +43,12 @@ public final class AndPredicate extends VariExpression<Boolean> implements Ident
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_AND;
+        return SqlDataSerializerHookBase.EXPRESSION_AND;
     }
 
     @Override

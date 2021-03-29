@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.type.QueryDataType;
@@ -600,7 +600,7 @@ public class PlusOperatorIntegrationTest extends ArithmeticOperatorIntegrationTe
     @Test
     public void testSerialization() {
         Expression<?> original = PlusFunction.create(ConstantExpression.create(3, INT), ConstantExpression.create(2, INT), INT);
-        Expression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_PLUS);
+        Expression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_PLUS);
 
         checkEquals(original, restored, true);
     }

@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.operation;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.plan.node.MockPlanNode;
 import com.hazelcast.sql.impl.plan.node.PlanNode;
@@ -57,7 +57,7 @@ public class QueryExecuteOperationFragmentTest extends SqlTestSupport {
             Arrays.asList(UUID.randomUUID(), UUID.randomUUID())
         );
 
-        QueryExecuteOperationFragment restored = serializeAndCheck(original, SqlDataSerializerHook.OPERATION_EXECUTE_FRAGMENT);
+        QueryExecuteOperationFragment restored = serializeAndCheck(original, SqlDataSerializerHookBase.OPERATION_EXECUTE_FRAGMENT);
 
         assertEquals(original.getNode(), restored.getNode());
         assertEquals(original.getMapping(), restored.getMapping());

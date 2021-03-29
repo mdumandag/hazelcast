@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.plan.node;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -59,7 +59,7 @@ public class EmptyPlanNodeTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         EmptyPlanNode original = new EmptyPlanNode(1, Collections.singletonList(QueryDataType.INT));
-        EmptyPlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_EMPTY);
+        EmptyPlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_EMPTY);
 
         checkEquals(original, restored, true);
     }

@@ -48,8 +48,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static com.hazelcast.sql.impl.SqlDataSerializerHook.EXPRESSION_AND;
-import static com.hazelcast.sql.impl.SqlDataSerializerHook.EXPRESSION_OR;
+import static com.hazelcast.sql.impl.SqlDataSerializerHookBase.EXPRESSION_AND;
+import static com.hazelcast.sql.impl.SqlDataSerializerHookBase.EXPRESSION_OR;
 import static com.hazelcast.sql.support.expressions.ExpressionBiValue.BooleanFloatVal;
 import static com.hazelcast.sql.support.expressions.ExpressionBiValue.BooleanIntegerVal;
 

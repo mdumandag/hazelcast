@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -223,7 +223,7 @@ public class SignFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         SignFunction<?> original = SignFunction.create(ConstantExpression.create(1, QueryDataType.INT), QueryDataType.INT);
-        SignFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_SIGN);
+        SignFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_SIGN);
 
         checkEquals(original, restored, true);
     }

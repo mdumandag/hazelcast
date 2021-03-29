@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.support.expressions.ExpressionType;
@@ -135,7 +135,7 @@ public class ColumnIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testLiteralSerialization() {
         ConstantExpression<?> original = ConstantExpression.create(1, INT);
-        ConstantExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_CONSTANT);
+        ConstantExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_CONSTANT);
 
         checkEquals(original, restored, true);
     }
@@ -155,7 +155,7 @@ public class ColumnIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testParameterSerialization() {
         ParameterExpression<?> original = ParameterExpression.create(1, INT);
-        ParameterExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_PARAMETER);
+        ParameterExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_PARAMETER);
 
         checkEquals(original, restored, true);
     }
@@ -213,7 +213,7 @@ public class ColumnIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testColumnSerialization() {
         ColumnExpression<?> original = ColumnExpression.create(1, INT);
-        ColumnExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_COLUMN);
+        ColumnExpression<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_COLUMN);
 
         checkEquals(original, restored, true);
     }

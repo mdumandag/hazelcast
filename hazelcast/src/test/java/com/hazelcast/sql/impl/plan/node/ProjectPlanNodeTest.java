@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.plan.node;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.expression.ColumnExpression;
 import com.hazelcast.sql.impl.expression.Expression;
@@ -77,7 +77,7 @@ public class ProjectPlanNodeTest extends SqlTestSupport {
         List<Expression> projects = Collections.singletonList(ColumnExpression.create(0, QueryDataType.INT));
 
         ProjectPlanNode original = new ProjectPlanNode(2, upstream, projects);
-        ProjectPlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_PROJECT);
+        ProjectPlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_PROJECT);
 
         checkEquals(original, restored, true);
     }

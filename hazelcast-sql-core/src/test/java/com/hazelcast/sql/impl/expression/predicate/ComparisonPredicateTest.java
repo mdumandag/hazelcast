@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.expression.predicate;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.SimpleExpressionEvalContext;
@@ -59,7 +59,7 @@ public class ComparisonPredicateTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         ComparisonPredicate original = comparison(0, 1, INT, EQUALS);
-        ComparisonPredicate restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_COMPARISON);
+        ComparisonPredicate restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_COMPARISON);
 
         checkEquals(original, restored, true);
     }

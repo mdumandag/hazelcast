@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.plan.node;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 
 import java.io.IOException;
@@ -74,12 +74,12 @@ public class FetchPlanNode extends UniInputPlanNode implements IdentifiedDataSer
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.NODE_FETCH;
+        return SqlDataSerializerHookBase.NODE_FETCH;
     }
 
     @Override

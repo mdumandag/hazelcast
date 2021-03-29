@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.support.expressions.ExpressionValue.CharacterVal;
 import com.hazelcast.sql.support.expressions.ExpressionValue.StringVal;
@@ -99,7 +99,7 @@ public class UpperFunctionIntegrationTest extends StringFunctionIntegrationTestS
     @Test
     public void testSerialization() {
         UpperFunction original = UpperFunction.create(ConstantExpression.create("1", VARCHAR));
-        UpperFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_UPPER);
+        UpperFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_UPPER);
 
         checkEquals(original, restored, true);
     }

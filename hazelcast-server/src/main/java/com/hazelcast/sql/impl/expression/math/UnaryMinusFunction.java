@@ -18,7 +18,7 @@ package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.sql.impl.QueryException;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
@@ -50,12 +50,12 @@ public final class UnaryMinusFunction<T> extends UniExpressionWithType<T> implem
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_UNARY_MINUS;
+        return SqlDataSerializerHookBase.EXPRESSION_UNARY_MINUS;
     }
 
     @SuppressWarnings("unchecked")

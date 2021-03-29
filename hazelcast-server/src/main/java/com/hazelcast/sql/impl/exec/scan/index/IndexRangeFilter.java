@@ -23,7 +23,7 @@ import com.hazelcast.query.impl.AbstractIndex;
 import com.hazelcast.query.impl.Comparison;
 import com.hazelcast.query.impl.InternalIndex;
 import com.hazelcast.query.impl.QueryableEntry;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 
 import java.io.IOException;
@@ -145,12 +145,12 @@ public class IndexRangeFilter implements IndexFilter, IdentifiedDataSerializable
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.INDEX_FILTER_RANGE;
+        return SqlDataSerializerHookBase.INDEX_FILTER_RANGE;
     }
 
     @Override

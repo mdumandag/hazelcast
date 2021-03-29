@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.plan.node;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -59,7 +59,7 @@ public class RootPlanNodeTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         RootPlanNode original = new RootPlanNode(1, MockPlanNode.create(2));
-        RootPlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_ROOT);
+        RootPlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_ROOT);
 
         checkEquals(original, restored, true);
     }

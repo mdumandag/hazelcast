@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.TriExpression;
@@ -59,11 +59,11 @@ public class ReplaceFunction extends TriExpression<String> implements Identified
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_REPLACE;
+        return SqlDataSerializerHookBase.EXPRESSION_REPLACE;
     }
 }

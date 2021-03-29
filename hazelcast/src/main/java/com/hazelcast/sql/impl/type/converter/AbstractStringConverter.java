@@ -27,7 +27,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 
-import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMathBase.DECIMAL_MATH_CONTEXT;
 
 /**
  * Common converter for string-based classes.

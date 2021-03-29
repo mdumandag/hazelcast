@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.support.expressions.ExpressionValue.CharacterVal;
 import com.hazelcast.sql.support.expressions.ExpressionValue.StringVal;
@@ -99,7 +99,7 @@ public class LowerFunctionIntegrationTest extends StringFunctionIntegrationTestS
     @Test
     public void testSerialization() {
         LowerFunction original = LowerFunction.create(ConstantExpression.create("1", VARCHAR));
-        LowerFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_LOWER);
+        LowerFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_LOWER);
 
         checkEquals(original, restored, true);
     }

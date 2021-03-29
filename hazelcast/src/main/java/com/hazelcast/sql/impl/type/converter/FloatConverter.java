@@ -20,41 +20,41 @@ import com.hazelcast.sql.impl.type.QueryDataTypeFamily;
 
 import java.math.BigDecimal;
 
-import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
-import static com.hazelcast.sql.impl.type.QueryDataTypeFamily.DECIMAL;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMathBase.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.type.QueryDataTypeFamily.REAL;
 
 /**
- * Converter for {@link java.lang.Double} type.
+ * Converter for {@link java.lang.Float} type.
  */
-public final class DoubleConverter extends Converter {
+public final class FloatConverter extends Converter {
 
-    public static final DoubleConverter INSTANCE = new DoubleConverter();
+    public static final FloatConverter INSTANCE = new FloatConverter();
 
-    private DoubleConverter() {
-        super(ID_DOUBLE, QueryDataTypeFamily.DOUBLE);
+    private FloatConverter() {
+        super(ID_FLOAT, REAL);
     }
 
     @Override
     public Class<?> getValueClass() {
-        return Double.class;
+        return Float.class;
     }
 
     @Override
     public byte asTinyint(Object val) {
-        double val0 = cast(val);
+        float val0 = cast(val);
 
-        if (Double.isInfinite(val0)) {
+        if (Float.isInfinite(val0)) {
             throw infiniteValueError(QueryDataTypeFamily.TINYINT);
         }
 
-        if (Double.isNaN(val0)) {
+        if (Float.isNaN(val0)) {
             throw nanValueError(QueryDataTypeFamily.TINYINT);
         }
 
         // here the overflow may happen: (byte) casted = (byte) (int) casted
         byte converted = (byte) val0;
 
-        // casts from double to int are saturating
+        // casts from float to int are saturating
         if (converted != (int) val0) {
             throw numericOverflowError(QueryDataTypeFamily.TINYINT);
         }
@@ -64,20 +64,20 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public short asSmallint(Object val) {
-        double val0 = cast(val);
+        float val0 = cast(val);
 
-        if (Double.isInfinite(val0)) {
+        if (Float.isInfinite(val0)) {
             throw infiniteValueError(QueryDataTypeFamily.SMALLINT);
         }
 
-        if (Double.isNaN(val0)) {
+        if (Float.isNaN(val0)) {
             throw nanValueError(QueryDataTypeFamily.SMALLINT);
         }
 
         // here the overflow may happen: (short) casted = (short) (int) casted
         short converted = (short) val0;
 
-        // casts from double to int are saturating
+        // casts from float to int are saturating
         if (converted != (int) val0) {
             throw numericOverflowError(QueryDataTypeFamily.SMALLINT);
         }
@@ -87,19 +87,20 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public int asInt(Object val) {
-        double val0 = cast(val);
+        float val0 = cast(val);
 
-        if (Double.isInfinite(val0)) {
+        if (Float.isInfinite(val0)) {
             throw infiniteValueError(QueryDataTypeFamily.INTEGER);
         }
 
-        if (Double.isNaN(val0)) {
+        if (Float.isNaN(val0)) {
             throw nanValueError(QueryDataTypeFamily.INTEGER);
         }
 
+        // casts from float to int are saturating
         int converted = (int) val0;
 
-        // casts from double to long are saturating
+        // casts from float to long are saturating
         if (converted != (long) val0) {
             throw numericOverflowError(QueryDataTypeFamily.INTEGER);
         }
@@ -109,21 +110,21 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public long asBigint(Object val) {
-        double val0 = cast(val);
+        float val0 = cast(val);
 
-        if (Double.isInfinite(val0)) {
+        if (Float.isInfinite(val0)) {
             throw infiniteValueError(QueryDataTypeFamily.BIGINT);
         }
 
-        if (Double.isNaN(val0)) {
+        if (Float.isNaN(val0)) {
             throw nanValueError(QueryDataTypeFamily.BIGINT);
         }
 
-        double truncated = val0 > 0.0 ? Math.floor(val0) : Math.ceil(val0);
-        // casts from double to long are saturating
+        float truncated = (float) (val0 > 0.0 ? Math.floor(val0) : Math.ceil(val0));
+        // casts from float to long are saturating
         long converted = (long) truncated;
 
-        if ((double) converted != truncated) {
+        if ((float) converted != truncated) {
             throw numericOverflowError(QueryDataTypeFamily.BIGINT);
         }
 
@@ -132,14 +133,14 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public BigDecimal asDecimal(Object val) {
-        double val0 = cast(val);
+        float val0 = cast(val);
 
-        if (Double.isInfinite(val0)) {
-            throw infiniteValueError(DECIMAL);
+        if (Float.isInfinite(val0)) {
+            throw infiniteValueError(QueryDataTypeFamily.DECIMAL);
         }
 
-        if (Double.isNaN(val0)) {
-            throw nanValueError(DECIMAL);
+        if (Float.isNaN(val0)) {
+            throw nanValueError(QueryDataTypeFamily.DECIMAL);
         }
 
         return new BigDecimal(val0, DECIMAL_MATH_CONTEXT);
@@ -147,14 +148,7 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public float asReal(Object val) {
-        double doubleVal = cast(val);
-        float floatVal = (float) cast(val);
-
-        if (Float.isInfinite(floatVal) && !Double.isInfinite(doubleVal)) {
-            throw numericOverflowError(QueryDataTypeFamily.REAL);
-        }
-
-        return floatVal;
+        return cast(val);
     }
 
     @Override
@@ -164,16 +158,16 @@ public final class DoubleConverter extends Converter {
 
     @Override
     public String asVarchar(Object val) {
-        return Double.toString(cast(val));
+        return Float.toString(cast(val));
     }
 
     @Override
     public Object convertToSelf(Converter valConverter, Object val) {
-        return valConverter.asDouble(val);
+        return valConverter.asReal(val);
     }
 
-    private double cast(Object val) {
-        return (double) val;
+    private float cast(Object val) {
+        return (float) val;
     }
 
 }

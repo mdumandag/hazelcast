@@ -20,32 +20,47 @@ import com.hazelcast.sql.impl.type.QueryDataTypeFamily;
 
 import java.math.BigDecimal;
 
-import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMathBase.DECIMAL_MATH_CONTEXT;
+
 
 /**
- * Converter for {@link java.lang.Byte} type.
+ * Converter for {@link java.lang.Integer} type.
  */
-public final class ByteConverter extends Converter {
+public final class IntegerConverter extends Converter {
 
-    public static final ByteConverter INSTANCE = new ByteConverter();
+    public static final IntegerConverter INSTANCE = new IntegerConverter();
 
-    private ByteConverter() {
-        super(ID_BYTE, QueryDataTypeFamily.TINYINT);
+    private IntegerConverter() {
+        super(ID_INTEGER, QueryDataTypeFamily.INTEGER);
     }
 
     @Override
     public Class<?> getValueClass() {
-        return Byte.class;
+        return Integer.class;
     }
 
     @Override
     public byte asTinyint(Object val) {
-        return cast(val);
+        int casted = cast(val);
+        byte converted = (byte) casted;
+
+        if (converted != casted) {
+            throw numericOverflowError(QueryDataTypeFamily.TINYINT);
+        }
+
+        return converted;
     }
 
     @Override
     public short asSmallint(Object val) {
-        return cast(val);
+        int casted = cast(val);
+        short converted = (short) casted;
+
+        if (converted != casted) {
+            throw numericOverflowError(QueryDataTypeFamily.SMALLINT);
+        }
+
+        return converted;
     }
 
     @Override
@@ -75,15 +90,16 @@ public final class ByteConverter extends Converter {
 
     @Override
     public String asVarchar(Object val) {
-        return Byte.toString(cast(val));
+        return Integer.toString(cast(val));
     }
 
     @Override
     public Object convertToSelf(Converter valConverter, Object val) {
-        return valConverter.asTinyint(val);
+        return valConverter.asInt(val);
     }
 
-    private byte cast(Object val) {
-        return (byte) val;
+    private int cast(Object val) {
+        return (int) val;
     }
+
 }

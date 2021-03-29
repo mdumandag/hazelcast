@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.exec.scan.index;
 import com.hazelcast.query.impl.AbstractIndex;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.QueryException;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.SimpleExpressionEvalContext;
@@ -98,7 +98,7 @@ public class IndexFilterValueTest extends IndexFilterTestSupport {
             singletonList(true)
         );
 
-        IndexFilterValue restored = serializeAndCheck(original, SqlDataSerializerHook.INDEX_FILTER_VALUE);
+        IndexFilterValue restored = serializeAndCheck(original, SqlDataSerializerHookBase.INDEX_FILTER_VALUE);
 
         checkEquals(original, restored, true);
     }

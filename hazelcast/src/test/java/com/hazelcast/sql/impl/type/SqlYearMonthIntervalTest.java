@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.type;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -39,7 +39,7 @@ public class SqlYearMonthIntervalTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         SqlYearMonthInterval original = new SqlYearMonthInterval(1);
-        SqlYearMonthInterval restored = serializeAndCheck(original, SqlDataSerializerHook.INTERVAL_YEAR_MONTH);
+        SqlYearMonthInterval restored = serializeAndCheck(original, SqlDataSerializerHookBase.INTERVAL_YEAR_MONTH);
 
         checkEquals(original, restored, true);
     }

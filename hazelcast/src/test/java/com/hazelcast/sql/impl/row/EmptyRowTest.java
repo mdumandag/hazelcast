@@ -16,7 +16,7 @@
 
 package com.hazelcast.sql.impl.row;
 
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
@@ -41,7 +41,7 @@ public class EmptyRowTest extends SqlTestSupport {
     @Test
     public void testSerialization() {
         EmptyRow original = EmptyRow.INSTANCE;
-        Object restored = serializeAndCheck(original, SqlDataSerializerHook.ROW_EMPTY);
+        Object restored = serializeAndCheck(original, SqlDataSerializerHookBase.ROW_EMPTY);
 
         assertSame(EmptyRow.class, restored.getClass());
     }

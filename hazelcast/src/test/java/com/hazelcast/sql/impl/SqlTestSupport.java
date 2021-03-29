@@ -103,7 +103,7 @@ public class SqlTestSupport extends HazelcastTestSupport {
 
         IdentifiedDataSerializable original0 = (IdentifiedDataSerializable) original;
 
-        assertEquals(SqlDataSerializerHook.F_ID, original0.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original0.getFactoryId());
         assertEquals(expectedClassId, original0.getClassId());
 
         return serialize(original);

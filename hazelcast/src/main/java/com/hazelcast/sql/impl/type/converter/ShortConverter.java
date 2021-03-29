@@ -19,64 +19,50 @@ package com.hazelcast.sql.impl.type.converter;
 import com.hazelcast.sql.impl.type.QueryDataTypeFamily;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMathBase.DECIMAL_MATH_CONTEXT;
 
 /**
- * Converter for {@link java.math.BigInteger} type.
+ * Converter for {@link java.lang.Short} type.
  */
-public final class BigIntegerConverter extends AbstractDecimalConverter {
+public final class ShortConverter extends Converter {
 
-    public static final BigIntegerConverter INSTANCE = new BigIntegerConverter();
+    public static final ShortConverter INSTANCE = new ShortConverter();
 
-    private BigIntegerConverter() {
-        super(ID_BIG_INTEGER);
+    private ShortConverter() {
+        super(ID_SHORT, QueryDataTypeFamily.SMALLINT);
     }
 
     @Override
     public Class<?> getValueClass() {
-        return BigInteger.class;
+        return Short.class;
     }
 
     @Override
     public byte asTinyint(Object val) {
-        BigInteger casted = cast(val);
-        try {
-            return casted.byteValueExact();
-        } catch (ArithmeticException e) {
+        short casted = cast(val);
+        byte converted = (byte) casted;
+
+        if (converted != casted) {
             throw numericOverflowError(QueryDataTypeFamily.TINYINT);
         }
+
+        return converted;
     }
 
     @Override
     public short asSmallint(Object val) {
-        BigInteger casted = cast(val);
-        try {
-            return casted.shortValueExact();
-        } catch (ArithmeticException e) {
-            throw numericOverflowError(QueryDataTypeFamily.SMALLINT);
-        }
+        return cast(val);
     }
 
     @Override
     public int asInt(Object val) {
-        BigInteger casted = cast(val);
-        try {
-            return casted.intValueExact();
-        } catch (ArithmeticException e) {
-            throw numericOverflowError(QueryDataTypeFamily.INTEGER);
-        }
+        return cast(val);
     }
 
     @Override
     public long asBigint(Object val) {
-        BigInteger casted = cast(val);
-        try {
-            return casted.longValueExact();
-        } catch (ArithmeticException e) {
-            throw numericOverflowError(QueryDataTypeFamily.BIGINT);
-        }
+        return cast(val);
     }
 
     @Override
@@ -86,21 +72,26 @@ public final class BigIntegerConverter extends AbstractDecimalConverter {
 
     @Override
     public float asReal(Object val) {
-        return cast(val).floatValue();
+        return cast(val);
     }
 
     @Override
     public double asDouble(Object val) {
-        return cast(val).doubleValue();
+        return cast(val);
     }
 
     @Override
     public String asVarchar(Object val) {
-        return cast(val).toString();
+        return Short.toString(cast(val));
     }
 
-    private BigInteger cast(Object val) {
-        return (BigInteger) val;
+    @Override
+    public Object convertToSelf(Converter valConverter, Object val) {
+        return valConverter.asSmallint(val);
+    }
+
+    private short cast(Object val) {
+        return (short) val;
     }
 
 }

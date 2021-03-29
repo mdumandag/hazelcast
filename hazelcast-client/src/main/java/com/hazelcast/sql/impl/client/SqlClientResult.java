@@ -23,7 +23,7 @@ import com.hazelcast.sql.SqlRow;
 import com.hazelcast.sql.SqlRowMetadata;
 import com.hazelcast.sql.impl.QueryException;
 import com.hazelcast.sql.impl.QueryId;
-import com.hazelcast.sql.impl.QueryUtils;
+import com.hazelcast.sql.impl.QueryUtilsBase;
 import com.hazelcast.sql.impl.SqlRowImpl;
 import com.hazelcast.sql.impl.row.HeapRow;
 import com.hazelcast.sql.impl.row.Row;
@@ -283,7 +283,7 @@ public class SqlClientResult implements SqlResult {
     }
 
     private HazelcastSqlException wrap(Throwable error) {
-        throw QueryUtils.toPublicException(error, service.getClientId());
+        throw QueryUtilsBase.toPublicException(error, service.getClientId());
     }
 
     private static final class State {

@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.plan.node;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 
 import java.util.Objects;
 
@@ -60,12 +60,12 @@ public class RootPlanNode extends UniInputPlanNode implements IdentifiedDataSeri
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.NODE_ROOT;
+        return SqlDataSerializerHookBase.NODE_ROOT;
     }
 
     @Override

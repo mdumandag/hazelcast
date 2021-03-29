@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.operation;
 import com.hazelcast.internal.util.collection.PartitionIdSet;
 import com.hazelcast.sql.impl.QueryId;
 import com.hazelcast.sql.impl.SqlCustomClass;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.plan.node.MockPlanNode;
 import com.hazelcast.sql.impl.row.HeapRow;
@@ -59,8 +59,8 @@ public class QueryOperationsTest extends SqlTestSupport {
         QueryId queryId = randomQueryId();
 
         QueryExecuteOperation original = prepareExecute(queryId);
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_EXECUTE, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_EXECUTE, original.getClassId());
 
         QueryExecuteOperation restored = serializeDeserialize(original);
         assertEquals(original.getPartitionMap(), restored.getPartitionMap());
@@ -76,8 +76,8 @@ public class QueryOperationsTest extends SqlTestSupport {
         QueryId queryId = randomQueryId();
 
         QueryCancelOperation original = prepareCancel(queryId);
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_CANCEL, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_CANCEL, original.getClassId());
 
         QueryCancelOperation restored = serializeDeserialize(original);
         assertEquals(original.getQueryId(), restored.getQueryId());
@@ -92,8 +92,8 @@ public class QueryOperationsTest extends SqlTestSupport {
         int edgeId = randomInt();
 
         QueryBatchExchangeOperation original = prepareBatch(queryId, edgeId);
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_BATCH, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_BATCH, original.getClassId());
 
         QueryBatchExchangeOperation restored = serializeDeserialize(original);
         assertEquals(original.getQueryId(), restored.getQueryId());
@@ -108,8 +108,8 @@ public class QueryOperationsTest extends SqlTestSupport {
         int edgeId = randomInt();
 
         QueryFlowControlExchangeOperation original = prepareFlowControl(queryId, edgeId);
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_FLOW_CONTROL, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_FLOW_CONTROL, original.getClassId());
 
         QueryFlowControlExchangeOperation restored = serializeDeserialize(original);
         assertEquals(original.getQueryId(), restored.getQueryId());
@@ -122,8 +122,8 @@ public class QueryOperationsTest extends SqlTestSupport {
 
         QueryCheckOperation original = withCallerId(new QueryCheckOperation(queryIds));
         assertEquals(queryIds, original.getQueryIds());
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_CHECK, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_CHECK, original.getClassId());
 
         QueryCheckOperation restored = serializeDeserialize(original);
         assertEquals(original.getQueryIds(), restored.getQueryIds());
@@ -135,8 +135,8 @@ public class QueryOperationsTest extends SqlTestSupport {
 
         QueryCheckResponseOperation original = withCallerId(new QueryCheckResponseOperation(queryIds));
         assertEquals(queryIds, original.getQueryIds());
-        assertEquals(SqlDataSerializerHook.F_ID, original.getFactoryId());
-        assertEquals(SqlDataSerializerHook.OPERATION_CHECK_RESPONSE, original.getClassId());
+        assertEquals(SqlDataSerializerHookBase.F_ID, original.getFactoryId());
+        assertEquals(SqlDataSerializerHookBase.OPERATION_CHECK_RESPONSE, original.getClassId());
 
         QueryCheckResponseOperation restored = serializeDeserialize(original);
         assertEquals(original.getQueryIds(), restored.getQueryIds());

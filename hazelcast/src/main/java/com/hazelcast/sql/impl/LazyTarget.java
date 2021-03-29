@@ -22,7 +22,6 @@ import com.hazelcast.internal.serialization.impl.HeapData;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.extract.GenericQueryTarget;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.impl.type.QueryDataTypeUtils;
 
@@ -82,12 +81,12 @@ public class LazyTarget implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.LAZY_TARGET;
+        return SqlDataSerializerHookBase.LAZY_TARGET;
     }
 
     @Override

@@ -21,7 +21,7 @@ import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.query.impl.InternalIndex;
 import com.hazelcast.query.impl.QueryableEntry;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 
 import java.io.IOException;
@@ -67,12 +67,12 @@ public class IndexEqualsFilter implements IndexFilter, IdentifiedDataSerializabl
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.INDEX_FILTER_EQUALS;
+        return SqlDataSerializerHookBase.INDEX_FILTER_EQUALS;
     }
 
     @Override

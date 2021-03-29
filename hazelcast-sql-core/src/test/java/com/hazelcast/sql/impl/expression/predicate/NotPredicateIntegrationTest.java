@@ -18,7 +18,7 @@ package com.hazelcast.sql.impl.expression.predicate;
 
 import com.hazelcast.sql.SqlColumnType;
 import com.hazelcast.sql.SqlRow;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -134,7 +134,7 @@ public class NotPredicateIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         NotPredicate original = not(true);
-        NotPredicate restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_NOT);
+        NotPredicate restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_NOT);
 
         checkEquals(original, restored, true);
     }

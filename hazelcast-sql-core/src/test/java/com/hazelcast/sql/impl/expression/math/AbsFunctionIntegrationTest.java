@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -242,7 +242,7 @@ public class AbsFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         AbsFunction<?> original = AbsFunction.create(ConstantExpression.create(1, QueryDataType.INT), QueryDataType.BIGINT);
-        AbsFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_ABS);
+        AbsFunction<?> restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_ABS);
 
         checkEquals(original, restored, true);
     }

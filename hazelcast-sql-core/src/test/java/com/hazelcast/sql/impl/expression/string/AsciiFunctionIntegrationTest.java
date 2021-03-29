@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.support.expressions.ExpressionValue.CharacterVal;
 import com.hazelcast.sql.support.expressions.ExpressionValue.StringVal;
@@ -90,7 +90,7 @@ public class AsciiFunctionIntegrationTest extends StringFunctionIntegrationTestS
     @Test
     public void testSerialization() {
         AsciiFunction original = AsciiFunction.create(ConstantExpression.create("1", VARCHAR));
-        AsciiFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_ASCII);
+        AsciiFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_ASCII);
 
         checkEquals(original, restored, true);
     }

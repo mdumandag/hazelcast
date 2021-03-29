@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.exec.scan.index;
 
 import com.hazelcast.query.impl.AbstractIndex;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.SimpleExpressionEvalContext;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -54,7 +54,7 @@ public class IndexEqualsFilterTest extends IndexFilterTestSupport {
     @Test
     public void testSerialization() {
         IndexEqualsFilter original = new IndexEqualsFilter(intValue(1, true));
-        IndexEqualsFilter restored = serializeAndCheck(original, SqlDataSerializerHook.INDEX_FILTER_EQUALS);
+        IndexEqualsFilter restored = serializeAndCheck(original, SqlDataSerializerHookBase.INDEX_FILTER_EQUALS);
 
         checkEquals(original, restored, true);
     }

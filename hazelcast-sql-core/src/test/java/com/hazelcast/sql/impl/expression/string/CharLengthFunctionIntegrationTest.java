@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.expression.string;
 
 import com.hazelcast.sql.SqlColumnType;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.support.expressions.ExpressionValue.CharacterVal;
 import com.hazelcast.sql.support.expressions.ExpressionValue.StringVal;
@@ -97,7 +97,7 @@ public class CharLengthFunctionIntegrationTest extends StringFunctionIntegration
     @Test
     public void testSerialization() {
         CharLengthFunction original = CharLengthFunction.create(ConstantExpression.create("1", VARCHAR));
-        CharLengthFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_CHAR_LENGTH);
+        CharLengthFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_CHAR_LENGTH);
 
         checkEquals(original, restored, true);
     }

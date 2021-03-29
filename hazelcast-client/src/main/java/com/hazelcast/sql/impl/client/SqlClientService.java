@@ -35,7 +35,7 @@ import com.hazelcast.sql.SqlService;
 import com.hazelcast.sql.SqlStatement;
 import com.hazelcast.sql.impl.QueryException;
 import com.hazelcast.sql.impl.QueryId;
-import com.hazelcast.sql.impl.QueryUtils;
+import com.hazelcast.sql.impl.QueryUtilsBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 
 import javax.annotation.Nonnull;
@@ -269,7 +269,7 @@ public class SqlClientService implements SqlService {
 
     private RuntimeException rethrow(Throwable cause, Connection connection) {
         if (!connection.isAlive()) {
-            return QueryUtils.toPublicException(
+            return QueryUtilsBase.toPublicException(
                 QueryException.memberConnection(connection.getRemoteAddress()),
                 getClientId()
             );
@@ -284,7 +284,7 @@ public class SqlClientService implements SqlService {
             return (AccessControlException) cause.getCause();
         }
 
-        return QueryUtils.toPublicException(cause, getClientId());
+        return QueryUtilsBase.toPublicException(cause, getClientId());
     }
 
     public static boolean isSqlMessage(int messageType) {

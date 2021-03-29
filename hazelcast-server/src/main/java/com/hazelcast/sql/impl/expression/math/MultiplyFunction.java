@@ -18,7 +18,7 @@ package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.sql.impl.QueryException;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.BiExpressionWithType;
 import com.hazelcast.sql.impl.expression.Expression;
@@ -50,12 +50,12 @@ public final class MultiplyFunction<T> extends BiExpressionWithType<T> implement
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_MULTIPLY;
+        return SqlDataSerializerHookBase.EXPRESSION_MULTIPLY;
     }
 
     @SuppressWarnings("unchecked")

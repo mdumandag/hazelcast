@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.type;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 
 import java.io.IOException;
 
@@ -44,12 +44,12 @@ public class SqlDaySecondInterval implements IdentifiedDataSerializable, Compara
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.INTERVAL_DAY_SECOND;
+        return SqlDataSerializerHookBase.INTERVAL_DAY_SECOND;
     }
 
     @Override

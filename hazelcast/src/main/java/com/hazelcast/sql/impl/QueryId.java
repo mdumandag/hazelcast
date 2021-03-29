@@ -118,12 +118,12 @@ public final class QueryId implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.QUERY_ID;
+        return SqlDataSerializerHookBase.QUERY_ID;
     }
 
     @Override

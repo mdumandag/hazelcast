@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.expression.string;
 import com.hazelcast.sql.HazelcastSqlException;
 import com.hazelcast.sql.SqlColumnType;
 import com.hazelcast.sql.SqlRow;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.ConstantExpression;
 import com.hazelcast.sql.impl.expression.ExpressionTestSupport;
@@ -234,7 +234,7 @@ public class LikeFunctionIntegrationTest extends ExpressionTestSupport {
     @Test
     public void testSerialization() {
         LikeFunction original = LikeFunction.create(CONST_1, CONST_2, CONST_3, negated);
-        LikeFunction restored = serializeAndCheck(original, SqlDataSerializerHook.EXPRESSION_LIKE);
+        LikeFunction restored = serializeAndCheck(original, SqlDataSerializerHookBase.EXPRESSION_LIKE);
 
         checkEquals(original, restored, true);
     }

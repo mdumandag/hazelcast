@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.exec.scan.index;
 
 import com.hazelcast.query.impl.AbstractIndex;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.expression.SimpleExpressionEvalContext;
 import com.hazelcast.test.HazelcastParallelClassRunner;
@@ -68,7 +68,7 @@ public class IndexRangeFilterTest extends IndexFilterTestSupport {
     @Test
     public void testSerialization() {
         IndexRangeFilter original = new IndexRangeFilter(intValue(1, true), true, intValue(2, true), true);
-        IndexRangeFilter restored = serializeAndCheck(original, SqlDataSerializerHook.INDEX_FILTER_RANGE);
+        IndexRangeFilter restored = serializeAndCheck(original, SqlDataSerializerHookBase.INDEX_FILTER_RANGE);
 
         checkEquals(original, restored, true);
     }

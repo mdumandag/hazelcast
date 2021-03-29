@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.operation;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.sql.impl.QueryId;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.row.RowBatch;
 
 import java.io.IOException;
@@ -82,7 +82,7 @@ public class QueryBatchExchangeOperation extends QueryAbstractExchangeOperation 
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.OPERATION_BATCH;
+        return SqlDataSerializerHookBase.OPERATION_BATCH;
     }
 
     @Override

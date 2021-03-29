@@ -19,7 +19,7 @@ package com.hazelcast.sql.impl.row;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 
 /**
  * Empty row batch.
@@ -44,12 +44,12 @@ public final class EmptyRowBatch implements RowBatch, IdentifiedDataSerializable
 
     @Override
     public int getFactoryId() {
-        return SqlDataSerializerHook.F_ID;
+        return SqlDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.ROW_BATCH_EMPTY;
+        return SqlDataSerializerHookBase.ROW_BATCH_EMPTY;
     }
 
     @Override

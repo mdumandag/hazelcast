@@ -20,7 +20,7 @@ import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.query.impl.getters.Extractors;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 import com.hazelcast.sql.impl.SqlTestSupport;
 import com.hazelcast.sql.impl.exec.scan.index.IndexFilter;
 import com.hazelcast.sql.impl.exec.scan.index.IndexInFilter;
@@ -421,7 +421,7 @@ public class MapIndexScanPlanNodeTest extends SqlTestSupport {
             Collections.singletonList(false)
         );
 
-        MapIndexScanPlanNode restored = serializeAndCheck(original, SqlDataSerializerHook.NODE_MAP_INDEX_SCAN);
+        MapIndexScanPlanNode restored = serializeAndCheck(original, SqlDataSerializerHookBase.NODE_MAP_INDEX_SCAN);
 
         checkEquals(original, restored, true);
     }

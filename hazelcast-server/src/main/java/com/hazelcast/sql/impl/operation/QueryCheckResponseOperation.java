@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.operation;
 
 import com.hazelcast.sql.impl.QueryId;
-import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlDataSerializerHookBase;
 
 import java.util.Collection;
 
@@ -40,6 +40,6 @@ public class QueryCheckResponseOperation extends QueryAbstractCheckOperation {
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.OPERATION_CHECK_RESPONSE;
+        return SqlDataSerializerHookBase.OPERATION_CHECK_RESPONSE;
     }
 }
