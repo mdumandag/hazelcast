@@ -17,49 +17,49 @@
 package com.hazelcast.map.impl.event;
 
 import com.hazelcast.cluster.Address;
+import com.hazelcast.internal.serialization.BinaryInterface;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.BinaryInterface;
 
 import java.io.IOException;
 
 /**
- * Contains the data related to a map partition event
+ * Map wide event's data.
  */
 @BinaryInterface
-public class MapPartitionEventData extends AbstractEventData {
+public class MapEventData extends AbstractEventData {
 
-    private int partitionId;
+    protected int numberOfEntries;
 
-    public MapPartitionEventData() {
+    public MapEventData() {
     }
 
-    public MapPartitionEventData(String source, String mapName, Address caller, int partitionId) {
-        super(source, mapName, caller, -1);
-        this.partitionId = partitionId;
+    public MapEventData(String source, String mapName, Address caller, int eventType, int numberOfEntries) {
+        super(source, mapName, caller, eventType);
+        this.numberOfEntries = numberOfEntries;
     }
 
-    public int getPartitionId() {
-        return partitionId;
+    public int getNumberOfEntries() {
+        return numberOfEntries;
     }
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
         super.writeData(out);
-        out.writeInt(partitionId);
+        out.writeInt(numberOfEntries);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
         super.readData(in);
-        partitionId = in.readInt();
+        numberOfEntries = in.readInt();
     }
 
     @Override
     public String toString() {
-        return "MapPartitionEventData{"
+        return "MapEventData{"
                 + super.toString()
-                + ", partitionId=" + partitionId
+                + ", numberOfEntries=" + numberOfEntries
                 + '}';
     }
 }

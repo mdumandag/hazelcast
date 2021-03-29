@@ -16,11 +16,11 @@
 
 package com.hazelcast.map.impl.event;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.map.impl.EntryEventFilter;
 import com.hazelcast.map.impl.MapServiceContext;
 import com.hazelcast.map.impl.query.QueryEventFilter;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.query.impl.CachedQueryEntry;
 import com.hazelcast.query.impl.QueryableEntry;
 import com.hazelcast.query.impl.getters.Extractors;

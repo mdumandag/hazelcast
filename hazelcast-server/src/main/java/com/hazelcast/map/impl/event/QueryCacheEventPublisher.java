@@ -16,7 +16,9 @@
 
 package com.hazelcast.map.impl.event;
 
+import com.hazelcast.cluster.Address;
 import com.hazelcast.core.EntryEventType;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
@@ -26,8 +28,6 @@ import com.hazelcast.map.impl.querycache.publisher.MapPublisherRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PartitionAccumulatorRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 import com.hazelcast.map.impl.querycache.publisher.PublisherRegistry;
-import com.hazelcast.cluster.Address;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.eventservice.EventFilter;
 
 import java.util.Collection;
@@ -36,10 +36,10 @@ import java.util.Collections;
 import static com.hazelcast.core.EntryEventType.ADDED;
 import static com.hazelcast.core.EntryEventType.REMOVED;
 import static com.hazelcast.core.EntryEventType.UPDATED;
-import static com.hazelcast.map.impl.event.MapEventPublisherImpl.isIncludeValue;
-import static com.hazelcast.map.impl.querycache.event.QueryCacheEventDataBuilder.newQueryCacheEventDataBuilder;
 import static com.hazelcast.internal.util.CollectionUtil.isEmpty;
 import static com.hazelcast.internal.util.Preconditions.checkInstanceOf;
+import static com.hazelcast.map.impl.event.MapEventPublisherImpl.isIncludeValue;
+import static com.hazelcast.map.impl.querycache.event.QueryCacheEventDataBuilder.newQueryCacheEventDataBuilder;
 
 /**
  * Handles publishing of map events to continuous query caches

@@ -16,13 +16,13 @@
 
 package com.hazelcast.map.impl.event;
 
-import com.hazelcast.core.EntryEvent;
-import com.hazelcast.spi.impl.eventservice.EventPublishingService;
-import com.hazelcast.map.IMapEvent;
-import com.hazelcast.map.MapEvent;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.cluster.impl.MemberImpl;
+import com.hazelcast.core.EntryEvent;
 import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
+import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.map.IMapEvent;
+import com.hazelcast.map.MapEvent;
 import com.hazelcast.map.MapPartitionLostEvent;
 import com.hazelcast.map.impl.DataAwareEntryEvent;
 import com.hazelcast.map.impl.ListenerAdapter;
@@ -35,7 +35,7 @@ import com.hazelcast.map.impl.querycache.event.LocalEntryEventData;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
 import com.hazelcast.map.impl.querycache.event.SingleIMapEvent;
 import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.spi.impl.eventservice.EventPublishingService;
 
 import static com.hazelcast.map.impl.querycache.subscriber.EventPublisherHelper.createIMapEvent;
 
