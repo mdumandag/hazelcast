@@ -19,14 +19,14 @@ package com.hazelcast.map.impl.mapstore;
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.MapStoreConfig;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.partition.PartitioningStrategy;
+import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.internal.util.IterableUtil;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.impl.MapContainer;
 import com.hazelcast.map.impl.MapServiceContext;
 import com.hazelcast.map.impl.MapStoreWrapper;
+import com.hazelcast.partition.PartitioningStrategy;
 import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.internal.serialization.SerializationService;
-import com.hazelcast.internal.util.IterableUtil;
 
 import java.util.Properties;
 
@@ -35,7 +35,7 @@ import static com.hazelcast.map.impl.mapstore.MapStoreManagers.createWriteThroug
 import static com.hazelcast.map.impl.mapstore.StoreConstructor.createStore;
 
 /**
- * Default impl. of {@link com.hazelcast.map.impl.mapstore.MapStoreContext}
+ * Default impl. of {@link MapStoreContext}
  * One instance is created per map.
  */
 final class BasicMapStoreContext implements MapStoreContext {

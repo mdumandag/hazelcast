@@ -16,10 +16,10 @@
 
 package com.hazelcast.map.impl.mapstore.writebehind;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.EntryLoader.MetadataAwareValue;
 import com.hazelcast.map.impl.mapstore.MapStoreContext;
 import com.hazelcast.map.impl.mapstore.writebehind.entry.DelayedEntry;
-import com.hazelcast.internal.serialization.Data;
 
 import java.util.ArrayList;
 import java.util.Collection;

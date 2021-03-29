@@ -16,11 +16,11 @@
 
 package com.hazelcast.map.impl.mapstore.writebehind;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.MutableInteger;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.MapLoader;
 import com.hazelcast.map.impl.mapstore.writebehind.entry.DelayedEntry;
-import com.hazelcast.internal.serialization.Data;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import java.util.Map;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 
 /**
- * Write behind queue impl. backed by a {@link java.util.Deque}.
+ * Write behind queue impl. backed by a {@link Deque}.
  * Used when non-write-coalescing mode is on.
  * Intended to use when we need to store all changes on a key.
  */

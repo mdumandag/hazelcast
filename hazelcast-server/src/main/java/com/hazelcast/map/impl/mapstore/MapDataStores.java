@@ -24,7 +24,7 @@ import com.hazelcast.map.impl.mapstore.writethrough.WriteThroughStore;
  * Factory class responsible for creating
  * various data store implementations.
  *
- * @see com.hazelcast.map.impl.mapstore.MapDataStore
+ * @see MapDataStore
  */
 public final class MapDataStores {
 

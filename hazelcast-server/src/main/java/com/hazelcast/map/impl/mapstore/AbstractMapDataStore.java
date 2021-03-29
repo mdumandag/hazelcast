@@ -16,12 +16,12 @@
 
 package com.hazelcast.map.impl.mapstore;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.DataType;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.internal.util.Clock;
 import com.hazelcast.map.impl.MapStoreWrapper;
 import com.hazelcast.map.impl.mapstore.writebehind.TxnReservedCapacityCounter;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.NodeEngine;
 
 import java.util.ArrayList;

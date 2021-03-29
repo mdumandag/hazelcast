@@ -18,19 +18,19 @@ package com.hazelcast.map.impl.mapstore;
 
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.MapStoreConfig;
+import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.impl.MapContainer;
 import com.hazelcast.map.impl.MapServiceContext;
 import com.hazelcast.map.impl.MapStoreWrapper;
-import com.hazelcast.internal.serialization.SerializationService;
 
 import java.util.Collections;
 
 import static com.hazelcast.map.impl.mapstore.MapStoreManagers.emptyMapStoreManager;
 
 /**
- * A factory which creates {@link com.hazelcast.map.impl.mapstore.MapStoreContext} objects
- * according to {@link com.hazelcast.config.MapStoreConfig}.
+ * A factory which creates {@link MapStoreContext} objects
+ * according to {@link MapStoreConfig}.
  */
 public final class MapStoreContextFactory {
 

@@ -16,11 +16,13 @@
 
 package com.hazelcast.map.impl.mapstore;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.MapLoader;
+import com.hazelcast.map.impl.mapstore.writebehind.StoreWorker;
 import com.hazelcast.map.impl.mapstore.writebehind.TxnReservedCapacityCounter;
+import com.hazelcast.map.impl.mapstore.writebehind.WriteBehindQueue;
 import com.hazelcast.map.impl.mapstore.writebehind.entry.DelayedEntry;
-import com.hazelcast.internal.serialization.Data;
 
 import java.util.Collection;
 import java.util.Map;
@@ -108,7 +110,7 @@ public interface MapDataStore<K, V> {
      * means storing entries from write-behind-queue into map-store
      * regardless of the scheduled store-time. Actual flushing is done
      * by another thread than partition-operation thread which runs
-     * {@link com.hazelcast.map.impl.mapstore.writebehind.StoreWorker}.
+     * {@link StoreWorker}.
      *
      * @return last given sequence number to the last store operation
      * @see com.hazelcast.map.impl.operation.MapFlushOperation
@@ -119,7 +121,7 @@ public interface MapDataStore<K, V> {
      * Flushes write-behind-queue into map-store in calling thread.
      * <p>
      * After calling of this method, all elements in the {@link
-     * com.hazelcast.map.impl.mapstore.writebehind.WriteBehindQueue}
+     * WriteBehindQueue}
      * of this {@link MapDataStore} should be in
      * map-store regardless of the scheduled store-time.
      * <p>

@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.mapstore.writebehind.entry;
 
 import com.hazelcast.map.EntryLoader.MetadataAwareValue;
 import com.hazelcast.map.MapStore;
+import com.hazelcast.map.impl.mapstore.writebehind.WriteBehindStore;
 
 import java.util.UUID;
 
@@ -96,7 +97,7 @@ class DeletedDelayedEntry<K, V> implements DelayedEntry<K, V> {
      * Caring only reference equality of objects because wanting exactly remove the same instance
      * otherwise this method should not cause any remove from staging area.
      *
-     * @see com.hazelcast.map.impl.mapstore.writebehind.WriteBehindStore#removeFromStagingArea
+     * @see WriteBehindStore#removeFromStagingArea
      */
     @Override
     public boolean equals(Object o) {
