@@ -16,14 +16,13 @@
 
 package com.hazelcast.map.impl.tx;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.UUIDSerializationUtil;
 import com.hazelcast.map.impl.MapDataSerializerHook;
-import com.hazelcast.map.impl.operation.LockAwareOperation;
+import com.hazelcast.map.impl.operation.BaseRemoveOperation;
+import com.hazelcast.map.impl.record.Record;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.spi.impl.operationservice.BackupAwareOperation;
-import com.hazelcast.spi.impl.operationservice.MutatingOperation;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
 import com.hazelcast.transaction.TransactionException;
@@ -32,18 +31,21 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * An operation to unlock key on the partition owner.
+ * Transactional delete operation
  */
-public class TxnUnlockOperation extends LockAwareOperation
-        implements MapTxnOperation, BackupAwareOperation, MutatingOperation {
+public class TxnDeleteOperation
+        extends BaseRemoveOperation implements MapTxnOperation {
 
     private long version;
     private UUID ownerUuid;
+    private UUID transactionId;
 
-    public TxnUnlockOperation() {
+    private transient boolean successful;
+
+    public TxnDeleteOperation() {
     }
 
-    public TxnUnlockOperation(String name, Data dataKey, long version) {
+    public TxnDeleteOperation(String name, Data dataKey, long version) {
         super(name, dataKey);
         this.version = version;
     }
@@ -53,19 +55,41 @@ public class TxnUnlockOperation extends LockAwareOperation
         super.innerBeforeRun();
 
         if (!recordStore.canAcquireLock(dataKey, ownerUuid, threadId)) {
-            throw new TransactionException("Cannot acquire lock UUID: "
-                    + ownerUuid + ", threadId: " + threadId);
+            wbqCapacityCounter().decrement(transactionId);
+            throw new TransactionException("Cannot acquire lock UUID: " + ownerUuid + ", threadId: " + threadId);
         }
     }
 
     @Override
     protected void runInternal() {
-        recordStore.unlock(dataKey, ownerUuid, threadId, getCallId());
+        recordStore.unlock(dataKey, ownerUuid, getThreadId(), getCallId());
+        Record record = recordStore.getRecord(dataKey);
+        if (record == null || version == record.getVersion()) {
+            dataOldValue = getNodeEngine().toData(recordStore.removeTxn(dataKey,
+                    getCallerProvenance(), transactionId));
+            successful = dataOldValue != null;
+        }
+
+        if (record == null) {
+            wbqCapacityCounter().decrement(transactionId);
+        }
     }
 
     @Override
     public boolean shouldWait() {
         return false;
+    }
+
+    @Override
+    protected void afterRunInternal() {
+        if (successful) {
+            super.afterRunInternal();
+        }
+    }
+
+    @Override
+    public void onWaitExpire() {
+        sendResponse(false);
     }
 
     @Override
@@ -89,23 +113,13 @@ public class TxnUnlockOperation extends LockAwareOperation
     }
 
     @Override
+    public boolean shouldBackup() {
+        return true;
+    }
+
+    @Override
     public Operation getBackupOperation() {
-        return new TxnUnlockBackupOperation(name, dataKey, ownerUuid, getThreadId());
-    }
-
-    @Override
-    public void onWaitExpire() {
-        sendResponse(false);
-    }
-
-    @Override
-    public final int getAsyncBackupCount() {
-        return mapContainer.getAsyncBackupCount();
-    }
-
-    @Override
-    public final int getSyncBackupCount() {
-        return mapContainer.getBackupCount();
+        return new TxnDeleteBackupOperation(name, dataKey, transactionId);
     }
 
     @Override
@@ -115,15 +129,9 @@ public class TxnUnlockOperation extends LockAwareOperation
 
     @Override
     public void setTransactionId(UUID transactionId) {
-        // NOP
+        this.transactionId = transactionId;
     }
 
-    @Override
-    public boolean shouldBackup() {
-        return true;
-    }
-
-    @Override
     public WaitNotifyKey getNotifiedKey() {
         return getWaitKey();
     }
@@ -133,6 +141,7 @@ public class TxnUnlockOperation extends LockAwareOperation
         super.writeInternal(out);
         out.writeLong(version);
         UUIDSerializationUtil.writeUUID(out, ownerUuid);
+        UUIDSerializationUtil.writeUUID(out, transactionId);
     }
 
     @Override
@@ -140,10 +149,11 @@ public class TxnUnlockOperation extends LockAwareOperation
         super.readInternal(in);
         version = in.readLong();
         ownerUuid = UUIDSerializationUtil.readUUID(in);
+        transactionId = UUIDSerializationUtil.readUUID(in);
     }
 
     @Override
     public int getClassId() {
-        return MapDataSerializerHook.TXN_UNLOCK;
+        return MapDataSerializerHook.TXN_DELETE;
     }
 }

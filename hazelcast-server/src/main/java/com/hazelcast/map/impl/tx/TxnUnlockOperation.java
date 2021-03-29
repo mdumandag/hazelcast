@@ -16,16 +16,14 @@
 
 package com.hazelcast.map.impl.tx;
 
-import com.hazelcast.internal.locksupport.LockWaitNotifyKey;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.UUIDSerializationUtil;
-import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.impl.MapDataSerializerHook;
-import com.hazelcast.map.impl.operation.KeyBasedMapOperation;
+import com.hazelcast.map.impl.operation.LockAwareOperation;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.operationservice.BackupAwareOperation;
-import com.hazelcast.spi.impl.operationservice.Notifier;
+import com.hazelcast.spi.impl.operationservice.MutatingOperation;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
 import com.hazelcast.transaction.TransactionException;
@@ -34,60 +32,70 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * An operation to rollback transaction by unlocking the key on key owner.
+ * An operation to unlock key on the partition owner.
  */
-public class TxnRollbackOperation
-        extends KeyBasedMapOperation implements BackupAwareOperation, Notifier {
+public class TxnUnlockOperation extends LockAwareOperation
+        implements MapTxnOperation, BackupAwareOperation, MutatingOperation {
 
+    private long version;
     private UUID ownerUuid;
-    private UUID transactionId;
 
-    protected TxnRollbackOperation(int partitionId, String name, Data dataKey,
-                                   UUID ownerUuid, UUID transactionId) {
-        super(name, dataKey);
-        setPartitionId(partitionId);
-        this.ownerUuid = ownerUuid;
-        this.transactionId = transactionId;
+    public TxnUnlockOperation() {
     }
 
-    public TxnRollbackOperation() {
+    public TxnUnlockOperation(String name, Data dataKey, long version) {
+        super(name, dataKey);
+        this.version = version;
+    }
+
+    @Override
+    public void innerBeforeRun() throws Exception {
+        super.innerBeforeRun();
+
+        if (!recordStore.canAcquireLock(dataKey, ownerUuid, threadId)) {
+            throw new TransactionException("Cannot acquire lock UUID: "
+                    + ownerUuid + ", threadId: " + threadId);
+        }
     }
 
     @Override
     protected void runInternal() {
-        wbqCapacityCounter().decrement(transactionId);
-        if (recordStore.isLocked(getKey())
-                && !recordStore.unlock(getKey(), ownerUuid, getThreadId(), getCallId())) {
-            throw new TransactionException("Lock is not owned by the transaction! Owner: "
-                    + recordStore.getLockOwnerInfo(getKey()));
-        }
+        recordStore.unlock(dataKey, ownerUuid, threadId, getCallId());
     }
 
     @Override
-    public void logError(Throwable e) {
-        if (e instanceof TransactionException) {
-            ILogger logger = getLogger();
-            if (logger.isFinestEnabled()) {
-                logger.finest("failed to execute:" + this, e);
-            }
-            return;
-        }
-        super.logError(e);
+    public boolean shouldWait() {
+        return false;
+    }
+
+    @Override
+    public long getVersion() {
+        return version;
+    }
+
+    @Override
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override
     public Object getResponse() {
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean shouldNotify() {
         return true;
     }
 
     @Override
-    public boolean shouldBackup() {
-        return true;
+    public Operation getBackupOperation() {
+        return new TxnUnlockBackupOperation(name, dataKey, ownerUuid, getThreadId());
     }
 
     @Override
-    public final Operation getBackupOperation() {
-        return new TxnRollbackBackupOperation(name, dataKey, ownerUuid, getThreadId(), transactionId);
+    public void onWaitExpire() {
+        sendResponse(false);
     }
 
     @Override
@@ -101,31 +109,41 @@ public class TxnRollbackOperation
     }
 
     @Override
-    public boolean shouldNotify() {
+    public void setOwnerUuid(UUID ownerUuid) {
+        this.ownerUuid = ownerUuid;
+    }
+
+    @Override
+    public void setTransactionId(UUID transactionId) {
+        // NOP
+    }
+
+    @Override
+    public boolean shouldBackup() {
         return true;
     }
 
     @Override
     public WaitNotifyKey getNotifiedKey() {
-        return new LockWaitNotifyKey(getServiceNamespace(), dataKey);
+        return getWaitKey();
     }
 
     @Override
     protected void writeInternal(ObjectDataOutput out) throws IOException {
         super.writeInternal(out);
+        out.writeLong(version);
         UUIDSerializationUtil.writeUUID(out, ownerUuid);
-        UUIDSerializationUtil.writeUUID(out, transactionId);
     }
 
     @Override
     protected void readInternal(ObjectDataInput in) throws IOException {
         super.readInternal(in);
+        version = in.readLong();
         ownerUuid = UUIDSerializationUtil.readUUID(in);
-        transactionId = UUIDSerializationUtil.readUUID(in);
     }
 
     @Override
     public int getClassId() {
-        return MapDataSerializerHook.TXN_ROLLBACK;
+        return MapDataSerializerHook.TXN_UNLOCK;
     }
 }

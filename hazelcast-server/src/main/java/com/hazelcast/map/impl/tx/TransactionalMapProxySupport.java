@@ -52,7 +52,7 @@ import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
 import static com.hazelcast.map.impl.record.Record.UNSET;
 
 /**
- * Base class contains proxy helper methods for {@link com.hazelcast.map.impl.tx.TransactionalMapProxy}
+ * Base class contains proxy helper methods for {@link TransactionalMapProxy}
  */
 public abstract class TransactionalMapProxySupport extends TransactionalDistributedObject<MapService> {
 
