@@ -21,7 +21,7 @@ import com.hazelcast.core.ExecutionCallback;
 import java.util.function.BiConsumer;
 
 /**
- * Adapts an {@link com.hazelcast.core.ExecutionCallback} as a {@link java.util.function.BiConsumer}
+ * Adapts an {@link ExecutionCallback} as a {@link BiConsumer}
  * so it can be used with {@link java.util.concurrent.CompletableFuture#whenComplete(BiConsumer)}.
  */
 public class ExecutionCallbackAdapter<T> implements BiConsumer<T, Throwable> {

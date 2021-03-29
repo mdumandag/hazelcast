@@ -16,8 +16,8 @@
 
 package com.hazelcast.executor.impl;
 
-import com.hazelcast.executor.impl.operations.CancellationOperation;
 import com.hazelcast.cluster.Address;
+import com.hazelcast.executor.impl.operations.CancellationOperation;
 import com.hazelcast.spi.impl.DelegatingCompletableFuture;
 import com.hazelcast.spi.impl.InternalCompletableFuture;
 import com.hazelcast.spi.impl.NodeEngine;
