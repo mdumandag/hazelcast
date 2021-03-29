@@ -17,9 +17,9 @@
 package com.hazelcast.instance.impl;
 
 import com.hazelcast.core.HazelcastException;
-import com.hazelcast.logging.Logger;
 import com.hazelcast.internal.util.ExceptionUtil;
 import com.hazelcast.internal.util.ServiceLoader;
+import com.hazelcast.logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;

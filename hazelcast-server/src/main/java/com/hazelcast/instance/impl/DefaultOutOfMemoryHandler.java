@@ -18,9 +18,9 @@ package com.hazelcast.instance.impl;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.OutOfMemoryHandler;
-import com.hazelcast.memory.MemoryUnit;
 import com.hazelcast.internal.util.MemoryInfoAccessor;
 import com.hazelcast.internal.util.RuntimeMemoryInfoAccessor;
+import com.hazelcast.memory.MemoryUnit;
 
 import static com.hazelcast.internal.util.EmptyStatement.ignore;
 

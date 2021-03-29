@@ -29,8 +29,8 @@ public final class NodeShutdownHelper {
     /**
      * Shutdowns a node by firing lifecycle events. Do not call this method for every node shutdown scenario
      * since {@link com.hazelcast.core.LifecycleListener}s will end up more than one
-     * {@link com.hazelcast.core.LifecycleEvent.LifecycleState#SHUTTING_DOWN}
-     * or {@link com.hazelcast.core.LifecycleEvent.LifecycleState#SHUTDOWN} events.
+     * {@link LifecycleEvent.LifecycleState#SHUTTING_DOWN}
+     * or {@link LifecycleEvent.LifecycleState#SHUTDOWN} events.
      *
      * @param node      Node to shutdown.
      * @param terminate <code>false</code> for graceful shutdown, <code>true</code> for terminate (un-graceful shutdown)

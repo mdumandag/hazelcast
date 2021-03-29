@@ -18,8 +18,8 @@ package com.hazelcast.instance.impl;
 
 import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.ManagedContext;
-import com.hazelcast.internal.services.NodeAware;
 import com.hazelcast.internal.serialization.SerializationServiceAware;
+import com.hazelcast.internal.services.NodeAware;
 
 public final class HazelcastManagedContext implements ManagedContext {
 

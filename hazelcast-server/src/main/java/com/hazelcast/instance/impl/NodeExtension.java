@@ -116,7 +116,7 @@ public interface NodeExtension {
      *
      * @param type type of service
      * @return service implementation
-     * @throws java.lang.IllegalArgumentException if type is not known
+     * @throws IllegalArgumentException if type is not known
      */
     <T> T createService(Class<T> type);
 

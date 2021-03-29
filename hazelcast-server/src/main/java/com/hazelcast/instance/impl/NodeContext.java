@@ -16,10 +16,10 @@
 
 package com.hazelcast.instance.impl;
 
-import com.hazelcast.internal.cluster.Joiner;
 import com.hazelcast.instance.AddressPicker;
-import com.hazelcast.internal.server.tcp.ServerSocketRegistry;
+import com.hazelcast.internal.cluster.Joiner;
 import com.hazelcast.internal.server.Server;
+import com.hazelcast.internal.server.tcp.ServerSocketRegistry;
 
 /**
  * A context for node to provide its dependencies. Acts as a dependency factory.

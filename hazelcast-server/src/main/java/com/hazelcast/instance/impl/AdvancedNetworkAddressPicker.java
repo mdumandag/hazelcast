@@ -16,6 +16,7 @@
 
 package com.hazelcast.instance.impl;
 
+import com.hazelcast.cluster.Address;
 import com.hazelcast.config.AdvancedNetworkConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.EndpointConfig;
@@ -25,7 +26,6 @@ import com.hazelcast.config.TcpIpConfig;
 import com.hazelcast.instance.AddressPicker;
 import com.hazelcast.instance.EndpointQualifier;
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.cluster.Address;
 
 import java.nio.channels.ServerSocketChannel;
 import java.util.HashMap;
