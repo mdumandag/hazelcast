@@ -42,7 +42,7 @@ public class NewIdBatchMessageTask
     }
 
     @Override
-    protected FlakeIdGeneratorNewIdBatchCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+    protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
         return FlakeIdGeneratorNewIdBatchCodec.decodeRequest(clientMessage);
     }
 
