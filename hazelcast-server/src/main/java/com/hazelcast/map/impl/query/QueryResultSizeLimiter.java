@@ -16,12 +16,12 @@
 
 package com.hazelcast.map.impl.query;
 
+import com.hazelcast.internal.util.collection.PartitionIdSet;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.QueryResultSizeExceededException;
 import com.hazelcast.map.impl.MapServiceContext;
 import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.properties.HazelcastProperties;
-import com.hazelcast.internal.util.collection.PartitionIdSet;
 
 import java.util.PrimitiveIterator;
 

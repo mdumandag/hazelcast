@@ -16,59 +16,68 @@
 
 package com.hazelcast.map.impl.query;
 
-import com.hazelcast.map.impl.EntryEventFilter;
+import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.query.Predicate;
-import com.hazelcast.query.impl.QueryableEntry;
+import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 import java.io.IOException;
 import java.util.Map;
 
 /**
- * Event filter which matches map events on a specified entry key and
- * matching a predefined {@link Predicate}.
+ * This interfaces provides methods related to entry of the query result.
  */
-public class QueryEventFilter extends EntryEventFilter {
+public class QueryResultRow implements IdentifiedDataSerializable, Map.Entry<Data, Data> {
 
-    private Predicate predicate;
+    private Data key;
+    private Data value;
 
-    public QueryEventFilter() {
+    // needed for serialization
+    public QueryResultRow() {
     }
 
-    public QueryEventFilter(Data key, Predicate predicate, boolean includeValue) {
-        super(key, includeValue);
-        this.predicate = predicate;
-    }
-
-    public Object getPredicate() {
-        return predicate;
+    public QueryResultRow(Data key, Data valueData) {
+        this.key = key;
+        this.value = valueData;
     }
 
     @Override
-    public boolean eval(Object arg) {
-        QueryableEntry entry = (QueryableEntry) arg;
-        Data keyData = entry.getKeyData();
-        return (key == null || key.equals(keyData)) && predicate.apply((Map.Entry) arg);
+    public Data getKey() {
+        return key;
+    }
+
+    @Override
+    public Data getValue() {
+        return value;
+    }
+
+    @Override
+    public Data setValue(Data value) {
+        return value;
+    }
+
+    @Override
+    public int getFactoryId() {
+        return MapDataSerializerHook.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return MapDataSerializerHook.QUERY_EVENT_FILTER;
+        return MapDataSerializerHook.QUERY_RESULT_ROW;
     }
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-        super.writeData(out);
-        out.writeObject(predicate);
+        IOUtil.writeData(out, key);
+        IOUtil.writeData(out, value);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
-        super.readData(in);
-        predicate = in.readObject();
+        key = IOUtil.readData(in);
+        value = IOUtil.readData(in);
     }
 
     @Override
@@ -76,28 +85,30 @@ public class QueryEventFilter extends EntryEventFilter {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        QueryEventFilter that = (QueryEventFilter) o;
-        if (!super.equals(o)) {
+
+        QueryResultRow that = (QueryResultRow) o;
+
+        if (key != null ? !key.equals(that.key) : that.key != null) {
             return false;
         }
-        if (!predicate.equals(that.predicate)) {
+
+        if (value != null ? !value.equals(that.value) : that.value != null) {
             return false;
         }
+
         return true;
     }
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + predicate.hashCode();
+        return hashCode(key) * 31 + hashCode(value);
     }
 
-    @Override
-    public String toString() {
-        return "QueryEventFilter{"
-                + "predicate=" + predicate
-                + '}';
+    private int hashCode(Data data) {
+        return data == null ? 0 : data.hashCode();
     }
 }

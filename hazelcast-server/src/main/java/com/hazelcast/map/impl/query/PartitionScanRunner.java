@@ -41,7 +41,6 @@ import com.hazelcast.spi.impl.operationservice.OperationService;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 
@@ -83,7 +82,7 @@ public class PartitionScanRunner {
         boolean nativeMemory = recordStore.getInMemoryFormat() == InMemoryFormat.NATIVE;
         boolean useCachedValues = isUseCachedDeserializedValuesEnabled(mapContainer, partitionId);
         Extractors extractors = mapServiceContext.getExtractors(mapName);
-        Map.Entry<Integer, Map.Entry> nearestAnchorEntry =
+        Entry<Integer, Entry> nearestAnchorEntry =
                 pagingPredicate == null ? null : pagingPredicate.getNearestAnchorEntry();
 
         recordStore.forEachAfterLoad(new BiConsumer<Data, Record>() {

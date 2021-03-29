@@ -16,11 +16,11 @@
 
 package com.hazelcast.map.impl.query;
 
+import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.internal.util.IterationType;
 import com.hazelcast.query.PagingPredicate;
 import com.hazelcast.query.PartitionPredicate;
 import com.hazelcast.query.Predicate;
-import com.hazelcast.internal.serialization.SerializationService;
-import com.hazelcast.internal.util.IterationType;
 
 import java.util.ArrayList;
 import java.util.Set;

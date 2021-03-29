@@ -16,18 +16,18 @@
 
 package com.hazelcast.map.impl.query;
 
-import com.hazelcast.map.QueryResultSizeExceededException;
-import com.hazelcast.map.impl.MapDataSerializerHook;
-import com.hazelcast.nio.ObjectDataInput;
-import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.projection.Projection;
-import com.hazelcast.query.PagingPredicate;
-import com.hazelcast.query.impl.QueryableEntry;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.internal.util.IterationType;
 import com.hazelcast.internal.util.SortingUtil;
 import com.hazelcast.internal.util.collection.PartitionIdSet;
+import com.hazelcast.map.QueryResultSizeExceededException;
+import com.hazelcast.map.impl.MapDataSerializerHook;
+import com.hazelcast.nio.ObjectDataInput;
+import com.hazelcast.nio.ObjectDataOutput;
+import com.hazelcast.projection.Projection;
+import com.hazelcast.query.PagingPredicate;
+import com.hazelcast.query.impl.QueryableEntry;
 
 import java.io.IOException;
 import java.util.ArrayList;

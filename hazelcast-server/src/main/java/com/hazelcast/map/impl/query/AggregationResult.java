@@ -17,13 +17,13 @@
 package com.hazelcast.map.impl.query;
 
 import com.hazelcast.aggregation.Aggregator;
+import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.internal.util.collection.PartitionIdSet;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.query.PagingPredicate;
 import com.hazelcast.query.impl.QueryableEntry;
-import com.hazelcast.internal.serialization.SerializationService;
-import com.hazelcast.internal.util.collection.PartitionIdSet;
 
 import java.io.IOException;
 import java.util.Map;
