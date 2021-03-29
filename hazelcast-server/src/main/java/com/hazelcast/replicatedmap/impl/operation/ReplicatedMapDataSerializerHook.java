@@ -19,11 +19,11 @@ package com.hazelcast.replicatedmap.impl.operation;
 import com.hazelcast.internal.serialization.DataSerializerHook;
 import com.hazelcast.internal.serialization.impl.ArrayDataSerializableFactory;
 import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
+import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.replicatedmap.impl.record.RecordMigrationInfo;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryView;
-import com.hazelcast.internal.util.ConstructorFunction;
 
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.REPLICATED_MAP_DS_FACTORY;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.REPLICATED_MAP_DS_FACTORY_ID;

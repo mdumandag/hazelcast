@@ -31,9 +31,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static com.hazelcast.internal.util.MapUtil.createConcurrentHashMap;
 import static com.hazelcast.replicatedmap.impl.ReplicatedMapService.INVOCATION_TRY_COUNT;
 import static com.hazelcast.replicatedmap.impl.ReplicatedMapService.SERVICE_NAME;
-import static com.hazelcast.internal.util.MapUtil.createConcurrentHashMap;
 
 /**
  * Checks whether replica version is in sync with the primary.

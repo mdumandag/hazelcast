@@ -16,30 +16,30 @@
 
 package com.hazelcast.replicatedmap.impl.operation;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.map.impl.DataCollection;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.replicatedmap.impl.ReplicatedMapService;
-import com.hazelcast.replicatedmap.impl.record.ReplicatedRecord;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
 import com.hazelcast.spi.impl.operationservice.ReadonlyOperation;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-public class ValuesOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
+public class KeySetOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
 
     private String name;
 
     private transient Object response;
 
-    public ValuesOperation() {
+    public KeySetOperation() {
     }
 
-    public ValuesOperation(String name) {
+    public KeySetOperation(String name) {
         this.name = name;
     }
 
@@ -47,16 +47,16 @@ public class ValuesOperation extends AbstractNamedSerializableOperation implemen
     public void run() throws Exception {
         ReplicatedMapService service = getService();
         Collection<ReplicatedRecordStore> stores = service.getAllReplicatedRecordStores(name);
-        Collection<ReplicatedRecord> values = new ArrayList<>();
+        List<Object> keys = new ArrayList<>();
         for (ReplicatedRecordStore store : stores) {
-            values.addAll(store.values(false));
+            keys.addAll(store.keySet(false));
         }
-        Collection<Data> dataValues = new ArrayList<>(values.size());
+        ArrayList<Data> dataKeys = new ArrayList<>(keys.size());
         SerializationService serializationService = getNodeEngine().getSerializationService();
-        for (ReplicatedRecord value : values) {
-            dataValues.add(serializationService.toData(value.getValue()));
+        for (Object key : keys) {
+            dataKeys.add(serializationService.toData(key));
         }
-        response = new DataCollection(dataValues);
+        response = new DataCollection(dataKeys);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ValuesOperation extends AbstractNamedSerializableOperation implemen
 
     @Override
     public int getClassId() {
-        return ReplicatedMapDataSerializerHook.VALUES;
+        return ReplicatedMapDataSerializerHook.KEY_SET;
     }
 
     @Override

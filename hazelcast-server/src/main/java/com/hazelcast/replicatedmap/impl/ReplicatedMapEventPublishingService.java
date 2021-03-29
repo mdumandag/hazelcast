@@ -16,6 +16,7 @@
 
 package com.hazelcast.replicatedmap.impl;
 
+import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.config.Config;
@@ -23,25 +24,24 @@ import com.hazelcast.config.ReplicatedMapConfig;
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryEventType;
 import com.hazelcast.core.EntryListener;
+import com.hazelcast.internal.monitor.impl.LocalReplicatedMapStatsImpl;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.map.MapEvent;
 import com.hazelcast.map.impl.DataAwareEntryEvent;
 import com.hazelcast.map.impl.event.EntryEventData;
 import com.hazelcast.map.impl.event.EventData;
 import com.hazelcast.map.impl.event.MapEventData;
-import com.hazelcast.internal.monitor.impl.LocalReplicatedMapStatsImpl;
-import com.hazelcast.cluster.Address;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.query.impl.QueryEntry;
 import com.hazelcast.replicatedmap.ReplicatedMapCantBeCreatedOnLiteMemberException;
 import com.hazelcast.replicatedmap.impl.record.AbstractReplicatedRecordStore;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedQueryEventFilter;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
+import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.impl.eventservice.EventFilter;
 import com.hazelcast.spi.impl.eventservice.EventPublishingService;
 import com.hazelcast.spi.impl.eventservice.EventRegistration;
 import com.hazelcast.spi.impl.eventservice.EventService;
-import com.hazelcast.spi.impl.NodeEngine;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;

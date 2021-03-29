@@ -18,10 +18,10 @@ package com.hazelcast.replicatedmap.impl;
 
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.config.ReplicatedMapConfig;
+import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.replicatedmap.impl.record.DataReplicatedRecordStore;
 import com.hazelcast.replicatedmap.impl.record.ObjectReplicatedRecordStorage;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
-import com.hazelcast.internal.util.ConstructorFunction;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

@@ -16,33 +16,30 @@
 
 package com.hazelcast.replicatedmap.impl.operation;
 
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
-import com.hazelcast.map.impl.MapEntries;
+import com.hazelcast.map.impl.DataCollection;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.replicatedmap.impl.ReplicatedMapService;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecord;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
 import com.hazelcast.spi.impl.operationservice.ReadonlyOperation;
 
 import java.io.IOException;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-public class EntrySetOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
+public class ValuesOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
 
     private String name;
 
     private transient Object response;
 
-    public EntrySetOperation() {
+    public ValuesOperation() {
     }
 
-    public EntrySetOperation(String name) {
+    public ValuesOperation(String name) {
         this.name = name;
     }
 
@@ -50,18 +47,16 @@ public class EntrySetOperation extends AbstractNamedSerializableOperation implem
     public void run() throws Exception {
         ReplicatedMapService service = getService();
         Collection<ReplicatedRecordStore> stores = service.getAllReplicatedRecordStores(name);
-        List<Map.Entry<Object, ReplicatedRecord>> entries = new ArrayList<>();
+        Collection<ReplicatedRecord> values = new ArrayList<>();
         for (ReplicatedRecordStore store : stores) {
-            entries.addAll(store.entrySet(false));
+            values.addAll(store.values(false));
         }
-        ArrayList<Map.Entry<Data, Data>> dataEntries = new ArrayList<>(entries.size());
+        Collection<Data> dataValues = new ArrayList<>(values.size());
         SerializationService serializationService = getNodeEngine().getSerializationService();
-        for (Map.Entry<Object, ReplicatedRecord> entry : entries) {
-            Data key = serializationService.toData(entry.getKey());
-            Data value = serializationService.toData(entry.getValue().getValue());
-            dataEntries.add(new AbstractMap.SimpleImmutableEntry<>(key, value));
+        for (ReplicatedRecord value : values) {
+            dataValues.add(serializationService.toData(value.getValue()));
         }
-        response = new MapEntries(dataEntries);
+        response = new DataCollection(dataValues);
     }
 
     @Override
@@ -81,7 +76,7 @@ public class EntrySetOperation extends AbstractNamedSerializableOperation implem
 
     @Override
     public int getClassId() {
-        return ReplicatedMapDataSerializerHook.ENTRY_SET;
+        return ReplicatedMapDataSerializerHook.VALUES;
     }
 
     @Override

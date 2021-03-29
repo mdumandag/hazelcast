@@ -16,12 +16,12 @@
 
 package com.hazelcast.replicatedmap.impl;
 
-import com.hazelcast.replicatedmap.impl.operation.EvictionOperation;
-import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
-import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.internal.util.scheduler.EntryTaskScheduler;
 import com.hazelcast.internal.util.scheduler.ScheduledEntry;
 import com.hazelcast.internal.util.scheduler.ScheduledEntryProcessor;
+import com.hazelcast.replicatedmap.impl.operation.EvictionOperation;
+import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
+import com.hazelcast.spi.impl.NodeEngine;
 
 import java.util.Collection;
 

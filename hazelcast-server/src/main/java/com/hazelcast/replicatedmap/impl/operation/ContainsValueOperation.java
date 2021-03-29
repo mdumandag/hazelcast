@@ -17,38 +17,38 @@
 package com.hazelcast.replicatedmap.impl.operation;
 
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.replicatedmap.impl.ReplicatedMapService;
-import com.hazelcast.replicatedmap.impl.record.ReplicatedRecord;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecordStore;
 import com.hazelcast.spi.impl.operationservice.ReadonlyOperation;
 
 import java.io.IOException;
+import java.util.Collection;
 
-public class GetOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
+public class ContainsValueOperation extends AbstractNamedSerializableOperation implements ReadonlyOperation {
 
     private String name;
-    private Data key;
-    private transient Object response;
+    private Data value;
+    private transient boolean response;
 
-    public GetOperation() {
+    public ContainsValueOperation() {
     }
 
-    public GetOperation(String name, Data key) {
+    public ContainsValueOperation(String name, Data value) {
         this.name = name;
-        this.key = key;
+        this.value = value;
     }
 
     @Override
     public void run() throws Exception {
         ReplicatedMapService service = getService();
-        ReplicatedRecordStore store = service.getReplicatedRecordStore(name, false, getPartitionId());
-        if (store != null) {
-            ReplicatedRecord record = store.getReplicatedRecord(key);
-            if (record != null) {
-                response = record.getValue();
+        Collection<ReplicatedRecordStore> stores = service.getAllReplicatedRecordStores(name);
+        for (ReplicatedRecordStore store : stores) {
+            if (store.containsValue(value)) {
+                response = true;
+                break;
             }
         }
     }
@@ -61,18 +61,18 @@ public class GetOperation extends AbstractNamedSerializableOperation implements 
     @Override
     protected void writeInternal(ObjectDataOutput out) throws IOException {
         out.writeString(name);
-        IOUtil.writeData(out, key);
+        IOUtil.writeData(out, value);
     }
 
     @Override
     protected void readInternal(ObjectDataInput in) throws IOException {
         name = in.readString();
-        key = IOUtil.readData(in);
+        value = IOUtil.readData(in);
     }
 
     @Override
     public int getClassId() {
-        return ReplicatedMapDataSerializerHook.GET;
+        return ReplicatedMapDataSerializerHook.CONTAINS_VALUE;
     }
 
     @Override
