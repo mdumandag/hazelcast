@@ -14,67 +14,73 @@
  * limitations under the License.
  */
 
-package com.hazelcast.topic.impl;
+package com.hazelcast.topic.impl.reliable;
 
 import com.hazelcast.cluster.Address;
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.BinaryInterface;
+import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.internal.util.Clock;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.internal.util.Clock;
 
 import java.io.IOException;
 
-class TopicEvent implements IdentifiedDataSerializable {
+import static com.hazelcast.topic.impl.TopicDataSerializerHook.F_ID;
+import static com.hazelcast.topic.impl.TopicDataSerializerHook.RELIABLE_TOPIC_MESSAGE;
 
-    String name;
-    long publishTime;
-    Address publisherAddress;
-    Data data;
+/**
+ * The Object that is going to be stored in the Ringbuffer. It contains the actual message payload and some metadata.
+ */
+@BinaryInterface
+public class ReliableTopicMessage implements IdentifiedDataSerializable {
+    private long publishTime;
+    private Address publisherAddress;
+    private Data payload;
 
-    TopicEvent() {
+    public ReliableTopicMessage() {
     }
 
-    TopicEvent(String name, Data data, Address publisherAddress) {
-        this.name = name;
+    public ReliableTopicMessage(Data payload, Address publisherAddress) {
         this.publishTime = Clock.currentTimeMillis();
         this.publisherAddress = publisherAddress;
-        this.data = data;
+        this.payload = payload;
+    }
+
+    public long getPublishTime() {
+        return publishTime;
+    }
+
+    public Address getPublisherAddress() {
+        return publisherAddress;
+    }
+
+    public Data getPayload() {
+        return payload;
     }
 
     @Override
     public int getFactoryId() {
-        return TopicDataSerializerHook.F_ID;
+        return F_ID;
     }
 
     @Override
     public int getClassId() {
-        return TopicDataSerializerHook.TOPIC_EVENT;
+        return RELIABLE_TOPIC_MESSAGE;
     }
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-        out.writeString(name);
         out.writeLong(publishTime);
         out.writeObject(publisherAddress);
-        IOUtil.writeData(out, data);
+        IOUtil.writeData(out, payload);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
-        name = in.readString();
         publishTime = in.readLong();
         publisherAddress = in.readObject();
-        data = IOUtil.readData(in);
-    }
-
-    @Override
-    public String toString() {
-        return "TopicEvent{"
-                + "name='" + name + '\''
-                + ", publishTime=" + publishTime
-                + ", publisherAddress=" + publisherAddress
-                + '}';
+        payload = IOUtil.readData(in);
     }
 }

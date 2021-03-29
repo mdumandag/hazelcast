@@ -18,8 +18,8 @@ package com.hazelcast.topic.impl.reliable;
 
 import com.hazelcast.cluster.Member;
 import com.hazelcast.internal.cluster.ClusterService;
-import com.hazelcast.logging.ILogger;
 import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.logging.ILogger;
 import com.hazelcast.topic.ReliableMessageListener;
 
 import java.util.UUID;
