@@ -40,6 +40,7 @@ import com.hazelcast.spi.impl.InternalCompletableFuture;
 import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.NO_RETURN_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_NEW_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_OLD_VALUE;
+import static com.hazelcast.cp.internal.ServiceNames.ATOMIC_REF_SERVICE;
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
 
 /**
@@ -54,7 +55,7 @@ public class AtomicRefProxy<T> extends ClientProxy implements IAtomicReference<T
     private final String objectName;
 
     public AtomicRefProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(AtomicRefService.SERVICE_NAME, proxyName, context);
+        super(ATOMIC_REF_SERVICE, proxyName, context);
         this.groupId = groupId;
         this.objectName = objectName;
     }

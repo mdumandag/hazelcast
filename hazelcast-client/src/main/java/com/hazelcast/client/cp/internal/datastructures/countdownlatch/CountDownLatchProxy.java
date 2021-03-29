@@ -30,7 +30,6 @@ import com.hazelcast.core.OperationTimeoutException;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.ICountDownLatch;
 import com.hazelcast.cp.internal.RaftGroupId;
-import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
 import com.hazelcast.internal.util.EmptyStatement;
 
 import java.util.UUID;
@@ -39,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 import static com.hazelcast.internal.util.Preconditions.checkPositive;
 import static com.hazelcast.internal.util.UuidUtil.newUnsecureUUID;
+import static com.hazelcast.cp.internal.ServiceNames.COUNTDOWN_LATCH_SERVICE;
 
 /**
  * Client-side Raft-based proxy implementation of {@link ICountDownLatch}
@@ -49,7 +49,7 @@ public class CountDownLatchProxy extends ClientProxy implements ICountDownLatch 
     private final String objectName;
 
     public CountDownLatchProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(CountDownLatchService.SERVICE_NAME, proxyName, context);
+        super(COUNTDOWN_LATCH_SERVICE, proxyName, context);
         this.groupId = groupId;
         this.objectName = objectName;
     }

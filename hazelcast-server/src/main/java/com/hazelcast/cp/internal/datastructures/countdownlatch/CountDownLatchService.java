@@ -32,8 +32,8 @@ import com.hazelcast.spi.impl.NodeEngine;
 import java.util.Collection;
 import java.util.UUID;
 
-import static com.hazelcast.cp.internal.RaftService.getObjectNameForProxy;
-import static com.hazelcast.cp.internal.RaftService.withoutDefaultGroupName;
+import static com.hazelcast.cp.internal.RaftNameUtil.getObjectNameForProxy;
+import static com.hazelcast.cp.internal.RaftNameUtil.withoutDefaultGroupName;
 import static com.hazelcast.internal.metrics.MetricDescriptorConstants.CP_TAG_NAME;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 

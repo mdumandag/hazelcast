@@ -41,6 +41,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
+import static com.hazelcast.cp.internal.ServiceNames.LOCK_SERVICE;
+
 /**
  * Client-side proxy of Raft-based {@link FencedLock} API
  */
@@ -55,7 +57,7 @@ public class FencedLockProxy extends ClientProxy implements FencedLock {
     private final FencedLockImpl lock;
 
     public FencedLockProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(LockService.SERVICE_NAME, proxyName, context);
+        super(LOCK_SERVICE, proxyName, context);
         this.lock = new FencedLockImpl(getClient().getProxySessionManager(), groupId, proxyName, objectName);
     }
 

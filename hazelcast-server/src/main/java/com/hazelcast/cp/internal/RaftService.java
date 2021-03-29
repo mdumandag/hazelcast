@@ -1041,22 +1041,6 @@ public class RaftService implements ManagedService, SnapshotAwareService<Metadat
         }
     }
 
-    public static String withoutDefaultGroupName(String name) {
-        name = name.trim();
-        int i = name.indexOf("@");
-        if (i == -1) {
-            return name;
-        }
-
-        checkTrue(name.indexOf("@", i + 1) == -1, "Custom group name must be specified at most once");
-        String groupName = name.substring(i + 1).trim();
-        if (groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME)) {
-            return name.substring(0, i);
-        }
-
-        return name;
-    }
-
     public static String getGroupNameForProxy(String name) {
         name = name.trim();
         int i = name.indexOf("@");
@@ -1070,20 +1054,6 @@ public class RaftService implements ManagedService, SnapshotAwareService<Metadat
         checkTrue(groupName.length() > 0, "Custom CP group name cannot be empty string");
         checkFalse(groupName.equalsIgnoreCase(METADATA_CP_GROUP_NAME), "CP data structures cannot run on the METADATA CP group!");
         return groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME) ? DEFAULT_GROUP_NAME : groupName;
-    }
-
-    public static String getObjectNameForProxy(String name) {
-        int i = name.indexOf("@");
-        if (i == -1) {
-            return name;
-        }
-
-        checkTrue(i < (name.length() - 1), "Object name cannot be empty string");
-        checkTrue(name.indexOf("@", i + 1) == -1,
-                "Custom CP group name must be specified at most once");
-        String objectName = name.substring(0, i).trim();
-        checkTrue(objectName.length() > 0, "Object name cannot be empty string");
-        return objectName;
     }
 
     public RaftGroupId getMetadataGroupId() {

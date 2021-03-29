@@ -31,19 +31,15 @@ import com.hazelcast.client.impl.spi.impl.ClientInvocation;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.cp.ISemaphore;
 import com.hazelcast.cp.internal.RaftGroupId;
-import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
-import com.hazelcast.cp.internal.datastructures.atomicref.AtomicRefService;
-import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
-import com.hazelcast.cp.internal.datastructures.lock.LockService;
-import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
 import com.hazelcast.cp.lock.FencedLock;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static com.hazelcast.cp.internal.RaftService.getObjectNameForProxy;
-import static com.hazelcast.cp.internal.RaftService.withoutDefaultGroupName;
+import static com.hazelcast.cp.internal.RaftNameUtil.getObjectNameForProxy;
+import static com.hazelcast.cp.internal.RaftNameUtil.withoutDefaultGroupName;
+import static com.hazelcast.cp.internal.ServiceNames.*;
 
 /**
  * Creates client-side proxies of the CP data structures
@@ -71,15 +67,15 @@ public class ClientRaftProxyFactory {
 
         RaftGroupId groupId = getGroupId(proxyName, objectName);
 
-        if (serviceName.equals(AtomicLongService.SERVICE_NAME)) {
+        if (serviceName.equals(ATOMIC_LONG_SERVICE)) {
             return (T) new AtomicLongProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(AtomicRefService.SERVICE_NAME)) {
+        } else if (serviceName.equals(ATOMIC_REF_SERVICE)) {
             return (T) new AtomicRefProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(CountDownLatchService.SERVICE_NAME)) {
+        } else if (serviceName.equals(COUNTDOWN_LATCH_SERVICE)) {
             return (T) new CountDownLatchProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(LockService.SERVICE_NAME)) {
+        } else if (serviceName.equals(LOCK_SERVICE)) {
             return (T) createFencedLock(groupId, proxyName, objectName);
-        } else if (serviceName.equals(SemaphoreService.SERVICE_NAME)) {
+        } else if (serviceName.equals(SEMAPHORE_SERVICE)) {
             return (T) createSemaphore(groupId, proxyName, objectName);
         } else {
             throw new IllegalArgumentException();

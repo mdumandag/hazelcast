@@ -33,12 +33,12 @@ import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.ISemaphore;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.cp.internal.datastructures.exception.WaitKeyCancelledException;
-import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static com.hazelcast.cp.internal.session.AbstractProxySessionManager.NO_SESSION_ID;
+import static com.hazelcast.cp.internal.ServiceNames.SEMAPHORE_SERVICE;
 import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
 import static com.hazelcast.internal.util.Preconditions.checkPositive;
 import static com.hazelcast.internal.util.UuidUtil.newUnsecureUUID;
@@ -54,7 +54,7 @@ public class SessionlessSemaphoreProxy extends ClientProxy implements ISemaphore
     private final String objectName;
 
     public SessionlessSemaphoreProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(SemaphoreService.SERVICE_NAME, proxyName, context);
+        super(SEMAPHORE_SERVICE, proxyName, context);
         this.sessionManager = getClient().getProxySessionManager();
         this.groupId = groupId;
         this.objectName = objectName;
