@@ -71,7 +71,6 @@ import static com.hazelcast.internal.networking.ChannelOption.SO_LINGER;
 import static com.hazelcast.internal.networking.ChannelOption.SO_RCVBUF;
 import static com.hazelcast.internal.networking.ChannelOption.SO_SNDBUF;
 import static com.hazelcast.internal.networking.ChannelOption.TCP_NODELAY;
-import static com.hazelcast.internal.server.ServerContext.KILO_BYTE;
 import static com.hazelcast.internal.util.EmptyStatement.ignore;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static java.lang.String.format;
@@ -82,6 +81,7 @@ import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
         "checkstyle:ClassDataAbstractionCoupling" })
 public final class IOUtil {
 
+    private static int KILO_BYTE = 1024;
     private static final ILogger LOGGER = Logger.getLogger(IOUtil.class);
 
     private IOUtil() {
