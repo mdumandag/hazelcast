@@ -27,6 +27,7 @@ import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.projection.Projection;
 import com.hazelcast.ringbuffer.ReadResultSet;
+import com.hazelcast.ringbuffer.impl.operations.ReadManyOperation;
 import com.hazelcast.spi.impl.SerializationServiceSupport;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -39,7 +40,7 @@ import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.F_ID;
 import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.READ_RESULT_SET;
 
 /**
- * A list for the {@link com.hazelcast.ringbuffer.impl.operations.ReadManyOperation}.
+ * A list for the {@link ReadManyOperation}.
  * <p>
  * The problem with a regular list is that if you store Data objects, then
  * on the receiving side you get a list with data objects. If you hand this

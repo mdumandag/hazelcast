@@ -17,67 +17,55 @@
 package com.hazelcast.ringbuffer.impl.operations;
 
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.ringbuffer.OverflowPolicy;
 import com.hazelcast.ringbuffer.impl.RingbufferContainer;
 import com.hazelcast.spi.impl.operationservice.BackupAwareOperation;
+import com.hazelcast.spi.impl.operationservice.MutatingOperation;
 import com.hazelcast.spi.impl.operationservice.Notifier;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
-import com.hazelcast.spi.impl.operationservice.MutatingOperation;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.IOException;
 
 import static com.hazelcast.ringbuffer.OverflowPolicy.FAIL;
-import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.ADD_ALL_OPERATION;
+import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.ADD_OPERATION;
 
 /**
- * Adds a batch of items to the ring buffer. The master node will add the items into the ring buffer, generating sequence IDs.
- * The backup operation will put the items under the generated sequence IDs that the master generated. This is to avoid
- * differences in ring buffer data structures.
+ * Adds a new ring buffer item. The master node will add the item into the ring buffer, generating a new sequence ID while
+ * the backup operation will put the item under the sequence ID that the master generated. This is to avoid differences
+ * in ring buffer data structures.
  */
-public class AddAllOperation extends AbstractRingBufferOperation
-        implements Notifier, BackupAwareOperation, MutatingOperation {
+public class AddOperation extends AbstractRingBufferOperation implements Notifier, BackupAwareOperation, MutatingOperation {
 
+    private Data item;
+    private long resultSequence;
     private OverflowPolicy overflowPolicy;
-    private Data[] items;
-    private long lastSequence;
 
-    public AddAllOperation() {
+    public AddOperation() {
     }
 
-    @SuppressFBWarnings("EI_EXPOSE_REP")
-    public AddAllOperation(String name, Data[] items, OverflowPolicy overflowPolicy) {
+    public AddOperation(String name, Data item, OverflowPolicy overflowPolicy) {
         super(name);
-        this.items = items;
+        this.item = item;
         this.overflowPolicy = overflowPolicy;
     }
 
     @Override
     public void run() throws Exception {
-        final RingbufferContainer ringbuffer = getRingBufferContainer();
+        RingbufferContainer ringbuffer = getRingBufferContainer();
 
+        //todo: move into ringbuffer.
         if (overflowPolicy == FAIL) {
-            if (ringbuffer.remainingCapacity() < items.length) {
-                lastSequence = -1;
+            if (ringbuffer.remainingCapacity() < 1) {
+                resultSequence = -1;
                 return;
             }
         }
 
-        lastSequence = ringbuffer.addAll(items);
-    }
-
-    @Override
-    public Object getResponse() {
-        return lastSequence;
-    }
-
-    @Override
-    public boolean shouldNotify() {
-        return lastSequence != -1;
+        resultSequence = ringbuffer.add(item);
     }
 
     @Override
@@ -87,8 +75,13 @@ public class AddAllOperation extends AbstractRingBufferOperation
     }
 
     @Override
+    public boolean shouldNotify() {
+        return resultSequence != -1;
+    }
+
+    @Override
     public boolean shouldBackup() {
-        return lastSequence != -1;
+        return resultSequence != -1;
     }
 
     @Override
@@ -105,37 +98,30 @@ public class AddAllOperation extends AbstractRingBufferOperation
 
     @Override
     public Operation getBackupOperation() {
-        return new AddAllBackupOperation(name, lastSequence, items);
+        return new AddBackupOperation(name, resultSequence, item);
+    }
+
+    @Override
+    public Long getResponse() {
+        return resultSequence;
     }
 
     @Override
     public int getClassId() {
-        return ADD_ALL_OPERATION;
+        return ADD_OPERATION;
     }
 
     @Override
     protected void writeInternal(ObjectDataOutput out) throws IOException {
         super.writeInternal(out);
-
+        IOUtil.writeData(out, item);
         out.writeInt(overflowPolicy.getId());
-
-        out.writeInt(items.length);
-        for (Data item : items) {
-            IOUtil.writeData(out, item);
-        }
     }
 
     @Override
     protected void readInternal(ObjectDataInput in) throws IOException {
         super.readInternal(in);
-
+        item = IOUtil.readData(in);
         overflowPolicy = OverflowPolicy.getById(in.readInt());
-
-        int length = in.readInt();
-        items = new Data[length];
-        for (int k = 0; k < items.length; k++) {
-            items[k] = IOUtil.readData(in);
-        }
     }
 }
-

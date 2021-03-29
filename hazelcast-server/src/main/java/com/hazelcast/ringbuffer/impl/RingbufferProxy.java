@@ -19,7 +19,6 @@ package com.hazelcast.ringbuffer.impl;
 import com.hazelcast.config.RingbufferConfig;
 import com.hazelcast.core.IFunction;
 import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.splitbrainprotection.SplitBrainProtectionOn;
 import com.hazelcast.ringbuffer.OverflowPolicy;
 import com.hazelcast.ringbuffer.ReadResultSet;
 import com.hazelcast.ringbuffer.Ringbuffer;
@@ -33,23 +32,24 @@ import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.impl.operationservice.OperationService;
 import com.hazelcast.spi.impl.operationservice.impl.InvocationFuture;
+import com.hazelcast.splitbrainprotection.SplitBrainProtectionOn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.concurrent.CompletionStage;
 
+import static com.hazelcast.internal.util.ExceptionUtil.rethrowAllowInterrupted;
+import static com.hazelcast.internal.util.Preconditions.checkFalse;
+import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
+import static com.hazelcast.internal.util.Preconditions.checkNotNull;
+import static com.hazelcast.internal.util.Preconditions.checkTrue;
 import static com.hazelcast.ringbuffer.OverflowPolicy.OVERWRITE;
 import static com.hazelcast.ringbuffer.impl.RingbufferService.SERVICE_NAME;
 import static com.hazelcast.ringbuffer.impl.operations.GenericOperation.OPERATION_HEAD;
 import static com.hazelcast.ringbuffer.impl.operations.GenericOperation.OPERATION_REMAINING_CAPACITY;
 import static com.hazelcast.ringbuffer.impl.operations.GenericOperation.OPERATION_SIZE;
 import static com.hazelcast.ringbuffer.impl.operations.GenericOperation.OPERATION_TAIL;
-import static com.hazelcast.internal.util.ExceptionUtil.rethrowAllowInterrupted;
-import static com.hazelcast.internal.util.Preconditions.checkFalse;
-import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
-import static com.hazelcast.internal.util.Preconditions.checkNotNull;
-import static com.hazelcast.internal.util.Preconditions.checkTrue;
 import static java.lang.String.format;
 
 /**

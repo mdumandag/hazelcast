@@ -20,17 +20,17 @@ import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.config.RingbufferConfig;
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.internal.services.ObjectNamespace;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.serialization.HazelcastSerializationException;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.ringbuffer.StaleSequenceException;
 import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.impl.operationservice.Notifier;
-import com.hazelcast.internal.services.ObjectNamespace;
 import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
-import com.hazelcast.internal.serialization.SerializationService;
 
 import java.io.IOException;
 
@@ -438,7 +438,7 @@ public class RingbufferContainer<T, E> implements IdentifiedDataSerializable, No
      * Checks if the provided {@code sequence} can be read immediately. If
      * not, it will return the current oldest or newest immediately readable
      * sequence. This method can be used for a loss-tolerant reader when
-     * trying to avoid a {@link com.hazelcast.ringbuffer.StaleSequenceException}.
+     * trying to avoid a {@link StaleSequenceException}.
      *
      * @param readSequence the sequence wanting to be read
      * @return the bounded sequence

@@ -21,6 +21,7 @@ import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.journal.CacheEventJournal;
 import com.hazelcast.config.EventJournalConfig;
 import com.hazelcast.config.RingbufferConfig;
+import com.hazelcast.internal.services.ObjectNamespace;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.journal.MapEventJournal;
 import com.hazelcast.nio.ObjectDataInput;
@@ -28,17 +29,16 @@ import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.ringbuffer.impl.RingbufferContainer;
 import com.hazelcast.ringbuffer.impl.RingbufferService;
-import com.hazelcast.internal.services.ObjectNamespace;
 import com.hazelcast.spi.impl.operationservice.Operation;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.hazelcast.internal.util.MapUtil.createHashMap;
 import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.F_ID;
 import static com.hazelcast.ringbuffer.impl.RingbufferDataSerializerHook.REPLICATION_OPERATION;
 import static com.hazelcast.ringbuffer.impl.RingbufferService.SERVICE_NAME;
-import static com.hazelcast.internal.util.MapUtil.createHashMap;
 
 public class ReplicationOperation extends Operation implements IdentifiedDataSerializable {
 
@@ -56,7 +56,7 @@ public class ReplicationOperation extends Operation implements IdentifiedDataSer
     @Override
     public void run() {
         final RingbufferService service = getService();
-        for (Map.Entry<ObjectNamespace, RingbufferContainer> entry : migrationData.entrySet()) {
+        for (Entry<ObjectNamespace, RingbufferContainer> entry : migrationData.entrySet()) {
             final ObjectNamespace ns = entry.getKey();
             final RingbufferContainer ringbuffer = entry.getValue();
             service.addRingbuffer(getPartitionId(), ringbuffer, getRingbufferConfig(service, ns));

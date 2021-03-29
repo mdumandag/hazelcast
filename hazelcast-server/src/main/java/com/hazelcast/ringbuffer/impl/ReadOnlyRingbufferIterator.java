@@ -19,7 +19,7 @@ package com.hazelcast.ringbuffer.impl;
 import java.util.Iterator;
 
 /**
- * Read-only iterator over items in a provided {@link com.hazelcast.ringbuffer.impl.Ringbuffer}.
+ * Read-only iterator over items in a provided {@link Ringbuffer}.
  */
 public class ReadOnlyRingbufferIterator<E> implements Iterator<E> {
     private final ArrayRingbuffer<E> ringbuffer;
