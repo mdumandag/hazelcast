@@ -18,6 +18,7 @@ package com.hazelcast.internal.server.tcp;
 
 import com.hazelcast.auditlog.AuditlogTypeIds;
 import com.hazelcast.auditlog.Level;
+import com.hazelcast.client.impl.ClientEngine;
 import com.hazelcast.client.impl.protocol.util.ClientMessageDecoder;
 import com.hazelcast.config.MemcacheProtocolConfig;
 import com.hazelcast.config.RestApiConfig;
@@ -47,6 +48,7 @@ import static com.hazelcast.internal.nio.Protocols.CLIENT_BINARY;
 import static com.hazelcast.internal.nio.Protocols.CLUSTER;
 import static com.hazelcast.internal.nio.Protocols.PROTOCOL_LENGTH;
 import static com.hazelcast.internal.server.ServerContext.KILO_BYTE;
+import static com.hazelcast.internal.server.tcp.ClientChannelInitializer.createIsTrustedFn;
 import static com.hazelcast.internal.util.StringUtil.bytesToString;
 import static com.hazelcast.internal.util.StringUtil.stringToBytes;
 import static com.hazelcast.spi.properties.ClusterProperty.SOCKET_CLIENT_RECEIVE_BUFFER_SIZE;
@@ -153,7 +155,10 @@ public class UnifiedProtocolDecoder
                 .setOption(DIRECT_BUF, false);
 
         ServerConnection connection = (TcpServerConnection) channel.attributeMap().get(ServerConnection.class);
-        channel.inboundPipeline().replace(this, new ClientMessageDecoder(connection, serverContext.getClientEngine(), props));
+        ClientEngine clientEngine = serverContext.getClientEngine();
+        channel.inboundPipeline().replace(this, new ClientMessageDecoder(connection,
+                createIsTrustedFn(clientEngine),
+                clientEngine, props));
     }
 
     private void initChannelForText(String protocol, boolean restApi) {

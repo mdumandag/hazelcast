@@ -16,9 +16,6 @@
 
 package com.hazelcast.client.impl.protocol.util;
 
-import com.hazelcast.client.impl.ClientEndpoint;
-import com.hazelcast.client.impl.ClientEndpointManager;
-import com.hazelcast.client.impl.ClientEngine;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.ClientMessageReader;
 import com.hazelcast.internal.networking.HandlerStatus;
@@ -32,6 +29,7 @@ import com.hazelcast.spi.properties.HazelcastProperties;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.hazelcast.client.impl.protocol.ClientMessage.BEGIN_FRAGMENT_FLAG;
 import static com.hazelcast.client.impl.protocol.ClientMessage.END_FRAGMENT_FLAG;
@@ -42,7 +40,7 @@ import static com.hazelcast.internal.nio.IOUtil.compactOrClear;
 
 /**
  * Builds {@link ClientMessage}s from byte chunks.
- *
+ * <p>
  * Fragmented messages are merged into single messages before processed.
  */
 public class ClientMessageDecoder extends InboundHandlerWithCounters<ByteBuffer, Consumer<ClientMessage>> {
@@ -50,17 +48,16 @@ public class ClientMessageDecoder extends InboundHandlerWithCounters<ByteBuffer,
     private final Connection connection;
     private final Long2ObjectHashMap<ClientMessage> builderBySessionIdMap = new Long2ObjectHashMap<>();
     private ClientMessageReader activeReader;
-
-    private boolean clientIsTrusted;
+    private Function<Connection, Boolean> isTrustedFn;
     private final int maxMessageLength;
-    private final ClientEndpointManager clientEndpointManager;
 
-    public ClientMessageDecoder(Connection connection, Consumer<ClientMessage> dst, HazelcastProperties properties) {
+    public ClientMessageDecoder(Connection connection, Function<Connection, Boolean> isTrustedFn,
+                                Consumer<ClientMessage> dst, HazelcastProperties properties) {
         dst(dst);
         if (properties == null) {
             properties = new HazelcastProperties((Properties) null);
         }
-        clientEndpointManager = dst instanceof ClientEngine ? ((ClientEngine) dst).getEndpointManager() : null;
+        this.isTrustedFn = isTrustedFn;
         maxMessageLength = properties.getInteger(ClusterProperty.CLIENT_PROTOCOL_UNVERIFIED_MESSAGE_BYTES);
         activeReader = new ClientMessageReader(maxMessageLength);
         this.connection = connection;
@@ -113,12 +110,7 @@ public class ClientMessageDecoder extends InboundHandlerWithCounters<ByteBuffer,
     }
 
     private boolean isEndpointTrusted() {
-        if (clientEndpointManager == null || clientIsTrusted) {
-            return true;
-        }
-        ClientEndpoint endpoint = clientEndpointManager.getEndpoint(connection);
-        clientIsTrusted = endpoint != null && endpoint.isAuthenticated();
-        return clientIsTrusted;
+        return isTrustedFn.apply(connection);
     }
 
     private ClientMessage mergeIntoExistingClientMessage(long fragmentationId) {
