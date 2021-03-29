@@ -17,11 +17,11 @@
 package com.hazelcast.map.impl;
 
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.internal.serialization.SerializationService;
 
 import java.io.IOException;
 import java.util.AbstractMap;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MapEntries is a collection of {@link Data} instances for keys and values of a {@link java.util.Map.Entry}.
+ * MapEntries is a collection of {@link Data} instances for keys and values of a {@link Map.Entry}.
  */
 public final class MapEntries implements IdentifiedDataSerializable {
 

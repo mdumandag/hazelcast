@@ -16,10 +16,10 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.internal.util.Timer;
-import com.hazelcast.map.MapStore;
 import com.hazelcast.internal.diagnostics.StoreLatencyPlugin;
 import com.hazelcast.internal.diagnostics.StoreLatencyPlugin.LatencyProbe;
+import com.hazelcast.internal.util.Timer;
+import com.hazelcast.map.MapStore;
 
 import java.util.Collection;
 import java.util.Map;

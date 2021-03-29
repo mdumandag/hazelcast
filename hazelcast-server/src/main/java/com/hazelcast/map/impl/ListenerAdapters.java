@@ -21,9 +21,9 @@ import com.hazelcast.map.listener.MapListener;
 import static com.hazelcast.map.impl.MapListenerAdaptors.createMapListenerAdaptor;
 
 /**
- * Contains support methods for creating various {@link com.hazelcast.map.impl.ListenerAdapter ListenerAdapter}
+ * Contains support methods for creating various {@link ListenerAdapter ListenerAdapter}
  *
- * @see com.hazelcast.map.impl.MapListenerAdaptors
+ * @see MapListenerAdaptors
  */
 public final class ListenerAdapters {
 

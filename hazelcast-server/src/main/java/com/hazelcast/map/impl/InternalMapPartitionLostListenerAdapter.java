@@ -23,7 +23,7 @@ import com.hazelcast.spi.annotation.PrivateApi;
 /**
  * Responsible for dispatching the event to the public api
  *
- * @see com.hazelcast.map.listener.MapPartitionLostListener
+ * @see MapPartitionLostListener
  */
 @PrivateApi
 class InternalMapPartitionLostListenerAdapter

@@ -16,12 +16,12 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.LockStoreInfo;
+import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.services.ManagedService;
-import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.internal.services.ObjectNamespace;
 import com.hazelcast.internal.util.ConstructorFunction;
+import com.hazelcast.spi.impl.NodeEngine;
 
 import java.util.Properties;
 

@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl;
 
+import com.hazelcast.internal.services.PostJoinAwareService;
 import com.hazelcast.map.impl.operation.PostJoinMapOperation;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
 import com.hazelcast.map.impl.querycache.publisher.MapPublisherRegistry;
@@ -23,7 +24,6 @@ import com.hazelcast.map.impl.querycache.publisher.PartitionAccumulatorRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 import com.hazelcast.map.impl.querycache.publisher.PublisherRegistry;
 import com.hazelcast.spi.impl.operationservice.Operation;
-import com.hazelcast.internal.services.PostJoinAwareService;
 
 import java.util.ArrayList;
 import java.util.Collection;

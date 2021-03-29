@@ -16,15 +16,15 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.spi.impl.eventservice.EventService;
 import com.hazelcast.map.IMap;
+import com.hazelcast.spi.impl.eventservice.EventService;
 
 /**
  * Adapter for all {@link IMap} listeners. This interface is considered to be used only
  * by {@link IMap} internals.
  * <p>
  * Also every {@link com.hazelcast.map.listener.MapListener} should be wrapped
- * in a {@link com.hazelcast.map.impl.ListenerAdapter} before {@link EventService} registration.
+ * in a {@link ListenerAdapter} before {@link EventService} registration.
  */
 public interface ListenerAdapter<T> {
 

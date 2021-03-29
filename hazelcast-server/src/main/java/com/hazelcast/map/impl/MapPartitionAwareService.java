@@ -16,13 +16,13 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.core.DistributedObject;
-import com.hazelcast.map.impl.proxy.MapProxyImpl;
 import com.hazelcast.cluster.Address;
-import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.internal.partition.PartitionAwareService;
-import com.hazelcast.spi.impl.proxyservice.ProxyService;
+import com.hazelcast.core.DistributedObject;
 import com.hazelcast.internal.partition.IPartitionLostEvent;
+import com.hazelcast.internal.partition.PartitionAwareService;
+import com.hazelcast.map.impl.proxy.MapProxyImpl;
+import com.hazelcast.spi.impl.NodeEngine;
+import com.hazelcast.spi.impl.proxyservice.ProxyService;
 
 import java.util.Collection;
 

@@ -16,8 +16,8 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.core.EntryEvent;
 import com.hazelcast.cluster.Member;
+import com.hazelcast.core.EntryEvent;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
 

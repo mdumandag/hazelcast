@@ -22,8 +22,8 @@ import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
 import com.hazelcast.map.impl.record.Record;
-import com.hazelcast.map.impl.recordstore.expiry.ExpiryMetadata;
 import com.hazelcast.map.impl.recordstore.RecordStore;
+import com.hazelcast.map.impl.recordstore.expiry.ExpiryMetadata;
 import com.hazelcast.spi.impl.merge.AbstractMergeRunnable;
 import com.hazelcast.spi.impl.operationservice.OperationFactory;
 import com.hazelcast.spi.merge.SplitBrainMergePolicy;
@@ -32,8 +32,6 @@ import com.hazelcast.spi.merge.SplitBrainMergeTypes.MapMergeTypes;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
-
-import static com.hazelcast.spi.impl.merge.MergingValueFactory.createMergingEntry;
 
 class MapMergeRunnable extends AbstractMergeRunnable<Object, Object, RecordStore, MapMergeTypes<Object, Object>> {
 

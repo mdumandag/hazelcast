@@ -16,9 +16,9 @@
 
 package com.hazelcast.map.impl;
 
+import com.hazelcast.internal.services.ClientAwareService;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
-import com.hazelcast.internal.services.ClientAwareService;
 
 import java.util.UUID;
 

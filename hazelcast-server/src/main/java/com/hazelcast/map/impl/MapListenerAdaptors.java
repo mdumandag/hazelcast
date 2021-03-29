@@ -18,9 +18,10 @@ package com.hazelcast.map.impl;
 
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryEventType;
+import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
+import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.map.IMapEvent;
 import com.hazelcast.map.MapEvent;
-import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
 import com.hazelcast.map.impl.nearcache.invalidation.InvalidationListener;
 import com.hazelcast.map.listener.EntryAddedListener;
 import com.hazelcast.map.listener.EntryEvictedListener;
@@ -32,19 +33,18 @@ import com.hazelcast.map.listener.EntryUpdatedListener;
 import com.hazelcast.map.listener.MapClearedListener;
 import com.hazelcast.map.listener.MapEvictedListener;
 import com.hazelcast.map.listener.MapListener;
-import com.hazelcast.internal.util.ConstructorFunction;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 /**
  * A static factory class which creates various
- * {@link com.hazelcast.map.impl.ListenerAdapter} implementations.
+ * {@link ListenerAdapter} implementations.
  */
 public final class MapListenerAdaptors {
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryAddedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryAddedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_ADDED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -56,7 +56,7 @@ public final class MapListenerAdaptors {
             };
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryRemovedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryRemovedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_REMOVED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -69,7 +69,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryEvictedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryEvictedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_EVICTED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -82,7 +82,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryEvictedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryEvictedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_EXPIRED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -95,7 +95,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryUpdatedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryUpdatedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_UPDATED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -108,7 +108,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.MapEvictedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link MapEvictedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> MAP_EVICTED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -121,7 +121,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.MapClearedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link MapClearedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> MAP_CLEARED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -133,7 +133,7 @@ public final class MapListenerAdaptors {
             };
 
     /**
-     * Converts an {@link com.hazelcast.map.listener.EntryMergedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryMergedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_MERGED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -146,7 +146,7 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Converts an {@link InvalidationListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link InvalidationListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> INVALIDATION_LISTENER =
             mapListener -> {
@@ -158,7 +158,7 @@ public final class MapListenerAdaptors {
             };
 
     /**
-     * Converts an {@link EntryLoadedListener} to a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Converts an {@link EntryLoadedListener} to a {@link ListenerAdapter}.
      */
     private static final ConstructorFunction<MapListener, ListenerAdapter> ENTRY_LOADED_LISTENER_ADAPTER_CONSTRUCTOR =
             mapListener -> {
@@ -170,15 +170,15 @@ public final class MapListenerAdaptors {
             };
 
     /**
-     * Registry for all {@link com.hazelcast.map.listener.MapListener} to {@link com.hazelcast.map.impl.ListenerAdapter}
-     * constructors according to {@link com.hazelcast.core.EntryEventType}s.
+     * Registry for all {@link MapListener} to {@link ListenerAdapter}
+     * constructors according to {@link EntryEventType}s.
      */
     private static final Map<EntryEventType, ConstructorFunction<MapListener, ListenerAdapter>> CONSTRUCTORS
             = new EnumMap<>(EntryEventType.class);
 
     /**
-     * Register all {@link com.hazelcast.map.impl.ListenerAdapter} constructors
-     * according to {@link com.hazelcast.core.EntryEventType}s.
+     * Register all {@link ListenerAdapter} constructors
+     * according to {@link EntryEventType}s.
      */
     static {
         CONSTRUCTORS.put(EntryEventType.ADDED, ENTRY_ADDED_LISTENER_ADAPTER_CONSTRUCTOR);
@@ -197,11 +197,11 @@ public final class MapListenerAdaptors {
     }
 
     /**
-     * Creates a {@link com.hazelcast.map.impl.ListenerAdapter} array
-     * for all event types of {@link com.hazelcast.core.EntryEventType}.
+     * Creates a {@link ListenerAdapter} array
+     * for all event types of {@link EntryEventType}.
      *
-     * @param mapListener a {@link com.hazelcast.map.listener.MapListener} instance.
-     * @return an array of {@link com.hazelcast.map.impl.ListenerAdapter}
+     * @param mapListener a {@link MapListener} instance.
+     * @return an array of {@link ListenerAdapter}
      */
     public static ListenerAdapter[] createListenerAdapters(MapListener mapListener) {
         EntryEventType[] values = EntryEventType.values();
@@ -213,11 +213,11 @@ public final class MapListenerAdaptors {
     }
 
     /**
-     * Creates a {@link ListenerAdapter} for a specific {@link com.hazelcast.core.EntryEventType}.
+     * Creates a {@link ListenerAdapter} for a specific {@link EntryEventType}.
      *
-     * @param eventType   an {@link com.hazelcast.core.EntryEventType}.
-     * @param mapListener a {@link com.hazelcast.map.listener.MapListener} instance.
-     * @return {@link com.hazelcast.map.impl.ListenerAdapter} for a specific {@link com.hazelcast.core.EntryEventType}
+     * @param eventType   an {@link EntryEventType}.
+     * @param mapListener a {@link MapListener} instance.
+     * @return {@link ListenerAdapter} for a specific {@link EntryEventType}
      */
     private static ListenerAdapter createListenerAdapter(EntryEventType eventType, MapListener mapListener) {
         final ConstructorFunction<MapListener, ListenerAdapter> constructorFunction = CONSTRUCTORS.get(eventType);
@@ -229,12 +229,12 @@ public final class MapListenerAdaptors {
 
 
     /**
-     * Wraps a user defined {@link com.hazelcast.map.listener.MapListener}
-     * into a {@link com.hazelcast.map.impl.ListenerAdapter}.
+     * Wraps a user defined {@link MapListener}
+     * into a {@link ListenerAdapter}.
      *
-     * @param mapListener a {@link com.hazelcast.map.listener.MapListener} instance.
-     * @return {@link com.hazelcast.map.impl.ListenerAdapter} for the user-defined
-     * {@link com.hazelcast.map.listener.MapListener}
+     * @param mapListener a {@link MapListener} instance.
+     * @return {@link ListenerAdapter} for the user-defined
+     * {@link MapListener}
      */
     static ListenerAdapter createMapListenerAdaptor(MapListener mapListener) {
         return new InternalMapListenerAdapter(mapListener);

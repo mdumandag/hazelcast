@@ -35,11 +35,11 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.map.impl.record.Record.UNSET;
 
 /**
- * A {@link java.util.Map.Entry Map.Entry} implementation
+ * A {@link Map.Entry Map.Entry} implementation
  * which serializes/de-serializes key and value objects on
  * demand. It is beneficial when you need to prevent unneeded
  * serialization/de-serialization when creating a {@link
- * java.util.Map.Entry Map.Entry}. Mainly targeted to supply a lazy entry
+ * Map.Entry Map.Entry}. Mainly targeted to supply a lazy entry
  * to {@link com.hazelcast.map.EntryProcessor#process(Map.Entry)} method.
  * <p>
  * <STRONG>

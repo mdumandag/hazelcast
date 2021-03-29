@@ -526,8 +526,8 @@ public class MapKeyLoader {
     }
 
     /**
-     * Notifies the record stores of the {@link MapKeyLoader.Role#SENDER},
-     * {@link MapKeyLoader.Role#SENDER_BACKUP} and all other partition record
+     * Notifies the record stores of the {@link Role#SENDER},
+     * {@link Role#SENDER_BACKUP} and all other partition record
      * stores that the key loading has finished and the keys have been dispatched
      * to the partition owners for value loading.
      *

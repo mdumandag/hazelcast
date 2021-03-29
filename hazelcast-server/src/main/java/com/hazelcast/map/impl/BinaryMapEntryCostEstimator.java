@@ -17,8 +17,8 @@
 package com.hazelcast.map.impl;
 
 import com.hazelcast.config.InMemoryFormat;
-import com.hazelcast.map.impl.record.Record;
 import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.map.impl.record.Record;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static com.hazelcast.internal.util.JVMUtil.REFERENCE_COST_IN_BYTES;

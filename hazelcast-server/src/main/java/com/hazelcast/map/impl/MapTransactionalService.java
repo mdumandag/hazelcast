@@ -16,9 +16,9 @@
 
 package com.hazelcast.map.impl;
 
+import com.hazelcast.internal.services.TransactionalService;
 import com.hazelcast.map.impl.tx.TransactionalMapProxy;
 import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.internal.services.TransactionalService;
 import com.hazelcast.transaction.impl.Transaction;
 
 import java.util.UUID;

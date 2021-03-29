@@ -16,8 +16,8 @@
 
 package com.hazelcast.map.impl;
 
-import com.hazelcast.map.LocalMapStats;
 import com.hazelcast.internal.services.StatisticsAwareService;
+import com.hazelcast.map.LocalMapStats;
 
 import java.util.Map;
 

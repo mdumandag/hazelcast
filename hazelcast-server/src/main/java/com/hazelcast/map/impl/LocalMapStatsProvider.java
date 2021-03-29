@@ -54,7 +54,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Provides node local statistics of a map via {@link #createLocalMapStats}
- * and also holds all {@link com.hazelcast.internal.monitor.impl.LocalMapStatsImpl} implementations of all maps.
+ * and also holds all {@link LocalMapStatsImpl} implementations of all maps.
  */
 public class LocalMapStatsProvider {
 
