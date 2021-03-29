@@ -44,8 +44,8 @@ import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.map.impl.iterator.MapIterable;
 import com.hazelcast.map.impl.iterator.MapIterator;
 import com.hazelcast.map.impl.iterator.MapPartitionIterable;
-import com.hazelcast.map.impl.iterator.MapQueryIterable;
 import com.hazelcast.map.impl.iterator.MapPartitionIterator;
+import com.hazelcast.map.impl.iterator.MapQueryIterable;
 import com.hazelcast.map.impl.iterator.MapQueryPartitionIterable;
 import com.hazelcast.map.impl.iterator.MapQueryPartitionIterator;
 import com.hazelcast.map.impl.journal.MapEventJournalReadOperation;
@@ -712,13 +712,13 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
 
     @Nonnull
     @Override
-    public Set<Map.Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         return entrySet(Predicates.alwaysTrue());
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<K, V>> entrySet(@Nonnull Predicate predicate) {
+    public Set<Entry<K, V>> entrySet(@Nonnull Predicate predicate) {
         return executePredicate(predicate, IterationType.ENTRY, true, Target.ALL_NODES);
     }
 
@@ -735,7 +735,7 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
      * <b>Warning:</b> {@code partitions} is mutated during the call.
      */
     @SuppressWarnings("unchecked")
-    public Set<Map.Entry<K, V>> entrySet(@Nonnull Predicate predicate, PartitionIdSet partitions) {
+    public Set<Entry<K, V>> entrySet(@Nonnull Predicate predicate, PartitionIdSet partitions) {
         return executePredicate(predicate, IterationType.ENTRY, true, Target.createPartitionTarget(partitions));
     }
 
@@ -860,12 +860,12 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
     }
 
     @Override
-    public <R> R aggregate(@Nonnull Aggregator<? super Map.Entry<K, V>, R> aggregator) {
+    public <R> R aggregate(@Nonnull Aggregator<? super Entry<K, V>, R> aggregator) {
         return aggregate(aggregator, Predicates.alwaysTrue());
     }
 
     @Override
-    public <R> R aggregate(@Nonnull Aggregator<? super Map.Entry<K, V>, R> aggregator,
+    public <R> R aggregate(@Nonnull Aggregator<? super Entry<K, V>, R> aggregator,
                            @Nonnull Predicate<K, V> predicate) {
         checkNotNull(aggregator, NULL_AGGREGATOR_IS_NOT_ALLOWED);
         checkNotNull(predicate, NULL_PREDICATE_IS_NOT_ALLOWED);
@@ -879,12 +879,12 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
     }
 
     @Override
-    public <R> Collection<R> project(@Nonnull Projection<? super Map.Entry<K, V>, R> projection) {
+    public <R> Collection<R> project(@Nonnull Projection<? super Entry<K, V>, R> projection) {
         return project(projection, Predicates.alwaysTrue());
     }
 
     @Override
-    public <R> Collection<R> project(@Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+    public <R> Collection<R> project(@Nonnull Projection<? super Entry<K, V>, R> projection,
                                      @Nonnull Predicate<K, V> predicate) {
         return project(projection, predicate, Target.ALL_NODES);
     }
@@ -901,12 +901,12 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
      * <p>
      * <b>Warning:</b> {@code partitions} is mutated during the call.
      */
-    public <R> Collection<R> project(@Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+    public <R> Collection<R> project(@Nonnull Projection<? super Entry<K, V>, R> projection,
                                      @Nonnull Predicate<K, V> predicate, PartitionIdSet partitions) {
         return project(projection, predicate, Target.createPartitionTarget(partitions));
     }
 
-    private <R> Collection<R> project(@Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+    private <R> Collection<R> project(@Nonnull Projection<? super Entry<K, V>, R> projection,
                                       @Nonnull Predicate<K, V> predicate, Target target) {
         checkNotNull(projection, NULL_PROJECTION_IS_NOT_ALLOWED);
         checkNotNull(predicate, NULL_PREDICATE_IS_NOT_ALLOWED);
@@ -1008,7 +1008,7 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
     public <R> Iterator<R> iterator(
             int fetchSize,
             int partitionId,
-            @Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+            @Nonnull Projection<? super Entry<K, V>, R> projection,
             @Nonnull Predicate<K, V> predicate
     ) {
         if (predicate instanceof PagingPredicate) {
@@ -1052,7 +1052,7 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
     public <R> Iterable<R> iterable(
             int fetchSize,
             int partitionId,
-            @Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+            @Nonnull Projection<? super Entry<K, V>, R> projection,
             @Nonnull Predicate<K, V> predicate
     ) {
         checkNotNull(projection, NULL_PROJECTION_IS_NOT_ALLOWED);
@@ -1090,7 +1090,7 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
     @Nonnull
     public <R> Iterable<R> iterable(
             int fetchSize,
-            @Nonnull Projection<? super Map.Entry<K, V>, R> projection,
+            @Nonnull Projection<? super Entry<K, V>, R> projection,
             @Nonnull Predicate<K, V> predicate
     ) {
         checkNotNull(projection, NULL_PROJECTION_IS_NOT_ALLOWED);
@@ -1140,14 +1140,14 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
             int maxSize,
             int partitionId,
             java.util.function.Predicate<? super EventJournalMapEvent<K, V>> predicate,
-            java.util.function.Function<? super EventJournalMapEvent<K, V>, ? extends T> projection) {
+            Function<? super EventJournalMapEvent<K, V>, ? extends T> projection) {
         if (maxSize < minSize) {
             throw new IllegalArgumentException("maxSize " + maxSize
                     + " must be greater or equal to minSize " + minSize);
         }
         final ManagedContext context = serializationService.getManagedContext();
         predicate = (java.util.function.Predicate<? super EventJournalMapEvent<K, V>>) context.initialize(predicate);
-        projection = (java.util.function.Function<? super EventJournalMapEvent<K, V>, ? extends T>)
+        projection = (Function<? super EventJournalMapEvent<K, V>, ? extends T>)
                 context.initialize(projection);
         final MapEventJournalReadOperation<K, V, T> op = new MapEventJournalReadOperation<>(
                 name, startSequence, minSize, maxSize, predicate, projection);

@@ -197,7 +197,7 @@ abstract class MapProxySupport<K, V>
      * </ul>
      * <p>
      * If you set this value too high, you will waste memory.
-     * If you set this value too low, you will suffer from expensive {@link java.util.Arrays#copyOf} calls.
+     * If you set this value too low, you will suffer from expensive {@link Arrays#copyOf} calls.
      */
     private static final HazelcastProperty MAP_PUT_ALL_INITIAL_SIZE_FACTOR
             = new HazelcastProperty("hazelcast.map.put.all.initial.size.factor", 0);
