@@ -16,7 +16,6 @@
 
 package com.hazelcast.client.properties;
 
-import com.hazelcast.client.config.ClientMetricsConfig;
 import com.hazelcast.config.MetricsJmxConfig;
 import com.hazelcast.core.IndeterminateOperationStateException;
 import com.hazelcast.spi.properties.HazelcastProperty;
