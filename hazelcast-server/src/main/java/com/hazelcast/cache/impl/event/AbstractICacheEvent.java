@@ -17,13 +17,13 @@
 package com.hazelcast.cache.impl.event;
 
 import com.hazelcast.cache.CacheEventType;
-import com.hazelcast.core.EntryEventType;
 import com.hazelcast.cluster.Member;
+import com.hazelcast.core.EntryEventType;
 
 import java.util.EventObject;
 
 /**
- * The abstract class for a JCache event {@link com.hazelcast.cache.impl.event.ICacheEvent}.
+ * The abstract class for a JCache event {@link ICacheEvent}.
  * @since 3.6
  */
 public abstract class AbstractICacheEvent extends EventObject implements ICacheEvent {
