@@ -88,7 +88,8 @@ import com.hazelcast.internal.diagnostics.MetricsPlugin;
 import com.hazelcast.internal.diagnostics.NetworkingImbalancePlugin;
 import com.hazelcast.internal.diagnostics.SystemLogPlugin;
 import com.hazelcast.internal.diagnostics.SystemPropertiesPlugin;
-import com.hazelcast.internal.metrics.impl.MetricsConfigHelper;
+import com.hazelcast.internal.metrics.impl.MetricConfigHelper;
+import com.hazelcast.internal.metrics.impl.MetricsConfigHelperBase;
 import com.hazelcast.internal.metrics.impl.MetricsRegistryImpl;
 import com.hazelcast.internal.metrics.metricsets.ClassLoadingMetricSet;
 import com.hazelcast.internal.metrics.metricsets.FileMetricSet;
@@ -157,7 +158,6 @@ import static com.hazelcast.client.properties.ClientProperty.IO_WRITE_THROUGH_EN
 import static com.hazelcast.client.properties.ClientProperty.MAX_CONCURRENT_INVOCATIONS;
 import static com.hazelcast.client.properties.ClientProperty.RESPONSE_THREAD_DYNAMIC;
 import static com.hazelcast.internal.metrics.MetricDescriptorConstants.CLIENT_PREFIX_MEMORY;
-import static com.hazelcast.internal.metrics.impl.MetricsConfigHelper.clientMetricsLevel;
 import static com.hazelcast.internal.util.EmptyStatement.ignore;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
@@ -223,12 +223,12 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
                 loggingType, BuildInfoProvider.getBuildInfo(), instanceName, detailsEnabled);
 
         if (clientConfig != null) {
-            MetricsConfigHelper.overrideClientMetricsConfig(clientConfig,
-                    getLoggingService().getLogger(MetricsConfigHelper.class));
+            MetricConfigHelper.overrideClientMetricsConfig(clientConfig,
+                    getLoggingService().getLogger(MetricsConfigHelperBase.class));
         } else {
             for (ClientConfig failoverClientConfig : clientFailoverConfig.getClientConfigs()) {
-                MetricsConfigHelper.overrideClientMetricsConfig(failoverClientConfig,
-                        getLoggingService().getLogger(MetricsConfigHelper.class));
+                MetricConfigHelper.overrideClientMetricsConfig(failoverClientConfig,
+                        getLoggingService().getLogger(MetricsConfigHelperBase.class));
             }
         }
 
@@ -300,8 +300,8 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
 
     private MetricsRegistryImpl initMetricsRegistry() {
         ILogger logger = loggingService.getLogger(MetricsRegistryImpl.class);
-        return new MetricsRegistryImpl(getName(), logger, clientMetricsLevel(properties,
-                loggingService.getLogger(MetricsConfigHelper.class)));
+        return new MetricsRegistryImpl(getName(), logger, MetricConfigHelper.clientMetricsLevel(properties,
+                loggingService.getLogger(MetricsConfigHelperBase.class)));
     }
 
     private void startMetrics() {

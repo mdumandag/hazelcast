@@ -62,7 +62,7 @@ import com.hazelcast.internal.diagnostics.HealthMonitor;
 import com.hazelcast.internal.dynamicconfig.DynamicConfigurationAwareConfig;
 import com.hazelcast.internal.management.ManagementCenterService;
 import com.hazelcast.internal.metrics.MetricsRegistry;
-import com.hazelcast.internal.metrics.impl.MetricsConfigHelper;
+import com.hazelcast.internal.metrics.impl.MetricsConfigHelperBase;
 import com.hazelcast.internal.nio.ClassLoaderUtil;
 import com.hazelcast.internal.nio.Packet;
 import com.hazelcast.internal.partition.InternalPartitionService;
@@ -213,7 +213,7 @@ public class Node {
         String loggingType = properties.getString(LOGGING_TYPE);
         boolean detailsEnabled = properties.getBoolean(LOGGING_ENABLE_DETAILS);
         loggingService = new LoggingServiceImpl(config.getClusterName(), loggingType, buildInfo, detailsEnabled, this);
-        MetricsConfigHelper.overrideMemberMetricsConfig(staticConfig, getLogger(MetricsConfigHelper.class));
+        MetricsConfigHelperBase.overrideMemberMetricsConfig(staticConfig, getLogger(MetricsConfigHelperBase.class));
 
         checkAdvancedNetworkConfig(config);
         final AddressPicker addressPicker = nodeContext.createAddressPicker(this);

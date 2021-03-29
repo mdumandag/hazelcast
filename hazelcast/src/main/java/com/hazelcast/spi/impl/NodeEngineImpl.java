@@ -29,7 +29,7 @@ import com.hazelcast.internal.dynamicconfig.ClusterWideConfigurationService;
 import com.hazelcast.internal.dynamicconfig.DynamicConfigListener;
 import com.hazelcast.internal.management.ManagementCenterService;
 import com.hazelcast.internal.metrics.MetricsRegistry;
-import com.hazelcast.internal.metrics.impl.MetricsConfigHelper;
+import com.hazelcast.internal.metrics.impl.MetricsConfigHelperBase;
 import com.hazelcast.internal.metrics.impl.MetricsRegistryImpl;
 import com.hazelcast.internal.metrics.metricsets.ClassLoadingMetricSet;
 import com.hazelcast.internal.metrics.metricsets.FileMetricSet;
@@ -84,7 +84,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import static com.hazelcast.internal.metrics.MetricDescriptorConstants.MEMORY_PREFIX;
-import static com.hazelcast.internal.metrics.impl.MetricsConfigHelper.memberMetricsLevel;
+import static com.hazelcast.internal.metrics.impl.MetricsConfigHelperBase.memberMetricsLevel;
 import static com.hazelcast.internal.util.EmptyStatement.ignore;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.spi.properties.ClusterProperty.BACKPRESSURE_ENABLED;
@@ -192,7 +192,7 @@ public class NodeEngineImpl implements NodeEngine {
 
     private MetricsRegistryImpl newMetricRegistry(Node node) {
         return new MetricsRegistryImpl(getHazelcastInstance().getName(), node.getLogger(MetricsRegistry.class),
-                memberMetricsLevel(node.getProperties(), getLogger(MetricsConfigHelper.class)));
+                memberMetricsLevel(node.getProperties(), getLogger(MetricsConfigHelperBase.class)));
     }
 
     private Diagnostics newDiagnostics() {
