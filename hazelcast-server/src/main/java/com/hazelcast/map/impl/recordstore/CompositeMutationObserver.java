@@ -16,8 +16,8 @@
 
 package com.hazelcast.map.impl.recordstore;
 
-import com.hazelcast.map.impl.record.Record;
 import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.map.impl.record.Record;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;

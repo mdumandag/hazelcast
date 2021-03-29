@@ -182,7 +182,7 @@ public interface RecordStore<R extends Record> {
      *
      * @param key key to be accessed
      * @return value as {@link Data}
-     * independent of {@link com.hazelcast.config.InMemoryFormat}
+     * independent of {@link InMemoryFormat}
      */
     @SuppressWarnings("JavadocReference")
     Data readBackupData(Data key);
