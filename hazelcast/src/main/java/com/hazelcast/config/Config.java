@@ -43,7 +43,7 @@ import com.hazelcast.internal.config.SetConfigReadOnly;
 import com.hazelcast.internal.config.TopicConfigReadOnly;
 import com.hazelcast.internal.config.XmlConfigLocator;
 import com.hazelcast.internal.config.YamlConfigLocator;
-import com.hazelcast.internal.config.override.ExternalConfigurationOverride;
+import com.hazelcast.internal.config.override.ExternalConfigurationOverrideBase;
 import com.hazelcast.internal.util.Preconditions;
 import com.hazelcast.jet.config.JetConfig;
 import com.hazelcast.map.IMap;
@@ -207,7 +207,7 @@ public class Config {
      * @return Config created from a file when exists, otherwise default.
      */
     public static Config load() {
-        return new ExternalConfigurationOverride().overwriteMemberConfig(loadFromFile());
+        return new ExternalConfigurationOverrideBase().overwriteMemberConfig(loadFromFile());
     }
 
     private static Config loadFromFile() {

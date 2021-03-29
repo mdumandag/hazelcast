@@ -15,8 +15,6 @@
  */
 package com.hazelcast.internal.config.override;
 
-import com.hazelcast.client.config.ClientConfig;
-import com.hazelcast.client.config.impl.YamlClientDomConfigProcessor;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.InvalidConfigurationException;
 import com.hazelcast.internal.config.YamlMemberDomConfigProcessor;
@@ -35,9 +33,9 @@ import static java.util.stream.Collectors.joining;
  * A class used to process external configuration overrides coming from environment variables/system properties,
  * and applying them over existing {@link Config}/{@link ClientConfig} configuration.
  */
-public class ExternalConfigurationOverride {
+public class ExternalConfigurationOverrideBase {
 
-    private static final ILogger LOGGER = Logger.getLogger(ExternalConfigurationOverride.class);
+    private static final ILogger LOGGER = Logger.getLogger(ExternalConfigurationOverrideBase.class);
 
     public Config overwriteMemberConfig(Config config) {
         return overwrite(config, (provider, rootNode, target) -> {
@@ -52,20 +50,7 @@ public class ExternalConfigurationOverride {
           new SystemPropertiesConfigProvider(SystemPropertiesConfigParser.member()));
     }
 
-    public ClientConfig overwriteClientConfig(ClientConfig config) {
-        return overwrite(config, (provider, rootNode, target) -> {
-              try {
-                  new YamlClientDomConfigProcessor(true, target, false)
-                    .buildConfig(new ConfigOverrideElementAdapter(rootNode));
-              } catch (Exception e) {
-                  throw new InvalidConfigurationException("failed to overwrite configuration coming from " + provider, e);
-              }
-          },
-          new EnvConfigProvider(EnvVariablesConfigParser.client()),
-          new SystemPropertiesConfigProvider(SystemPropertiesConfigParser.client()));
-    }
-
-    private <T> T overwrite(T config, ConfigConsumer<T> configProcessor, ConfigProvider... providers) {
+    <T> T overwrite(T config, ConfigConsumer<T> configProcessor, ConfigProvider... providers) {
         ConfigOverrideValidator.validate(new HashSet<>(Arrays.asList(providers)));
 
         for (ConfigProvider configProvider : providers) {
