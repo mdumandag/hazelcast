@@ -17,35 +17,45 @@
 package com.hazelcast.sql.impl.expression.math;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.QueryException;
 import com.hazelcast.sql.impl.SqlDataSerializerHook;
+import com.hazelcast.sql.impl.SqlErrorCode;
 import com.hazelcast.sql.impl.expression.BiExpressionWithType;
 import com.hazelcast.sql.impl.expression.Expression;
 import com.hazelcast.sql.impl.expression.ExpressionEvalContext;
 import com.hazelcast.sql.impl.row.Row;
 import com.hazelcast.sql.impl.type.QueryDataType;
 import com.hazelcast.sql.impl.type.QueryDataTypeFamily;
+import com.hazelcast.sql.impl.type.SqlDaySecondInterval;
+import com.hazelcast.sql.impl.type.SqlYearMonthInterval;
 
 import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 
 import static com.hazelcast.sql.impl.expression.math.ExpressionMath.DECIMAL_MATH_CONTEXT;
+import static com.hazelcast.sql.impl.expression.math.ExpressionMath.canSimplifyTemporalPlusMinus;
+import static com.hazelcast.sql.impl.type.QueryDataTypeFamily.TIME;
 
 /**
- * Implements evaluation of SQL multiply operator.
+ * Implements evaluation of SQL minus operator.
  */
-public final class MultiplyFunction<T> extends BiExpressionWithType<T> implements IdentifiedDataSerializable {
+public final class MinusFunction<T> extends BiExpressionWithType<T> implements IdentifiedDataSerializable {
 
-    public MultiplyFunction() {
+    public MinusFunction() {
         // No-op.
     }
 
-    private MultiplyFunction(Expression<?> operand1, Expression<?> operand2, QueryDataType resultType) {
+    private MinusFunction(Expression<?> operand1, Expression<?> operand2, QueryDataType resultType) {
         super(operand1, operand2, resultType);
     }
 
-    public static MultiplyFunction<?> create(Expression<?> operand1, Expression<?> operand2, QueryDataType resultType) {
-        return new MultiplyFunction<>(operand1, operand2, resultType);
+    public static Expression<?> create(Expression<?> operand1, Expression<?> operand2, QueryDataType resultType) {
+        if (canSimplifyTemporalPlusMinus(operand1, operand2)) {
+            return operand1;
+        }
+
+        return new MinusFunction<>(operand1, operand2, resultType);
     }
 
     @Override
@@ -55,7 +65,7 @@ public final class MultiplyFunction<T> extends BiExpressionWithType<T> implement
 
     @Override
     public int getClassId() {
-        return SqlDataSerializerHook.EXPRESSION_MULTIPLY;
+        return SqlDataSerializerHook.EXPRESSION_MINUS;
     }
 
     @SuppressWarnings("unchecked")
@@ -72,8 +82,9 @@ public final class MultiplyFunction<T> extends BiExpressionWithType<T> implement
         }
 
         QueryDataTypeFamily family = resultType.getTypeFamily();
+
         if (family.isTemporal()) {
-            throw new UnsupportedOperationException("temporal types are unsupported currently");
+            return (T) evalTemporal(left, right, family);
         }
 
         return (T) evalNumeric((Number) left, (Number) right, family);
@@ -82,27 +93,47 @@ public final class MultiplyFunction<T> extends BiExpressionWithType<T> implement
     private static Object evalNumeric(Number left, Number right, QueryDataTypeFamily family) {
         switch (family) {
             case TINYINT:
-                return (byte) (left.byteValue() * right.byteValue());
+                return (byte) (left.byteValue() - right.byteValue());
             case SMALLINT:
-                return (short) (left.shortValue() * right.shortValue());
+                return (short) (left.shortValue() - right.shortValue());
             case INTEGER:
-                return left.intValue() * right.intValue();
+                return left.intValue() - right.intValue();
             case BIGINT:
                 try {
-                    return Math.multiplyExact(left.longValue(), right.longValue());
+                    return Math.subtractExact(left.longValue(), right.longValue());
                 } catch (ArithmeticException e) {
                     throw QueryException.error(SqlErrorCode.DATA_EXCEPTION,
-                            "BIGINT overflow in '*' operator (consider adding explicit CAST to DECIMAL)");
+                            "BIGINT overflow in '-' operator (consider adding explicit CAST to DECIMAL)");
                 }
             case REAL:
-                return left.floatValue() * right.floatValue();
+                return left.floatValue() - right.floatValue();
             case DOUBLE:
-                return left.doubleValue() * right.doubleValue();
+                return left.doubleValue() - right.doubleValue();
             case DECIMAL:
-                return ((BigDecimal) left).multiply((BigDecimal) right, DECIMAL_MATH_CONTEXT);
+                return ((BigDecimal) left).subtract((BigDecimal) right, DECIMAL_MATH_CONTEXT);
             default:
                 throw new IllegalArgumentException("unexpected result family: " + family);
         }
     }
 
+    private static Object evalTemporal(Object left, Object right, QueryDataTypeFamily family) {
+        switch (family) {
+            case TIME:
+            case TIMESTAMP:
+            case TIMESTAMP_WITH_TIME_ZONE:
+                Temporal temporal = (Temporal) left;
+
+                if (right instanceof SqlDaySecondInterval) {
+                    return temporal.minus(((SqlDaySecondInterval) right).getMillis(), ChronoUnit.MILLIS);
+                } else {
+                    assert family != TIME;
+                    assert right instanceof SqlYearMonthInterval;
+
+                    return temporal.minus(((SqlYearMonthInterval) right).getMonths(), ChronoUnit.MONTHS);
+                }
+
+            default:
+                throw new IllegalArgumentException("Unexpected result family: " + family);
+        }
+    }
 }
