@@ -38,7 +38,7 @@ import static com.hazelcast.map.impl.record.RecordReaderWriter.getById;
 
 /**
  * Contains various factory &amp; helper methods for a {@link
- * com.hazelcast.map.impl.record.Record} object.
+ * Record} object.
  */
 public final class Records {
 

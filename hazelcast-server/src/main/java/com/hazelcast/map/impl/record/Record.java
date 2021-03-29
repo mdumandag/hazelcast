@@ -50,7 +50,7 @@ public interface Record<V> {
     int UNSET = -1;
 
     /**
-     * If not a {@link com.hazelcast.map.impl.record.CachedSimpleRecord}.
+     * If not a {@link CachedSimpleRecord}.
      */
     Object NOT_CACHED = new Object();
 
