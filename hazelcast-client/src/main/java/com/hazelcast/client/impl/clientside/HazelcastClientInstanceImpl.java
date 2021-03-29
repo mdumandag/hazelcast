@@ -88,8 +88,7 @@ import com.hazelcast.internal.diagnostics.MetricsPlugin;
 import com.hazelcast.internal.diagnostics.NetworkingImbalancePlugin;
 import com.hazelcast.internal.diagnostics.SystemLogPlugin;
 import com.hazelcast.internal.diagnostics.SystemPropertiesPlugin;
-import com.hazelcast.internal.metrics.impl.MetricConfigHelper;
-import com.hazelcast.internal.metrics.impl.MetricsConfigHelperBase;
+import com.hazelcast.internal.metrics.impl.MetricsConfigHelper;
 import com.hazelcast.internal.metrics.impl.MetricsRegistryImpl;
 import com.hazelcast.internal.metrics.metricsets.ClassLoadingMetricSet;
 import com.hazelcast.internal.metrics.metricsets.FileMetricSet;
@@ -223,12 +222,12 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
                 loggingType, BuildInfoProvider.getBuildInfo(), instanceName, detailsEnabled);
 
         if (clientConfig != null) {
-            MetricConfigHelper.overrideClientMetricsConfig(clientConfig,
-                    getLoggingService().getLogger(MetricsConfigHelperBase.class));
+            MetricsConfigHelper.overrideClientMetricsConfig(clientConfig,
+                    getLoggingService().getLogger(MetricsConfigHelper.class));
         } else {
             for (ClientConfig failoverClientConfig : clientFailoverConfig.getClientConfigs()) {
-                MetricConfigHelper.overrideClientMetricsConfig(failoverClientConfig,
-                        getLoggingService().getLogger(MetricsConfigHelperBase.class));
+                MetricsConfigHelper.overrideClientMetricsConfig(failoverClientConfig,
+                        getLoggingService().getLogger(MetricsConfigHelper.class));
             }
         }
 
@@ -300,8 +299,8 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
 
     private MetricsRegistryImpl initMetricsRegistry() {
         ILogger logger = loggingService.getLogger(MetricsRegistryImpl.class);
-        return new MetricsRegistryImpl(getName(), logger, MetricConfigHelper.clientMetricsLevel(properties,
-                loggingService.getLogger(MetricsConfigHelperBase.class)));
+        return new MetricsRegistryImpl(getName(), logger, MetricsConfigHelper.clientMetricsLevel(properties,
+                loggingService.getLogger(MetricsConfigHelper.class)));
     }
 
     private void startMetrics() {

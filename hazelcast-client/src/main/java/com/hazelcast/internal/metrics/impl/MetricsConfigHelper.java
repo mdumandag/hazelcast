@@ -27,8 +27,8 @@ import com.hazelcast.spi.properties.HazelcastProperties;
 import static com.hazelcast.internal.metrics.ProbeLevel.DEBUG;
 import static com.hazelcast.internal.metrics.ProbeLevel.INFO;
 
-public class MetricConfigHelper extends MetricsConfigHelperBase {
-    private MetricConfigHelper() {
+public class MetricsConfigHelper extends MetricsConfigHelperBase {
+    private MetricsConfigHelper() {
     }
 
     /**
