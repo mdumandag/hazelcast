@@ -16,56 +16,54 @@
 
 package com.hazelcast.durableexecutor.impl.operations;
 
-import com.hazelcast.core.HazelcastException;
 import com.hazelcast.durableexecutor.impl.DurableExecutorContainer;
 import com.hazelcast.durableexecutor.impl.DurableExecutorDataSerializerHook;
-import com.hazelcast.internal.nio.Bits;
-import com.hazelcast.spi.impl.operationservice.BlockingOperation;
-import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
+import com.hazelcast.nio.ObjectDataInput;
+import com.hazelcast.nio.ObjectDataOutput;
+import com.hazelcast.spi.impl.operationservice.BackupAwareOperation;
 import com.hazelcast.spi.impl.operationservice.MutatingOperation;
+import com.hazelcast.spi.impl.operationservice.Operation;
 
-public class RetrieveAndDisposeResultOperation extends DisposeResultOperation implements BlockingOperation,
+import java.io.IOException;
+
+public class DisposeResultOperation extends AbstractDurableExecutorOperation implements BackupAwareOperation,
         MutatingOperation {
 
-    private transient Object result;
+    int sequence;
 
-    public RetrieveAndDisposeResultOperation() {
+    public DisposeResultOperation() {
     }
 
-    public RetrieveAndDisposeResultOperation(String name, int sequence) {
-        super(name, sequence);
+    public DisposeResultOperation(String name, int sequence) {
+        super(name);
+        this.sequence = sequence;
     }
 
     @Override
     public void run() throws Exception {
         DurableExecutorContainer executorContainer = getExecutorContainer();
-        result = executorContainer.retrieveAndDisposeResult(sequence);
+        executorContainer.disposeResult(sequence);
     }
 
     @Override
-    public Object getResponse() {
-        return result;
+    public Operation getBackupOperation() {
+        return new DisposeResultBackupOperation(name, sequence);
     }
 
     @Override
-    public WaitNotifyKey getWaitKey() {
-        long uniqueId = Bits.combineToLong(getPartitionId(), sequence);
-        return new DurableExecutorWaitNotifyKey(name, uniqueId);
+    protected void writeInternal(ObjectDataOutput out) throws IOException {
+        super.writeInternal(out);
+        out.writeInt(sequence);
     }
 
     @Override
-    public boolean shouldWait() {
-        DurableExecutorContainer executorContainer = getExecutorContainer();
-        return executorContainer.shouldWait(sequence);
-    }
-
-    @Override
-    public void onWaitExpire() {
-        sendResponse(new HazelcastException());
+    protected void readInternal(ObjectDataInput in) throws IOException {
+        super.readInternal(in);
+        sequence = in.readInt();
     }
 
     @Override
     public int getClassId() {
-        return DurableExecutorDataSerializerHook.RETRIEVE_DISPOSE_RESULT;
+        return DurableExecutorDataSerializerHook.DISPOSE_RESULT;
     }
 }

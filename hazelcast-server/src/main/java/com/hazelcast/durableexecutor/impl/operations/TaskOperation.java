@@ -19,51 +19,61 @@ package com.hazelcast.durableexecutor.impl.operations;
 import com.hazelcast.durableexecutor.impl.DurableExecutorContainer;
 import com.hazelcast.durableexecutor.impl.DurableExecutorDataSerializerHook;
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.spi.impl.operationservice.BackupOperation;
+import com.hazelcast.spi.impl.operationservice.BackupAwareOperation;
+import com.hazelcast.spi.impl.operationservice.MutatingOperation;
+import com.hazelcast.spi.impl.operationservice.Operation;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-public class TaskBackupOperation extends AbstractDurableExecutorOperation implements BackupOperation {
+public class TaskOperation extends AbstractDurableExecutorOperation implements BackupAwareOperation, MutatingOperation {
 
-    private int sequence;
     private Data callableData;
+    private transient int sequence;
+    private transient Callable callable;
 
-    public TaskBackupOperation() {
+    public TaskOperation() {
     }
 
-    public TaskBackupOperation(String name, int sequence, Data callableData) {
+    public TaskOperation(String name, Data callableData) {
         super(name);
-        this.sequence = sequence;
         this.callableData = callableData;
     }
 
     @Override
     public void run() throws Exception {
+        callable = getNodeEngine().toObject(callableData);
         DurableExecutorContainer executorContainer = getExecutorContainer();
-        Callable callable = getNodeEngine().toObject(callableData);
-        executorContainer.putBackup(sequence, callable);
+        sequence = executorContainer.execute(callable);
+    }
+
+    @Override
+    public Object getResponse() {
+        return sequence;
+    }
+
+    @Override
+    public Operation getBackupOperation() {
+        return new TaskBackupOperation(name, sequence, callableData);
     }
 
     @Override
     protected void writeInternal(ObjectDataOutput out) throws IOException {
         super.writeInternal(out);
-        out.writeInt(sequence);
         IOUtil.writeData(out, callableData);
     }
 
     @Override
     protected void readInternal(ObjectDataInput in) throws IOException {
         super.readInternal(in);
-        sequence = in.readInt();
         callableData = IOUtil.readData(in);
     }
 
     @Override
     public int getClassId() {
-        return DurableExecutorDataSerializerHook.TASK_BACKUP;
+        return DurableExecutorDataSerializerHook.TASK;
     }
 }
