@@ -60,8 +60,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * {@link com.hazelcast.osgi.HazelcastOSGiInstance} implementation
- * as proxy of delegated {@link com.hazelcast.core.HazelcastInstance} for getting from OSGi service.
+ * {@link HazelcastOSGiInstance} implementation
+ * as proxy of delegated {@link HazelcastInstance} for getting from OSGi service.
  */
 @SuppressWarnings({"checkstyle:classfanoutcomplexity"})
 class HazelcastOSGiInstanceImpl

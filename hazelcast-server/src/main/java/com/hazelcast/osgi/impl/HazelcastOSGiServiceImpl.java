@@ -20,27 +20,27 @@ import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.internal.util.ExceptionUtil;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
 import com.hazelcast.osgi.HazelcastOSGiInstance;
 import com.hazelcast.osgi.HazelcastOSGiService;
-import com.hazelcast.internal.util.ExceptionUtil;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-
-import static com.hazelcast.internal.util.StringUtil.isNullOrEmpty;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static com.hazelcast.internal.util.StringUtil.isNullOrEmpty;
+
 /**
  * Implementation of {@link HazelcastInternalOSGiService}.
  *
  * @see HazelcastInternalOSGiService
- * @see com.hazelcast.osgi.HazelcastOSGiService
+ * @see HazelcastOSGiService
  */
 class HazelcastOSGiServiceImpl
         implements HazelcastInternalOSGiService {

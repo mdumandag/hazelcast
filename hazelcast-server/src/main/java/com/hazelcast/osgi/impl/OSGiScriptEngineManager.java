@@ -16,10 +16,10 @@
 
 package com.hazelcast.osgi.impl;
 
-import com.hazelcast.logging.ILogger;
-import com.hazelcast.logging.Logger;
 import com.hazelcast.internal.nio.ClassLoaderUtil;
 import com.hazelcast.internal.nio.IOUtil;
+import com.hazelcast.logging.ILogger;
+import com.hazelcast.logging.Logger;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 

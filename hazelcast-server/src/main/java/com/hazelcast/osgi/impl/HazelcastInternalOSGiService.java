@@ -22,7 +22,7 @@ import com.hazelcast.osgi.HazelcastOSGiService;
 /**
  * Contract point for internal Hazelcast services on top of OSGI.
  *
- * @see com.hazelcast.osgi.HazelcastOSGiService
+ * @see HazelcastOSGiService
  */
 public interface HazelcastInternalOSGiService
         extends HazelcastOSGiService {
