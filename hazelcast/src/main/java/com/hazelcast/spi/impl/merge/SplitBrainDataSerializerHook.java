@@ -81,61 +81,61 @@ public final class SplitBrainDataSerializerHook implements DataSerializerHook {
         //noinspection unchecked
         ConstructorFunction<Integer, IdentifiedDataSerializable>[] constructors = new ConstructorFunction[LEN];
 
-        constructors[COLLECTION_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new CollectionMergingValueImpl();
-            }
-        };
-        constructors[QUEUE_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new QueueMergingValueImpl();
-            }
-        };
-        constructors[ATOMIC_LONG_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new AtomicLongMergingValueImpl();
-            }
-        };
-        constructors[ATOMIC_REFERENCE_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new AtomicReferenceMergingValueImpl();
-            }
-        };
-        constructors[MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new MapMergingEntryImpl();
-            }
-        };
-        constructors[CACHE_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new CacheMergingEntryImpl();
-            }
-        };
-        constructors[MULTI_MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new MultiMapMergingEntryImpl();
-            }
-        };
-        constructors[REPLICATED_MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new ReplicatedMapMergingEntryImpl();
-            }
-        };
-        constructors[RINGBUFFER_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new RingbufferMergingValueImpl();
-            }
-        };
-        constructors[CARDINALITY_ESTIMATOR_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new CardinalityEstimatorMergingEntry();
-            }
-        };
-        constructors[SCHEDULED_EXECUTOR_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
-            public IdentifiedDataSerializable createNew(Integer arg) {
-                return new ScheduledExecutorMergingEntryImpl();
-            }
-        };
+//        constructors[COLLECTION_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new CollectionMergingValueImpl();
+//            }
+//        };
+//        constructors[QUEUE_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new QueueMergingValueImpl();
+//            }
+//        };
+//        constructors[ATOMIC_LONG_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new AtomicLongMergingValueImpl();
+//            }
+//        };
+//        constructors[ATOMIC_REFERENCE_MERGING_VALUE] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new AtomicReferenceMergingValueImpl();
+//            }
+//        };
+//        constructors[MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new MapMergingEntryImpl();
+//            }
+//        };
+//        constructors[CACHE_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new CacheMergingEntryImpl();
+//            }
+//        };
+//        constructors[MULTI_MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new MultiMapMergingEntryImpl();
+//            }
+//        };
+//        constructors[REPLICATED_MAP_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new ReplicatedMapMergingEntryImpl();
+//            }
+//        };
+//        constructors[RINGBUFFER_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new RingbufferMergingValueImpl();
+//            }
+//        };
+//        constructors[CARDINALITY_ESTIMATOR_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new CardinalityEstimatorMergingEntry();
+//            }
+//        };
+//        constructors[SCHEDULED_EXECUTOR_MERGING_ENTRY] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
+//            public IdentifiedDataSerializable createNew(Integer arg) {
+//                return new ScheduledExecutorMergingEntryImpl();
+//            }
+//        };
 
         constructors[DISCARD] = new ConstructorFunction<Integer, IdentifiedDataSerializable>() {
             public IdentifiedDataSerializable createNew(Integer arg) {

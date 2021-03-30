@@ -53,8 +53,8 @@ public final class EventJournalDataSerializerHook implements DataSerializerHook 
                 switch (typeId) {
                     case EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE:
                         return new EventJournalInitialSubscriberState();
-                    case DESERIALIZING_ENTRY:
-                        return new DeserializingEntry();
+//                    case DESERIALIZING_ENTRY:
+//                        return new DeserializingEntry();
                     default:
                         return null;
                 }
