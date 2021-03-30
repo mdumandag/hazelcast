@@ -18,14 +18,12 @@ package com.hazelcast.client.impl;
 
 import com.hazelcast.client.config.SocketOptions;
 import com.hazelcast.client.impl.clientside.HazelcastClientInstanceImpl;
-import com.hazelcast.client.impl.spi.ClientProxyFactory;
 import com.hazelcast.config.SSLConfig;
 import com.hazelcast.config.SocketInterceptorConfig;
 import com.hazelcast.internal.nearcache.NearCacheManager;
 import com.hazelcast.internal.networking.ChannelInitializer;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.jet.JetInstance;
-import com.hazelcast.map.impl.MapService;
 import com.hazelcast.internal.memory.MemoryStats;
 import com.hazelcast.nio.SocketInterceptor;
 
@@ -91,15 +89,6 @@ public interface ClientExtension {
      * @return the created {@link NearCacheManager} instance
      */
     NearCacheManager createNearCacheManager();
-
-    /**
-     * Creates a {@code ClientProxyFactory} for the supplied service class. Currently only the {@link MapService} is supported.
-     *
-     * @param service service for the proxy to create.
-     * @return {@code ClientProxyFactory} for the service.
-     * @throws java.lang.IllegalArgumentException if service is not known
-     */
-    <T> ClientProxyFactory createServiceProxyFactory(Class<T> service);
 
     /**
      * Returns MemoryStats of for the JVM and current HazelcastInstance.

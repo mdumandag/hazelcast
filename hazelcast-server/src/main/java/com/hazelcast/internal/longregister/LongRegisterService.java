@@ -16,6 +16,7 @@
 
 package com.hazelcast.internal.longregister;
 
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.longregister.operations.LongRegisterReplicationOperation;
 import com.hazelcast.internal.services.ManagedService;
 import com.hazelcast.internal.services.RemoteService;
@@ -46,7 +47,7 @@ public class LongRegisterService implements ManagedService, RemoteService, Migra
      * IAtomicLong atomicLong = HazelcastInstance.getDistributedObject("hz:impl:atomicLongService", name);
      * </pre>
      */
-    public static final String SERVICE_NAME = "hz:impl:atomicLongService";
+    public static final String SERVICE_NAME = ServiceNames.LONG_REGISTER;
 
     private final ConcurrentMap<String, LongRegister> registers = new ConcurrentHashMap<>();
     private final ConstructorFunction<String, LongRegister> longRegisterConstructorFunction = key -> new LongRegister();

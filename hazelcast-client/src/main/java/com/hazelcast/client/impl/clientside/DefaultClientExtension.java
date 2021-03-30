@@ -22,13 +22,9 @@ import com.hazelcast.client.config.ClientNetworkConfig;
 import com.hazelcast.client.config.SocketOptions;
 import com.hazelcast.client.impl.ClientExtension;
 import com.hazelcast.client.impl.connection.tcp.ClientPlainChannelInitializer;
-import com.hazelcast.client.impl.proxy.ClientMapProxy;
-import com.hazelcast.client.impl.spi.ClientProxyFactory;
-import com.hazelcast.client.map.impl.nearcache.NearCachedClientMapProxy;
 import com.hazelcast.config.InstanceTrackingConfig;
 import com.hazelcast.config.InstanceTrackingConfig.InstanceMode;
 import com.hazelcast.config.InstanceTrackingConfig.InstanceProductName;
-import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.config.SSLConfig;
 import com.hazelcast.config.SerializationConfig;
 import com.hazelcast.config.SocketInterceptorConfig;
@@ -51,7 +47,6 @@ import com.hazelcast.jet.JetInstance;
 import com.hazelcast.jet.impl.JetClientInstanceImpl;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
-import com.hazelcast.map.impl.MapService;
 import com.hazelcast.nio.SocketInterceptor;
 import com.hazelcast.partition.PartitioningStrategy;
 import com.hazelcast.partition.strategy.DefaultPartitioningStrategy;
@@ -67,7 +62,6 @@ import static com.hazelcast.config.InstanceTrackingConfig.InstanceTrackingProper
 import static com.hazelcast.config.InstanceTrackingConfig.InstanceTrackingProperties.PRODUCT;
 import static com.hazelcast.config.InstanceTrackingConfig.InstanceTrackingProperties.START_TIMESTAMP;
 import static com.hazelcast.config.InstanceTrackingConfig.InstanceTrackingProperties.VERSION;
-import static com.hazelcast.internal.config.ConfigValidator.checkNearCacheConfig;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.InstanceTrackingUtil.writeInstanceTrackingFile;
 import static com.hazelcast.spi.properties.ClusterProperty.SOCKET_CLIENT_BUFFER_DIRECT;
@@ -193,29 +187,8 @@ public class DefaultClientExtension implements ClientExtension {
     }
 
     @Override
-    public <T> ClientProxyFactory createServiceProxyFactory(Class<T> service) {
-        if (MapService.class.isAssignableFrom(service)) {
-            return createClientMapProxyFactory();
-        }
-        throw new IllegalArgumentException("Proxy factory cannot be created. Unknown service: " + service);
-    }
-
-    @Override
     public MemoryStats getMemoryStats() {
         return memoryStats;
-    }
-
-    private ClientProxyFactory createClientMapProxyFactory() {
-        return (id, context) -> {
-            ClientConfig clientConfig = client.getClientConfig();
-            NearCacheConfig nearCacheConfig = clientConfig.getNearCacheConfig(id);
-            if (nearCacheConfig != null) {
-                checkNearCacheConfig(id, nearCacheConfig, clientConfig.getNativeMemoryConfig(), true);
-                return new NearCachedClientMapProxy(MapService.SERVICE_NAME, id, context);
-            } else {
-                return new ClientMapProxy(MapService.SERVICE_NAME, id, context);
-            }
-        };
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.hazelcast.cache.impl.event.CacheWanEventPublisher;
 import com.hazelcast.cache.impl.journal.CacheEventJournal;
 import com.hazelcast.config.CacheConfig;
 import com.hazelcast.config.InMemoryFormat;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.eviction.ExpirationManager;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.monitor.LocalCacheStats;
@@ -47,7 +48,7 @@ public interface ICacheService
                     + "Please be sure that there is a JCache API library in your classpath "
                     + "and it is newer than `0.x` and `1.0.0-PFD` versions!";
 
-    String SERVICE_NAME = "hz:impl:cacheService";
+    String SERVICE_NAME = ServiceNames.ICACHE;
 
     /**
      * Maximum retries for adding cache config cluster-wide on stable cluster

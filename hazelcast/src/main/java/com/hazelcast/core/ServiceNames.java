@@ -23,6 +23,8 @@ public class ServiceNames {
     public static final String CARDINALITY_ESTIMATOR = "hz:impl:cardinalityEstimatorService";
     public static final String PN_COUNTER = "hz:impl:PNCounterService";
     public static final String SCHEDULED_EXECUTOR = "hz:impl:scheduledExecutorService";
+    public static final String ICACHE = "hz:impl:cacheService";
+    public static final String LONG_REGISTER = "hz:impl:atomicLongService";
 
 
 

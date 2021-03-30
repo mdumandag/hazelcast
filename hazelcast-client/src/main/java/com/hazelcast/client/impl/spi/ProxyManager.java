@@ -16,13 +16,10 @@
 
 package com.hazelcast.client.impl.spi;
 
-import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.cache.impl.JCacheDetector;
-import com.hazelcast.cardinality.impl.CardinalityEstimatorService;
 import com.hazelcast.client.cache.impl.ClientCacheProxyFactory;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.ProxyFactoryConfig;
-import com.hazelcast.client.impl.ClientExtension;
 import com.hazelcast.client.impl.clientside.HazelcastClientInstanceImpl;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.ClientAddDistributedObjectListenerCodec;
@@ -34,6 +31,7 @@ import com.hazelcast.client.impl.proxy.ClientDurableExecutorServiceProxy;
 import com.hazelcast.client.impl.proxy.ClientExecutorServiceProxy;
 import com.hazelcast.client.impl.proxy.ClientFlakeIdGeneratorProxy;
 import com.hazelcast.client.impl.proxy.ClientListProxy;
+import com.hazelcast.client.impl.proxy.ClientMapProxy;
 import com.hazelcast.client.impl.proxy.ClientMultiMapProxy;
 import com.hazelcast.client.impl.proxy.ClientPNCounterProxy;
 import com.hazelcast.client.impl.proxy.ClientQueueProxy;
@@ -48,31 +46,19 @@ import com.hazelcast.client.impl.spi.impl.ClientInvocation;
 import com.hazelcast.client.impl.spi.impl.ClientServiceNotFoundException;
 import com.hazelcast.client.impl.spi.impl.ListenerMessageCodec;
 import com.hazelcast.client.impl.spi.impl.listener.LazyDistributedObjectEvent;
-import com.hazelcast.collection.impl.list.ListService;
-import com.hazelcast.collection.impl.queue.QueueService;
-import com.hazelcast.collection.impl.set.SetService;
+import com.hazelcast.client.map.impl.nearcache.NearCachedClientMapProxy;
+import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.DistributedObjectEvent;
 import com.hazelcast.core.DistributedObjectListener;
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService;
-import com.hazelcast.executor.impl.DistributedExecutorService;
-import com.hazelcast.flakeidgen.impl.FlakeIdGeneratorService;
-import com.hazelcast.internal.crdt.pncounter.PNCounterService;
-import com.hazelcast.internal.longregister.LongRegisterService;
+import com.hazelcast.core.ServiceNames;
+import com.hazelcast.internal.config.CommonConfigValidator;
 import com.hazelcast.internal.longregister.client.ClientLongRegisterProxy;
 import com.hazelcast.internal.nio.ClassLoaderUtil;
 import com.hazelcast.internal.services.DistributedObjectNamespace;
 import com.hazelcast.internal.services.ObjectNamespace;
-import com.hazelcast.map.impl.MapService;
-import com.hazelcast.multimap.impl.MultiMapService;
-import com.hazelcast.replicatedmap.impl.ReplicatedMapService;
-import com.hazelcast.ringbuffer.impl.RingbufferService;
-import com.hazelcast.scheduledexecutor.impl.DistributedScheduledExecutorService;
-import com.hazelcast.topic.impl.TopicService;
-import com.hazelcast.topic.impl.reliable.ReliableTopicService;
-import com.hazelcast.transaction.impl.xa.XAService;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
@@ -118,26 +104,26 @@ public final class ProxyManager {
     public void init(ClientConfig config, ClientContext clientContext) {
         context = clientContext;
         // register defaults
-        register(MapService.SERVICE_NAME, createServiceProxyFactory(MapService.class));
+        register(ServiceNames.MAP, createClientMapProxyFactory());
         if (JCacheDetector.isJCacheAvailable(config.getClassLoader())) {
-            register(ICacheService.SERVICE_NAME, new ClientCacheProxyFactory(client));
+            register(ServiceNames.ICACHE, new ClientCacheProxyFactory(client));
         }
-        register(QueueService.SERVICE_NAME, ClientQueueProxy.class);
-        register(MultiMapService.SERVICE_NAME, ClientMultiMapProxy.class);
-        register(ListService.SERVICE_NAME, ClientListProxy.class);
-        register(SetService.SERVICE_NAME, ClientSetProxy.class);
-        register(TopicService.SERVICE_NAME, ClientTopicProxy.class);
-        register(DistributedExecutorService.SERVICE_NAME, ClientExecutorServiceProxy.class);
-        register(DistributedDurableExecutorService.SERVICE_NAME, ClientDurableExecutorServiceProxy.class);
-        register(ReplicatedMapService.SERVICE_NAME, ClientReplicatedMapProxy.class);
-        register(XAService.SERVICE_NAME, XAResourceProxy.class);
-        register(RingbufferService.SERVICE_NAME, ClientRingbufferProxy.class);
-        register(ReliableTopicService.SERVICE_NAME, (id, context) -> new ClientReliableTopicProxy(id, context, client));
-        register(FlakeIdGeneratorService.SERVICE_NAME, ClientFlakeIdGeneratorProxy.class);
-        register(CardinalityEstimatorService.SERVICE_NAME, ClientCardinalityEstimatorProxy.class);
-        register(DistributedScheduledExecutorService.SERVICE_NAME, ClientScheduledExecutorProxy.class);
-        register(PNCounterService.SERVICE_NAME, ClientPNCounterProxy.class);
-        register(LongRegisterService.SERVICE_NAME, ClientLongRegisterProxy.class);
+        register(ServiceNames.QUEUE, ClientQueueProxy.class);
+        register(ServiceNames.MULTI_MAP, ClientMultiMapProxy.class);
+        register(ServiceNames.LIST, ClientListProxy.class);
+        register(ServiceNames.SET, ClientSetProxy.class);
+        register(ServiceNames.TOPIC, ClientTopicProxy.class);
+        register(ServiceNames.EXECUTOR, ClientExecutorServiceProxy.class);
+        register(ServiceNames.DURABLE_EXECUTOR, ClientDurableExecutorServiceProxy.class);
+        register(ServiceNames.REPLICATED_MAP, ClientReplicatedMapProxy.class);
+        register(ServiceNames.XA, XAResourceProxy.class);
+        register(ServiceNames.RINGBUFFER, ClientRingbufferProxy.class);
+        register(ServiceNames.REPLICATED_MAP, (id, context) -> new ClientReliableTopicProxy(id, context, client));
+        register(ServiceNames.FLAKE_ID_GENERATOR, ClientFlakeIdGeneratorProxy.class);
+        register(ServiceNames.CARDINALITY_ESTIMATOR, ClientCardinalityEstimatorProxy.class);
+        register(ServiceNames.SCHEDULED_EXECUTOR, ClientScheduledExecutorProxy.class);
+        register(ServiceNames.PN_COUNTER, ClientPNCounterProxy.class);
+        register(ServiceNames.LONG_REGISTER, ClientLongRegisterProxy.class);
 
         ClassLoader classLoader = config.getClassLoader();
         for (ProxyFactoryConfig proxyFactoryConfig : config.getProxyFactoryConfigs()) {
@@ -177,17 +163,19 @@ public final class ProxyManager {
         }
     }
 
-    /**
-     * Creates a {@code ClientProxyFactory} for the supplied service class. Currently only the {@link MapService} is supported.
-     *
-     * @param service service for the proxy to create.
-     * @return {@code ClientProxyFactory} for the service.
-     * @throws java.lang.IllegalArgumentException if service is not known. Currently only the {@link MapService} is known
-     */
-    private <T> ClientProxyFactory createServiceProxyFactory(Class<T> service) {
-        ClientExtension clientExtension = client.getClientExtension();
-        return clientExtension.createServiceProxyFactory(service);
+    private ClientProxyFactory createClientMapProxyFactory() {
+        return (id, context) -> {
+            ClientConfig clientConfig = client.getClientConfig();
+            NearCacheConfig nearCacheConfig = clientConfig.getNearCacheConfig(id);
+            if (nearCacheConfig != null) {
+                CommonConfigValidator.checkNearCacheConfig(id, nearCacheConfig, clientConfig.getNativeMemoryConfig(), true);
+                return new NearCachedClientMapProxy(ServiceNames.MAP, id, context);
+            } else {
+                return new ClientMapProxy(ServiceNames.MAP, id, context);
+            }
+        };
     }
+
 
     public ClientContext getContext() {
         return context;
@@ -365,7 +353,7 @@ public final class ProxyManager {
     }
 
     private void createCachesOnCluster() {
-        ClientCacheProxyFactory proxyFactory = (ClientCacheProxyFactory) getClientProxyFactory(ICacheService.SERVICE_NAME);
+        ClientCacheProxyFactory proxyFactory = (ClientCacheProxyFactory) getClientProxyFactory(ServiceNames.ICACHE);
         if (proxyFactory != null) {
             proxyFactory.recreateCachesOnCluster();
         }
