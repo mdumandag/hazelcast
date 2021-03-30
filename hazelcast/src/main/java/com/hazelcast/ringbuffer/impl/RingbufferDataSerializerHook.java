@@ -20,16 +20,16 @@ import com.hazelcast.internal.serialization.DataSerializerHook;
 import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.ringbuffer.impl.operations.AddAllBackupOperation;
-import com.hazelcast.ringbuffer.impl.operations.AddAllOperation;
-import com.hazelcast.ringbuffer.impl.operations.AddBackupOperation;
-import com.hazelcast.ringbuffer.impl.operations.AddOperation;
-import com.hazelcast.ringbuffer.impl.operations.GenericOperation;
-import com.hazelcast.ringbuffer.impl.operations.MergeBackupOperation;
-import com.hazelcast.ringbuffer.impl.operations.MergeOperation;
-import com.hazelcast.ringbuffer.impl.operations.ReadManyOperation;
-import com.hazelcast.ringbuffer.impl.operations.ReadOneOperation;
-import com.hazelcast.ringbuffer.impl.operations.ReplicationOperation;
+//import com.hazelcast.ringbuffer.impl.operations.AddAllBackupOperation;
+//import com.hazelcast.ringbuffer.impl.operations.AddAllOperation;
+//import com.hazelcast.ringbuffer.impl.operations.AddBackupOperation;
+//import com.hazelcast.ringbuffer.impl.operations.AddOperation;
+//import com.hazelcast.ringbuffer.impl.operations.GenericOperation;
+//import com.hazelcast.ringbuffer.impl.operations.MergeBackupOperation;
+//import com.hazelcast.ringbuffer.impl.operations.MergeOperation;
+//import com.hazelcast.ringbuffer.impl.operations.ReadManyOperation;
+//import com.hazelcast.ringbuffer.impl.operations.ReadOneOperation;
+//import com.hazelcast.ringbuffer.impl.operations.ReplicationOperation;
 
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.RINGBUFFER_DS_FACTORY;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.RINGBUFFER_DS_FACTORY_ID;
@@ -66,29 +66,29 @@ public class RingbufferDataSerializerHook implements DataSerializerHook {
             public IdentifiedDataSerializable create(int typeId) {
                 switch (typeId) {
                     case ADD_BACKUP_OPERATION:
-                        return new AddBackupOperation();
-                    case ADD_OPERATION:
-                        return new AddOperation();
-                    case READ_ONE_OPERATION:
-                        return new ReadOneOperation();
-                    case REPLICATION_OPERATION:
-                        return new ReplicationOperation();
-                    case GENERIC_OPERATION:
-                        return new GenericOperation();
-                    case READ_MANY_OPERATION:
-                        return new ReadManyOperation();
-                    case ADD_ALL_OPERATION:
-                        return new AddAllOperation();
-                    case ADD_ALL_BACKUP_OPERATION:
-                        return new AddAllBackupOperation();
+//                        return new AddBackupOperation();
+//                    case ADD_OPERATION:
+//                        return new AddOperation();
+//                    case READ_ONE_OPERATION:
+//                        return new ReadOneOperation();
+//                    case REPLICATION_OPERATION:
+//                        return new ReplicationOperation();
+//                    case GENERIC_OPERATION:
+//                        return new GenericOperation();
+//                    case READ_MANY_OPERATION:
+//                        return new ReadManyOperation();
+//                    case ADD_ALL_OPERATION:
+//                        return new AddAllOperation();
+//                    case ADD_ALL_BACKUP_OPERATION:
+//                        return new AddAllBackupOperation();
                     case READ_RESULT_SET:
                         return new ReadResultSetImpl();
                     case RINGBUFFER_CONTAINER:
-                        return new RingbufferContainer();
-                    case MERGE_OPERATION:
-                        return new MergeOperation();
-                    case MERGE_BACKUP_OPERATION:
-                        return new MergeBackupOperation();
+//                        return new RingbufferContainer();
+//                    case MERGE_OPERATION:
+//                        return new MergeOperation();
+//                    case MERGE_BACKUP_OPERATION:
+//                        return new MergeBackupOperation();
                     default:
                         return null;
                 }
