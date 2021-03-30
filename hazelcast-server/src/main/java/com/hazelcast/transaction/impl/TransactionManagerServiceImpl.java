@@ -67,9 +67,9 @@ import static com.hazelcast.internal.util.FutureUtil.logAllExceptions;
 import static com.hazelcast.internal.util.FutureUtil.waitWithDeadline;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 import static com.hazelcast.transaction.impl.Transaction.State;
-import static com.hazelcast.transaction.impl.Transaction.State.ACTIVE;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTING;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLING_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ACTIVE;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTING;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLING_BACK;
 import static java.util.Collections.shuffle;
 
 public class TransactionManagerServiceImpl implements TransactionManagerService, ManagedService,

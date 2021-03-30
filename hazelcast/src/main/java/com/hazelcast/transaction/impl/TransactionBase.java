@@ -16,39 +16,7 @@
 
 package com.hazelcast.transaction.impl;
 
-import com.hazelcast.transaction.TransactionException;
-import com.hazelcast.transaction.TransactionOptions.TransactionType;
-
-import java.util.UUID;
-
-public interface Transaction {
-
-    void begin() throws IllegalStateException;
-
-    void prepare() throws TransactionException;
-
-    void commit() throws TransactionException, IllegalStateException;
-
-    void rollback() throws IllegalStateException;
-
-    UUID getTxnId();
-
-    State getState();
-
-    long getTimeoutMillis();
-
-    void add(TransactionLogRecord record);
-
-    void remove(Object key);
-
-    TransactionLogRecord get(Object key);
-
-    UUID getOwnerUuid();
-
-    boolean isOriginatedFromClient();
-
-    TransactionType getTransactionType();
-
+public interface TransactionBase {
     enum State {
         NO_TXN,
         ACTIVE,

@@ -27,7 +27,7 @@ import com.hazelcast.client.impl.proxy.txn.ClientTransactionUtil;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.transaction.TransactionException;
 import com.hazelcast.transaction.TransactionNotActiveException;
-import com.hazelcast.transaction.impl.Transaction;
+import com.hazelcast.transaction.impl.TransactionBase;
 import com.hazelcast.transaction.impl.xa.SerializableXID;
 import com.hazelcast.internal.util.Clock;
 
@@ -36,14 +36,14 @@ import javax.transaction.xa.Xid;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.hazelcast.transaction.impl.Transaction.State.ACTIVE;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTED;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTING;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMIT_FAILED;
-import static com.hazelcast.transaction.impl.Transaction.State.NO_TXN;
-import static com.hazelcast.transaction.impl.Transaction.State.PREPARED;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLED_BACK;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLING_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ACTIVE;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTED;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTING;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMIT_FAILED;
+import static com.hazelcast.transaction.impl.TransactionBase.State.NO_TXN;
+import static com.hazelcast.transaction.impl.TransactionBase.State.PREPARED;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLED_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLING_BACK;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.ExceptionUtil.sneakyThrow;
 
@@ -59,7 +59,7 @@ public class XATransactionProxy {
     private final int timeout;
     private final ILogger logger;
 
-    private Transaction.State state = NO_TXN;
+    private TransactionBase.State state = NO_TXN;
     private volatile UUID txnId;
     private long startTime;
 
@@ -132,7 +132,7 @@ public class XATransactionProxy {
         return txnId;
     }
 
-    public Transaction.State getState() {
+    public TransactionBase.State getState() {
         return state;
     }
 

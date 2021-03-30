@@ -33,14 +33,14 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import static com.hazelcast.transaction.impl.Transaction.State;
-import static com.hazelcast.transaction.impl.Transaction.State.ACTIVE;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTED;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTING;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMIT_FAILED;
-import static com.hazelcast.transaction.impl.Transaction.State.NO_TXN;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLED_BACK;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLING_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ACTIVE;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTED;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTING;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMIT_FAILED;
+import static com.hazelcast.transaction.impl.TransactionBase.State.NO_TXN;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLED_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLING_BACK;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 
 final class TransactionProxy {
