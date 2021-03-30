@@ -20,6 +20,7 @@ import com.hazelcast.client.config.ClientReliableTopicConfig;
 import com.hazelcast.client.impl.clientside.HazelcastClientInstanceImpl;
 import com.hazelcast.client.impl.spi.ClientContext;
 import com.hazelcast.client.impl.spi.ClientProxy;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.internal.util.ConcurrencyUtil;
@@ -52,8 +53,6 @@ import java.util.stream.Collectors;
 import static com.hazelcast.internal.util.ExceptionUtil.peel;
 import static com.hazelcast.internal.util.Preconditions.checkNoNullInside;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
-import static com.hazelcast.ringbuffer.impl.RingbufferService.TOPIC_RB_PREFIX;
-import static com.hazelcast.topic.impl.reliable.ReliableTopicService.SERVICE_NAME;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
@@ -68,6 +67,7 @@ public class ClientReliableTopicProxy<E> extends ClientProxy implements ITopic<E
 
     private static final String NULL_MESSAGE_IS_NOT_ALLOWED = "Null message is not allowed!";
     private static final String NULL_LISTENER_IS_NOT_ALLOWED = "Null listener is not allowed!";
+    private static final String TOPIC_RB_PREFIX = "_hz_rb_";
     private static final int MAX_BACKOFF = 2000;
     private static final int INITIAL_BACKOFF_MS = 100;
 
@@ -81,7 +81,7 @@ public class ClientReliableTopicProxy<E> extends ClientProxy implements ITopic<E
 
 
     public ClientReliableTopicProxy(String objectId, ClientContext context, HazelcastClientInstanceImpl client) {
-        super(SERVICE_NAME, objectId, context);
+        super(ServiceNames.RELIABLE_TOPIC, objectId, context);
         this.ringbuffer = client.getRingbuffer(TOPIC_RB_PREFIX + objectId);
         this.serializationService = client.getSerializationService();
         this.config = client.getClientConfig().getReliableTopicConfig(objectId);

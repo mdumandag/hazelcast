@@ -25,20 +25,16 @@ import com.hazelcast.client.impl.proxy.txn.ClientTxnQueueProxy;
 import com.hazelcast.client.impl.proxy.txn.ClientTxnSetProxy;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
 import com.hazelcast.client.impl.spi.impl.ClientTransactionManagerServiceImpl;
-import com.hazelcast.collection.impl.list.ListService;
-import com.hazelcast.collection.impl.queue.QueueService;
-import com.hazelcast.collection.impl.set.SetService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.transaction.TransactionalList;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.transaction.TransactionalMultiMap;
 import com.hazelcast.transaction.TransactionalQueue;
 import com.hazelcast.transaction.TransactionalSet;
-import com.hazelcast.map.impl.MapService;
-import com.hazelcast.multimap.impl.MultiMapService;
 import com.hazelcast.transaction.TransactionException;
 import com.hazelcast.transaction.TransactionNotActiveException;
 import com.hazelcast.transaction.TransactionalObject;
-import com.hazelcast.transaction.impl.Transaction;
+import com.hazelcast.transaction.impl.TransactionBase;
 import com.hazelcast.transaction.impl.TransactionalObjectKey;
 
 import javax.transaction.xa.Xid;
@@ -107,47 +103,47 @@ public class XATransactionContextProxy implements ClientTransactionContext {
 
     @Override
     public <K, V> TransactionalMap<K, V> getMap(String name) {
-        return getTransactionalObject(MapService.SERVICE_NAME, name);
+        return getTransactionalObject(ServiceNames.MAP, name);
     }
 
     @Override
     public <E> TransactionalQueue<E> getQueue(String name) {
-        return getTransactionalObject(QueueService.SERVICE_NAME, name);
+        return getTransactionalObject(ServiceNames.QUEUE, name);
     }
 
     @Override
     public <K, V> TransactionalMultiMap<K, V> getMultiMap(String name) {
-        return getTransactionalObject(MultiMapService.SERVICE_NAME, name);
+        return getTransactionalObject(ServiceNames.MULTI_MAP, name);
     }
 
     @Override
     public <E> TransactionalList<E> getList(String name) {
-        return getTransactionalObject(ListService.SERVICE_NAME, name);
+        return getTransactionalObject(ServiceNames.LIST, name);
     }
 
     @Override
     public <E> TransactionalSet<E> getSet(String name) {
-        return getTransactionalObject(SetService.SERVICE_NAME, name);
+        return getTransactionalObject(ServiceNames.SET, name);
     }
 
     @Override
     public <T extends TransactionalObject> T getTransactionalObject(String serviceName, String name) {
-        if (transaction.getState() != Transaction.State.ACTIVE) {
+        if (transaction.getState() != TransactionBase.State.ACTIVE) {
             throw new TransactionNotActiveException("No transaction is found while accessing "
                     + "transactional object -> " + serviceName + "[" + name + "]!");
         }
         TransactionalObjectKey key = new TransactionalObjectKey(serviceName, name);
         TransactionalObject obj = txnObjectMap.get(key);
         if (obj == null) {
-            if (serviceName.equals(QueueService.SERVICE_NAME)) {
+            if (serviceName.equals(ServiceNames.QUEUE)) {
                 obj = new ClientTxnQueueProxy(name, this);
-            } else if (serviceName.equals(MapService.SERVICE_NAME)) {
+            } else if (serviceName.equals(ServiceNames.MAP)) {
                 obj = new ClientTxnMapProxy(name, this);
-            } else if (serviceName.equals(MultiMapService.SERVICE_NAME)) {
+            } else if (serviceName.equals(ServiceNames.MULTI_MAP)) {
                 obj = new ClientTxnMultiMapProxy(name, this);
-            } else if (serviceName.equals(ListService.SERVICE_NAME)) {
+            } else if (serviceName.equals(ServiceNames.LIST)) {
                 obj = new ClientTxnListProxy(name, this);
-            } else if (serviceName.equals(SetService.SERVICE_NAME)) {
+            } else if (serviceName.equals(ServiceNames.SET)) {
                 obj = new ClientTxnSetProxy(name, this);
             }
 
