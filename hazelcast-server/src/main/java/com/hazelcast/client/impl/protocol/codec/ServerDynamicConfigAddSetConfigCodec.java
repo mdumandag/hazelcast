@@ -20,6 +20,7 @@ import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 import com.hazelcast.client.impl.protocol.codec.custom.*;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder;
 
 import javax.annotation.Nullable;
 
@@ -66,7 +67,7 @@ public final class ServerDynamicConfigAddSetConfigCodec {
         /**
          * item listener configurations
          */
-        public @Nullable java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder> listenerConfigs;
+        public @Nullable java.util.List<ListenerConfigHolder> listenerConfigs;
 
         /**
          * number of synchronous backups

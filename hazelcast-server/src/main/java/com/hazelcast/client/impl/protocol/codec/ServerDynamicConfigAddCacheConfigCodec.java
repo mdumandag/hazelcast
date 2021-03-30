@@ -20,6 +20,8 @@ import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 import com.hazelcast.client.impl.protocol.codec.custom.*;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder;
 
 import javax.annotation.Nullable;
 
@@ -160,7 +162,7 @@ public final class ServerDynamicConfigAddCacheConfigCodec {
         /**
          * partition lost listener configurations
          */
-        public @Nullable java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder> partitionLostListenerConfigs;
+        public @Nullable java.util.List<ListenerConfigHolder> partitionLostListenerConfigs;
 
         /**
          * expiry policy factory class name. When configuring an expiry policy,
@@ -181,7 +183,8 @@ public final class ServerDynamicConfigAddCacheConfigCodec {
         /**
          * cache eviction configuration
          */
-        public @Nullable com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder evictionConfig;
+        public @Nullable
+        EvictionConfigHolder evictionConfig;
 
         /**
          * reference to an existing WAN replication configuration

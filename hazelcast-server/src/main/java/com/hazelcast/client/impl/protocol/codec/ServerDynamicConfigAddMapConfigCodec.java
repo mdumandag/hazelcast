@@ -20,6 +20,8 @@ import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 import com.hazelcast.client.impl.protocol.codec.custom.*;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder;
 
 import javax.annotation.Nullable;
 
@@ -90,7 +92,8 @@ public final class ServerDynamicConfigAddMapConfigCodec {
         /**
          * map eviction configuration
          */
-        public @Nullable com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder evictionConfig;
+        public @Nullable
+        EvictionConfigHolder evictionConfig;
 
         /**
          * {@code true} to enable reading local backup entries, {@code false} otherwise
@@ -125,12 +128,12 @@ public final class ServerDynamicConfigAddMapConfigCodec {
         /**
          * entry listener configurations
          */
-        public @Nullable java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder> listenerConfigs;
+        public @Nullable java.util.List<ListenerConfigHolder> listenerConfigs;
 
         /**
          * partition lost listener configurations
          */
-        public @Nullable java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder> partitionLostListenerConfigs;
+        public @Nullable java.util.List<ListenerConfigHolder> partitionLostListenerConfigs;
 
         /**
          * {@code true} to enable gathering of statistics, otherwise {@code false}

@@ -20,6 +20,7 @@ import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 import com.hazelcast.client.impl.protocol.codec.custom.*;
+import com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder;
 
 import javax.annotation.Nullable;
 
@@ -71,7 +72,7 @@ public final class ServerDynamicConfigAddMultiMapConfigCodec {
         /**
          * entry listener configurations
          */
-        public @Nullable java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder> listenerConfigs;
+        public @Nullable java.util.List<ListenerConfigHolder> listenerConfigs;
 
         /**
          * {@code true} to store values in {@code BINARY} format or {@code false} to store
