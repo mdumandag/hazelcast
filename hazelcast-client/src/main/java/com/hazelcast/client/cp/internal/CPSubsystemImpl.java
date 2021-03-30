@@ -26,6 +26,7 @@ import com.hazelcast.client.impl.protocol.codec.CPSubsystemRemoveMembershipListe
 import com.hazelcast.client.impl.spi.ClientContext;
 import com.hazelcast.client.impl.spi.EventHandler;
 import com.hazelcast.client.impl.spi.impl.ListenerMessageCodec;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.cp.CPMember;
 import com.hazelcast.cp.CPSubsystem;
 import com.hazelcast.cp.CPSubsystemManagementService;
@@ -41,11 +42,6 @@ import com.hazelcast.cp.event.CPMembershipListener;
 import com.hazelcast.cp.event.impl.CPGroupAvailabilityEventImpl;
 import com.hazelcast.cp.event.impl.CPMembershipEventImpl;
 import com.hazelcast.cp.internal.RaftGroupId;
-import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
-import com.hazelcast.cp.internal.datastructures.atomicref.AtomicRefService;
-import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
-import com.hazelcast.cp.internal.datastructures.lock.LockService;
-import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
 import com.hazelcast.cp.lock.FencedLock;
 import com.hazelcast.cp.session.CPSessionManagementService;
 import com.hazelcast.internal.util.Clock;
@@ -80,35 +76,35 @@ public class CPSubsystemImpl implements CPSubsystem {
     @Override
     public IAtomicLong getAtomicLong(@Nonnull String name) {
         checkNotNull(name, "Retrieving an atomic long instance with a null name is not allowed!");
-        return proxyFactory.createProxy(AtomicLongService.SERVICE_NAME, name);
+        return proxyFactory.createProxy(ServiceNames.ATOMIC_LONG_SERVICE, name);
     }
 
     @Nonnull
     @Override
     public <E> IAtomicReference<E> getAtomicReference(@Nonnull String name) {
         checkNotNull(name, "Retrieving an atomic reference instance with a null name is not allowed!");
-        return proxyFactory.createProxy(AtomicRefService.SERVICE_NAME, name);
+        return proxyFactory.createProxy(ServiceNames.ATOMIC_REF_SERVICE, name);
     }
 
     @Nonnull
     @Override
     public ICountDownLatch getCountDownLatch(@Nonnull String name) {
         checkNotNull(name, "Retrieving a count down latch instance with a null name is not allowed!");
-        return proxyFactory.createProxy(CountDownLatchService.SERVICE_NAME, name);
+        return proxyFactory.createProxy(ServiceNames.COUNTDOWN_LATCH_SERVICE, name);
     }
 
     @Nonnull
     @Override
     public FencedLock getLock(@Nonnull String name) {
         checkNotNull(name, "Retrieving an fenced lock instance with a null name is not allowed!");
-        return proxyFactory.createProxy(LockService.SERVICE_NAME, name);
+        return proxyFactory.createProxy(ServiceNames.LOCK_SERVICE, name);
     }
 
     @Nonnull
     @Override
     public ISemaphore getSemaphore(@Nonnull String name) {
         checkNotNull(name, "Retrieving a semaphore instance with a null name is not allowed!");
-        return proxyFactory.createProxy(SemaphoreService.SERVICE_NAME, name);
+        return proxyFactory.createProxy(ServiceNames.SEMAPHORE_SERVICE, name);
     }
 
     @Override
