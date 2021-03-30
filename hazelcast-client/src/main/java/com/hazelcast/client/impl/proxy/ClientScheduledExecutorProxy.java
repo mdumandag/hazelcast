@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.proxy;
 
 import com.hazelcast.client.impl.ClientDelegatingFuture;
 import com.hazelcast.client.impl.clientside.ClientMessageDecoder;
+import com.hazelcast.client.impl.clientside.ScheduledRunnableAdapter;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetAllScheduledFuturesCodec;
 import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorShutdownCodec;
@@ -40,7 +41,6 @@ import com.hazelcast.scheduledexecutor.IScheduledFuture;
 import com.hazelcast.scheduledexecutor.NamedTask;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 import com.hazelcast.scheduledexecutor.impl.AbstractTaskDecorator;
-import com.hazelcast.scheduledexecutor.impl.ScheduledRunnableAdapter;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskHandlerImpl;
 import com.hazelcast.scheduledexecutor.impl.TaskDefinition;
 import com.hazelcast.splitbrainprotection.SplitBrainProtectionException;
@@ -346,10 +346,10 @@ public class ClientScheduledExecutorProxy
         waitWithDeadline(calls, SHUTDOWN_TIMEOUT, TimeUnit.SECONDS, shutdownExceptionHandler);
     }
 
-    private <T> ScheduledRunnableAdapter<T> createScheduledRunnableAdapter(Runnable command) {
+    private ScheduledRunnableAdapter createScheduledRunnableAdapter(Runnable command) {
         checkNotNull(command, "Command is null");
 
-        return new ScheduledRunnableAdapter<>(command);
+        return new ScheduledRunnableAdapter(command);
     }
 
     private @Nonnull

@@ -62,12 +62,12 @@ public class ReliableTopicMessage implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return F_ID;
+        return TopicDataSerializerHook.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return RELIABLE_TOPIC_MESSAGE;
+        return TopicDataSerializerHook.RELIABLE_TOPIC_MESSAGE;
     }
 
     @Override

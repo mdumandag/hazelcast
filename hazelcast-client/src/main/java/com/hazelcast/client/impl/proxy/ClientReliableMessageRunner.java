@@ -18,8 +18,8 @@ package com.hazelcast.client.impl.proxy;
 
 import com.hazelcast.client.HazelcastClientNotActiveException;
 import com.hazelcast.client.HazelcastClientOfflineException;
+import com.hazelcast.client.impl.spi.impl.SimpleMemberImpl;
 import com.hazelcast.cluster.Member;
-import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.ringbuffer.Ringbuffer;
@@ -58,7 +58,9 @@ public class ClientReliableMessageRunner<E> extends MessageRunner<E> {
     protected Member getMember(ReliableTopicMessage m) {
         Member member = null;
         if (m.getPublisherAddress() != null) {
-            member = new MemberImpl(m.getPublisherAddress(), MemberVersion.UNKNOWN, false);
+            member = new SimpleMemberImpl.Builder(m.getPublisherAddress())
+                    .version(MemberVersion.UNKNOWN)
+                    .build();
         }
         return member;
     }
