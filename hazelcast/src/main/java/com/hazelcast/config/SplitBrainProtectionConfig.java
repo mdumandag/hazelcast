@@ -223,33 +223,33 @@ public class SplitBrainProtectionConfig implements IdentifiedDataSerializable, N
         functionImplementation = in.readObject();
     }
 
-//    /**
-//     * Returns a builder for {@link SplitBrainProtectionConfig} with the given {@code name} using a probabilistic
-//     * split brain protection function, for the given split brain protection {@code size} that is enabled by default.
-//     *
-//     * @param name               the split brain protection's name
-//     * @param minimumClusterSize minimum count of members in the cluster not to be considered it split.
-//     * @see ProbabilisticSplitBrainProtectionFunction
-//     */
-//    public static ProbabilisticSplitBrainProtectionConfigBuilder
-//    newProbabilisticSplitBrainProtectionConfigBuilder(String name, int minimumClusterSize) {
-//        return new ProbabilisticSplitBrainProtectionConfigBuilder(name, minimumClusterSize);
-//    }
+    /**
+     * Returns a builder for {@link SplitBrainProtectionConfig} with the given {@code name} using a probabilistic
+     * split brain protection function, for the given split brain protection {@code size} that is enabled by default.
+     *
+     * @param name               the split brain protection's name
+     * @param minimumClusterSize minimum count of members in the cluster not to be considered it split.
+     * @see ProbabilisticSplitBrainProtectionFunction
+     */
+    public static ProbabilisticSplitBrainProtectionConfigBuilder
+    newProbabilisticSplitBrainProtectionConfigBuilder(String name, int minimumClusterSize) {
+        return new ProbabilisticSplitBrainProtectionConfigBuilder(name, minimumClusterSize);
+    }
 
-//    /**
-//     * Returns a builder for a {@link SplitBrainProtectionConfig} with the given {@code name} using a recently-active
-//     * split brain protection function for the given split brain protection {@code size} that is enabled by default.
-//     *
-//     * @param name               the split brain protection's name
-//     * @param minimumClusterSize minimum count of members in the cluster not to be considered it split.
-//     * @param toleranceMillis    maximum amount of milliseconds that may have passed since last heartbeat was received for a
-//     *                           member to be considered present for split brain protection.
-//     * @see RecentlyActiveSplitBrainProtectionFunction
-//     */
-//    public static RecentlyActiveSplitBrainProtectionConfigBuilder
-//    newRecentlyActiveSplitBrainProtectionConfigBuilder(String name, int minimumClusterSize, int toleranceMillis) {
-//        return new RecentlyActiveSplitBrainProtectionConfigBuilder(name, minimumClusterSize, toleranceMillis);
-//    }
+    /**
+     * Returns a builder for a {@link SplitBrainProtectionConfig} with the given {@code name} using a recently-active
+     * split brain protection function for the given split brain protection {@code size} that is enabled by default.
+     *
+     * @param name               the split brain protection's name
+     * @param minimumClusterSize minimum count of members in the cluster not to be considered it split.
+     * @param toleranceMillis    maximum amount of milliseconds that may have passed since last heartbeat was received for a
+     *                           member to be considered present for split brain protection.
+     * @see RecentlyActiveSplitBrainProtectionFunction
+     */
+    public static RecentlyActiveSplitBrainProtectionConfigBuilder
+    newRecentlyActiveSplitBrainProtectionConfigBuilder(String name, int minimumClusterSize, int toleranceMillis) {
+        return new RecentlyActiveSplitBrainProtectionConfigBuilder(name, minimumClusterSize, toleranceMillis);
+    }
 
     @Override
     public boolean equals(Object o) {
