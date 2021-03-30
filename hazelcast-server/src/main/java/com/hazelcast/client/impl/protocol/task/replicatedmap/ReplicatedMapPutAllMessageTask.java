@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapPutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapPutAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.util.Map;
 import static com.hazelcast.internal.util.MapUtil.createHashMap;
 
 public class ReplicatedMapPutAllMessageTask
-        extends AbstractAllPartitionsMessageTask<ReplicatedMapPutAllCodec.RequestParameters> {
+        extends AbstractAllPartitionsMessageTask<ServerReplicatedMapPutAllCodec.RequestParameters> {
 
     public ReplicatedMapPutAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -58,13 +58,13 @@ public class ReplicatedMapPutAllMessageTask
     }
 
     @Override
-    protected ReplicatedMapPutAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapPutAllCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapPutAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapPutAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapPutAllCodec.encodeResponse();
+        return ServerReplicatedMapPutAllCodec.encodeResponse();
     }
 
     @Override

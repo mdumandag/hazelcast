@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapFetchKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchKeysCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.iteration.IterationPointer;
 import com.hazelcast.internal.nio.Connection;
@@ -32,7 +32,7 @@ import java.util.Collections;
 import static com.hazelcast.internal.iteration.IterationPointer.decodePointers;
 import static com.hazelcast.internal.iteration.IterationPointer.encodePointers;
 
-public class MapFetchKeysMessageTask extends AbstractMapPartitionMessageTask<MapFetchKeysCodec.RequestParameters> {
+public class MapFetchKeysMessageTask extends AbstractMapPartitionMessageTask<ServerMapFetchKeysCodec.RequestParameters> {
     public MapFetchKeysMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
@@ -45,18 +45,18 @@ public class MapFetchKeysMessageTask extends AbstractMapPartitionMessageTask<Map
     }
 
     @Override
-    protected MapFetchKeysCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapFetchKeysCodec.decodeRequest(clientMessage);
+    protected ServerMapFetchKeysCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapFetchKeysCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         if (response == null) {
-            return MapFetchKeysCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
+            return ServerMapFetchKeysCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
         }
         MapKeysWithCursor mapKeysWithCursor = (MapKeysWithCursor) response;
         IterationPointer[] pointers = mapKeysWithCursor.getIterationPointers();
-        return MapFetchKeysCodec.encodeResponse(
+        return ServerMapFetchKeysCodec.encodeResponse(
                 encodePointers(pointers), mapKeysWithCursor.getBatch());
     }
 

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetTimedMemberStateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetTimedMemberStateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -52,7 +52,7 @@ public class GetTimedMemberStateMessageTask extends AbstractCallableMessageTask<
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCGetTimedMemberStateCodec.encodeResponse((String) response);
+        return ServerMCGetTimedMemberStateCodec.encodeResponse((String) response);
     }
 
     @Override

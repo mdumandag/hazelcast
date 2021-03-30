@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapAddEntryListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -26,10 +26,10 @@ import java.util.UUID;
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.MultiMapAddEntryListenerCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerMultiMapAddEntryListenerCodec#REQUEST_MESSAGE_TYPE}
  */
 public class MultiMapAddEntryListenerMessageTask
-        extends AbstractMultiMapAddEntryListenerMessageTask<MultiMapAddEntryListenerCodec.RequestParameters> {
+        extends AbstractMultiMapAddEntryListenerMessageTask<ServerMultiMapAddEntryListenerCodec.RequestParameters> {
 
     public MultiMapAddEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,18 +47,18 @@ public class MultiMapAddEntryListenerMessageTask
 
     @Override
     protected ClientMessage encodeEvent(Data key, Data value, Data oldValue, int type, UUID uuid, int numberOfEntriesAffected) {
-        return MultiMapAddEntryListenerCodec.encodeEntryEvent(key, value, oldValue,
+        return ServerMultiMapAddEntryListenerCodec.encodeEntryEvent(key, value, oldValue,
                 null, type, uuid, numberOfEntriesAffected);
     }
 
     @Override
-    protected MultiMapAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapAddEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapAddEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapAddEntryListenerCodec.encodeResponse((UUID) response);
+        return ServerMultiMapAddEntryListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

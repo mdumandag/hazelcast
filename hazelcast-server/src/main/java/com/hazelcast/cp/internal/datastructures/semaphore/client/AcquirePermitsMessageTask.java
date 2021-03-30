@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreAcquireCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreAcquireCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Client message task for {@link AcquirePermitsOp}
  */
-public class AcquirePermitsMessageTask extends AbstractCPMessageTask<SemaphoreAcquireCodec.RequestParameters> {
+public class AcquirePermitsMessageTask extends AbstractCPMessageTask<ServerSemaphoreAcquireCodec.RequestParameters> {
 
     public AcquirePermitsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class AcquirePermitsMessageTask extends AbstractCPMessageTask<SemaphoreAc
     }
 
     @Override
-    protected SemaphoreAcquireCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreAcquireCodec.decodeRequest(clientMessage);
+    protected ServerSemaphoreAcquireCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSemaphoreAcquireCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreAcquireCodec.encodeResponse((Boolean) response);
+        return ServerSemaphoreAcquireCodec.encodeResponse((Boolean) response);
     }
 
     @Override

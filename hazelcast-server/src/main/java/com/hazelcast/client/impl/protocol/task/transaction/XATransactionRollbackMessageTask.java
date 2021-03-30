@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionRollbackCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionRollbackCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.TransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
@@ -41,12 +41,12 @@ public class XATransactionRollbackMessageTask
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionRollbackCodec.decodeRequest(clientMessage);
+        return ServerXATransactionRollbackCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionRollbackCodec.encodeResponse();
+        return ServerXATransactionRollbackCodec.encodeResponse();
     }
 
     @Override

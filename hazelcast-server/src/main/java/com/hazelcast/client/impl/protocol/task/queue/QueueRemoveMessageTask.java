@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueRemoveCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.RemoveOperation;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_REMOVE}
  */
 public class QueueRemoveMessageTask
-        extends AbstractPartitionMessageTask<QueueRemoveCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueueRemoveCodec.RequestParameters> {
 
     public QueueRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,14 +46,14 @@ public class QueueRemoveMessageTask
     }
 
     @Override
-    protected QueueRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueueRemoveCodec.decodeRequest(clientMessage);
+    protected ServerQueueRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueueRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         final boolean result = response != null && ((Boolean) response);
-        return QueueRemoveCodec.encodeResponse(result);
+        return ServerQueueRemoveCodec.encodeResponse(result);
     }
 
     @Override

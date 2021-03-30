@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.aggregation.Aggregator;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAggregateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAggregateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -28,7 +28,7 @@ import com.hazelcast.security.permission.MapPermission;
 import java.security.Permission;
 
 public class MapAggregateMessageTask
-        extends DefaultMapAggregateMessageTask<MapAggregateCodec.RequestParameters> {
+        extends DefaultMapAggregateMessageTask<ServerMapAggregateCodec.RequestParameters> {
 
     public MapAggregateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -40,14 +40,14 @@ public class MapAggregateMessageTask
     }
 
     @Override
-    protected MapAggregateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAggregateCodec.decodeRequest(clientMessage);
+    protected ServerMapAggregateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAggregateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = nodeEngine.getSerializationService().toData(response);
-        return MapAggregateCodec.encodeResponse(data);
+        return ServerMapAggregateCodec.encodeResponse(data);
     }
 
     public Permission getRequiredPermission() {

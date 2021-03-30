@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice.durable;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorSubmitToPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorSubmitToPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.durableexecutor.impl.operations.TaskOperation;
 import com.hazelcast.instance.impl.Node;
@@ -33,7 +33,7 @@ import java.util.concurrent.Callable;
 import static com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService.SERVICE_NAME;
 
 public class DurableExecutorSubmitToPartitionMessageTask
-        extends AbstractPartitionMessageTask<DurableExecutorSubmitToPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerDurableExecutorSubmitToPartitionCodec.RequestParameters> {
 
     public DurableExecutorSubmitToPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -59,13 +59,13 @@ public class DurableExecutorSubmitToPartitionMessageTask
 
 
     @Override
-    protected DurableExecutorSubmitToPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DurableExecutorSubmitToPartitionCodec.decodeRequest(clientMessage);
+    protected ServerDurableExecutorSubmitToPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDurableExecutorSubmitToPartitionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DurableExecutorSubmitToPartitionCodec.encodeResponse((Integer) response);
+        return ServerDurableExecutorSubmitToPartitionCodec.encodeResponse((Integer) response);
     }
 
     @Override

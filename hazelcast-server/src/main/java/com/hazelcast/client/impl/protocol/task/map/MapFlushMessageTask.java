@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapFlushCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFlushCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.core.DistributedObject;
@@ -61,12 +61,12 @@ public class MapFlushMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapFlushCodec.decodeRequest(clientMessage);
+        return ServerMapFlushCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapFlushCodec.encodeResponse();
+        return ServerMapFlushCodec.encodeResponse();
     }
 
 

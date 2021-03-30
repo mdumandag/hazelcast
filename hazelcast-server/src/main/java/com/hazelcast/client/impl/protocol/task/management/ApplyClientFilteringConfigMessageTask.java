@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCApplyMCConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCApplyMCConfigCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCApplyMCConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCApplyMCConfigCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.instance.impl.Node;
@@ -53,12 +53,12 @@ public class ApplyClientFilteringConfigMessageTask extends AbstractCallableMessa
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCApplyMCConfigCodec.decodeRequest(clientMessage);
+        return ServerMCApplyMCConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCApplyMCConfigCodec.encodeResponse();
+        return ServerMCApplyMCConfigCodec.encodeResponse();
     }
 
     @Override

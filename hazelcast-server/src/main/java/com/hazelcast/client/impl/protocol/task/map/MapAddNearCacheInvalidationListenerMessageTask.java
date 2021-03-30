@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddNearCacheInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddNearCacheInvalidationListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
 import com.hazelcast.map.impl.EventListenerFilter;
@@ -36,7 +36,7 @@ import java.util.UUID;
  * @see Pre38MapAddNearCacheEntryListenerMessageTask
  */
 public class MapAddNearCacheInvalidationListenerMessageTask
-        extends AbstractMapAddEntryListenerMessageTask<MapAddNearCacheInvalidationListenerCodec.RequestParameters> {
+        extends AbstractMapAddEntryListenerMessageTask<ServerMapAddNearCacheInvalidationListenerCodec.RequestParameters> {
 
     public MapAddNearCacheInvalidationListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -64,13 +64,13 @@ public class MapAddNearCacheInvalidationListenerMessageTask
     }
 
     @Override
-    protected MapAddNearCacheInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddNearCacheInvalidationListenerCodec.decodeRequest(clientMessage);
+    protected ServerMapAddNearCacheInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddNearCacheInvalidationListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddNearCacheInvalidationListenerCodec.encodeResponse((UUID) response);
+        return ServerMapAddNearCacheInvalidationListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override
@@ -94,14 +94,14 @@ public class MapAddNearCacheInvalidationListenerMessageTask
         @Override
         protected ClientMessage encodeBatchInvalidation(String name, List<Data> keys, List<UUID> sourceUuids,
                                                         List<UUID> partitionUuids, List<Long> sequences) {
-            return MapAddNearCacheInvalidationListenerCodec.encodeIMapBatchInvalidationEvent(keys, sourceUuids,
+            return ServerMapAddNearCacheInvalidationListenerCodec.encodeIMapBatchInvalidationEvent(keys, sourceUuids,
                     partitionUuids, sequences);
         }
 
         @Override
         protected ClientMessage encodeSingleInvalidation(String name, Data key, UUID sourceUuid,
                                                          UUID partitionUuid, long sequence) {
-            return MapAddNearCacheInvalidationListenerCodec.encodeIMapInvalidationEvent(key, sourceUuid, partitionUuid, sequence);
+            return ServerMapAddNearCacheInvalidationListenerCodec.encodeIMapInvalidationEvent(key, sourceUuid, partitionUuid, sequence);
         }
 
         @Override

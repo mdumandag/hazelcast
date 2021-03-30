@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerHotRestartBackupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerHotRestartBackupCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -71,7 +71,7 @@ public class HotRestartTriggerBackupMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCTriggerHotRestartBackupCodec.encodeResponse();
+        return ServerMCTriggerHotRestartBackupCodec.encodeResponse();
     }
 
     @Override

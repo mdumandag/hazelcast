@@ -23,7 +23,7 @@ import com.hazelcast.cache.impl.CacheEventSet;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddEntryListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -49,7 +49,7 @@ import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFutur
  * @see CacheService#registerListener(String, CacheEventListener, boolean localOnly)
  */
 public class CacheAddEntryListenerMessageTask
-        extends AbstractAddListenerMessageTask<CacheAddEntryListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerCacheAddEntryListenerCodec.RequestParameters> {
 
     public CacheAddEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -111,7 +111,7 @@ public class CacheAddEntryListenerMessageTask
                 CacheEventSet ces = (CacheEventSet) eventObject;
                 Data partitionKey = getPartitionKey(eventObject);
                 ClientMessage clientMessage =
-                        CacheAddEntryListenerCodec.
+                        ServerCacheAddEntryListenerCodec.
                                 encodeCacheEvent(ces.getEventType().getType(), ces.getEvents(), ces.getCompletionId());
                 cacheAddEntryListenerMessageTask.sendClientMessage(partitionKey, clientMessage);
             }
@@ -144,13 +144,13 @@ public class CacheAddEntryListenerMessageTask
     }
 
     @Override
-    protected CacheAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheAddEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheAddEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheAddEntryListenerCodec.encodeResponse((UUID) response);
+        return ServerCacheAddEntryListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

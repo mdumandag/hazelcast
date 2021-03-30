@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueAddListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.collection.ItemEvent;
 import com.hazelcast.collection.ItemListener;
@@ -37,10 +37,10 @@ import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFutur
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.QueueAddListenerCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerQueueAddListenerCodec#REQUEST_MESSAGE_TYPE}
  */
 public class QueueAddListenerMessageTask
-        extends AbstractAddListenerMessageTask<QueueAddListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerQueueAddListenerCodec.RequestParameters> {
 
     public QueueAddListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -71,7 +71,7 @@ public class QueueAddListenerMessageTask
 
                     DataAwareItemEvent dataAwareItemEvent = (DataAwareItemEvent) event;
                     Data item = dataAwareItemEvent.getItemData();
-                    ClientMessage clientMessage = QueueAddListenerCodec.encodeItemEvent(item,
+                    ClientMessage clientMessage = ServerQueueAddListenerCodec.encodeItemEvent(item,
                             event.getMember().getUuid(), event.getEventType().getType());
                     sendClientMessage(partitionKey, clientMessage);
                 }
@@ -86,13 +86,13 @@ public class QueueAddListenerMessageTask
     }
 
     @Override
-    protected QueueAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueueAddListenerCodec.decodeRequest(clientMessage);
+    protected ServerQueueAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueueAddListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueueAddListenerCodec.encodeResponse((UUID) response);
+        return ServerQueueAddListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

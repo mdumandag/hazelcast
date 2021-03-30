@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapClearCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.core.EntryEventType;
 import com.hazelcast.instance.impl.Node;
@@ -60,12 +60,12 @@ public class MultiMapClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapClearCodec.decodeRequest(clientMessage);
+        return ServerMultiMapClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapClearCodec.encodeResponse();
+        return ServerMultiMapClearCodec.encodeResponse();
     }
 
     @Override

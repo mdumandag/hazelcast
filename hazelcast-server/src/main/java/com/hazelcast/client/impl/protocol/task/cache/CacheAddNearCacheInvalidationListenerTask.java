@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheContext;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheAddNearCacheInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddNearCacheInvalidationListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
@@ -35,7 +35,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFuture;
 
 public class CacheAddNearCacheInvalidationListenerTask
-        extends AbstractAddListenerMessageTask<CacheAddNearCacheInvalidationListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerCacheAddNearCacheInvalidationListenerCodec.RequestParameters> {
 
     public CacheAddNearCacheInvalidationListenerTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -64,14 +64,14 @@ public class CacheAddNearCacheInvalidationListenerTask
         @Override
         protected ClientMessage encodeBatchInvalidation(String name, List<Data> keys, List<UUID> sourceUuids,
                                                         List<UUID> partitionUuids, List<Long> sequences) {
-            return CacheAddNearCacheInvalidationListenerCodec.encodeCacheBatchInvalidationEvent(name, keys,
+            return ServerCacheAddNearCacheInvalidationListenerCodec.encodeCacheBatchInvalidationEvent(name, keys,
                     sourceUuids, partitionUuids, sequences);
         }
 
         @Override
         protected ClientMessage encodeSingleInvalidation(String name, Data key, UUID sourceUuid,
                                                          UUID partitionUuid, long sequence) {
-            return CacheAddNearCacheInvalidationListenerCodec.encodeCacheInvalidationEvent(name, key,
+            return ServerCacheAddNearCacheInvalidationListenerCodec.encodeCacheInvalidationEvent(name, key,
                     sourceUuid, partitionUuid, sequence);
         }
 
@@ -87,13 +87,13 @@ public class CacheAddNearCacheInvalidationListenerTask
     }
 
     @Override
-    protected CacheAddNearCacheInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheAddNearCacheInvalidationListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheAddNearCacheInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheAddNearCacheInvalidationListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheAddNearCacheInvalidationListenerCodec.encodeResponse((UUID) response);
+        return ServerCacheAddNearCacheInvalidationListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

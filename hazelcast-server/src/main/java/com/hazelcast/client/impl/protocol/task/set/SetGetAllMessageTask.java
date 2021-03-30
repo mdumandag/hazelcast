@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetGetAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetGetAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionGetAllOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -47,12 +47,12 @@ public class SetGetAllMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return SetGetAllCodec.decodeRequest(clientMessage);
+        return ServerSetGetAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetGetAllCodec.encodeResponse(((SerializableList) response).getCollection());
+        return ServerSetGetAllCodec.encodeResponse(((SerializableList) response).getCollection());
     }
 
     @Override

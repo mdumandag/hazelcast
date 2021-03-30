@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapContainsValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapContainsValueCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -30,7 +30,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ReplicatedMapContainsValueMessageTask
-        extends AbstractPartitionMessageTask<ReplicatedMapContainsValueCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerReplicatedMapContainsValueCodec.RequestParameters> {
 
     public ReplicatedMapContainsValueMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -42,13 +42,13 @@ public class ReplicatedMapContainsValueMessageTask
     }
 
     @Override
-    protected ReplicatedMapContainsValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapContainsValueCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapContainsValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapContainsValueCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapContainsValueCodec.encodeResponse((Boolean) response);
+        return ServerReplicatedMapContainsValueCodec.encodeResponse((Boolean) response);
     }
 
     @Override

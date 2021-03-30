@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEntriesWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntriesWithPredicateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapEntriesWithPredicateMessageTask
-        extends DefaultMapQueryMessageTask<MapEntriesWithPredicateCodec.RequestParameters> {
+        extends DefaultMapQueryMessageTask<ServerMapEntriesWithPredicateCodec.RequestParameters> {
 
     public MapEntriesWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class MapEntriesWithPredicateMessageTask
     }
 
     @Override
-    protected MapEntriesWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapEntriesWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapEntriesWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapEntriesWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapEntriesWithPredicateCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
+        return ServerMapEntriesWithPredicateCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
     }
 
     @Override

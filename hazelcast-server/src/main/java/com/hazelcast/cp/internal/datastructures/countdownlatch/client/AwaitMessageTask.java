@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.countdownlatch.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchAwaitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchAwaitCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.operation.AwaitOp;
@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Client message task for {@link AwaitOp}
  */
-public class AwaitMessageTask extends AbstractCPMessageTask<CountDownLatchAwaitCodec.RequestParameters> {
+public class AwaitMessageTask extends AbstractCPMessageTask<ServerCountDownLatchAwaitCodec.RequestParameters> {
 
     public AwaitMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -44,13 +44,13 @@ public class AwaitMessageTask extends AbstractCPMessageTask<CountDownLatchAwaitC
     }
 
     @Override
-    protected CountDownLatchAwaitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CountDownLatchAwaitCodec.decodeRequest(clientMessage);
+    protected ServerCountDownLatchAwaitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCountDownLatchAwaitCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CountDownLatchAwaitCodec.encodeResponse((Boolean) response);
+        return ServerCountDownLatchAwaitCodec.encodeResponse((Boolean) response);
     }
 
     @Override

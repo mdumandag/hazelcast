@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetContainsCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionContainsOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -35,7 +35,7 @@ import static java.util.Collections.singleton;
  * SetContainsMessageTask
  */
 public class SetContainsMessageTask
-        extends AbstractPartitionMessageTask<SetContainsCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerSetContainsCodec.RequestParameters> {
 
     public SetContainsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class SetContainsMessageTask
     }
 
     @Override
-    protected SetContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SetContainsCodec.decodeRequest(clientMessage);
+    protected ServerSetContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSetContainsCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetContainsCodec.encodeResponse((Boolean) response);
+        return ServerSetContainsCodec.encodeResponse((Boolean) response);
     }
 
     @Override

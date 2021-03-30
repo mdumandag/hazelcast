@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorCancelFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorCancelFromMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ScheduledExecutorTaskCancelFromTargetMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorCancelFromMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorCancelFromMemberCodec.RequestParameters> {
 
     public ScheduledExecutorTaskCancelFromTargetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class ScheduledExecutorTaskCancelFromTargetMessageTask
     }
 
     @Override
-    protected ScheduledExecutorCancelFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorCancelFromMemberCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorCancelFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorCancelFromMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorCancelFromMemberCodec.encodeResponse((Boolean) response);
+        return ServerScheduledExecutorCancelFromMemberCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListClearCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionClearOperation;
 import com.hazelcast.collection.impl.list.ListService;
@@ -47,12 +47,12 @@ public class ListClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ListClearCodec.decodeRequest(clientMessage);
+        return ServerListClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListClearCodec.encodeResponse();
+        return ServerListClearCodec.encodeResponse();
     }
 
     @Override

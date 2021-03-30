@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapTryLockCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.LockOperation;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * Client Protocol Task for handling messages with type ID:
  */
 public class MultiMapTryLockMessageTask
-        extends AbstractPartitionMessageTask<MultiMapTryLockCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapTryLockCodec.RequestParameters> {
 
     public MultiMapTryLockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class MultiMapTryLockMessageTask
     }
 
     @Override
-    protected MultiMapTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapTryLockCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapTryLockCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapTryLockCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapTryLockCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCPollMCEventsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCPollMCEventsCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -60,7 +60,7 @@ public class PollMCEventsMessageTask extends AbstractCallableMessageTask<Void> {
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCPollMCEventsCodec.encodeResponse((List<MCEventDTO>) response);
+        return ServerMCPollMCEventsCodec.encodeResponse((List<MCEventDTO>) response);
     }
 
     @Override

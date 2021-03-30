@@ -17,8 +17,8 @@
 package com.hazelcast.cp.internal.session.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCloseSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCloseSessionCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCloseSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCloseSessionCodec.RequestParameters;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.session.operation.CloseSessionOp;
@@ -45,12 +45,12 @@ public class CloseSessionMessageTask extends AbstractSessionMessageTask<RequestP
     }
 
     @Override
-    protected CPSessionCloseSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CPSessionCloseSessionCodec.decodeRequest(clientMessage);
+    protected ServerCPSessionCloseSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCPSessionCloseSessionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSessionCloseSessionCodec.encodeResponse((Boolean) response);
+        return ServerCPSessionCloseSessionCodec.encodeResponse((Boolean) response);
     }
 }

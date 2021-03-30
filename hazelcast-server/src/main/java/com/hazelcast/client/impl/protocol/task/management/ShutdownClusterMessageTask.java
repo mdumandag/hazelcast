@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCShutdownClusterCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCShutdownClusterCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -67,7 +67,7 @@ public class ShutdownClusterMessageTask extends AbstractCallableMessageTask<Void
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCShutdownClusterCodec.encodeResponse();
+        return ServerMCShutdownClusterCodec.encodeResponse();
     }
 
     @Override

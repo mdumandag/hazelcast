@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientRemoveDistributedObjectListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemoveDistributedObjectListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.spi.impl.proxyservice.impl.ProxyServiceImpl;
@@ -46,12 +46,12 @@ public class RemoveDistributedObjectListenerMessageTask
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return ClientRemoveDistributedObjectListenerCodec.decodeRequest(clientMessage);
+        return ServerClientRemoveDistributedObjectListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientRemoveDistributedObjectListenerCodec.encodeResponse((Boolean) response);
+        return ServerClientRemoveDistributedObjectListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

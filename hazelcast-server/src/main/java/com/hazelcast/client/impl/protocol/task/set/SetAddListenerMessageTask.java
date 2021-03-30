@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetAddListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.collection.ItemEvent;
 import com.hazelcast.collection.ItemListener;
@@ -44,7 +44,7 @@ import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFutur
  * SetAddListenerMessageTask
  */
 public class SetAddListenerMessageTask
-        extends AbstractAddListenerMessageTask<SetAddListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerSetAddListenerCodec.RequestParameters> {
 
     public SetAddListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -88,7 +88,7 @@ public class SetAddListenerMessageTask
                     DataAwareItemEvent dataAwareItemEvent = (DataAwareItemEvent) event;
                     Data item = dataAwareItemEvent.getItemData();
                     ClientMessage clientMessage =
-                            SetAddListenerCodec.encodeItemEvent(item, event.getMember().getUuid()
+                            ServerSetAddListenerCodec.encodeItemEvent(item, event.getMember().getUuid()
                                     , event.getEventType().getType());
                     sendClientMessage(partitionKey, clientMessage);
                 }
@@ -98,13 +98,13 @@ public class SetAddListenerMessageTask
 
 
     @Override
-    protected SetAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SetAddListenerCodec.decodeRequest(clientMessage);
+    protected ServerSetAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSetAddListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetAddListenerCodec.encodeResponse((UUID) response);
+        return ServerSetAddListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

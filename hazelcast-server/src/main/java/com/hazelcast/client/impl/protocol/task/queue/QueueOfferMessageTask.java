@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueOfferCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueOfferCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.OfferOperation;
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_OFFER}
  */
 public class QueueOfferMessageTask
-        extends AbstractPartitionMessageTask<QueueOfferCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueueOfferCodec.RequestParameters> {
 
     public QueueOfferMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,12 +48,12 @@ public class QueueOfferMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueueOfferCodec.encodeResponse((Boolean) response);
+        return ServerQueueOfferCodec.encodeResponse((Boolean) response);
     }
 
     @Override
-    protected QueueOfferCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueueOfferCodec.decodeRequest(clientMessage);
+    protected ServerQueueOfferCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueueOfferCodec.decodeRequest(clientMessage);
     }
 
     @Override

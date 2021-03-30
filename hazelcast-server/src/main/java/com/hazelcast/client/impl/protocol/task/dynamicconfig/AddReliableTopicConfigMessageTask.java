@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddReliableTopicConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddReliableTopicConfigCodec;
 import com.hazelcast.config.ListenerConfig;
 import com.hazelcast.config.ReliableTopicConfig;
 import com.hazelcast.instance.impl.Node;
@@ -30,20 +30,20 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class AddReliableTopicConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddReliableTopicConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddReliableTopicConfigCodec.RequestParameters> {
 
     public AddReliableTopicConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddReliableTopicConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddReliableTopicConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddReliableTopicConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddReliableTopicConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddReliableTopicConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddReliableTopicConfigCodec.encodeResponse();
     }
 
     @Override

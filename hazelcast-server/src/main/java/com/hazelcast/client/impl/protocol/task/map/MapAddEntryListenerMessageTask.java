@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.EntryEventFilter;
 import com.hazelcast.map.impl.EventListenerFilter;
@@ -28,7 +28,7 @@ import com.hazelcast.spi.impl.eventservice.EventFilter;
 import java.util.UUID;
 
 public class MapAddEntryListenerMessageTask
-        extends AbstractMapAddEntryListenerMessageTask<MapAddEntryListenerCodec.RequestParameters> {
+        extends AbstractMapAddEntryListenerMessageTask<ServerMapAddEntryListenerCodec.RequestParameters> {
 
     public MapAddEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,18 +48,18 @@ public class MapAddEntryListenerMessageTask
     @Override
     protected ClientMessage encodeEvent(Data keyData, Data newValueData, Data oldValueData,
                                         Data meringValueData, int type, UUID uuid, int numberOfAffectedEntries) {
-        return MapAddEntryListenerCodec.encodeEntryEvent(keyData, newValueData,
+        return ServerMapAddEntryListenerCodec.encodeEntryEvent(keyData, newValueData,
                 oldValueData, meringValueData, type, uuid, numberOfAffectedEntries);
     }
 
     @Override
-    protected MapAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerMapAddEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddEntryListenerCodec.encodeResponse((UUID) response);
+        return ServerMapAddEntryListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

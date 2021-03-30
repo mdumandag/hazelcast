@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomiclong.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongCompareAndSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongCompareAndSetCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.CompareAndSetOp;
@@ -31,7 +31,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link CompareAndSetOp}
  */
-public class CompareAndSetMessageTask extends AbstractCPMessageTask<AtomicLongCompareAndSetCodec.RequestParameters> {
+public class CompareAndSetMessageTask extends AbstractCPMessageTask<ServerAtomicLongCompareAndSetCodec.RequestParameters> {
 
     public CompareAndSetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -68,12 +68,12 @@ public class CompareAndSetMessageTask extends AbstractCPMessageTask<AtomicLongCo
     }
 
     @Override
-    protected AtomicLongCompareAndSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicLongCompareAndSetCodec.decodeRequest(clientMessage);
+    protected ServerAtomicLongCompareAndSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicLongCompareAndSetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicLongCompareAndSetCodec.encodeResponse((Boolean) response);
+        return ServerAtomicLongCompareAndSetCodec.encodeResponse((Boolean) response);
     }
 }

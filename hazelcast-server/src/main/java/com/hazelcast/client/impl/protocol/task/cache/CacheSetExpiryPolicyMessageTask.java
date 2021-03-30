@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.cache;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheSetExpiryPolicyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheSetExpiryPolicyCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -26,7 +26,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 
 import java.security.Permission;
 
-public class CacheSetExpiryPolicyMessageTask extends AbstractCacheMessageTask<CacheSetExpiryPolicyCodec.RequestParameters> {
+public class CacheSetExpiryPolicyMessageTask extends AbstractCacheMessageTask<ServerCacheSetExpiryPolicyCodec.RequestParameters> {
 
     public CacheSetExpiryPolicyMessageTask(ClientMessage message, Node node, Connection connection) {
         super(message, node, connection);
@@ -39,13 +39,13 @@ public class CacheSetExpiryPolicyMessageTask extends AbstractCacheMessageTask<Ca
     }
 
     @Override
-    protected CacheSetExpiryPolicyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheSetExpiryPolicyCodec.decodeRequest(clientMessage);
+    protected ServerCacheSetExpiryPolicyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheSetExpiryPolicyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheSetExpiryPolicyCodec.encodeResponse((Boolean) response);
+        return ServerCacheSetExpiryPolicyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheEntriesWithCursor;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CacheFetchEntriesOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheIterateEntriesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheIterateEntriesCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.iteration.IterationPointer;
 import com.hazelcast.internal.nio.Connection;
@@ -40,7 +40,7 @@ import static com.hazelcast.internal.iteration.IterationPointer.encodePointers;
  * @see CacheFetchEntriesOperation
  */
 public class CacheIterateEntriesMessageTask
-        extends AbstractCacheMessageTask<CacheIterateEntriesCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheIterateEntriesCodec.RequestParameters> {
 
     public CacheIterateEntriesMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -54,18 +54,18 @@ public class CacheIterateEntriesMessageTask
     }
 
     @Override
-    protected CacheIterateEntriesCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheIterateEntriesCodec.decodeRequest(clientMessage);
+    protected ServerCacheIterateEntriesCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheIterateEntriesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         if (response == null) {
-            return CacheIterateEntriesCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
+            return ServerCacheIterateEntriesCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
         }
         CacheEntriesWithCursor iteratorResult = (CacheEntriesWithCursor) response;
         IterationPointer[] pointers = iteratorResult.getPointers();
-        return CacheIterateEntriesCodec.encodeResponse(
+        return ServerCacheIterateEntriesCodec.encodeResponse(
                 encodePointers(pointers), iteratorResult.getEntries());
     }
 

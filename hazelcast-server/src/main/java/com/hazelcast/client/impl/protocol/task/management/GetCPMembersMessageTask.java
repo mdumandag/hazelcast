@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetCPMembersCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetCPMembersCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.CPMember;
 import com.hazelcast.cp.CPSubsystemManagementService;
@@ -66,7 +66,7 @@ public class GetCPMembersMessageTask extends AbstractAsyncMessageTask<Void, List
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCGetCPMembersCodec.encodeResponse((List<Map.Entry<UUID, UUID>>) response);
+        return ServerMCGetCPMembersCodec.encodeResponse((List<Map.Entry<UUID, UUID>>) response);
     }
 
     @Override

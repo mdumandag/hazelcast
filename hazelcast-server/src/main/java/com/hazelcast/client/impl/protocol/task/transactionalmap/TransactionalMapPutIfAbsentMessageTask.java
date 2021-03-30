@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapPutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapPutIfAbsentCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapPutIfAbsentMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapPutIfAbsentCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapPutIfAbsentCodec.RequestParameters> {
 
     public TransactionalMapPutIfAbsentMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalMapPutIfAbsentMessageTask
     }
 
     @Override
-    protected TransactionalMapPutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapPutIfAbsentCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapPutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapPutIfAbsentCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapPutIfAbsentCodec.encodeResponse(serializationService.toData(response));
+        return ServerTransactionalMapPutIfAbsentCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

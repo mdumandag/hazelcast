@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.metrics;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCReadMetricsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCReadMetricsCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.metrics.impl.MetricsService;
@@ -32,7 +32,7 @@ import java.security.Permission;
 import java.util.List;
 import java.util.Map;
 
-public class ReadMetricsMessageTask extends AbstractInvocationMessageTask<MCReadMetricsCodec.RequestParameters> {
+public class ReadMetricsMessageTask extends AbstractInvocationMessageTask<ServerMCReadMetricsCodec.RequestParameters> {
 
     private static final Permission REQUIRED_PERMISSION = new ManagementPermission("metrics.read");
 
@@ -62,8 +62,8 @@ public class ReadMetricsMessageTask extends AbstractInvocationMessageTask<MCRead
     }
 
     @Override
-    protected MCReadMetricsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCReadMetricsCodec.decodeRequest(clientMessage);
+    protected ServerMCReadMetricsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMCReadMetricsCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ReadMetricsMessageTask extends AbstractInvocationMessageTask<MCRead
 
         List<Map.Entry<Long, byte[]>> elements = ringbufferSlice.elements();
         long nextSequence = ringbufferSlice.nextSequence();
-        return MCReadMetricsCodec.encodeResponse(elements, nextSequence);
+        return ServerMCReadMetricsCodec.encodeResponse(elements, nextSequence);
     }
 
     @Override

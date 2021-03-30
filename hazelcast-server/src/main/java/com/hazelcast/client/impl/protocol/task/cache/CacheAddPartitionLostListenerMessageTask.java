@@ -22,7 +22,7 @@ import com.hazelcast.cache.impl.event.CachePartitionLostEventFilter;
 import com.hazelcast.cache.impl.event.CachePartitionLostListener;
 import com.hazelcast.cache.impl.event.InternalCachePartitionLostListenerAdapter;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddPartitionLostListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -38,7 +38,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.CALLER_RUNS;
 import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFuture;
 
 public class CacheAddPartitionLostListenerMessageTask
-        extends AbstractAddListenerMessageTask<CacheAddPartitionLostListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerCacheAddPartitionLostListenerCodec.RequestParameters> {
 
     public CacheAddPartitionLostListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,7 +48,7 @@ public class CacheAddPartitionLostListenerMessageTask
     protected CompletableFuture<UUID> processInternal() {
         CachePartitionLostListener listener = event -> {
             if (endpoint.isAlive()) {
-                ClientMessage eventMessage = CacheAddPartitionLostListenerCodec
+                ClientMessage eventMessage = ServerCacheAddPartitionLostListenerCodec
                         .encodeCachePartitionLostEvent(event.getPartitionId(), event.getMember().getUuid());
                 sendClientMessage(null, eventMessage);
             }
@@ -70,13 +70,13 @@ public class CacheAddPartitionLostListenerMessageTask
     }
 
     @Override
-    protected CacheAddPartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheAddPartitionLostListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheAddPartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheAddPartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheAddPartitionLostListenerCodec.encodeResponse((UUID) response);
+        return ServerCacheAddPartitionLostListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

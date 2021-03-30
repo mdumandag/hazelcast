@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCMatchMCConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCMatchMCConfigCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -42,12 +42,12 @@ public class MatchClientFilteringConfigMessageTask extends AbstractCallableMessa
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MCMatchMCConfigCodec.decodeRequest(clientMessage);
+        return ServerMCMatchMCConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCMatchMCConfigCodec.encodeResponse((Boolean) response);
+        return ServerMCMatchMCConfigCodec.encodeResponse((Boolean) response);
     }
 
     @Override

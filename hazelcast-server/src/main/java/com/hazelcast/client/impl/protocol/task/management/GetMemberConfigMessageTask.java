@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetMemberConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetMemberConfigCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
@@ -50,7 +50,7 @@ public class GetMemberConfigMessageTask extends AbstractCallableMessageTask<Void
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCGetMemberConfigCodec.encodeResponse((String) response);
+        return ServerMCGetMemberConfigCodec.encodeResponse((String) response);
     }
 
     @Override

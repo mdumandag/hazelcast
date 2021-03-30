@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemovePartitionLostListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.partition.InternalPartitionService;
@@ -46,12 +46,12 @@ public class RemovePartitionLostListenerMessageTask
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return ClientRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
+        return ServerClientRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
+        return ServerClientRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

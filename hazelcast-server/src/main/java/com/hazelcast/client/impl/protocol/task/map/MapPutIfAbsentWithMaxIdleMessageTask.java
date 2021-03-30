@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapPutIfAbsentWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutIfAbsentWithMaxIdleCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -27,20 +27,20 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.util.concurrent.TimeUnit;
 
 public class MapPutIfAbsentWithMaxIdleMessageTask
-        extends AbstractMapPutWithMaxIdleMessageTask<MapPutIfAbsentWithMaxIdleCodec.RequestParameters> {
+        extends AbstractMapPutWithMaxIdleMessageTask<ServerMapPutIfAbsentWithMaxIdleCodec.RequestParameters> {
 
     public MapPutIfAbsentWithMaxIdleMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected MapPutIfAbsentWithMaxIdleCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapPutIfAbsentWithMaxIdleCodec.decodeRequest(clientMessage);
+    protected ServerMapPutIfAbsentWithMaxIdleCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapPutIfAbsentWithMaxIdleCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapPutIfAbsentWithMaxIdleCodec.encodeResponse(serializationService.toData(response));
+        return ServerMapPutIfAbsentWithMaxIdleCodec.encodeResponse(serializationService.toData(response));
     }
 
     protected Operation prepareOperation() {

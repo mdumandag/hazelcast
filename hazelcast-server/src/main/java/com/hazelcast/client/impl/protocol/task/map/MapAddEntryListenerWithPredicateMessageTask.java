@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerWithPredicateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.EventListenerFilter;
 import com.hazelcast.map.impl.query.QueryEventFilter;
@@ -29,7 +29,7 @@ import com.hazelcast.spi.impl.eventservice.EventFilter;
 import java.util.UUID;
 
 public class MapAddEntryListenerWithPredicateMessageTask
-        extends AbstractMapAddEntryListenerMessageTask<MapAddEntryListenerWithPredicateCodec.RequestParameters> {
+        extends AbstractMapAddEntryListenerMessageTask<ServerMapAddEntryListenerWithPredicateCodec.RequestParameters> {
 
     public MapAddEntryListenerWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,19 +53,19 @@ public class MapAddEntryListenerWithPredicateMessageTask
     }
 
     @Override
-    protected MapAddEntryListenerWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddEntryListenerWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapAddEntryListenerWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddEntryListenerWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
+        return ServerMapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
     }
 
     @Override
     protected ClientMessage encodeEvent(Data keyData, Data newValueData, Data oldValueData,
                                         Data meringValueData, int type, UUID uuid, int numberOfAffectedEntries) {
-        return MapAddEntryListenerWithPredicateCodec.encodeEntryEvent(keyData, newValueData,
+        return ServerMapAddEntryListenerWithPredicateCodec.encodeEntryEvent(keyData, newValueData,
                 oldValueData, meringValueData, type, uuid, numberOfAffectedEntries);
     }
 

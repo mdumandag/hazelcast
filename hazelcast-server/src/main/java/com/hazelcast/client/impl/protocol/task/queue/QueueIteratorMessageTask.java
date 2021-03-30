@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueIteratorCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.IteratorOperation;
@@ -50,7 +50,7 @@ public class QueueIteratorMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueIteratorCodec.decodeRequest(clientMessage);
+        return ServerQueueIteratorCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class QueueIteratorMessageTask
     protected ClientMessage encodeResponse(Object response) {
         SerializableList serializableList = (SerializableList) response;
         List<Data> coll = serializableList.getCollection();
-        return QueueIteratorCodec.encodeResponse(coll);
+        return ServerQueueIteratorCodec.encodeResponse(coll);
     }
 
     @Override

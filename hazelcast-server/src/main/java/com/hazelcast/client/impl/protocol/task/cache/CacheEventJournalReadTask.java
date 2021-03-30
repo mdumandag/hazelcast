@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.journal.CacheEventJournalReadOperation;
 import com.hazelcast.cache.EventJournalCacheEvent;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheEventJournalReadCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheEventJournalReadCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -53,7 +53,7 @@ import java.util.function.Predicate;
  * @since 3.9
  */
 public class CacheEventJournalReadTask<K, V, T>
-        extends AbstractCacheMessageTask<CacheEventJournalReadCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheEventJournalReadCodec.RequestParameters> {
 
     public CacheEventJournalReadTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -69,8 +69,8 @@ public class CacheEventJournalReadTask<K, V, T>
     }
 
     @Override
-    protected CacheEventJournalReadCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheEventJournalReadCodec.decodeRequest(clientMessage);
+    protected ServerCacheEventJournalReadCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheEventJournalReadCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class CacheEventJournalReadTask<K, V, T>
             seqs[k] = resultSet.getSequence(k);
         }
 
-        return CacheEventJournalReadCodec.encodeResponse(
+        return ServerCacheEventJournalReadCodec.encodeResponse(
                 resultSet.readCount(), items, seqs, resultSet.getNextSequenceToReadFrom());
     }
 

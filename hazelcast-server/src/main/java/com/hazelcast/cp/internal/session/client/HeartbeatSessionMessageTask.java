@@ -17,8 +17,8 @@
 package com.hazelcast.cp.internal.session.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSessionHeartbeatSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionHeartbeatSessionCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionHeartbeatSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionHeartbeatSessionCodec.RequestParameters;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.session.operation.HeartbeatSessionOp;
@@ -45,12 +45,12 @@ public class HeartbeatSessionMessageTask extends AbstractSessionMessageTask<Requ
     }
 
     @Override
-    protected CPSessionHeartbeatSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CPSessionHeartbeatSessionCodec.decodeRequest(clientMessage);
+    protected ServerCPSessionHeartbeatSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCPSessionHeartbeatSessionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSessionHeartbeatSessionCodec.encodeResponse();
+        return ServerCPSessionHeartbeatSessionCodec.encodeResponse();
     }
 }

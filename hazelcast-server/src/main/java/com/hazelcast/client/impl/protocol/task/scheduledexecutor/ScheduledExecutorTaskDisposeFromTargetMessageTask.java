@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorDisposeFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorDisposeFromMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ScheduledExecutorTaskDisposeFromTargetMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorDisposeFromMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorDisposeFromMemberCodec.RequestParameters> {
 
     public ScheduledExecutorTaskDisposeFromTargetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class ScheduledExecutorTaskDisposeFromTargetMessageTask
     }
 
     @Override
-    protected ScheduledExecutorDisposeFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorDisposeFromMemberCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorDisposeFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorDisposeFromMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorDisposeFromMemberCodec.encodeResponse();
+        return ServerScheduledExecutorDisposeFromMemberCodec.encodeResponse();
     }
 
     @Override

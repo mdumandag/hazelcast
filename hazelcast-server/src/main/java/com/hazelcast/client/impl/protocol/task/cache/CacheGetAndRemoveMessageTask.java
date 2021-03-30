@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CacheGetAndRemoveOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheGetAndRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetAndRemoveCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * @see CacheGetAndRemoveOperation
  */
 public class CacheGetAndRemoveMessageTask
-        extends AbstractCacheMessageTask<CacheGetAndRemoveCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheGetAndRemoveCodec.RequestParameters> {
 
     public CacheGetAndRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class CacheGetAndRemoveMessageTask
     }
 
     @Override
-    protected CacheGetAndRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheGetAndRemoveCodec.decodeRequest(clientMessage);
+    protected ServerCacheGetAndRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheGetAndRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheGetAndRemoveCodec.encodeResponse(serializationService.toData(response));
+        return ServerCacheGetAndRemoveCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmultimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapRemoveEntryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapRemoveEntryCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMultiMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMultiMapRemoveEntryMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMultiMapRemoveEntryCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMultiMapRemoveEntryCodec.RequestParameters> {
 
     public TransactionalMultiMapRemoveEntryMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalMultiMapRemoveEntryMessageTask
     }
 
     @Override
-    protected TransactionalMultiMapRemoveEntryCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMultiMapRemoveEntryCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMultiMapRemoveEntryCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMultiMapRemoveEntryCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMultiMapRemoveEntryCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalMultiMapRemoveEntryCodec.encodeResponse((Boolean) response);
     }
 
     @Override

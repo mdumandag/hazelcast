@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapContainsKeyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapService;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_CONTAINSKEY}
  */
 public class MultiMapContainsKeyMessageTask
-        extends AbstractPartitionMessageTask<MultiMapContainsKeyCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapContainsKeyCodec.RequestParameters> {
 
     public MultiMapContainsKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class MultiMapContainsKeyMessageTask
     }
 
     @Override
-    protected MultiMapContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapContainsKeyCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapContainsKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapContainsKeyCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapContainsKeyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

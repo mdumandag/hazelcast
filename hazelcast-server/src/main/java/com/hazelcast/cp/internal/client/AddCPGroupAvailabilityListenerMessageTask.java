@@ -18,7 +18,7 @@ package com.hazelcast.cp.internal.client;
 
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemAddGroupAvailabilityListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddGroupAvailabilityListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.event.CPGroupAvailabilityEvent;
 import com.hazelcast.cp.event.CPGroupAvailabilityListener;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import static com.hazelcast.client.impl.protocol.codec.CPSubsystemAddGroupAvailabilityListenerCodec.encodeGroupAvailabilityEventEvent;
+import static com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddGroupAvailabilityListenerCodec.encodeGroupAvailabilityEventEvent;
 import static com.hazelcast.cp.internal.RaftService.EVENT_TOPIC_AVAILABILITY;
 import static com.hazelcast.internal.util.ConcurrencyUtil.CALLER_RUNS;
 
@@ -96,12 +96,12 @@ public class AddCPGroupAvailabilityListenerMessageTask extends AbstractAsyncMess
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return CPSubsystemAddGroupAvailabilityListenerCodec.decodeRequest(clientMessage);
+        return ServerCPSubsystemAddGroupAvailabilityListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSubsystemAddGroupAvailabilityListenerCodec.encodeResponse((UUID) response);
+        return ServerCPSubsystemAddGroupAvailabilityListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

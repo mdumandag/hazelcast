@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice.durable;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorShutdownCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService;
 import com.hazelcast.instance.impl.Node;
@@ -43,12 +43,12 @@ public class DurableExecutorShutdownMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return DurableExecutorShutdownCodec.decodeRequest(clientMessage);
+        return ServerDurableExecutorShutdownCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DurableExecutorShutdownCodec.encodeResponse();
+        return ServerDurableExecutorShutdownCodec.encodeResponse();
     }
 
     @Override

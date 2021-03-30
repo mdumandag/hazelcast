@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CachePutIfAbsentOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CachePutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCachePutIfAbsentCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * @see CachePutIfAbsentOperation
  */
 public class CachePutIfAbsentMessageTask
-        extends AbstractCacheMessageTask<CachePutIfAbsentCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCachePutIfAbsentCodec.RequestParameters> {
 
     public CachePutIfAbsentMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class CachePutIfAbsentMessageTask
     }
 
     @Override
-    protected CachePutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CachePutIfAbsentCodec.decodeRequest(clientMessage);
+    protected ServerCachePutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCachePutIfAbsentCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CachePutIfAbsentCodec.encodeResponse((Boolean) response);
+        return ServerCachePutIfAbsentCodec.encodeResponse((Boolean) response);
     }
 
     @Override

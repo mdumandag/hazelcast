@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceSubmitToMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceSubmitToMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.executor.impl.operations.MemberCallableTaskOperation;
@@ -33,7 +33,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class ExecutorServiceSubmitToAddressMessageTask
-        extends AbstractTargetMessageTask<ExecutorServiceSubmitToMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerExecutorServiceSubmitToMemberCodec.RequestParameters> {
 
     public ExecutorServiceSubmitToAddressMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -66,14 +66,14 @@ public class ExecutorServiceSubmitToAddressMessageTask
     }
 
     @Override
-    protected ExecutorServiceSubmitToMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ExecutorServiceSubmitToMemberCodec.decodeRequest(clientMessage);
+    protected ServerExecutorServiceSubmitToMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerExecutorServiceSubmitToMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = serializationService.toData(response);
-        return ExecutorServiceSubmitToMemberCodec.encodeResponse(data);
+        return ServerExecutorServiceSubmitToMemberCodec.encodeResponse(data);
     }
 
     @Override

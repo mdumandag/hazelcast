@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapTryPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapTryPutCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -27,7 +27,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.util.concurrent.TimeUnit;
 
 public class MapTryPutMessageTask
-        extends AbstractMapPutMessageTask<MapTryPutCodec.RequestParameters> {
+        extends AbstractMapPutMessageTask<ServerMapTryPutCodec.RequestParameters> {
 
     public MapTryPutMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -44,12 +44,12 @@ public class MapTryPutMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapTryPutCodec.encodeResponse((Boolean) response);
+        return ServerMapTryPutCodec.encodeResponse((Boolean) response);
     }
 
     @Override
-    protected MapTryPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapTryPutCodec.decodeRequest(clientMessage);
+    protected ServerMapTryPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapTryPutCodec.decodeRequest(clientMessage);
     }
 
     @Override

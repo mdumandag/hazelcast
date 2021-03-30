@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetMapConfigCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.config.EvictionConfig;
 import com.hazelcast.instance.impl.Node;
@@ -52,7 +52,7 @@ public class GetMapConfigMessageTask extends AbstractInvocationMessageTask<Strin
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MCGetMapConfigCodec.decodeRequest(clientMessage);
+        return ServerMCGetMapConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class GetMapConfigMessageTask extends AbstractInvocationMessageTask<Strin
         int evictionPolicyId = evictionConfig.getEvictionPolicy().getId();
         String mergePolicy = config.getMergePolicyConfig().getPolicy();
 
-        return MCGetMapConfigCodec.encodeResponse(
+        return ServerMCGetMapConfigCodec.encodeResponse(
                 config.getInMemoryFormat().getId(),
                 config.getBackupCount(),
                 config.getAsyncBackupCount(),

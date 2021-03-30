@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteWithPredicateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMultiPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.partition.IPartition;
@@ -44,7 +44,7 @@ import java.util.Map;
 import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
 
 public class MapExecuteWithPredicateMessageTask
-        extends AbstractMultiPartitionMessageTask<MapExecuteWithPredicateCodec.RequestParameters> {
+        extends AbstractMultiPartitionMessageTask<ServerMapExecuteWithPredicateCodec.RequestParameters> {
     private Predicate predicate;
 
     public MapExecuteWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -105,13 +105,13 @@ public class MapExecuteWithPredicateMessageTask
     }
 
     @Override
-    protected MapExecuteWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapExecuteWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapExecuteWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapExecuteWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapExecuteWithPredicateCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
+        return ServerMapExecuteWithPredicateCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
     }
 
     @Override

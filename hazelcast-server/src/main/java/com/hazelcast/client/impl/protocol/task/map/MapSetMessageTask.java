@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.map.impl.record.Record.UNSET;
 
 public class MapSetMessageTask
-        extends AbstractMapSetMessageTask<MapSetCodec.RequestParameters> {
+        extends AbstractMapSetMessageTask<ServerMapSetCodec.RequestParameters> {
 
     public MapSetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class MapSetMessageTask
     }
 
     @Override
-    protected MapSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapSetCodec.decodeRequest(clientMessage);
+    protected ServerMapSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapSetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapSetCodec.encodeResponse();
+        return ServerMapSetCodec.encodeResponse();
     }
 
     @Override

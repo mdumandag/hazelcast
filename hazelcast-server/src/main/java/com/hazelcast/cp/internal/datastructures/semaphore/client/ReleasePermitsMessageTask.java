@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreReleaseCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreReleaseCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
@@ -32,7 +32,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link ReleasePermitsOp}
  */
-public class ReleasePermitsMessageTask extends AbstractCPMessageTask<SemaphoreReleaseCodec.RequestParameters> {
+public class ReleasePermitsMessageTask extends AbstractCPMessageTask<ServerSemaphoreReleaseCodec.RequestParameters> {
 
     public ReleasePermitsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class ReleasePermitsMessageTask extends AbstractCPMessageTask<SemaphoreRe
     }
 
     @Override
-    protected SemaphoreReleaseCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreReleaseCodec.decodeRequest(clientMessage);
+    protected ServerSemaphoreReleaseCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSemaphoreReleaseCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreReleaseCodec.encodeResponse((Boolean) response);
+        return ServerSemaphoreReleaseCodec.encodeResponse((Boolean) response);
     }
 
     @Override

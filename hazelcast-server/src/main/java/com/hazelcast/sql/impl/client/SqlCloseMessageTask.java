@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SqlCloseCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlCloseCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.sql.impl.QueryId;
@@ -44,12 +44,12 @@ public class SqlCloseMessageTask extends SqlAbstractMessageTask<QueryId> {
 
     @Override
     protected QueryId decodeClientMessage(ClientMessage clientMessage) {
-        return SqlCloseCodec.decodeRequest(clientMessage);
+        return ServerSqlCloseCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SqlCloseCodec.encodeResponse();
+        return ServerSqlCloseCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapRemoveEntryListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -31,7 +31,7 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 
 public class ReplicatedMapRemoveEntryListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<ReplicatedMapRemoveEntryListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerReplicatedMapRemoveEntryListenerCodec.RequestParameters> {
 
     public ReplicatedMapRemoveEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class ReplicatedMapRemoveEntryListenerMessageTask
     }
 
     @Override
-    protected ReplicatedMapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapRemoveEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapRemoveEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
+        return ServerReplicatedMapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

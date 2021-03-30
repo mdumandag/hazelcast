@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.crdt.pncounter;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.PNCounterGetConfiguredReplicaCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterGetConfiguredReplicaCountCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.crdt.pncounter.PNCounter;
 import com.hazelcast.instance.impl.Node;
@@ -42,12 +42,12 @@ public class PNCounterGetConfiguredReplicaCountMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return PNCounterGetConfiguredReplicaCountCodec.decodeRequest(clientMessage);
+        return ServerPNCounterGetConfiguredReplicaCountCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return PNCounterGetConfiguredReplicaCountCodec.encodeResponse((Integer) response);
+        return ServerPNCounterGetConfiguredReplicaCountCodec.encodeResponse((Integer) response);
     }
 
     @Override

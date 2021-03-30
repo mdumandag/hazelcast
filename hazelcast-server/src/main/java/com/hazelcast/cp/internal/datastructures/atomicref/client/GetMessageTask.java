@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomicref.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefGetCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.atomicref.AtomicRefService;
 import com.hazelcast.cp.internal.datastructures.atomicref.operation.GetOp;
@@ -33,7 +33,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link GetOp}
  */
-public class GetMessageTask extends AbstractCPMessageTask<AtomicRefGetCodec.RequestParameters> {
+public class GetMessageTask extends AbstractCPMessageTask<ServerAtomicRefGetCodec.RequestParameters> {
 
     public GetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class GetMessageTask extends AbstractCPMessageTask<AtomicRefGetCodec.Requ
     }
 
     @Override
-    protected AtomicRefGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicRefGetCodec.decodeRequest(clientMessage);
+    protected ServerAtomicRefGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicRefGetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicRefGetCodec.encodeResponse(serializationService.toData(response));
+        return ServerAtomicRefGetCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListCompareAndRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListCompareAndRemoveAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionCompareAndRemoveOperation;
 import com.hazelcast.collection.impl.list.ListService;
@@ -37,7 +37,7 @@ import java.util.Set;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_COMPAREANDREMOVEALL}
  */
 public class ListCompareAndRemoveAllMessageTask
-        extends AbstractPartitionMessageTask<ListCompareAndRemoveAllCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListCompareAndRemoveAllCodec.RequestParameters> {
 
     public ListCompareAndRemoveAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class ListCompareAndRemoveAllMessageTask
     }
 
     @Override
-    protected ListCompareAndRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListCompareAndRemoveAllCodec.decodeRequest(clientMessage);
+    protected ServerListCompareAndRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListCompareAndRemoveAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListCompareAndRemoveAllCodec.encodeResponse((Boolean) response);
+        return ServerListCompareAndRemoveAllCodec.encodeResponse((Boolean) response);
     }
 
     @Override

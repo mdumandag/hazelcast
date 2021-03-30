@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapLoadAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapLoadAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.core.DistributedObject;
@@ -32,7 +32,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class MapLoadAllMessageTask
-        extends AbstractCallableMessageTask<MapLoadAllCodec.RequestParameters> implements BlockingMessageTask {
+        extends AbstractCallableMessageTask<ServerMapLoadAllCodec.RequestParameters> implements BlockingMessageTask {
 
     public MapLoadAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,13 +51,13 @@ public class MapLoadAllMessageTask
     }
 
     @Override
-    protected MapLoadAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapLoadAllCodec.decodeRequest(clientMessage);
+    protected ServerMapLoadAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapLoadAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapLoadAllCodec.encodeResponse();
+        return ServerMapLoadAllCodec.encodeResponse();
     }
 
 

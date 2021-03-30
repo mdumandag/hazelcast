@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.topic;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TopicAddMessageListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTopicAddMessageListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -38,7 +38,7 @@ import static com.hazelcast.internal.util.HashUtil.hashToIndex;
 import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFuture;
 
 public class TopicAddMessageListenerMessageTask
-        extends AbstractAddListenerMessageTask<TopicAddMessageListenerCodec.RequestParameters>
+        extends AbstractAddListenerMessageTask<ServerTopicAddMessageListenerCodec.RequestParameters>
         implements MessageListener {
 
     private Data partitionKey;
@@ -59,13 +59,13 @@ public class TopicAddMessageListenerMessageTask
     }
 
     @Override
-    protected TopicAddMessageListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TopicAddMessageListenerCodec.decodeRequest(clientMessage);
+    protected ServerTopicAddMessageListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTopicAddMessageListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TopicAddMessageListenerCodec.encodeResponse((UUID) response);
+        return ServerTopicAddMessageListenerCodec.encodeResponse((UUID) response);
     }
 
 
@@ -109,7 +109,7 @@ public class TopicAddMessageListenerMessageTask
         DataAwareMessage dataAwareMessage = (DataAwareMessage) message;
         Data messageData = dataAwareMessage.getMessageData();
         UUID publisherUuid = message.getPublishingMember().getUuid();
-        ClientMessage eventMessage = TopicAddMessageListenerCodec.encodeTopicEvent(messageData,
+        ClientMessage eventMessage = ServerTopicAddMessageListenerCodec.encodeTopicEvent(messageData,
                 message.getPublishTime(), publisherUuid);
 
         boolean isMultithreaded = nodeEngine.getConfig().findTopicConfig(parameters.name).isMultiThreadingEnabled();

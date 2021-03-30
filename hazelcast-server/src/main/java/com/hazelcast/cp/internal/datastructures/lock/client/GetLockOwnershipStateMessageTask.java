@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.lock.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.FencedLockGetLockOwnershipCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockGetLockOwnershipCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.lock.LockOwnershipState;
 import com.hazelcast.cp.internal.datastructures.lock.LockService;
@@ -34,7 +34,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link GetLockOwnershipStateOp}
  */
-public class GetLockOwnershipStateMessageTask extends AbstractCPMessageTask<FencedLockGetLockOwnershipCodec.RequestParameters> {
+public class GetLockOwnershipStateMessageTask extends AbstractCPMessageTask<ServerFencedLockGetLockOwnershipCodec.RequestParameters> {
 
     public GetLockOwnershipStateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,14 +46,14 @@ public class GetLockOwnershipStateMessageTask extends AbstractCPMessageTask<Fenc
     }
 
     @Override
-    protected FencedLockGetLockOwnershipCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return FencedLockGetLockOwnershipCodec.decodeRequest(clientMessage);
+    protected ServerFencedLockGetLockOwnershipCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerFencedLockGetLockOwnershipCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         LockOwnershipState lockState = (LockOwnershipState) response;
-        return FencedLockGetLockOwnershipCodec.encodeResponse(lockState.getFence(), lockState.getLockCount(),
+        return ServerFencedLockGetLockOwnershipCodec.encodeResponse(lockState.getFence(), lockState.getLockCount(),
                 lockState.getSessionId(), lockState.getThreadId());
     }
 

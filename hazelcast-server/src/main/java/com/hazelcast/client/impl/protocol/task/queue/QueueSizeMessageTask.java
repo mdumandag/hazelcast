@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.SizeOperation;
@@ -47,12 +47,12 @@ public class QueueSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueSizeCodec.decodeRequest(clientMessage);
+        return ServerQueueSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueueSizeCodec.encodeResponse((Integer) response);
+        return ServerQueueSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

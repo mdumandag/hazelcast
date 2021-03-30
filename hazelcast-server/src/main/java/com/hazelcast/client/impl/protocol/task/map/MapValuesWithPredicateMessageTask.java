@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapValuesWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapValuesWithPredicateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.query.QueryResultRow;
@@ -33,7 +33,7 @@ import java.util.List;
 import static com.hazelcast.map.impl.LocalMapStatsUtil.incrementOtherOperationsCount;
 
 public class MapValuesWithPredicateMessageTask
-        extends DefaultMapQueryMessageTask<MapValuesWithPredicateCodec.RequestParameters> {
+        extends DefaultMapQueryMessageTask<ServerMapValuesWithPredicateCodec.RequestParameters> {
 
     public MapValuesWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -60,13 +60,13 @@ public class MapValuesWithPredicateMessageTask
     }
 
     @Override
-    protected MapValuesWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapValuesWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapValuesWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapValuesWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapValuesWithPredicateCodec.encodeResponse((List<Data>) response);
+        return ServerMapValuesWithPredicateCodec.encodeResponse((List<Data>) response);
     }
 
     @Override

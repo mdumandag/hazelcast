@@ -18,7 +18,7 @@ package com.hazelcast.cp.internal.client;
 
 import com.hazelcast.client.impl.ClientEndpoint;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemAddMembershipListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddMembershipListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.event.CPMembershipEvent;
 import com.hazelcast.cp.event.CPMembershipListener;
@@ -32,7 +32,7 @@ import java.security.Permission;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import static com.hazelcast.client.impl.protocol.codec.CPSubsystemAddMembershipListenerCodec.encodeMembershipEventEvent;
+import static com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddMembershipListenerCodec.encodeMembershipEventEvent;
 import static com.hazelcast.cp.internal.RaftService.EVENT_TOPIC_MEMBERSHIP;
 import static com.hazelcast.internal.util.ConcurrencyUtil.CALLER_RUNS;
 
@@ -92,12 +92,12 @@ public class AddCPMembershipListenerMessageTask extends AbstractAsyncMessageTask
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return CPSubsystemAddMembershipListenerCodec.decodeRequest(clientMessage);
+        return ServerCPSubsystemAddMembershipListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSubsystemAddMembershipListenerCodec.encodeResponse((UUID) response);
+        return ServerCPSubsystemAddMembershipListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

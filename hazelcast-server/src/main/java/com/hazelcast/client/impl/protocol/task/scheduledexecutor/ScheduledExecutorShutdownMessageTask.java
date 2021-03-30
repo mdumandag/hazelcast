@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorShutdownCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -31,7 +31,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ScheduledExecutorShutdownMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorShutdownCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorShutdownCodec.RequestParameters> {
 
     public ScheduledExecutorShutdownMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class ScheduledExecutorShutdownMessageTask
     }
 
     @Override
-    protected ScheduledExecutorShutdownCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorShutdownCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorShutdownCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorShutdownCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorShutdownCodec.encodeResponse();
+        return ServerScheduledExecutorShutdownCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.ringbuffer;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.RingbufferReadOneCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferReadOneCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.RingbufferMessageType#RINGBUFFER_READONE}
  */
 public class RingbufferReadOneMessageTask
-        extends AbstractPartitionMessageTask<RingbufferReadOneCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerRingbufferReadOneCodec.RequestParameters> {
 
     public RingbufferReadOneMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,12 +48,12 @@ public class RingbufferReadOneMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return RingbufferReadOneCodec.encodeResponse((Data) response);
+        return ServerRingbufferReadOneCodec.encodeResponse((Data) response);
     }
 
     @Override
-    protected RingbufferReadOneCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return RingbufferReadOneCodec.decodeRequest(clientMessage);
+    protected ServerRingbufferReadOneCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerRingbufferReadOneCodec.decodeRequest(clientMessage);
     }
 
     @Override

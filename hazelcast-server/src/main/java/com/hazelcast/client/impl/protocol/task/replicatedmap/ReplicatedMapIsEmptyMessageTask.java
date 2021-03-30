@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -43,12 +43,12 @@ public class ReplicatedMapIsEmptyMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapIsEmptyCodec.decodeRequest(clientMessage);
+        return ServerReplicatedMapIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerReplicatedMapIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

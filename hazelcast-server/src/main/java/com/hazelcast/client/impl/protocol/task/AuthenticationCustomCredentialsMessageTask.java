@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAuthenticationCustomCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAuthenticationCustomCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.internal.nio.Connection;
@@ -31,7 +31,7 @@ import java.util.UUID;
  * Custom Authentication with custom credential impl
  */
 public class AuthenticationCustomCredentialsMessageTask
-        extends AuthenticationBaseMessageTask<ClientAuthenticationCustomCodec.RequestParameters> {
+        extends AuthenticationBaseMessageTask<ServerClientAuthenticationCustomCodec.RequestParameters> {
 
     public AuthenticationCustomCredentialsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -44,8 +44,8 @@ public class AuthenticationCustomCredentialsMessageTask
 
     @Override
     @SuppressWarnings("checkstyle:npathcomplexity")
-    protected ClientAuthenticationCustomCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        ClientAuthenticationCustomCodec.RequestParameters parameters = ClientAuthenticationCustomCodec
+    protected ServerClientAuthenticationCustomCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        ServerClientAuthenticationCustomCodec.RequestParameters parameters = ServerClientAuthenticationCustomCodec
                 .decodeRequest(clientMessage);
         UUID uuid = parameters.uuid;
         assert uuid != null;
@@ -67,7 +67,7 @@ public class AuthenticationCustomCredentialsMessageTask
     @Override
     protected ClientMessage encodeAuth(byte status, Address thisAddress, UUID uuid, byte version,
                                        int partitionCount, UUID clusterId, boolean clientFailoverSupported) {
-        return ClientAuthenticationCustomCodec
+        return ServerClientAuthenticationCustomCodec
                 .encodeResponse(status, thisAddress, uuid, version,
                         getMemberBuildInfo().getVersion(), partitionCount, clusterId, clientFailoverSupported);
     }

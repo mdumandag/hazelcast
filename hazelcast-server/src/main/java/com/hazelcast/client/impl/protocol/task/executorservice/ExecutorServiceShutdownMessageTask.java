@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceShutdownCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.instance.impl.Node;
@@ -41,12 +41,12 @@ public class ExecutorServiceShutdownMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ExecutorServiceShutdownCodec.decodeRequest(clientMessage);
+        return ServerExecutorServiceShutdownCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ExecutorServiceShutdownCodec.encodeResponse();
+        return ServerExecutorServiceShutdownCodec.encodeResponse();
     }
 
     @Override

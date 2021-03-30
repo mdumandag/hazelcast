@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAuthenticationCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAuthenticationCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.internal.nio.Connection;
@@ -30,15 +30,15 @@ import java.util.UUID;
 /**
  * Default Authentication with username password handling task
  */
-public class AuthenticationMessageTask extends AuthenticationBaseMessageTask<ClientAuthenticationCodec.RequestParameters> {
+public class AuthenticationMessageTask extends AuthenticationBaseMessageTask<ServerClientAuthenticationCodec.RequestParameters> {
 
     public AuthenticationMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected ClientAuthenticationCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        ClientAuthenticationCodec.RequestParameters parameters = ClientAuthenticationCodec.decodeRequest(clientMessage);
+    protected ServerClientAuthenticationCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        ServerClientAuthenticationCodec.RequestParameters parameters = ServerClientAuthenticationCodec.decodeRequest(clientMessage);
         final UUID uuid = parameters.uuid;
         if (uuid != null) {
             clientUuid = uuid;
@@ -60,7 +60,7 @@ public class AuthenticationMessageTask extends AuthenticationBaseMessageTask<Cli
     @Override
     protected ClientMessage encodeAuth(byte status, Address thisAddress, UUID uuid, byte version,
                                        int partitionCount, UUID clusterId, boolean clientFailoverSupported) {
-        return ClientAuthenticationCodec.encodeResponse(status, thisAddress, uuid, version,
+        return ServerClientAuthenticationCodec.encodeResponse(status, thisAddress, uuid, version,
                 getMemberBuildInfo().getVersion(), partitionCount, clusterId, clientFailoverSupported);
     }
 

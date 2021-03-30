@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheClearResponse;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CacheRemoveAllOperationFactory;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveAllCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -37,20 +37,20 @@ import java.util.Map;
  * @see CacheRemoveAllOperationFactory
  */
 public class CacheRemoveAllMessageTask
-        extends AbstractCacheAllPartitionsTask<CacheRemoveAllCodec.RequestParameters> {
+        extends AbstractCacheAllPartitionsTask<ServerCacheRemoveAllCodec.RequestParameters> {
 
     public CacheRemoveAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected CacheRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheRemoveAllCodec.decodeRequest(clientMessage);
+    protected ServerCacheRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheRemoveAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheRemoveAllCodec.encodeResponse();
+        return ServerCacheRemoveAllCodec.encodeResponse();
     }
 
     @Override

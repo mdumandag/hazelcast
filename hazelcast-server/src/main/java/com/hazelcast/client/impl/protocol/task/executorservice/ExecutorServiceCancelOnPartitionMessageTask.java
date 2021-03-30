@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceCancelOnPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceCancelOnPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.executor.impl.operations.CancellationOperation;
@@ -28,7 +28,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ExecutorServiceCancelOnPartitionMessageTask
-        extends AbstractPartitionMessageTask<ExecutorServiceCancelOnPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerExecutorServiceCancelOnPartitionCodec.RequestParameters> {
 
     public ExecutorServiceCancelOnPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -40,12 +40,12 @@ public class ExecutorServiceCancelOnPartitionMessageTask
     }
 
     @Override
-    protected ExecutorServiceCancelOnPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ExecutorServiceCancelOnPartitionCodec.decodeRequest(clientMessage);
+    protected ServerExecutorServiceCancelOnPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerExecutorServiceCancelOnPartitionCodec.decodeRequest(clientMessage);
     }
 
     protected ClientMessage encodeResponse(Object response) {
-        return ExecutorServiceCancelOnPartitionCodec.encodeResponse((Boolean) response);
+        return ServerExecutorServiceCancelOnPartitionCodec.encodeResponse((Boolean) response);
     }
 
     @Override

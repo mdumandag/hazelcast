@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.crdt.pncounter;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.PNCounterAddCodec;
-import com.hazelcast.client.impl.protocol.codec.PNCounterAddCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterAddCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.cluster.impl.VectorClock;
 import com.hazelcast.config.PNCounterConfig;
@@ -66,15 +66,15 @@ public class PNCounterAddMessageTask extends AbstractTargetMessageTask<RequestPa
     }
 
     @Override
-    protected PNCounterAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return PNCounterAddCodec.decodeRequest(clientMessage);
+    protected ServerPNCounterAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerPNCounterAddCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         final CRDTTimestampedLong resp = (CRDTTimestampedLong) response;
         final PNCounterConfig counterConfig = nodeEngine.getConfig().findPNCounterConfig(parameters.name);
-        return PNCounterAddCodec.encodeResponse(
+        return ServerPNCounterAddCodec.encodeResponse(
                 resp.getValue(), resp.getVectorClock().entrySet(), counterConfig.getReplicaCount());
     }
 

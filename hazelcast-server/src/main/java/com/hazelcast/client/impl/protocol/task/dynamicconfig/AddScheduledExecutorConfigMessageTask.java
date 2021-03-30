@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddScheduledExecutorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddScheduledExecutorConfigCodec;
 import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.config.ScheduledExecutorConfig;
 import com.hazelcast.instance.impl.Node;
@@ -26,20 +26,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddScheduledExecutorConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddScheduledExecutorConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddScheduledExecutorConfigCodec.RequestParameters> {
 
     public AddScheduledExecutorConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddScheduledExecutorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddScheduledExecutorConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddScheduledExecutorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddScheduledExecutorConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddScheduledExecutorConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddScheduledExecutorConfigCodec.encodeResponse();
     }
 
     @Override

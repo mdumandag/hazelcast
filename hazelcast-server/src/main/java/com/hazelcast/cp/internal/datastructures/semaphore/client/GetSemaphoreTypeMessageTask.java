@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreGetSemaphoreTypeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreGetSemaphoreTypeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMessageTask;
 import com.hazelcast.config.cp.SemaphoreConfig;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
@@ -44,12 +44,12 @@ public class GetSemaphoreTypeMessageTask extends AbstractMessageTask<String> {
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreGetSemaphoreTypeCodec.decodeRequest(clientMessage);
+        return ServerSemaphoreGetSemaphoreTypeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreGetSemaphoreTypeCodec.encodeResponse((Boolean) response);
+        return ServerSemaphoreGetSemaphoreTypeCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapClearCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -57,12 +57,12 @@ public class ReplicatedMapClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapClearCodec.decodeRequest(clientMessage);
+        return ServerReplicatedMapClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapClearCodec.encodeResponse();
+        return ServerReplicatedMapClearCodec.encodeResponse();
     }
 
     @Override

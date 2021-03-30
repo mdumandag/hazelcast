@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSizeCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.internal.nio.Connection;
@@ -58,12 +58,12 @@ public class MapSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapSizeCodec.decodeRequest(clientMessage);
+        return ServerMapSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapSizeCodec.encodeResponse((Integer) response);
+        return ServerMapSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

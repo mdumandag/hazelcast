@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueClearCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.ClearOperation;
@@ -47,12 +47,12 @@ public class QueueClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueClearCodec.decodeRequest(clientMessage);
+        return ServerQueueClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueueClearCodec.encodeResponse();
+        return ServerQueueClearCodec.encodeResponse();
     }
 
     @Override

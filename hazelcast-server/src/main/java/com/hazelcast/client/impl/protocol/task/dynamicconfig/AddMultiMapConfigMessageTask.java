@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddMultiMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddMultiMapConfigCodec;
 import com.hazelcast.config.EntryListenerConfig;
 import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.config.MultiMapConfig;
@@ -27,20 +27,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddMultiMapConfigMessageTask extends
-        AbstractAddConfigMessageTask<DynamicConfigAddMultiMapConfigCodec.RequestParameters> {
+        AbstractAddConfigMessageTask<ServerDynamicConfigAddMultiMapConfigCodec.RequestParameters> {
 
     public AddMultiMapConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddMultiMapConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddMultiMapConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddMultiMapConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddMultiMapConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddMultiMapConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddMultiMapConfigCodec.encodeResponse();
     }
 
     @Override

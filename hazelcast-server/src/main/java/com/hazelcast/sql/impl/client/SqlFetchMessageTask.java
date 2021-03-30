@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SqlFetchCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlFetchCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.sql.impl.SqlInternalService;
@@ -28,7 +28,7 @@ import java.security.Permission;
 /**
  * SQL query fetch task.
  */
-public class SqlFetchMessageTask extends SqlAbstractMessageTask<SqlFetchCodec.RequestParameters> {
+public class SqlFetchMessageTask extends SqlAbstractMessageTask<ServerSqlFetchCodec.RequestParameters> {
 
     public SqlFetchMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,15 +46,15 @@ public class SqlFetchMessageTask extends SqlAbstractMessageTask<SqlFetchCodec.Re
     }
 
     @Override
-    protected SqlFetchCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SqlFetchCodec.decodeRequest(clientMessage);
+    protected ServerSqlFetchCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSqlFetchCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         SqlPage page = ((SqlPage) response);
 
-        return SqlFetchCodec.encodeResponse(page, null);
+        return ServerSqlFetchCodec.encodeResponse(page, null);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SqlFetchMessageTask extends SqlAbstractMessageTask<SqlFetchCodec.Re
 
         SqlError error = SqlClientUtils.exceptionToClientError((Exception) throwable, nodeEngine.getLocalMember().getUuid());
 
-        return SqlFetchCodec.encodeResponse(
+        return ServerSqlFetchCodec.encodeResponse(
             null,
             error
         );

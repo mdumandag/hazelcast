@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapLockCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.LockOperation;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * Client Protocol Task for handling messages with type ID:
  */
 public class MultiMapLockMessageTask
-        extends AbstractPartitionMessageTask<MultiMapLockCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapLockCodec.RequestParameters> {
 
     public MultiMapLockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -55,12 +55,12 @@ public class MultiMapLockMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapLockCodec.encodeResponse();
+        return ServerMultiMapLockCodec.encodeResponse();
     }
 
     @Override
-    protected MultiMapLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapLockCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapLockCodec.decodeRequest(clientMessage);
     }
 
     @Override

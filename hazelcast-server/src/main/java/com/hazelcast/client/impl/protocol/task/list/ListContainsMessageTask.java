@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListContainsCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionContainsOperation;
 import com.hazelcast.collection.impl.list.ListService;
@@ -36,7 +36,7 @@ import static java.util.Collections.singleton;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_CONTAINS}
  */
 public class ListContainsMessageTask
-        extends AbstractPartitionMessageTask<ListContainsCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListContainsCodec.RequestParameters> {
 
     public ListContainsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class ListContainsMessageTask
     }
 
     @Override
-    protected ListContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListContainsCodec.decodeRequest(clientMessage);
+    protected ServerListContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListContainsCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListContainsCodec.encodeResponse((Boolean) response);
+        return ServerListContainsCodec.encodeResponse((Boolean) response);
     }
 
     @Override

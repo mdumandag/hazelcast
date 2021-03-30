@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryDestroyCacheCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryDestroyCacheCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMultiTargetMessageTask;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.instance.impl.Node;
@@ -34,10 +34,10 @@ import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.ContinuousQueryDestroyCacheCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryDestroyCacheCodec#REQUEST_MESSAGE_TYPE}
  */
 public class MapDestroyCacheMessageTask
-        extends AbstractMultiTargetMessageTask<ContinuousQueryDestroyCacheCodec.RequestParameters>
+        extends AbstractMultiTargetMessageTask<ServerContinuousQueryDestroyCacheCodec.RequestParameters>
         implements Supplier<Operation> {
 
     public MapDestroyCacheMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -60,13 +60,13 @@ public class MapDestroyCacheMessageTask
     }
 
     @Override
-    protected ContinuousQueryDestroyCacheCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ContinuousQueryDestroyCacheCodec.decodeRequest(clientMessage);
+    protected ServerContinuousQueryDestroyCacheCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerContinuousQueryDestroyCacheCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ContinuousQueryDestroyCacheCodec.encodeResponse((Boolean) response);
+        return ServerContinuousQueryDestroyCacheCodec.encodeResponse((Boolean) response);
     }
 
     @Override

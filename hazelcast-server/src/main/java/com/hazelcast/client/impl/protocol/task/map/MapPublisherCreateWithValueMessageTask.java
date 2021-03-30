@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryPublisherCreateWithValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryPublisherCreateWithValueCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.cluster.impl.MemberImpl;
@@ -53,7 +53,7 @@ import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
  * {@link com.hazelcast.client.impl.protocol.codec.ContinuousQueryMessageType#CONTINUOUSQUERY_PUBLISHERCREATEWITHVALUE}
  */
 public class MapPublisherCreateWithValueMessageTask
-        extends AbstractCallableMessageTask<ContinuousQueryPublisherCreateWithValueCodec.RequestParameters>
+        extends AbstractCallableMessageTask<ServerContinuousQueryPublisherCreateWithValueCodec.RequestParameters>
         implements BlockingMessageTask {
 
     public MapPublisherCreateWithValueMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -123,13 +123,13 @@ public class MapPublisherCreateWithValueMessageTask
     }
 
     @Override
-    protected ContinuousQueryPublisherCreateWithValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ContinuousQueryPublisherCreateWithValueCodec.decodeRequest(clientMessage);
+    protected ServerContinuousQueryPublisherCreateWithValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerContinuousQueryPublisherCreateWithValueCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ContinuousQueryPublisherCreateWithValueCodec.encodeResponse((Set<Map.Entry<Data, Data>>) response);
+        return ServerContinuousQueryPublisherCreateWithValueCodec.encodeResponse((Set<Map.Entry<Data, Data>>) response);
     }
 
     @Override

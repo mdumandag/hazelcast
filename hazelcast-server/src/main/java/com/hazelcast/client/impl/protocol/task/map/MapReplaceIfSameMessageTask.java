@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapReplaceIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapReplaceIfSameCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -25,7 +25,7 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.spi.impl.operationservice.Operation;
 
 public class MapReplaceIfSameMessageTask
-        extends AbstractMapPutMessageTask<MapReplaceIfSameCodec.RequestParameters> {
+        extends AbstractMapPutMessageTask<ServerMapReplaceIfSameCodec.RequestParameters> {
 
     public MapReplaceIfSameMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -41,13 +41,13 @@ public class MapReplaceIfSameMessageTask
     }
 
     @Override
-    protected MapReplaceIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapReplaceIfSameCodec.decodeRequest(clientMessage);
+    protected ServerMapReplaceIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapReplaceIfSameCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapReplaceIfSameCodec.encodeResponse((Boolean) response);
+        return ServerMapReplaceIfSameCodec.encodeResponse((Boolean) response);
     }
 
 

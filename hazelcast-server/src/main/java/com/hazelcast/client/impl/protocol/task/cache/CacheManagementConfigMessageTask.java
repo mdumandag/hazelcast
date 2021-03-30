@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheManagementConfigOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheManagementConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheManagementConfigCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -34,7 +34,7 @@ import java.util.UUID;
  * @see CacheManagementConfigOperation
  */
 public class CacheManagementConfigMessageTask
-        extends AbstractTargetMessageTask<CacheManagementConfigCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerCacheManagementConfigCodec.RequestParameters> {
 
     public CacheManagementConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class CacheManagementConfigMessageTask
     }
 
     @Override
-    protected CacheManagementConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheManagementConfigCodec.decodeRequest(clientMessage);
+    protected ServerCacheManagementConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheManagementConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheManagementConfigCodec.encodeResponse();
+        return ServerCacheManagementConfigCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapGetEntryViewCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapGetEntryViewCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.SimpleEntryView;
@@ -32,7 +32,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class MapGetEntryViewMessageTask
-        extends AbstractMapPartitionMessageTask<MapGetEntryViewCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapGetEntryViewCodec.RequestParameters> {
 
     public MapGetEntryViewMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,14 +47,14 @@ public class MapGetEntryViewMessageTask
     }
 
     @Override
-    protected MapGetEntryViewCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapGetEntryViewCodec.decodeRequest(clientMessage);
+    protected ServerMapGetEntryViewCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapGetEntryViewCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         SimpleEntryView<Data, Data> dataEntryView = (SimpleEntryView<Data, Data>) response;
-        return MapGetEntryViewCodec.encodeResponse(dataEntryView, dataEntryView != null ? dataEntryView.getMaxIdle() : 0);
+        return ServerMapGetEntryViewCodec.encodeResponse(dataEntryView, dataEntryView != null ? dataEntryView.getMaxIdle() : 0);
     }
 
     public Permission getRequiredPermission() {

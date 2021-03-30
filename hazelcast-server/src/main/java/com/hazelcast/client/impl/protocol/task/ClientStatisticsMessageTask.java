@@ -18,27 +18,27 @@ package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.statistics.ClientStatistics;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientStatisticsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientStatisticsCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 
 import java.security.Permission;
 
 public class ClientStatisticsMessageTask
-        extends AbstractCallableMessageTask<ClientStatisticsCodec.RequestParameters> {
+        extends AbstractCallableMessageTask<ServerClientStatisticsCodec.RequestParameters> {
 
     public ClientStatisticsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected ClientStatisticsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ClientStatisticsCodec.decodeRequest(clientMessage);
+    protected ServerClientStatisticsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerClientStatisticsCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientStatisticsCodec.encodeResponse();
+        return ServerClientStatisticsCodec.encodeResponse();
     }
 
     @Override

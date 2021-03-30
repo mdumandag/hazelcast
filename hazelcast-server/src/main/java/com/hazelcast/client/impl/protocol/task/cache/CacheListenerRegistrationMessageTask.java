@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheListenerRegistrationOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheListenerRegistrationCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheListenerRegistrationCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.util.UUID;
  * @see CacheListenerRegistrationOperation
  */
 public class CacheListenerRegistrationMessageTask
-        extends AbstractTargetMessageTask<CacheListenerRegistrationCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerCacheListenerRegistrationCodec.RequestParameters> {
 
     public CacheListenerRegistrationMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class CacheListenerRegistrationMessageTask
     }
 
     @Override
-    protected CacheListenerRegistrationCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheListenerRegistrationCodec.decodeRequest(clientMessage);
+    protected ServerCacheListenerRegistrationCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheListenerRegistrationCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheListenerRegistrationCodec.encodeResponse();
+        return ServerCacheListenerRegistrationCodec.encodeResponse();
     }
 
     @Override

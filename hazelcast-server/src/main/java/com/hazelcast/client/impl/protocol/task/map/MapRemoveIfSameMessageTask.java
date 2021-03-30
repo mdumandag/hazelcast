@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveIfSameCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.operation.MapOperation;
@@ -30,7 +30,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class MapRemoveIfSameMessageTask
-        extends AbstractMapPartitionMessageTask<MapRemoveIfSameCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapRemoveIfSameCodec.RequestParameters> {
 
     public MapRemoveIfSameMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class MapRemoveIfSameMessageTask
     }
 
     @Override
-    protected MapRemoveIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapRemoveIfSameCodec.decodeRequest(clientMessage);
+    protected ServerMapRemoveIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapRemoveIfSameCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapRemoveIfSameCodec.encodeResponse((Boolean) response);
+        return ServerMapRemoveIfSameCodec.encodeResponse((Boolean) response);
     }
 
     @Override

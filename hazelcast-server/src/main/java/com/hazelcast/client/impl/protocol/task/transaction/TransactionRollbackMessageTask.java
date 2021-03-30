@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.ClientEngineImpl;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionRollbackCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionRollbackCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -28,7 +28,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionRollbackMessageTask
-        extends AbstractTransactionalMessageTask<TransactionRollbackCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionRollbackCodec.RequestParameters> {
 
     public TransactionRollbackMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class TransactionRollbackMessageTask
     }
 
     @Override
-    protected TransactionRollbackCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionRollbackCodec.decodeRequest(clientMessage);
+    protected ServerTransactionRollbackCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionRollbackCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionRollbackCodec.encodeResponse();
+        return ServerTransactionRollbackCodec.encodeResponse();
     }
 
     @Override

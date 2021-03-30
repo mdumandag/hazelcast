@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.ringbuffer;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.RingbufferAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferAddCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.RingbufferMessageType#RINGBUFFER_ADD}
  */
 public class RingbufferAddMessageTask
-        extends AbstractPartitionMessageTask<RingbufferAddCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerRingbufferAddCodec.RequestParameters> {
 
     public RingbufferAddMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,12 +48,12 @@ public class RingbufferAddMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return RingbufferAddCodec.encodeResponse((Long) response);
+        return ServerRingbufferAddCodec.encodeResponse((Long) response);
     }
 
     @Override
-    protected RingbufferAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return RingbufferAddCodec.decodeRequest(clientMessage);
+    protected ServerRingbufferAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerRingbufferAddCodec.decodeRequest(clientMessage);
     }
 
     @Override

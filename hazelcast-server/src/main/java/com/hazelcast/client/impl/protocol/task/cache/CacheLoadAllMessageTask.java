@@ -21,7 +21,7 @@ import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheLoadAllOperationFactory;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheLoadAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheLoadAllCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -39,20 +39,20 @@ import java.util.Set;
  * @see CacheLoadAllOperationFactory
  */
 public class CacheLoadAllMessageTask
-        extends AbstractCacheAllPartitionsTask<CacheLoadAllCodec.RequestParameters> {
+        extends AbstractCacheAllPartitionsTask<ServerCacheLoadAllCodec.RequestParameters> {
 
     public CacheLoadAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected CacheLoadAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheLoadAllCodec.decodeRequest(clientMessage);
+    protected ServerCacheLoadAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheLoadAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheLoadAllCodec.encodeResponse();
+        return ServerCacheLoadAllCodec.encodeResponse();
     }
 
     @Override

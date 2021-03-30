@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheSizeOperationFactory;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheSizeCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -63,12 +63,12 @@ public class CacheSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return CacheSizeCodec.decodeRequest(clientMessage);
+        return ServerCacheSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheSizeCodec.encodeResponse((Integer) response);
+        return ServerCacheSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

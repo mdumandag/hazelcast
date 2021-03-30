@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapKeySetCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -44,13 +44,13 @@ public class ReplicatedMapKeySetMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapKeySetCodec.decodeRequest(clientMessage);
+        return ServerReplicatedMapKeySetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         DataCollection keySet = (DataCollection) response;
-        return ReplicatedMapKeySetCodec.encodeResponse(keySet.getCollection());
+        return ServerReplicatedMapKeySetCodec.encodeResponse(keySet.getCollection());
     }
 
     @Override

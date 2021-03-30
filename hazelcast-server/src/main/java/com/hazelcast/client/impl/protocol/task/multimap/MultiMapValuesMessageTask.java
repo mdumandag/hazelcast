@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapValuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapValuesCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapRecord;
@@ -73,12 +73,12 @@ public class MultiMapValuesMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapValuesCodec.decodeRequest(clientMessage);
+        return ServerMultiMapValuesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapValuesCodec.encodeResponse((List<Data>) response);
+        return ServerMultiMapValuesCodec.encodeResponse((List<Data>) response);
     }
 
     @Override

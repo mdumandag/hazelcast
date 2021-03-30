@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapProjectWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapProjectWithPredicateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -30,7 +30,7 @@ import java.security.Permission;
 import java.util.List;
 
 public class MapProjectionWithPredicateMessageTask
-        extends DefaultMapProjectMessageTask<MapProjectWithPredicateCodec.RequestParameters> {
+        extends DefaultMapProjectMessageTask<ServerMapProjectWithPredicateCodec.RequestParameters> {
 
     public MapProjectionWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class MapProjectionWithPredicateMessageTask
     }
 
     @Override
-    protected MapProjectWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapProjectWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapProjectWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapProjectWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapProjectWithPredicateCodec.encodeResponse((List<Data>) response);
+        return ServerMapProjectWithPredicateCodec.encodeResponse((List<Data>) response);
     }
 
     public Permission getRequiredPermission() {

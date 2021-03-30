@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteOnAllKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteOnAllKeysCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.EntryProcessor;
 import com.hazelcast.map.impl.MapEntries;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapExecuteOnAllKeysMessageTask
-        extends AbstractMapAllPartitionsMessageTask<MapExecuteOnAllKeysCodec.RequestParameters> {
+        extends AbstractMapAllPartitionsMessageTask<ServerMapExecuteOnAllKeysCodec.RequestParameters> {
 
     public MapExecuteOnAllKeysMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -62,13 +62,13 @@ public class MapExecuteOnAllKeysMessageTask
     }
 
     @Override
-    protected MapExecuteOnAllKeysCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapExecuteOnAllKeysCodec.decodeRequest(clientMessage);
+    protected ServerMapExecuteOnAllKeysCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapExecuteOnAllKeysCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapExecuteOnAllKeysCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
+        return ServerMapExecuteOnAllKeysCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.IsEmptyOperation;
@@ -47,12 +47,12 @@ public class QueueIsEmptyMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueueIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerQueueIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueIsEmptyCodec.decodeRequest(clientMessage);
+        return ServerQueueIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override

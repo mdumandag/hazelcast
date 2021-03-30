@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddFlakeIdGeneratorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddFlakeIdGeneratorConfigCodec;
 import com.hazelcast.config.FlakeIdGeneratorConfig;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.dynamicconfig.DynamicConfigurationAwareConfig;
@@ -25,20 +25,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddFlakeIdGeneratorConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddFlakeIdGeneratorConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddFlakeIdGeneratorConfigCodec.RequestParameters> {
 
     public AddFlakeIdGeneratorConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddFlakeIdGeneratorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddFlakeIdGeneratorConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddFlakeIdGeneratorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddFlakeIdGeneratorConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddFlakeIdGeneratorConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddFlakeIdGeneratorConfigCodec.encodeResponse();
     }
 
     @Override

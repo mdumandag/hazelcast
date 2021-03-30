@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreChangeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreChangeCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
@@ -34,7 +34,7 @@ import static java.lang.Math.abs;
 /**
  * Client message task for {@link ChangePermitsOp}
  */
-public class ChangePermitsMessageTask extends AbstractCPMessageTask<SemaphoreChangeCodec.RequestParameters> {
+public class ChangePermitsMessageTask extends AbstractCPMessageTask<ServerSemaphoreChangeCodec.RequestParameters> {
 
     public ChangePermitsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class ChangePermitsMessageTask extends AbstractCPMessageTask<SemaphoreCha
     }
 
     @Override
-    protected SemaphoreChangeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreChangeCodec.decodeRequest(clientMessage);
+    protected ServerSemaphoreChangeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSemaphoreChangeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreChangeCodec.encodeResponse((Boolean) response);
+        return ServerSemaphoreChangeCodec.encodeResponse((Boolean) response);
     }
 
     @Override

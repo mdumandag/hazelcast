@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheContainsKeyOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheContainsKeyCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * @see CacheContainsKeyOperation
  */
 public class CacheContainsKeyMessageTask
-        extends AbstractCacheMessageTask<CacheContainsKeyCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheContainsKeyCodec.RequestParameters> {
 
     public CacheContainsKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class CacheContainsKeyMessageTask
     }
 
     @Override
-    protected CacheContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheContainsKeyCodec.decodeRequest(clientMessage);
+    protected ServerCacheContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheContainsKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheContainsKeyCodec.encodeResponse((Boolean) response);
+        return ServerCacheContainsKeyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

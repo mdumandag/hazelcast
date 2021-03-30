@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddCardinalityEstimatorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddCardinalityEstimatorConfigCodec;
 import com.hazelcast.config.CardinalityEstimatorConfig;
 import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.instance.impl.Node;
@@ -26,20 +26,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddCardinalityEstimatorConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddCardinalityEstimatorConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddCardinalityEstimatorConfigCodec.RequestParameters> {
 
     public AddCardinalityEstimatorConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddCardinalityEstimatorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddCardinalityEstimatorConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddCardinalityEstimatorConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddCardinalityEstimatorConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddCardinalityEstimatorConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddCardinalityEstimatorConfigCodec.encodeResponse();
     }
 
     @Override

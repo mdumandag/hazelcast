@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsDoneFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsDoneFromPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -32,7 +32,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ScheduledExecutorTaskIsDoneFromPartitionMessageTask
-        extends AbstractPartitionMessageTask<ScheduledExecutorIsDoneFromPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerScheduledExecutorIsDoneFromPartitionCodec.RequestParameters> {
 
     public ScheduledExecutorTaskIsDoneFromPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class ScheduledExecutorTaskIsDoneFromPartitionMessageTask
     }
 
     @Override
-    protected ScheduledExecutorIsDoneFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorIsDoneFromPartitionCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorIsDoneFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorIsDoneFromPartitionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorIsDoneFromPartitionCodec.encodeResponse((Boolean) response);
+        return ServerScheduledExecutorIsDoneFromPartitionCodec.encodeResponse((Boolean) response);
     }
 
     @Override

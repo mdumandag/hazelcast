@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListSubCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListSubCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.collection.impl.list.operations.ListSubOperation;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_SUB}
  */
 public class ListSubMessageTask
-        extends AbstractPartitionMessageTask<ListSubCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListSubCodec.RequestParameters> {
 
     public ListSubMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class ListSubMessageTask
     }
 
     @Override
-    protected ListSubCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListSubCodec.decodeRequest(clientMessage);
+    protected ServerListSubCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListSubCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListSubCodec.encodeResponse(((SerializableList) response).getCollection());
+        return ServerListSubCodec.encodeResponse(((SerializableList) response).getCollection());
     }
 
     @Override

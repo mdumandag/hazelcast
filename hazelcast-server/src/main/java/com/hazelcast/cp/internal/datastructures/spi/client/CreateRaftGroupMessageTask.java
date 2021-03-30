@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.spi.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPGroupCreateCPGroupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPGroupCreateCPGroupCodec;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.cp.internal.RaftService;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
@@ -43,12 +43,12 @@ public class CreateRaftGroupMessageTask extends AbstractCPMessageTask<String> {
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return CPGroupCreateCPGroupCodec.decodeRequest(clientMessage);
+        return ServerCPGroupCreateCPGroupCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPGroupCreateCPGroupCodec.encodeResponse((RaftGroupId) response);
+        return ServerCPGroupCreateCPGroupCodec.encodeResponse((RaftGroupId) response);
     }
 
     @Override

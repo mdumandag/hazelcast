@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionIsEmptyOperation;
 import com.hazelcast.collection.impl.list.ListService;
@@ -47,12 +47,12 @@ public class ListIsEmptyMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ListIsEmptyCodec.decodeRequest(clientMessage);
+        return ServerListIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerListIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

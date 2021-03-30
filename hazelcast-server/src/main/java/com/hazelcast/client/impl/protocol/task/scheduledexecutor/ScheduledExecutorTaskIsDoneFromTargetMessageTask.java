@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsDoneFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsDoneFromMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ScheduledExecutorTaskIsDoneFromTargetMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorIsDoneFromMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorIsDoneFromMemberCodec.RequestParameters> {
 
     public ScheduledExecutorTaskIsDoneFromTargetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class ScheduledExecutorTaskIsDoneFromTargetMessageTask
     }
 
     @Override
-    protected ScheduledExecutorIsDoneFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorIsDoneFromMemberCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorIsDoneFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorIsDoneFromMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorIsDoneFromMemberCodec.encodeResponse((Boolean) response);
+        return ServerScheduledExecutorIsDoneFromMemberCodec.encodeResponse((Boolean) response);
     }
 
     @Override

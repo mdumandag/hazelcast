@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.ClientEngineImpl;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionCommitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionCommitCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -28,7 +28,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionCommitMessageTask
-        extends AbstractTransactionalMessageTask<TransactionCommitCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionCommitCodec.RequestParameters> {
 
     public TransactionCommitMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class TransactionCommitMessageTask
     }
 
     @Override
-    protected TransactionCommitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionCommitCodec.decodeRequest(clientMessage);
+    protected ServerTransactionCommitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionCommitCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionCommitCodec.encodeResponse();
+        return ServerTransactionCommitCodec.encodeResponse();
     }
 
     @Override

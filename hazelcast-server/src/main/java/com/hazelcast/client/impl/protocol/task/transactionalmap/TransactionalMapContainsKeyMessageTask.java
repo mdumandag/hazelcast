@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapContainsKeyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -31,7 +31,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapContainsKeyMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapContainsKeyCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapContainsKeyCodec.RequestParameters> {
 
     public TransactionalMapContainsKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalMapContainsKeyMessageTask
     }
 
     @Override
-    protected TransactionalMapContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapContainsKeyCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapContainsKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapContainsKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapContainsKeyCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalMapContainsKeyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

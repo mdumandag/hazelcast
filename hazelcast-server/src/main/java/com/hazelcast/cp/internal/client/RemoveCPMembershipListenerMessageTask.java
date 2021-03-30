@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemRemoveMembershipListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemRemoveMembershipListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.internal.RaftService;
 import com.hazelcast.instance.impl.Node;
@@ -46,12 +46,12 @@ public class RemoveCPMembershipListenerMessageTask extends AbstractAsyncMessageT
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return CPSubsystemRemoveMembershipListenerCodec.decodeRequest(clientMessage);
+        return ServerCPSubsystemRemoveMembershipListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSubsystemRemoveMembershipListenerCodec.encodeResponse((Boolean) response);
+        return ServerCPSubsystemRemoveMembershipListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

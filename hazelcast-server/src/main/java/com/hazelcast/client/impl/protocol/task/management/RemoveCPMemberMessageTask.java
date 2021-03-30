@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCRemoveCPMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRemoveCPMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.CPSubsystemManagementService;
 import com.hazelcast.instance.impl.Node;
@@ -46,12 +46,12 @@ public class RemoveCPMemberMessageTask extends AbstractAsyncMessageTask<UUID, Vo
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return MCRemoveCPMemberCodec.decodeRequest(clientMessage);
+        return ServerMCRemoveCPMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCRemoveCPMemberCodec.encodeResponse();
+        return ServerMCRemoveCPMemberCodec.encodeResponse();
     }
 
     @Override

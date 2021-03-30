@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionSizeOperation;
 import com.hazelcast.collection.impl.list.ListService;
@@ -47,12 +47,12 @@ public class ListSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ListSizeCodec.decodeRequest(clientMessage);
+        return ServerListSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListSizeCodec.encodeResponse((Integer) response);
+        return ServerListSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

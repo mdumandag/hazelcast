@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomicref.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefContainsCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.atomicref.AtomicRefService;
 import com.hazelcast.cp.internal.datastructures.atomicref.operation.ContainsOp;
@@ -33,7 +33,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link ContainsOp}
  */
-public class ContainsMessageTask extends AbstractCPMessageTask<AtomicRefContainsCodec.RequestParameters> {
+public class ContainsMessageTask extends AbstractCPMessageTask<ServerAtomicRefContainsCodec.RequestParameters> {
 
     public ContainsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class ContainsMessageTask extends AbstractCPMessageTask<AtomicRefContains
     }
 
     @Override
-    protected AtomicRefContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicRefContainsCodec.decodeRequest(clientMessage);
+    protected ServerAtomicRefContainsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicRefContainsCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicRefContainsCodec.encodeResponse((Boolean) response);
+        return ServerAtomicRefContainsCodec.encodeResponse((Boolean) response);
     }
 
 

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEvictAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEvictAllCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.MapServiceContext;
@@ -69,12 +69,12 @@ public class MapEvictAllMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapEvictAllCodec.decodeRequest(clientMessage);
+        return ServerMapEvictAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapEvictAllCodec.encodeResponse();
+        return ServerMapEvictAllCodec.encodeResponse();
     }
 
     public String getServiceName() {

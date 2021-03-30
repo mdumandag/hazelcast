@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreDrainCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreDrainCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
@@ -32,7 +32,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link DrainPermitsOp}
  */
-public class DrainPermitsMessageTask extends AbstractCPMessageTask<SemaphoreDrainCodec.RequestParameters> {
+public class DrainPermitsMessageTask extends AbstractCPMessageTask<ServerSemaphoreDrainCodec.RequestParameters> {
 
     public DrainPermitsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class DrainPermitsMessageTask extends AbstractCPMessageTask<SemaphoreDrai
     }
 
     @Override
-    protected SemaphoreDrainCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreDrainCodec.decodeRequest(clientMessage);
+    protected ServerSemaphoreDrainCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSemaphoreDrainCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreDrainCodec.encodeResponse((Integer) response);
+        return ServerSemaphoreDrainCodec.encodeResponse((Integer) response);
     }
 
     @Override

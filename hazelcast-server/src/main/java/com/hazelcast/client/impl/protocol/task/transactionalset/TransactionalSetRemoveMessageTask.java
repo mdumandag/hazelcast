@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalset;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalSetRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalSetRemoveCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.collection.impl.set.SetService;
 import com.hazelcast.transaction.TransactionalSet;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalSetRemoveMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalSetRemoveCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalSetRemoveCodec.RequestParameters> {
 
     public TransactionalSetRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalSetRemoveMessageTask
     }
 
     @Override
-    protected TransactionalSetRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalSetRemoveCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalSetRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalSetRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalSetRemoveCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalSetRemoveCodec.encodeResponse((Boolean) response);
     }
 
     @Override

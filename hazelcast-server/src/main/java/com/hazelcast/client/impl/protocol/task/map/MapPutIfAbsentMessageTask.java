@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapPutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutIfAbsentCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -29,20 +29,20 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.map.impl.record.Record.UNSET;
 
 public class MapPutIfAbsentMessageTask
-        extends AbstractMapPutMessageTask<MapPutIfAbsentCodec.RequestParameters> {
+        extends AbstractMapPutMessageTask<ServerMapPutIfAbsentCodec.RequestParameters> {
 
     public MapPutIfAbsentMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected MapPutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapPutIfAbsentCodec.decodeRequest(clientMessage);
+    protected ServerMapPutIfAbsentCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapPutIfAbsentCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapPutIfAbsentCodec.encodeResponse(serializationService.toData(response));
+        return ServerMapPutIfAbsentCodec.encodeResponse(serializationService.toData(response));
     }
 
     protected Operation prepareOperation() {

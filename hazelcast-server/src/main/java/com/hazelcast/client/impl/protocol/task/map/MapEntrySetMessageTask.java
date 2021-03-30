@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEntrySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntrySetCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -63,12 +63,12 @@ public class MapEntrySetMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapEntrySetCodec.decodeRequest(clientMessage);
+        return ServerMapEntrySetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapEntrySetCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
+        return ServerMapEntrySetCodec.encodeResponse((List<Map.Entry<Data, Data>>) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddRingbufferConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddRingbufferConfigCodec;
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.config.RingbufferConfig;
@@ -28,20 +28,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddRingbufferConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddRingbufferConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddRingbufferConfigCodec.RequestParameters> {
 
     public AddRingbufferConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddRingbufferConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddRingbufferConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddRingbufferConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddRingbufferConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddRingbufferConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddRingbufferConfigCodec.encodeResponse();
     }
 
     @Override

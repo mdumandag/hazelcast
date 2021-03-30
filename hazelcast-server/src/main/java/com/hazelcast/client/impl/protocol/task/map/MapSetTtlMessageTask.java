@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapSetTtlCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetTtlCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -29,7 +29,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 import java.util.concurrent.TimeUnit;
 
-public class MapSetTtlMessageTask extends AbstractMapPartitionMessageTask<MapSetTtlCodec.RequestParameters> {
+public class MapSetTtlMessageTask extends AbstractMapPartitionMessageTask<ServerMapSetTtlCodec.RequestParameters> {
 
     public MapSetTtlMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -42,13 +42,13 @@ public class MapSetTtlMessageTask extends AbstractMapPartitionMessageTask<MapSet
     }
 
     @Override
-    protected MapSetTtlCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapSetTtlCodec.decodeRequest(clientMessage);
+    protected ServerMapSetTtlCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapSetTtlCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapSetTtlCodec.encodeResponse((Boolean) response);
+        return ServerMapSetTtlCodec.encodeResponse((Boolean) response);
     }
 
     @Override

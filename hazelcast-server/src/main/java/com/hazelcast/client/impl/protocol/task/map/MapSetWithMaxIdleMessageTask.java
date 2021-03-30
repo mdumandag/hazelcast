@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapSetWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetWithMaxIdleCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -27,20 +27,20 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.util.concurrent.TimeUnit;
 
 public class MapSetWithMaxIdleMessageTask
-        extends AbstractMapSetMessageTask<MapSetWithMaxIdleCodec.RequestParameters> {
+        extends AbstractMapSetMessageTask<ServerMapSetWithMaxIdleCodec.RequestParameters> {
 
     public MapSetWithMaxIdleMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected MapSetWithMaxIdleCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapSetWithMaxIdleCodec.decodeRequest(clientMessage);
+    protected ServerMapSetWithMaxIdleCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapSetWithMaxIdleCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapSetWithMaxIdleCodec.encodeResponse(serializationService.toData(response));
+        return ServerMapSetWithMaxIdleCodec.encodeResponse(serializationService.toData(response));
     }
 
     protected Operation prepareOperation() {

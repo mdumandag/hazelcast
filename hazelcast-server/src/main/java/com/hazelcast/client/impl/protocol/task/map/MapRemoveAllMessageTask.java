@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveAllCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -38,7 +38,7 @@ import java.util.Map;
 import static com.hazelcast.map.impl.EntryRemovingProcessor.ENTRY_REMOVING_PROCESSOR;
 import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
 
-public class MapRemoveAllMessageTask extends AbstractMapAllPartitionsMessageTask<MapRemoveAllCodec.RequestParameters> {
+public class MapRemoveAllMessageTask extends AbstractMapAllPartitionsMessageTask<ServerMapRemoveAllCodec.RequestParameters> {
 
     private Predicate predicate;
 
@@ -103,15 +103,15 @@ public class MapRemoveAllMessageTask extends AbstractMapAllPartitionsMessageTask
     }
 
     @Override
-    protected MapRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        MapRemoveAllCodec.RequestParameters parameters = MapRemoveAllCodec.decodeRequest(clientMessage);
+    protected ServerMapRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        ServerMapRemoveAllCodec.RequestParameters parameters = ServerMapRemoveAllCodec.decodeRequest(clientMessage);
         predicate = serializationService.toObject(parameters.predicate);
         return parameters;
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapRemoveAllCodec.encodeResponse();
+        return ServerMapRemoveAllCodec.encodeResponse();
     }
 
     @Override

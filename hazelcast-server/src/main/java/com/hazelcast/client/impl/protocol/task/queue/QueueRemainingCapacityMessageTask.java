@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueRemainingCapacityCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueRemainingCapacityCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.RemainingCapacityOperation;
@@ -47,13 +47,13 @@ public class QueueRemainingCapacityMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueRemainingCapacityCodec.decodeRequest(clientMessage);
+        return ServerQueueRemainingCapacityCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         int result = response != null ? (Integer) response : 0;
-        return QueueRemainingCapacityCodec.encodeResponse(result);
+        return ServerQueueRemainingCapacityCodec.encodeResponse(result);
     }
 
     @Override

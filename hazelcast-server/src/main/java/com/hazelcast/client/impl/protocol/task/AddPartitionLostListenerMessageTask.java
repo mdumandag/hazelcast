@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddPartitionLostListenerCodec;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.instance.impl.Node;
@@ -50,7 +50,7 @@ public class AddPartitionLostListenerMessageTask
                 ClusterService clusterService = getService(ClusterServiceImpl.SERVICE_NAME);
                 Address eventSource = event.getEventSource();
                 MemberImpl member = clusterService.getMember(eventSource);
-                ClientMessage eventMessage = ClientAddPartitionLostListenerCodec
+                ClientMessage eventMessage = ServerClientAddPartitionLostListenerCodec
                         .encodePartitionLostEvent(event.getPartitionId(), event.getLostBackupCount(), member.getUuid());
                 sendClientMessage(null, eventMessage);
             }
@@ -65,12 +65,12 @@ public class AddPartitionLostListenerMessageTask
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return ClientAddPartitionLostListenerCodec.decodeRequest(clientMessage);
+        return ServerClientAddPartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientAddPartitionLostListenerCodec.encodeResponse((UUID) response);
+        return ServerClientAddPartitionLostListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -43,12 +43,12 @@ public class ReplicatedMapSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapSizeCodec.decodeRequest(clientMessage);
+        return ServerReplicatedMapSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapSizeCodec.encodeResponse((Integer) response);
+        return ServerReplicatedMapSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

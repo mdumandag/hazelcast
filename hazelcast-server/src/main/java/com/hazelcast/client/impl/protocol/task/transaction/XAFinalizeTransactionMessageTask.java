@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionFinalizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionFinalizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -30,20 +30,20 @@ import com.hazelcast.transaction.impl.xa.operations.FinalizeRemoteTransactionOpe
 import java.security.Permission;
 
 public class XAFinalizeTransactionMessageTask
-        extends AbstractPartitionMessageTask<XATransactionFinalizeCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerXATransactionFinalizeCodec.RequestParameters> {
 
     public XAFinalizeTransactionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected XATransactionFinalizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionFinalizeCodec.decodeRequest(clientMessage);
+    protected ServerXATransactionFinalizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerXATransactionFinalizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionFinalizeCodec.encodeResponse();
+        return ServerXATransactionFinalizeCodec.encodeResponse();
     }
 
     @Override

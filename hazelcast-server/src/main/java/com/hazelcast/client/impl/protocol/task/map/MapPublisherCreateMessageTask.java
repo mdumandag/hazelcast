@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryPublisherCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryPublisherCreateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.cluster.impl.MemberImpl;
@@ -48,10 +48,10 @@ import static com.hazelcast.map.impl.MapService.SERVICE_NAME;
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.ContinuousQueryPublisherCreateCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryPublisherCreateCodec#REQUEST_MESSAGE_TYPE}
  */
 public class MapPublisherCreateMessageTask
-        extends AbstractCallableMessageTask<ContinuousQueryPublisherCreateCodec.RequestParameters>
+        extends AbstractCallableMessageTask<ServerContinuousQueryPublisherCreateCodec.RequestParameters>
         implements BlockingMessageTask {
 
     public MapPublisherCreateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -120,13 +120,13 @@ public class MapPublisherCreateMessageTask
     }
 
     @Override
-    protected ContinuousQueryPublisherCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ContinuousQueryPublisherCreateCodec.decodeRequest(clientMessage);
+    protected ServerContinuousQueryPublisherCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerContinuousQueryPublisherCreateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ContinuousQueryPublisherCreateCodec.encodeResponse((Set<Data>) response);
+        return ServerContinuousQueryPublisherCreateCodec.encodeResponse((Set<Data>) response);
     }
 
     @Override

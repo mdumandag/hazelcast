@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEventJournalSubscribeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEventJournalSubscribeCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.journal.EventJournalInitialSubscriberState;
 import com.hazelcast.map.impl.MapService;
@@ -52,13 +52,13 @@ public class MapEventJournalSubscribeTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapEventJournalSubscribeCodec.decodeRequest(clientMessage);
+        return ServerMapEventJournalSubscribeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         final EventJournalInitialSubscriberState state = (EventJournalInitialSubscriberState) response;
-        return MapEventJournalSubscribeCodec.encodeResponse(state.getOldestSequence(), state.getNewestSequence());
+        return ServerMapEventJournalSubscribeCodec.encodeResponse(state.getOldestSequence(), state.getNewestSequence());
     }
 
     @Override

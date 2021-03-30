@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapGetCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.monitor.impl.LocalReplicatedMapStatsImpl;
@@ -32,7 +32,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ReplicatedMapGetMessageTask
-        extends AbstractPartitionMessageTask<ReplicatedMapGetCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerReplicatedMapGetCodec.RequestParameters> {
 
     private volatile long startTimeNanos;
 
@@ -46,8 +46,8 @@ public class ReplicatedMapGetMessageTask
     }
 
     @Override
-    protected ReplicatedMapGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapGetCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapGetCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ReplicatedMapGetMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapGetCodec.encodeResponse(serializationService.toData(response));
+        return ServerReplicatedMapGetCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

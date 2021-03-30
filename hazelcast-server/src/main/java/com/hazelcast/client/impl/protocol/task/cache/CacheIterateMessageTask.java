@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheKeysWithCursor;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CacheFetchKeysOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheIterateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheIterateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.iteration.IterationPointer;
 import com.hazelcast.internal.nio.Connection;
@@ -37,7 +37,7 @@ import static com.hazelcast.internal.iteration.IterationPointer.encodePointers;
  * @see CacheFetchKeysOperation
  */
 public class CacheIterateMessageTask
-        extends AbstractCacheMessageTask<CacheIterateCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheIterateCodec.RequestParameters> {
 
     public CacheIterateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,18 +51,18 @@ public class CacheIterateMessageTask
     }
 
     @Override
-    protected CacheIterateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheIterateCodec.decodeRequest(clientMessage);
+    protected ServerCacheIterateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheIterateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         if (response == null) {
-            return CacheIterateCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
+            return ServerCacheIterateCodec.encodeResponse(Collections.emptyList(), Collections.emptyList());
         }
         CacheKeysWithCursor keyIteratorResult = (CacheKeysWithCursor) response;
         IterationPointer[] pointers = keyIteratorResult.getPointers();
-        return CacheIterateCodec.encodeResponse(encodePointers(pointers), keyIteratorResult.getKeys());
+        return ServerCacheIterateCodec.encodeResponse(encodePointers(pointers), keyIteratorResult.getKeys());
     }
 
     @Override

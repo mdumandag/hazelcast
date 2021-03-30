@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapDeleteCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapService;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_DELETE}
  */
 public class MultiMapDeleteMessageTask
-        extends AbstractPartitionMessageTask<MultiMapDeleteCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapDeleteCodec.RequestParameters> {
 
     public MultiMapDeleteMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class MultiMapDeleteMessageTask
     }
 
     @Override
-    protected MultiMapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapDeleteCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapDeleteCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapDeleteCodec.encodeResponse();
+        return ServerMultiMapDeleteCodec.encodeResponse();
     }
 
     @Override

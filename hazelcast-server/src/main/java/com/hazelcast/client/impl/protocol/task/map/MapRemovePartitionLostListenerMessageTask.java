@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemovePartitionLostListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -28,7 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 
 public class MapRemovePartitionLostListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<MapRemovePartitionLostListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerMapRemovePartitionLostListenerCodec.RequestParameters> {
 
 
     public MapRemovePartitionLostListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -47,13 +47,13 @@ public class MapRemovePartitionLostListenerMessageTask
     }
 
     @Override
-    protected MapRemovePartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
+    protected ServerMapRemovePartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
+        return ServerMapRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

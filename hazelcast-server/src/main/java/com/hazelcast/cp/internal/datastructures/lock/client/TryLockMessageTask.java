@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.lock.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.FencedLockTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockTryLockCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.lock.LockService;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Client message task for {@link TryLockOp}
  */
-public class TryLockMessageTask extends AbstractCPMessageTask<FencedLockTryLockCodec.RequestParameters> {
+public class TryLockMessageTask extends AbstractCPMessageTask<ServerFencedLockTryLockCodec.RequestParameters> {
 
     public TryLockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class TryLockMessageTask extends AbstractCPMessageTask<FencedLockTryLockC
     }
 
     @Override
-    protected FencedLockTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return FencedLockTryLockCodec.decodeRequest(clientMessage);
+    protected ServerFencedLockTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerFencedLockTryLockCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return FencedLockTryLockCodec.encodeResponse((Long) response);
+        return ServerFencedLockTryLockCodec.encodeResponse((Long) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapGetCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapRecord;
@@ -40,7 +40,7 @@ import java.util.List;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_GET}
  */
 public class MultiMapGetMessageTask
-        extends AbstractPartitionMessageTask<MultiMapGetCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapGetCodec.RequestParameters> {
 
     public MultiMapGetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -54,8 +54,8 @@ public class MultiMapGetMessageTask
     }
 
     @Override
-    protected MultiMapGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapGetCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapGetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapGetCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class MultiMapGetMessageTask
                 collection.add(serializationService.toData(record.getObject()));
             }
         }
-        return MultiMapGetCodec.encodeResponse(collection);
+        return ServerMultiMapGetCodec.encodeResponse(collection);
     }
 
     @Override

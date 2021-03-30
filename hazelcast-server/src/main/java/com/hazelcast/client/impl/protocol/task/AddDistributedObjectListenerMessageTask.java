@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAddDistributedObjectListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddDistributedObjectListenerCodec;
 import com.hazelcast.core.DistributedObjectEvent;
 import com.hazelcast.core.DistributedObjectListener;
 import com.hazelcast.instance.impl.Node;
@@ -49,12 +49,12 @@ public class AddDistributedObjectListenerMessageTask
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return ClientAddDistributedObjectListenerCodec.decodeRequest(clientMessage);
+        return ServerClientAddDistributedObjectListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientAddDistributedObjectListenerCodec.encodeResponse((UUID) response);
+        return ServerClientAddDistributedObjectListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class AddDistributedObjectListenerMessageTask
         String name = (String) event.getObjectName();
         String serviceName = event.getServiceName();
         ClientMessage eventMessage =
-                ClientAddDistributedObjectListenerCodec.encodeDistributedObjectEvent(name,
+                ServerClientAddDistributedObjectListenerCodec.encodeDistributedObjectEvent(name,
                         serviceName, event.getEventType().name(), (UUID) event.getSource());
         sendClientMessage(null, eventMessage);
     }

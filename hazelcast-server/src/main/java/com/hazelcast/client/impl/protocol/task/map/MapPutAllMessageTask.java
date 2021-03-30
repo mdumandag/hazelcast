@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapPutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutAllCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.util.Timer;
@@ -36,7 +36,7 @@ import java.util.Map;
 import static com.hazelcast.internal.util.MapUtil.createHashMap;
 
 public class MapPutAllMessageTask
-        extends AbstractMapPartitionMessageTask<MapPutAllCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapPutAllCodec.RequestParameters> {
 
     private volatile long startTimeNanos;
 
@@ -53,13 +53,13 @@ public class MapPutAllMessageTask
     }
 
     @Override
-    protected MapPutAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapPutAllCodec.decodeRequest(clientMessage);
+    protected ServerMapPutAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapPutAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapPutAllCodec.encodeResponse();
+        return ServerMapPutAllCodec.encodeResponse();
     }
 
     @Override

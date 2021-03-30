@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddNearCacheEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddNearCacheEntryListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public class ReplicatedMapAddNearCacheListenerMessageTask
         extends AbstractReplicatedMapAddEntryListenerMessageTask
-        <ReplicatedMapAddNearCacheEntryListenerCodec.RequestParameters> {
+        <ServerReplicatedMapAddNearCacheEntryListenerCodec.RequestParameters> {
 
     public ReplicatedMapAddNearCacheListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -52,7 +52,7 @@ public class ReplicatedMapAddNearCacheListenerMessageTask
     @Override
     protected ClientMessage encodeEvent(Data key, Data newValue, Data oldValue, Data mergingValue,
                                         int type, UUID uuid, int numberOfAffectedEntries) {
-        return ReplicatedMapAddNearCacheEntryListenerCodec.encodeEntryEvent(key, newValue,
+        return ServerReplicatedMapAddNearCacheEntryListenerCodec.encodeEntryEvent(key, newValue,
                 oldValue, mergingValue, type, uuid, numberOfAffectedEntries);
     }
 
@@ -62,13 +62,13 @@ public class ReplicatedMapAddNearCacheListenerMessageTask
     }
 
     @Override
-    protected ReplicatedMapAddNearCacheEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapAddNearCacheEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapAddNearCacheEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapAddNearCacheEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
+        return ServerReplicatedMapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
     }
 
     @Override

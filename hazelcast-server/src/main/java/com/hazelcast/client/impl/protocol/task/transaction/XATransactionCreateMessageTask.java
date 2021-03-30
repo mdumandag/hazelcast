@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCreateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -30,7 +30,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class XATransactionCreateMessageTask
-        extends AbstractCallableMessageTask<XATransactionCreateCodec.RequestParameters> {
+        extends AbstractCallableMessageTask<ServerXATransactionCreateCodec.RequestParameters> {
 
     public XATransactionCreateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class XATransactionCreateMessageTask
     }
 
     @Override
-    protected XATransactionCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionCreateCodec.decodeRequest(clientMessage);
+    protected ServerXATransactionCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerXATransactionCreateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionCreateCodec.encodeResponse((UUID) response);
+        return ServerXATransactionCreateCodec.encodeResponse((UUID) response);
     }
 
     @Override

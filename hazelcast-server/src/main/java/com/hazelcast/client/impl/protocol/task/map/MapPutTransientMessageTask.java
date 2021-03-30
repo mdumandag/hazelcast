@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapPutTransientCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutTransientCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.operation.MapOperation;
 import com.hazelcast.map.impl.operation.MapOperationProvider;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.map.impl.record.Record.UNSET;
 
 public class MapPutTransientMessageTask
-        extends AbstractMapPutMessageTask<MapPutTransientCodec.RequestParameters> {
+        extends AbstractMapPutMessageTask<ServerMapPutTransientCodec.RequestParameters> {
 
     public MapPutTransientMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class MapPutTransientMessageTask
     }
 
     @Override
-    protected MapPutTransientCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapPutTransientCodec.decodeRequest(clientMessage);
+    protected ServerMapPutTransientCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapPutTransientCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapPutTransientCodec.encodeResponse();
+        return ServerMapPutTransientCodec.encodeResponse();
     }
 
     @Override

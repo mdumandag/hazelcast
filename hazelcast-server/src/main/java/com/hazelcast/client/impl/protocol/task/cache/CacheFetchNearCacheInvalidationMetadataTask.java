@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheGetInvalidationMetaDataOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheFetchNearCacheInvalidationMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheFetchNearCacheInvalidationMetadataCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -29,7 +29,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class CacheFetchNearCacheInvalidationMetadataTask
-        extends AbstractTargetMessageTask<CacheFetchNearCacheInvalidationMetadataCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerCacheFetchNearCacheInvalidationMetadataCodec.RequestParameters> {
 
     public CacheFetchNearCacheInvalidationMetadataTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,15 +46,15 @@ public class CacheFetchNearCacheInvalidationMetadataTask
     }
 
     @Override
-    protected CacheFetchNearCacheInvalidationMetadataCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheFetchNearCacheInvalidationMetadataCodec.decodeRequest(clientMessage);
+    protected ServerCacheFetchNearCacheInvalidationMetadataCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheFetchNearCacheInvalidationMetadataCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         CacheGetInvalidationMetaDataOperation.MetaDataResponse metaDataResponse =
                 (CacheGetInvalidationMetaDataOperation.MetaDataResponse) response;
-        return CacheFetchNearCacheInvalidationMetadataCodec
+        return ServerCacheFetchNearCacheInvalidationMetadataCodec
                 .encodeResponse(metaDataResponse.getNamePartitionSequenceList().entrySet(),
                         metaDataResponse.getPartitionUuidList().entrySet());
     }

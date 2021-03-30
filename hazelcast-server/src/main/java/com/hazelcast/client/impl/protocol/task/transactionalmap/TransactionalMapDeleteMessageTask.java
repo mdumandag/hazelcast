@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapDeleteCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapDeleteMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapDeleteCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapDeleteCodec.RequestParameters> {
 
     public TransactionalMapDeleteMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalMapDeleteMessageTask
     }
 
     @Override
-    protected TransactionalMapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapDeleteCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapDeleteCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapDeleteCodec.encodeResponse();
+        return ServerTransactionalMapDeleteCodec.encodeResponse();
     }
 
     @Override

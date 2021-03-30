@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalqueue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueuePollCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueuePollCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.transaction.TransactionalQueue;
@@ -31,7 +31,7 @@ import java.security.Permission;
 import java.util.concurrent.TimeUnit;
 
 public class TransactionalQueuePollMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalQueuePollCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalQueuePollCodec.RequestParameters> {
 
     public TransactionalQueuePollMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,13 +51,13 @@ public class TransactionalQueuePollMessageTask
     }
 
     @Override
-    protected TransactionalQueuePollCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalQueuePollCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalQueuePollCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalQueuePollCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalQueuePollCodec.encodeResponse(serializationService.toData(response));
+        return ServerTransactionalQueuePollCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

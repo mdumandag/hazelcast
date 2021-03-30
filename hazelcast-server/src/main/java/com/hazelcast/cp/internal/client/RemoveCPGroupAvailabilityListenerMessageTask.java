@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemRemoveGroupAvailabilityListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemRemoveGroupAvailabilityListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.internal.RaftService;
 import com.hazelcast.instance.impl.Node;
@@ -46,12 +46,12 @@ public class RemoveCPGroupAvailabilityListenerMessageTask extends AbstractAsyncM
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return CPSubsystemRemoveGroupAvailabilityListenerCodec.decodeRequest(clientMessage);
+        return ServerCPSubsystemRemoveGroupAvailabilityListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSubsystemRemoveGroupAvailabilityListenerCodec.encodeResponse((Boolean) response);
+        return ServerCPSubsystemRemoveGroupAvailabilityListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

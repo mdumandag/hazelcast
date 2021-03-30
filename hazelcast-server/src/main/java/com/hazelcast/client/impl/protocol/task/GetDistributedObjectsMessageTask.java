@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientGetDistributedObjectsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientGetDistributedObjectsCodec;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.DistributedObjectUtil;
 import com.hazelcast.instance.impl.Node;
@@ -57,7 +57,7 @@ public class GetDistributedObjectsMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientGetDistributedObjectsCodec.encodeResponse((List<DistributedObjectInfo>) response);
+        return ServerClientGetDistributedObjectsCodec.encodeResponse((List<DistributedObjectInfo>) response);
     }
 
     @Override

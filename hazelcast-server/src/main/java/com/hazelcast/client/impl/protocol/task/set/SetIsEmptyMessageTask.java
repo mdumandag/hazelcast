@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionIsEmptyOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -46,12 +46,12 @@ public class SetIsEmptyMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return SetIsEmptyCodec.decodeRequest(clientMessage);
+        return ServerSetIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerSetIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

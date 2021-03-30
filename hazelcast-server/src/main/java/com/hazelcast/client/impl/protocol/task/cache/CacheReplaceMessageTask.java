@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.operation.CachePutOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheReplaceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheReplaceCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * @see CachePutOperation
  */
 public class CacheReplaceMessageTask
-        extends AbstractCacheMessageTask<CacheReplaceCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheReplaceCodec.RequestParameters> {
 
     public CacheReplaceMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,13 +51,13 @@ public class CacheReplaceMessageTask
     }
 
     @Override
-    protected CacheReplaceCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheReplaceCodec.decodeRequest(clientMessage);
+    protected ServerCacheReplaceCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheReplaceCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheReplaceCodec.encodeResponse(serializationService.toData(response));
+        return ServerCacheReplaceCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

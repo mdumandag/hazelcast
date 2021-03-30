@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionPrepareCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionPrepareCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.TransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
@@ -41,12 +41,12 @@ public class XATransactionPrepareMessageTask
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionPrepareCodec.decodeRequest(clientMessage);
+        return ServerXATransactionPrepareCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionPrepareCodec.encodeResponse();
+        return ServerXATransactionPrepareCodec.encodeResponse();
     }
 
     @Override

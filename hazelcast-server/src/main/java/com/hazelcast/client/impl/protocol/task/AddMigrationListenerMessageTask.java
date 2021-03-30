@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAddMigrationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddMigrationListenerCodec;
 import com.hazelcast.client.impl.proxy.PartitionServiceProxy;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.instance.impl.Node;
@@ -88,7 +88,7 @@ public class AddMigrationListenerMessageTask
     }
 
     private ClientMessage encodeReplicaMigrationEvent(ReplicaMigrationEvent event) {
-        return ClientAddMigrationListenerCodec.encodeReplicaMigrationEvent(
+        return ServerClientAddMigrationListenerCodec.encodeReplicaMigrationEvent(
                 event.getMigrationState(),
                 event.getPartitionId(),
                 event.getReplicaIndex(),
@@ -105,17 +105,17 @@ public class AddMigrationListenerMessageTask
     }
 
     private ClientMessage encodeMigrationEvent(MigrationState migrationState, int type) {
-        return ClientAddMigrationListenerCodec.encodeMigrationEvent(migrationState, type);
+        return ServerClientAddMigrationListenerCodec.encodeMigrationEvent(migrationState, type);
     }
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return ClientAddMigrationListenerCodec.decodeRequest(clientMessage);
+        return ServerClientAddMigrationListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientAddMigrationListenerCodec.encodeResponse((UUID) response);
+        return ServerClientAddMigrationListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

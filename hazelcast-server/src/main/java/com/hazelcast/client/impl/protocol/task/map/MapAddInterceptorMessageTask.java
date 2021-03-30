@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.map.impl.operation.AddInterceptorOperationSupplier;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddInterceptorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddInterceptorCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMultiTargetMessageTask;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.instance.impl.Node;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class MapAddInterceptorMessageTask
-        extends AbstractMultiTargetMessageTask<MapAddInterceptorCodec.RequestParameters> {
+        extends AbstractMultiTargetMessageTask<ServerMapAddInterceptorCodec.RequestParameters> {
 
     private transient String id;
 
@@ -70,13 +70,13 @@ public class MapAddInterceptorMessageTask
     }
 
     @Override
-    protected MapAddInterceptorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddInterceptorCodec.decodeRequest(clientMessage);
+    protected ServerMapAddInterceptorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddInterceptorCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddInterceptorCodec.encodeResponse((String) response);
+        return ServerMapAddInterceptorCodec.encodeResponse((String) response);
     }
 
     @Override

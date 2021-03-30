@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetResultFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetResultFromMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ScheduledExecutorTaskGetResultFromTargetMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorGetResultFromMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorGetResultFromMemberCodec.RequestParameters> {
 
     public ScheduledExecutorTaskGetResultFromTargetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -55,14 +55,14 @@ public class ScheduledExecutorTaskGetResultFromTargetMessageTask
     }
 
     @Override
-    protected ScheduledExecutorGetResultFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorGetResultFromMemberCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorGetResultFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorGetResultFromMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = nodeEngine.getSerializationService().toData(response);
-        return ScheduledExecutorGetResultFromMemberCodec.encodeResponse(data);
+        return ServerScheduledExecutorGetResultFromMemberCodec.encodeResponse(data);
     }
 
     @Override

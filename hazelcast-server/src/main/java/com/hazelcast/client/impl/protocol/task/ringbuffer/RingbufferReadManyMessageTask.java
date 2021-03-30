@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.ringbuffer;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.RingbufferReadManyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferReadManyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.core.IFunction;
 import com.hazelcast.instance.impl.Node;
@@ -39,7 +39,7 @@ import java.util.List;
  * {@link com.hazelcast.client.impl.protocol.codec.RingbufferMessageType#RINGBUFFER_READMANY}
  */
 public class RingbufferReadManyMessageTask
-        extends AbstractPartitionMessageTask<RingbufferReadManyCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerRingbufferReadManyCodec.RequestParameters> {
 
     public RingbufferReadManyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -69,12 +69,12 @@ public class RingbufferReadManyMessageTask
             seqs[k] = resultSet.getSequence(k);
         }
 
-        return RingbufferReadManyCodec.encodeResponse(resultSet.readCount(), items, seqs, resultSet.getNextSequenceToReadFrom());
+        return ServerRingbufferReadManyCodec.encodeResponse(resultSet.readCount(), items, seqs, resultSet.getNextSequenceToReadFrom());
     }
 
     @Override
-    protected RingbufferReadManyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return RingbufferReadManyCodec.decodeRequest(clientMessage);
+    protected ServerRingbufferReadManyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerRingbufferReadManyCodec.decodeRequest(clientMessage);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEvictCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEvictCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.operation.MapOperation;
@@ -30,7 +30,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class MapEvictMessageTask
-        extends AbstractMapPartitionMessageTask<MapEvictCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapEvictCodec.RequestParameters> {
 
     public MapEvictMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class MapEvictMessageTask
     }
 
     @Override
-    protected MapEvictCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapEvictCodec.decodeRequest(clientMessage);
+    protected ServerMapEvictCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapEvictCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapEvictCodec.encodeResponse((Boolean) response);
+        return ServerMapEvictCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveInvalidationListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -33,7 +33,7 @@ import java.util.concurrent.Future;
  * @see com.hazelcast.cache.impl.CacheService#deregisterListener(String, UUID)
  */
 public class CacheRemoveInvalidationListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<CacheRemoveInvalidationListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerCacheRemoveInvalidationListenerCodec.RequestParameters> {
 
     public CacheRemoveInvalidationListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,13 +51,13 @@ public class CacheRemoveInvalidationListenerMessageTask
     }
 
     @Override
-    protected CacheRemoveInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheRemoveInvalidationListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheRemoveInvalidationListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheRemoveInvalidationListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheRemoveInvalidationListenerCodec.encodeResponse((Boolean) response);
+        return ServerCacheRemoveInvalidationListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

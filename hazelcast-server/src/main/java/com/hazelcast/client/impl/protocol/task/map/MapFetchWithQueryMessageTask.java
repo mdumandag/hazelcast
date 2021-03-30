@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapFetchWithQueryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchWithQueryCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.iteration.IterationPointer;
 import com.hazelcast.internal.nio.Connection;
@@ -50,7 +50,7 @@ import static com.hazelcast.internal.iteration.IterationPointer.encodePointers;
  * @see com.hazelcast.map.impl.proxy.MapProxyImpl#iterator(int, int, Projection, Predicate)
  * @since 3.9
  */
-public class MapFetchWithQueryMessageTask extends AbstractMapPartitionMessageTask<MapFetchWithQueryCodec.RequestParameters> {
+public class MapFetchWithQueryMessageTask extends AbstractMapPartitionMessageTask<ServerMapFetchWithQueryCodec.RequestParameters> {
     public MapFetchWithQueryMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
@@ -71,8 +71,8 @@ public class MapFetchWithQueryMessageTask extends AbstractMapPartitionMessageTas
     }
 
     @Override
-    protected MapFetchWithQueryCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapFetchWithQueryCodec.decodeRequest(clientMessage);
+    protected ServerMapFetchWithQueryCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapFetchWithQueryCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MapFetchWithQueryMessageTask extends AbstractMapPartitionMessageTas
             serialized.add(row.getValue());
         }
         IterationPointer[] pointers = resp.getPointers();
-        return MapFetchWithQueryCodec.encodeResponse(serialized, encodePointers(pointers));
+        return ServerMapFetchWithQueryCodec.encodeResponse(serialized, encodePointers(pointers));
     }
 
     @Override

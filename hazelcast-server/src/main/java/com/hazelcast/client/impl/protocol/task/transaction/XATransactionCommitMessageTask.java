@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCommitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCommitCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.client.impl.protocol.task.TransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
@@ -33,20 +33,20 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class XATransactionCommitMessageTask
-        extends AbstractCallableMessageTask<XATransactionCommitCodec.RequestParameters>
+        extends AbstractCallableMessageTask<ServerXATransactionCommitCodec.RequestParameters>
         implements TransactionalMessageTask {
     public XATransactionCommitMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected XATransactionCommitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionCommitCodec.decodeRequest(clientMessage);
+    protected ServerXATransactionCommitCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerXATransactionCommitCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionCommitCodec.encodeResponse();
+        return ServerXATransactionCommitCodec.encodeResponse();
     }
 
     @Override

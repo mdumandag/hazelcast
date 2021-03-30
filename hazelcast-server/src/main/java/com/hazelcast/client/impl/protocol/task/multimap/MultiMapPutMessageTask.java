@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapPutCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapService;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_PUT}
  */
 public class MultiMapPutMessageTask
-        extends AbstractPartitionMessageTask<MultiMapPutCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapPutCodec.RequestParameters> {
 
     public MultiMapPutMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class MultiMapPutMessageTask
     }
 
     @Override
-    protected MultiMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapPutCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapPutCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapPutCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapPutCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddIndexCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.config.IndexType;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.Map;
 
 public class MapAddIndexMessageTask
-        extends AbstractAllPartitionsMessageTask<MapAddIndexCodec.RequestParameters> {
+        extends AbstractAllPartitionsMessageTask<ServerMapAddIndexCodec.RequestParameters> {
 
     public MapAddIndexMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class MapAddIndexMessageTask
     }
 
     @Override
-    protected MapAddIndexCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddIndexCodec.decodeRequest(clientMessage);
+    protected ServerMapAddIndexCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddIndexCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddIndexCodec.encodeResponse();
+        return ServerMapAddIndexCodec.encodeResponse();
     }
 
     public String getServiceName() {

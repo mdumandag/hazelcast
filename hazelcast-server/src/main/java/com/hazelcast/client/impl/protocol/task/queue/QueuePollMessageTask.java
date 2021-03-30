@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueuePollCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePollCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.PollOperation;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_POLL}
  */
 public class QueuePollMessageTask
-        extends AbstractPartitionMessageTask<QueuePollCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueuePollCodec.RequestParameters> {
 
     public QueuePollMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class QueuePollMessageTask
     }
 
     @Override
-    protected QueuePollCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueuePollCodec.decodeRequest(clientMessage);
+    protected ServerQueuePollCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueuePollCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueuePollCodec.encodeResponse((Data) response);
+        return ServerQueuePollCodec.encodeResponse((Data) response);
     }
 
     @Override

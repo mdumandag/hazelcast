@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.ClientEngineImpl;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionCreateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -32,7 +32,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class TransactionCreateMessageTask
-        extends AbstractTransactionalMessageTask<TransactionCreateCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionCreateCodec.RequestParameters> {
 
 
     public TransactionCreateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -60,13 +60,13 @@ public class TransactionCreateMessageTask
     }
 
     @Override
-    protected TransactionCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionCreateCodec.decodeRequest(clientMessage);
+    protected ServerTransactionCreateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionCreateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionCreateCodec.encodeResponse((UUID) response);
+        return ServerTransactionCreateCodec.encodeResponse((UUID) response);
     }
 
     @Override

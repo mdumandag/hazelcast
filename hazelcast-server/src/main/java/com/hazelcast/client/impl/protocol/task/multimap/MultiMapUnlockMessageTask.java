@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapUnlockCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.UnlockOperation;
@@ -36,7 +36,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_UNLOCK}
  */
 public class MultiMapUnlockMessageTask
-        extends AbstractPartitionMessageTask<MultiMapUnlockCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapUnlockCodec.RequestParameters> {
 
     public MultiMapUnlockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,12 +50,12 @@ public class MultiMapUnlockMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapUnlockCodec.encodeResponse();
+        return ServerMultiMapUnlockCodec.encodeResponse();
     }
 
     @Override
-    protected MultiMapUnlockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapUnlockCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapUnlockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapUnlockCodec.decodeRequest(clientMessage);
     }
 
     @Override

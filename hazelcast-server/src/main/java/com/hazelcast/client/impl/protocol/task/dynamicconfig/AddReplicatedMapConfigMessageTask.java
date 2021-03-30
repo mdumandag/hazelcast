@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddReplicatedMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddReplicatedMapConfigCodec;
 import com.hazelcast.config.EntryListenerConfig;
 import com.hazelcast.config.InMemoryFormat;
 import com.hazelcast.config.ListenerConfig;
@@ -31,20 +31,20 @@ import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import java.util.ArrayList;
 
 public class AddReplicatedMapConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddReplicatedMapConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddReplicatedMapConfigCodec.RequestParameters> {
 
     public AddReplicatedMapConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddReplicatedMapConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddReplicatedMapConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddReplicatedMapConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddReplicatedMapConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddReplicatedMapConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddReplicatedMapConfigCodec.encodeResponse();
     }
 
     @Override

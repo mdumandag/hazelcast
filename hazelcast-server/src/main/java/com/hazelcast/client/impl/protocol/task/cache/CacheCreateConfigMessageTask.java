@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.cache.impl.PreJoinCacheConfig;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheCreateConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheCreateConfigCodec;
 import com.hazelcast.client.impl.protocol.codec.holder.CacheConfigHolder;
 import com.hazelcast.client.impl.protocol.task.AbstractMessageTask;
 import com.hazelcast.config.CacheConfig;
@@ -40,7 +40,7 @@ import static com.hazelcast.internal.config.ConfigValidator.checkCacheConfig;
  * @see ICacheService#createCacheConfigOnAllMembers(PreJoinCacheConfig)
  */
 public class CacheCreateConfigMessageTask
-        extends AbstractMessageTask<CacheCreateConfigCodec.RequestParameters>
+        extends AbstractMessageTask<ServerCacheCreateConfigCodec.RequestParameters>
         implements BiConsumer<Object, Throwable> {
 
     public CacheCreateConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -62,14 +62,14 @@ public class CacheCreateConfigMessageTask
     }
 
     @Override
-    protected CacheCreateConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheCreateConfigCodec.decodeRequest(clientMessage);
+    protected ServerCacheCreateConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheCreateConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         CacheConfig cacheConfig = (CacheConfig) response;
-        return CacheCreateConfigCodec.encodeResponse(CacheConfigHolder.of(cacheConfig, serializationService));
+        return ServerCacheCreateConfigCodec.encodeResponse(CacheConfigHolder.of(cacheConfig, serializationService));
     }
 
     @Override

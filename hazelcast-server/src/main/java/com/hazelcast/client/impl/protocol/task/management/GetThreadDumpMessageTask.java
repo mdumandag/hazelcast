@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetThreadDumpCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetThreadDumpCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -50,12 +50,12 @@ public class GetThreadDumpMessageTask extends AbstractInvocationMessageTask<Bool
 
     @Override
     protected Boolean decodeClientMessage(ClientMessage clientMessage) {
-        return MCGetThreadDumpCodec.decodeRequest(clientMessage);
+        return ServerMCGetThreadDumpCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCGetThreadDumpCodec.encodeResponse((String) response);
+        return ServerMCGetThreadDumpCodec.encodeResponse((String) response);
     }
 
     @Override

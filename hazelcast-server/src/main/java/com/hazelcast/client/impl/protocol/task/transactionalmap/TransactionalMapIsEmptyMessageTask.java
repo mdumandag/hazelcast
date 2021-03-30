@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapIsEmptyMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapIsEmptyCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapIsEmptyCodec.RequestParameters> {
 
     public TransactionalMapIsEmptyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalMapIsEmptyMessageTask
     }
 
     @Override
-    protected TransactionalMapIsEmptyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapIsEmptyCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapIsEmptyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalMapIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionallist;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalListSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalListSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.transaction.TransactionalList;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalListSizeMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalListSizeCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalListSizeCodec.RequestParameters> {
 
     public TransactionalListSizeMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalListSizeMessageTask
     }
 
     @Override
-    protected TransactionalListSizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalListSizeCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalListSizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalListSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalListSizeCodec.encodeResponse((Integer) response);
+        return ServerTransactionalListSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

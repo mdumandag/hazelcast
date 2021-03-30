@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCRunConsoleCommandCodec;
-import com.hazelcast.client.impl.protocol.codec.MCRunConsoleCommandCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunConsoleCommandCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunConsoleCommandCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -50,12 +50,12 @@ public class RunConsoleCommandMessageTask extends AbstractInvocationMessageTask<
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCRunConsoleCommandCodec.decodeRequest(clientMessage);
+        return ServerMCRunConsoleCommandCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCRunConsoleCommandCodec.encodeResponse((String) response);
+        return ServerMCRunConsoleCommandCodec.encodeResponse((String) response);
     }
 
     @Override

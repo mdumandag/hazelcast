@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapDeleteCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.util.Timer;
@@ -32,7 +32,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class MapDeleteMessageTask
-        extends AbstractMapPartitionMessageTask<MapDeleteCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapDeleteCodec.RequestParameters> {
 
     private transient long startTimeNanos;
 
@@ -65,13 +65,13 @@ public class MapDeleteMessageTask
     }
 
     @Override
-    protected MapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapDeleteCodec.decodeRequest(clientMessage);
+    protected ServerMapDeleteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapDeleteCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapDeleteCodec.encodeResponse();
+        return ServerMapDeleteCodec.encodeResponse();
     }
 
     @Override

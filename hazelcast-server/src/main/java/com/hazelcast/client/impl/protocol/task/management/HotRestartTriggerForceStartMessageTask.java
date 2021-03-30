@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerForceStartCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerForceStartCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -55,7 +55,7 @@ public class HotRestartTriggerForceStartMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCTriggerForceStartCodec.encodeResponse((Boolean) response);
+        return ServerMCTriggerForceStartCodec.encodeResponse((Boolean) response);
     }
 
     @Override

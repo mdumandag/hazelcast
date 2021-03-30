@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapIsEmptyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
@@ -62,12 +62,12 @@ public class MapIsEmptyMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapIsEmptyCodec.decodeRequest(clientMessage);
+        return ServerMapIsEmptyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapIsEmptyCodec.encodeResponse((Boolean) response);
+        return ServerMapIsEmptyCodec.encodeResponse((Boolean) response);
     }
 
     @Override

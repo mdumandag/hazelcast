@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapSubmitToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSubmitToKeyCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.EntryProcessor;
 import com.hazelcast.map.impl.MapService;
@@ -32,7 +32,7 @@ import java.security.Permission;
 
 
 public class MapSubmitToKeyMessageTask
-        extends AbstractMapPartitionMessageTask<MapSubmitToKeyCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapSubmitToKeyCodec.RequestParameters> {
 
     public MapSubmitToKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class MapSubmitToKeyMessageTask
     }
 
     @Override
-    protected MapSubmitToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapSubmitToKeyCodec.decodeRequest(clientMessage);
+    protected ServerMapSubmitToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapSubmitToKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapSubmitToKeyCodec.encodeResponse(serializationService.toData(response));
+        return ServerMapSubmitToKeyCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

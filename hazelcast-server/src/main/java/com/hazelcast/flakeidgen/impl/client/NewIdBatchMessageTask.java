@@ -17,8 +17,8 @@
 package com.hazelcast.flakeidgen.impl.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.FlakeIdGeneratorNewIdBatchCodec;
-import com.hazelcast.client.impl.protocol.codec.FlakeIdGeneratorNewIdBatchCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerFlakeIdGeneratorNewIdBatchCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFlakeIdGeneratorNewIdBatchCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.flakeidgen.impl.FlakeIdGeneratorProxy;
@@ -43,13 +43,13 @@ public class NewIdBatchMessageTask
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return FlakeIdGeneratorNewIdBatchCodec.decodeRequest(clientMessage);
+        return ServerFlakeIdGeneratorNewIdBatchCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         IdBatch idBatch = (IdBatch) response;
-        return FlakeIdGeneratorNewIdBatchCodec.encodeResponse(idBatch.base(), idBatch.increment(), idBatch.batchSize());
+        return ServerFlakeIdGeneratorNewIdBatchCodec.encodeResponse(idBatch.base(), idBatch.increment(), idBatch.batchSize());
     }
 
     @Override

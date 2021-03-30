@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQuerySetReadCursorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQuerySetReadCursorCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
@@ -32,20 +32,20 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.ContinuousQueryMessageType#CONTINUOUSQUERY_SETREADCURSOR}
  */
 public class MapSetReadCursorMessageTask
-        extends AbstractPartitionMessageTask<ContinuousQuerySetReadCursorCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerContinuousQuerySetReadCursorCodec.RequestParameters> {
 
     public MapSetReadCursorMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected ContinuousQuerySetReadCursorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ContinuousQuerySetReadCursorCodec.decodeRequest(clientMessage);
+    protected ServerContinuousQuerySetReadCursorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerContinuousQuerySetReadCursorCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ContinuousQuerySetReadCursorCodec.encodeResponse((Boolean) response);
+        return ServerContinuousQuerySetReadCursorCodec.encodeResponse((Boolean) response);
     }
 
     @Override

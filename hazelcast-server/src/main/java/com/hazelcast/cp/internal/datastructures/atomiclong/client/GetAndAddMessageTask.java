@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomiclong.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongGetAndAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongGetAndAddCodec;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
@@ -35,7 +35,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link GetAndAddOp}
  */
-public class GetAndAddMessageTask extends AbstractCPMessageTask<AtomicLongGetAndAddCodec.RequestParameters> {
+public class GetAndAddMessageTask extends AbstractCPMessageTask<ServerAtomicLongGetAndAddCodec.RequestParameters> {
 
     public GetAndAddMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -54,13 +54,13 @@ public class GetAndAddMessageTask extends AbstractCPMessageTask<AtomicLongGetAnd
     }
 
     @Override
-    protected AtomicLongGetAndAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicLongGetAndAddCodec.decodeRequest(clientMessage);
+    protected ServerAtomicLongGetAndAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicLongGetAndAddCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicLongGetAndAddCodec.encodeResponse((Long) response);
+        return ServerAtomicLongGetAndAddCodec.encodeResponse((Long) response);
     }
 
     @Override

@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.management.MCClusterMetadata;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCGetClusterMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetClusterMetadataCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.BuildInfoProvider;
 import com.hazelcast.instance.JetBuildInfo;
@@ -56,7 +56,7 @@ public class GetClusterMetadataMessageTask extends AbstractCallableMessageTask<V
     @Override
     protected ClientMessage encodeResponse(Object response) {
         MCClusterMetadata metadata = (MCClusterMetadata) response;
-        return MCGetClusterMetadataCodec.encodeResponse(
+        return ServerMCGetClusterMetadataCodec.encodeResponse(
                 metadata.getCurrentState().getId(),
                 metadata.getMemberVersion(),
                 metadata.getJetVersion(),

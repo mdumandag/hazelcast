@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomiclong.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongAlterCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongAlterCodec;
 import com.hazelcast.core.IFunction;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
@@ -33,7 +33,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link AlterOp}
  */
-public class AlterMessageTask extends AbstractCPMessageTask<AtomicLongAlterCodec.RequestParameters> {
+public class AlterMessageTask extends AbstractCPMessageTask<ServerAtomicLongAlterCodec.RequestParameters> {
 
     public AlterMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class AlterMessageTask extends AbstractCPMessageTask<AtomicLongAlterCodec
     }
 
     @Override
-    protected AtomicLongAlterCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicLongAlterCodec.decodeRequest(clientMessage);
+    protected ServerAtomicLongAlterCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicLongAlterCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicLongAlterCodec.encodeResponse((Long) response);
+        return ServerAtomicLongAlterCodec.encodeResponse((Long) response);
     }
 
     @Override

@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCUpdateMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCUpdateMapConfigCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCUpdateMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCUpdateMapConfigCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.operation.UpdateMapConfigOperation;
@@ -58,12 +58,12 @@ public class UpdateMapConfigMessageTask extends AbstractInvocationMessageTask<Re
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCUpdateMapConfigCodec.decodeRequest(clientMessage);
+        return ServerMCUpdateMapConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCUpdateMapConfigCodec.encodeResponse();
+        return ServerMCUpdateMapConfigCodec.encodeResponse();
     }
 
     @Override

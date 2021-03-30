@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapRecord;
@@ -40,7 +40,7 @@ import java.util.List;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_REMOVE}
  */
 public class MultiMapRemoveMessageTask
-        extends AbstractPartitionMessageTask<MultiMapRemoveCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapRemoveCodec.RequestParameters> {
 
     public MultiMapRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -52,8 +52,8 @@ public class MultiMapRemoveMessageTask
     }
 
     @Override
-    protected MultiMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapRemoveCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MultiMapRemoveMessageTask
         for (MultiMapRecord multiMapRecord : collection) {
             resultCollection.add(serializationService.toData(multiMapRecord.getObject()));
         }
-        return MultiMapRemoveCodec.encodeResponse(resultCollection);
+        return ServerMultiMapRemoveCodec.encodeResponse(resultCollection);
     }
 
     @Override

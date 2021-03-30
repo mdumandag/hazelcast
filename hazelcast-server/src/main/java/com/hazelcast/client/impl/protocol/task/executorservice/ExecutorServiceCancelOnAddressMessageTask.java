@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceCancelOnMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceCancelOnMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.executor.impl.operations.CancellationOperation;
@@ -29,7 +29,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class ExecutorServiceCancelOnAddressMessageTask
-        extends AbstractTargetMessageTask<ExecutorServiceCancelOnMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerExecutorServiceCancelOnMemberCodec.RequestParameters> {
 
     public ExecutorServiceCancelOnAddressMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class ExecutorServiceCancelOnAddressMessageTask
     }
 
     @Override
-    protected ExecutorServiceCancelOnMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ExecutorServiceCancelOnMemberCodec.decodeRequest(clientMessage);
+    protected ServerExecutorServiceCancelOnMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerExecutorServiceCancelOnMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ExecutorServiceCancelOnMemberCodec.encodeResponse((Boolean) response);
+        return ServerExecutorServiceCancelOnMemberCodec.encodeResponse((Boolean) response);
     }
 
     @Override

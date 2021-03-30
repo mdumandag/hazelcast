@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.semaphore.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreAvailablePermitsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreAvailablePermitsCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
 import com.hazelcast.cp.internal.datastructures.semaphore.operation.AvailablePermitsOp;
@@ -33,7 +33,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link AvailablePermitsOp}
  */
-public class AvailablePermitsMessageTask extends AbstractCPMessageTask<SemaphoreAvailablePermitsCodec.RequestParameters> {
+public class AvailablePermitsMessageTask extends AbstractCPMessageTask<ServerSemaphoreAvailablePermitsCodec.RequestParameters> {
 
     public AvailablePermitsMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class AvailablePermitsMessageTask extends AbstractCPMessageTask<Semaphore
     }
 
     @Override
-    protected SemaphoreAvailablePermitsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SemaphoreAvailablePermitsCodec.decodeRequest(clientMessage);
+    protected ServerSemaphoreAvailablePermitsCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSemaphoreAvailablePermitsCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SemaphoreAvailablePermitsCodec.encodeResponse((Integer) response);
+        return ServerSemaphoreAvailablePermitsCodec.encodeResponse((Integer) response);
     }
 
     @Override

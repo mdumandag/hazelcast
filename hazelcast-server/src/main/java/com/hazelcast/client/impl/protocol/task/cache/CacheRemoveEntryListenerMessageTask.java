@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveEntryListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.util.concurrent.Future;
  * @see com.hazelcast.cache.impl.CacheService#deregisterListener(String, UUID)
  */
 public class CacheRemoveEntryListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<CacheRemoveEntryListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerCacheRemoveEntryListenerCodec.RequestParameters> {
 
     public CacheRemoveEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class CacheRemoveEntryListenerMessageTask
     }
 
     @Override
-    protected CacheRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheRemoveEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheRemoveEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheRemoveEntryListenerCodec.encodeResponse((Boolean) response);
+        return ServerCacheRemoveEntryListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

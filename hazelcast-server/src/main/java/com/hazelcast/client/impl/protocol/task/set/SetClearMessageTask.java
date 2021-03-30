@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetClearCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionClearOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -46,12 +46,12 @@ public class SetClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return SetClearCodec.decodeRequest(clientMessage);
+        return ServerSetClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetClearCodec.encodeResponse();
+        return ServerSetClearCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapClearCodec;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -76,12 +76,12 @@ public class MapClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapClearCodec.decodeRequest(clientMessage);
+        return ServerMapClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapClearCodec.encodeResponse();
+        return ServerMapClearCodec.encodeResponse();
     }
 
     public String getServiceName() {

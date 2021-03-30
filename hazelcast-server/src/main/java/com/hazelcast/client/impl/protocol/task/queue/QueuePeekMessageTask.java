@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueuePeekCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePeekCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.PeekOperation;
@@ -48,12 +48,12 @@ public class QueuePeekMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueuePeekCodec.decodeRequest(clientMessage);
+        return ServerQueuePeekCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueuePeekCodec.encodeResponse((Data) response);
+        return ServerQueuePeekCodec.encodeResponse((Data) response);
     }
 
     @Override

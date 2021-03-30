@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionSizeOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -46,12 +46,12 @@ public class SetSizeMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return SetSizeCodec.decodeRequest(clientMessage);
+        return ServerSetSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetSizeCodec.encodeResponse((Integer) response);
+        return ServerSetSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

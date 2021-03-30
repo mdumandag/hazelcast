@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerToKeyCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -27,7 +27,7 @@ import com.hazelcast.query.Predicate;
 import java.util.UUID;
 
 public class ReplicatedMapAddEntryListenerToKeyMessageTask
-        extends AbstractReplicatedMapAddEntryListenerMessageTask<ReplicatedMapAddEntryListenerToKeyCodec.RequestParameters> {
+        extends AbstractReplicatedMapAddEntryListenerMessageTask<ServerReplicatedMapAddEntryListenerToKeyCodec.RequestParameters> {
 
     public ReplicatedMapAddEntryListenerToKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,18 +51,18 @@ public class ReplicatedMapAddEntryListenerToKeyMessageTask
     @Override
     protected ClientMessage encodeEvent(Data key, Data newValue, Data oldValue, Data mergingValue,
                                         int type, UUID uuid, int numberOfAffectedEntries) {
-        return ReplicatedMapAddEntryListenerToKeyCodec.encodeEntryEvent(key, newValue,
+        return ServerReplicatedMapAddEntryListenerToKeyCodec.encodeEntryEvent(key, newValue,
                 oldValue, mergingValue, type, uuid, numberOfAffectedEntries);
     }
 
     @Override
-    protected ReplicatedMapAddEntryListenerToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapAddEntryListenerToKeyCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapAddEntryListenerToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapAddEntryListenerToKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapAddEntryListenerToKeyCodec.encodeResponse((UUID) response);
+        return ServerReplicatedMapAddEntryListenerToKeyCodec.encodeResponse((UUID) response);
     }
 
     @Override

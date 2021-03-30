@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice.durable;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorRetrieveAndDisposeResultCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorRetrieveAndDisposeResultCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.durableexecutor.impl.operations.RetrieveAndDisposeResultOperation;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import java.security.Permission;
 import static com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService.SERVICE_NAME;
 
 public class DurableExecutorRetrieveAndDisposeResultMessageTask
-        extends AbstractPartitionMessageTask<DurableExecutorRetrieveAndDisposeResultCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerDurableExecutorRetrieveAndDisposeResultCodec.RequestParameters> {
 
     public DurableExecutorRetrieveAndDisposeResultMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -42,14 +42,14 @@ public class DurableExecutorRetrieveAndDisposeResultMessageTask
     }
 
     @Override
-    protected DurableExecutorRetrieveAndDisposeResultCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DurableExecutorRetrieveAndDisposeResultCodec.decodeRequest(clientMessage);
+    protected ServerDurableExecutorRetrieveAndDisposeResultCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDurableExecutorRetrieveAndDisposeResultCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = serializationService.toData(response);
-        return DurableExecutorRetrieveAndDisposeResultCodec.encodeResponse(data);
+        return ServerDurableExecutorRetrieveAndDisposeResultCodec.encodeResponse(data);
     }
 
     @Override

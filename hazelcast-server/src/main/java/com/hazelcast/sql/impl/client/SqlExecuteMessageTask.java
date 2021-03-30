@@ -17,7 +17,7 @@
 package com.hazelcast.sql.impl.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SqlExecuteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlExecuteCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -35,7 +35,7 @@ import java.security.Permission;
 /**
  * SQL query execute task.
  */
-public class SqlExecuteMessageTask extends SqlAbstractMessageTask<SqlExecuteCodec.RequestParameters> {
+public class SqlExecuteMessageTask extends SqlAbstractMessageTask<ServerSqlExecuteCodec.RequestParameters> {
     public SqlExecuteMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
@@ -61,8 +61,8 @@ public class SqlExecuteMessageTask extends SqlAbstractMessageTask<SqlExecuteCode
     }
 
     @Override
-    protected SqlExecuteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SqlExecuteCodec.decodeRequest(clientMessage);
+    protected ServerSqlExecuteCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSqlExecuteCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SqlExecuteMessageTask extends SqlAbstractMessageTask<SqlExecuteCode
         AbstractSqlResult result = (AbstractSqlResult) response;
 
         if (result.updateCount() >= 0) {
-            return SqlExecuteCodec.encodeResponse(null, null, result.updateCount(), null);
+            return ServerSqlExecuteCodec.encodeResponse(null, null, result.updateCount(), null);
         } else {
             SqlServiceImpl sqlService = nodeEngine.getSqlService();
 
@@ -81,7 +81,7 @@ public class SqlExecuteMessageTask extends SqlAbstractMessageTask<SqlExecuteCode
                 serializationService
             );
 
-            return SqlExecuteCodec.encodeResponse(
+            return ServerSqlExecuteCodec.encodeResponse(
                 result.getRowMetadata().getColumns(),
                 page,
                 -1,
@@ -101,7 +101,7 @@ public class SqlExecuteMessageTask extends SqlAbstractMessageTask<SqlExecuteCode
         }
         SqlError error = SqlClientUtils.exceptionToClientError((Exception) throwable, nodeEngine.getLocalMember().getUuid());
 
-        return SqlExecuteCodec.encodeResponse(
+        return ServerSqlExecuteCodec.encodeResponse(
             null,
             null,
             -1,

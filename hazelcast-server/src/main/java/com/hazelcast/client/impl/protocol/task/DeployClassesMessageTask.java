@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientDeployClassesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientDeployClassesCodec;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.MemberLeftException;
 import com.hazelcast.instance.impl.Node;
@@ -71,12 +71,12 @@ public class DeployClassesMessageTask extends AbstractMultiTargetMessageTask<Lis
 
     @Override
     protected List<Map.Entry<String, byte[]>> decodeClientMessage(ClientMessage clientMessage) {
-        return ClientDeployClassesCodec.decodeRequest(clientMessage);
+        return ServerClientDeployClassesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientDeployClassesCodec.encodeResponse();
+        return ServerClientDeployClassesCodec.encodeResponse();
     }
 
     @Override

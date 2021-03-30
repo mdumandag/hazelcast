@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetDelayFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetDelayFromPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduledExecutorTaskGetDelayFromPartitionMessageTask
-        extends AbstractPartitionMessageTask<ScheduledExecutorGetDelayFromPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerScheduledExecutorGetDelayFromPartitionCodec.RequestParameters> {
 
     public ScheduledExecutorTaskGetDelayFromPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class ScheduledExecutorTaskGetDelayFromPartitionMessageTask
     }
 
     @Override
-    protected ScheduledExecutorGetDelayFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorGetDelayFromPartitionCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorGetDelayFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorGetDelayFromPartitionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorGetDelayFromPartitionCodec.encodeResponse((Long) response);
+        return ServerScheduledExecutorGetDelayFromPartitionCodec.encodeResponse((Long) response);
     }
 
     @Override

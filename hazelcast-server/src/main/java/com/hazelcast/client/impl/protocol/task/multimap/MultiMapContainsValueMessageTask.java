@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapContainsValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapContainsValueCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAllPartitionsMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.multimap.impl.MultiMapService;
@@ -35,7 +35,7 @@ import java.util.Map;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_CONTAINSVALUE}
  */
 public class MultiMapContainsValueMessageTask
-        extends AbstractAllPartitionsMessageTask<MultiMapContainsValueCodec.RequestParameters> {
+        extends AbstractAllPartitionsMessageTask<ServerMultiMapContainsValueCodec.RequestParameters> {
 
     public MultiMapContainsValueMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -59,13 +59,13 @@ public class MultiMapContainsValueMessageTask
     }
 
     @Override
-    protected MultiMapContainsValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapContainsValueCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapContainsValueCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapContainsValueCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapContainsValueCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapContainsValueCodec.encodeResponse((Boolean) response);
     }
 
     @Override

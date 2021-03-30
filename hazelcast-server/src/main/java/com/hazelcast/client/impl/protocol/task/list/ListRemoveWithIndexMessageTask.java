@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListRemoveWithIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListRemoveWithIndexCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.collection.impl.list.operations.ListRemoveOperation;
@@ -35,7 +35,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_REMOVEWITHINDEX}
  */
 public class ListRemoveWithIndexMessageTask
-        extends AbstractPartitionMessageTask<ListRemoveWithIndexCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListRemoveWithIndexCodec.RequestParameters> {
 
     public ListRemoveWithIndexMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -47,13 +47,13 @@ public class ListRemoveWithIndexMessageTask
     }
 
     @Override
-    protected ListRemoveWithIndexCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListRemoveWithIndexCodec.decodeRequest(clientMessage);
+    protected ServerListRemoveWithIndexCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListRemoveWithIndexCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListRemoveWithIndexCodec.encodeResponse((Data) response);
+        return ServerListRemoveWithIndexCodec.encodeResponse((Data) response);
     }
 
     @Override

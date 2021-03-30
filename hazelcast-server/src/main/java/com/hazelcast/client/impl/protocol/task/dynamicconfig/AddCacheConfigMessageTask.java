@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddCacheConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddCacheConfigCodec;
 import com.hazelcast.config.CachePartitionLostListenerConfig;
 import com.hazelcast.config.CacheSimpleConfig;
 import com.hazelcast.config.CacheSimpleConfig.ExpiryPolicyFactoryConfig;
@@ -31,20 +31,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddCacheConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddCacheConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddCacheConfigCodec.RequestParameters> {
 
     public AddCacheConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddCacheConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddCacheConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddCacheConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddCacheConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddCacheConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddCacheConfigCodec.encodeResponse();
     }
 
     @Override

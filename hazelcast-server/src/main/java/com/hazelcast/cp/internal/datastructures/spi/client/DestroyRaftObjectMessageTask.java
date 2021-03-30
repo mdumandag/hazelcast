@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.spi.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPGroupDestroyCPObjectCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPGroupDestroyCPObjectCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.spi.operation.DestroyRaftObjectOp;
 import com.hazelcast.instance.impl.Node;
@@ -28,7 +28,7 @@ import java.security.Permission;
 /**
  * Client message task for destroying Raft objects
  */
-public class DestroyRaftObjectMessageTask extends AbstractCPMessageTask<CPGroupDestroyCPObjectCodec.RequestParameters> {
+public class DestroyRaftObjectMessageTask extends AbstractCPMessageTask<ServerCPGroupDestroyCPObjectCodec.RequestParameters> {
 
     public DestroyRaftObjectMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -40,13 +40,13 @@ public class DestroyRaftObjectMessageTask extends AbstractCPMessageTask<CPGroupD
     }
 
     @Override
-    protected CPGroupDestroyCPObjectCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CPGroupDestroyCPObjectCodec.decodeRequest(clientMessage);
+    protected ServerCPGroupDestroyCPObjectCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCPGroupDestroyCPObjectCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPGroupDestroyCPObjectCodec.encodeResponse();
+        return ServerCPGroupDestroyCPObjectCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveEntryListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -31,10 +31,10 @@ import java.util.concurrent.Future;
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.MultiMapRemoveEntryListenerCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveEntryListenerCodec#REQUEST_MESSAGE_TYPE}
  */
 public class MultiMapRemoveEntryListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<MultiMapRemoveEntryListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerMultiMapRemoveEntryListenerCodec.RequestParameters> {
 
     public MultiMapRemoveEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -52,13 +52,13 @@ public class MultiMapRemoveEntryListenerMessageTask
     }
 
     @Override
-    protected MultiMapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapRemoveEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapRemoveEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

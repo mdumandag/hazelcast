@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.ringbuffer;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.RingbufferRemainingCapacityCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferRemainingCapacityCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -43,12 +43,12 @@ public class RingbufferRemainingCapacityMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return RingbufferRemainingCapacityCodec.decodeRequest(clientMessage);
+        return ServerRingbufferRemainingCapacityCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return RingbufferRemainingCapacityCodec.encodeResponse((Long) response);
+        return ServerRingbufferRemainingCapacityCodec.encodeResponse((Long) response);
     }
 
     @Override

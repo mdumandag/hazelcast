@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddPartitionLostListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -34,7 +34,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFuture;
 
 public class MapAddPartitionLostListenerMessageTask
-        extends AbstractAddListenerMessageTask<MapAddPartitionLostListenerCodec.RequestParameters> {
+        extends AbstractAddListenerMessageTask<ServerMapAddPartitionLostListenerCodec.RequestParameters> {
 
     public MapAddPartitionLostListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,7 +46,7 @@ public class MapAddPartitionLostListenerMessageTask
 
         final MapPartitionLostListener listener = event -> {
             if (endpoint.isAlive()) {
-                ClientMessage eventMessage = MapAddPartitionLostListenerCodec
+                ClientMessage eventMessage = ServerMapAddPartitionLostListenerCodec
                         .encodeMapPartitionLostEvent(event.getPartitionId(), event.getMember().getUuid());
                 sendClientMessage(null, eventMessage);
             }
@@ -62,13 +62,13 @@ public class MapAddPartitionLostListenerMessageTask
     }
 
     @Override
-    protected MapAddPartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddPartitionLostListenerCodec.decodeRequest(clientMessage);
+    protected ServerMapAddPartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddPartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddPartitionLostListenerCodec.encodeResponse((UUID) response);
+        return ServerMapAddPartitionLostListenerCodec.encodeResponse((UUID) response);
     }
 
 

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapKeySetCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.query.QueryResultRow;
@@ -65,12 +65,12 @@ public class MapKeySetMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return MapKeySetCodec.decodeRequest(clientMessage);
+        return ServerMapKeySetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapKeySetCodec.encodeResponse((List<Data>) response);
+        return ServerMapKeySetCodec.encodeResponse((List<Data>) response);
     }
 
     public Permission getRequiredPermission() {

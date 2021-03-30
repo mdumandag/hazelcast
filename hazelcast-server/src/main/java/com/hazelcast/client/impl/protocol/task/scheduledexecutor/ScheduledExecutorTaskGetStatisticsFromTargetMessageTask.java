@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetStatsFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetStatsFromMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -35,7 +35,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduledExecutorTaskGetStatisticsFromTargetMessageTask
-        extends AbstractTargetMessageTask<ScheduledExecutorGetStatsFromMemberCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerScheduledExecutorGetStatsFromMemberCodec.RequestParameters> {
 
     public ScheduledExecutorTaskGetStatisticsFromTargetMessageTask(ClientMessage clientMessage, Node node,
                                                                    Connection connection) {
@@ -56,14 +56,14 @@ public class ScheduledExecutorTaskGetStatisticsFromTargetMessageTask
     }
 
     @Override
-    protected ScheduledExecutorGetStatsFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorGetStatsFromMemberCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorGetStatsFromMemberCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorGetStatsFromMemberCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         ScheduledTaskStatistics stats = (ScheduledTaskStatistics) response;
-        return ScheduledExecutorGetStatsFromMemberCodec.encodeResponse(stats.getLastIdleTime(TimeUnit.NANOSECONDS),
+        return ServerScheduledExecutorGetStatsFromMemberCodec.encodeResponse(stats.getLastIdleTime(TimeUnit.NANOSECONDS),
                 stats.getTotalIdleTime(TimeUnit.NANOSECONDS), stats.getTotalRuns(),
                 stats.getTotalRunTime(TimeUnit.NANOSECONDS), stats.getLastRunDuration(TimeUnit.NANOSECONDS));
     }

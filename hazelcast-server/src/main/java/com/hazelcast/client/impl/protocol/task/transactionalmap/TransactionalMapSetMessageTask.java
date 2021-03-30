@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapSetCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapSetMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapSetCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapSetCodec.RequestParameters> {
 
     public TransactionalMapSetMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalMapSetMessageTask
     }
 
     @Override
-    protected TransactionalMapSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapSetCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapSetCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapSetCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapSetCodec.encodeResponse();
+        return ServerTransactionalMapSetCodec.encodeResponse();
     }
 
     @Override

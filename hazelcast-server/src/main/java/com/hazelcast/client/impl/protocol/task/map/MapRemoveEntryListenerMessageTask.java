@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveEntryListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -30,7 +30,7 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 
 public class MapRemoveEntryListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<MapRemoveEntryListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerMapRemoveEntryListenerCodec.RequestParameters> {
 
     public MapRemoveEntryListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class MapRemoveEntryListenerMessageTask
     }
 
     @Override
-    protected MapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapRemoveEntryListenerCodec.decodeRequest(clientMessage);
+    protected ServerMapRemoveEntryListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapRemoveEntryListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
+        return ServerMapRemoveEntryListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

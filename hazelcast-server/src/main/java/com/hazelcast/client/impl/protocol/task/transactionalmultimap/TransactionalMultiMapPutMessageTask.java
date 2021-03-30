@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmultimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapPutCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMultiMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMultiMapPutMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMultiMapPutCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMultiMapPutCodec.RequestParameters> {
 
     public TransactionalMultiMapPutMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalMultiMapPutMessageTask
     }
 
     @Override
-    protected TransactionalMultiMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMultiMapPutCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMultiMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMultiMapPutCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMultiMapPutCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalMultiMapPutCodec.encodeResponse((Boolean) response);
     }
 
     @Override

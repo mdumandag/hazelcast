@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientPingCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientPingCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 
@@ -41,7 +41,7 @@ public class PingMessageTask extends AbstractCallableMessageTask<Void> implement
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientPingCodec.encodeResponse();
+        return ServerClientPingCodec.encodeResponse();
     }
 
     @Override

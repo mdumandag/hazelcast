@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.countdownlatch.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchTrySetCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchTrySetCountCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.operation.TrySetCountOp;
@@ -31,7 +31,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link TrySetCountOp}
  */
-public class TrySetCountMessageTask extends AbstractCPMessageTask<CountDownLatchTrySetCountCodec.RequestParameters> {
+public class TrySetCountMessageTask extends AbstractCPMessageTask<ServerCountDownLatchTrySetCountCodec.RequestParameters> {
 
     public TrySetCountMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -43,13 +43,13 @@ public class TrySetCountMessageTask extends AbstractCPMessageTask<CountDownLatch
     }
 
     @Override
-    protected CountDownLatchTrySetCountCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CountDownLatchTrySetCountCodec.decodeRequest(clientMessage);
+    protected ServerCountDownLatchTrySetCountCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCountDownLatchTrySetCountCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CountDownLatchTrySetCountCodec.encodeResponse((Boolean) response);
+        return ServerCountDownLatchTrySetCountCodec.encodeResponse((Boolean) response);
     }
 
     @Override

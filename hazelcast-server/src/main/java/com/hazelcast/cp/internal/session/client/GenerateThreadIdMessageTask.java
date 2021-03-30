@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.session.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSessionGenerateThreadIdCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionGenerateThreadIdCodec;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.cp.internal.RaftOp;
@@ -46,11 +46,11 @@ public class GenerateThreadIdMessageTask extends AbstractSessionMessageTask<Raft
 
     @Override
     protected RaftGroupId decodeClientMessage(ClientMessage clientMessage) {
-        return CPSessionGenerateThreadIdCodec.decodeRequest(clientMessage);
+        return ServerCPSessionGenerateThreadIdCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CPSessionGenerateThreadIdCodec.encodeResponse((Long) response);
+        return ServerCPSessionGenerateThreadIdCodec.encodeResponse((Long) response);
     }
 }

@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCWanSyncMapCodec;
-import com.hazelcast.client.impl.protocol.codec.MCWanSyncMapCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCWanSyncMapCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCWanSyncMapCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -67,12 +67,12 @@ public class WanSyncMapMessageTask extends AbstractCallableMessageTask<RequestPa
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCWanSyncMapCodec.decodeRequest(clientMessage);
+        return ServerMCWanSyncMapCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCWanSyncMapCodec.encodeResponse((UUID) response);
+        return ServerMCWanSyncMapCodec.encodeResponse((UUID) response);
     }
 
     @Override

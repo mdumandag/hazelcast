@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCRunGcCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunGcCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -50,7 +50,7 @@ public class RunGcMessageTask extends AbstractCallableMessageTask<Void> {
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCRunGcCodec.encodeResponse();
+        return ServerMCRunGcCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientCreateProxyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientCreateProxyCodec;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.cluster.memberselector.MemberSelectors;
@@ -34,7 +34,7 @@ import java.security.Permission;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class CreateProxyMessageTask extends AbstractInvocationMessageTask<ClientCreateProxyCodec.RequestParameters>
+public class CreateProxyMessageTask extends AbstractInvocationMessageTask<ServerClientCreateProxyCodec.RequestParameters>
         implements BlockingMessageTask {
 
     public CreateProxyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -66,13 +66,13 @@ public class CreateProxyMessageTask extends AbstractInvocationMessageTask<Client
     }
 
     @Override
-    protected ClientCreateProxyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ClientCreateProxyCodec.decodeRequest(clientMessage);
+    protected ServerClientCreateProxyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerClientCreateProxyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientCreateProxyCodec.encodeResponse();
+        return ServerClientCreateProxyCodec.encodeResponse();
     }
 
     @Override

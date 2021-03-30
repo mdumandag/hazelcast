@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueCompareAndRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueCompareAndRemoveAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.CompareAndRemoveOperation;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_COMPAREANDREMOVEALL}
  */
 public class QueueCompareAndRemoveAllMessageTask
-        extends AbstractPartitionMessageTask<QueueCompareAndRemoveAllCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueueCompareAndRemoveAllCodec.RequestParameters> {
 
     public QueueCompareAndRemoveAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,14 +46,14 @@ public class QueueCompareAndRemoveAllMessageTask
     }
 
     @Override
-    protected QueueCompareAndRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueueCompareAndRemoveAllCodec.decodeRequest(clientMessage);
+    protected ServerQueueCompareAndRemoveAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueueCompareAndRemoveAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         final boolean result = response != null && ((Boolean) response);
-        return QueueCompareAndRemoveAllCodec.encodeResponse(result);
+        return ServerQueueCompareAndRemoveAllCodec.encodeResponse(result);
     }
 
     @Override

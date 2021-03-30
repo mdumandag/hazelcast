@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice.durable;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorDisposeResultCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorDisposeResultCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.durableexecutor.impl.operations.DisposeResultOperation;
 import com.hazelcast.instance.impl.Node;
@@ -29,7 +29,7 @@ import java.security.Permission;
 import static com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService.SERVICE_NAME;
 
 public class DurableExecutorDisposeResultMessageTask
-        extends AbstractPartitionMessageTask<DurableExecutorDisposeResultCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerDurableExecutorDisposeResultCodec.RequestParameters> {
 
     public DurableExecutorDisposeResultMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -41,13 +41,13 @@ public class DurableExecutorDisposeResultMessageTask
     }
 
     @Override
-    protected DurableExecutorDisposeResultCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DurableExecutorDisposeResultCodec.decodeRequest(clientMessage);
+    protected ServerDurableExecutorDisposeResultCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDurableExecutorDisposeResultCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DurableExecutorDisposeResultCodec.encodeResponse();
+        return ServerDurableExecutorDisposeResultCodec.encodeResponse();
     }
 
     @Override

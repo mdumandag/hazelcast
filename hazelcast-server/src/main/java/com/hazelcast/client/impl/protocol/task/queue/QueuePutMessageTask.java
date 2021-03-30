@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueuePutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePutCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.OfferOperation;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_PUT}
  */
 public class QueuePutMessageTask
-        extends AbstractPartitionMessageTask<QueuePutCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueuePutCodec.RequestParameters> {
 
     public QueuePutMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class QueuePutMessageTask
     }
 
     @Override
-    protected QueuePutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueuePutCodec.decodeRequest(clientMessage);
+    protected ServerQueuePutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueuePutCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return QueuePutCodec.encodeResponse();
+        return ServerQueuePutCodec.encodeResponse();
     }
 
     @Override

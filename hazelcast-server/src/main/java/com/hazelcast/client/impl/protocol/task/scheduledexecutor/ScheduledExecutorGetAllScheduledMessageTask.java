@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetAllScheduledFuturesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetAllScheduledFuturesCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMessageTask;
 import com.hazelcast.client.impl.protocol.task.BlockingMessageTask;
 import com.hazelcast.cluster.impl.MemberImpl;
@@ -62,12 +62,12 @@ public class ScheduledExecutorGetAllScheduledMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorGetAllScheduledFuturesCodec.decodeRequest(clientMessage);
+        return ServerScheduledExecutorGetAllScheduledFuturesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ScheduledExecutorGetAllScheduledFuturesCodec
+        return ServerScheduledExecutorGetAllScheduledFuturesCodec
                 .encodeResponse((Collection<ScheduledTaskHandler>) response);
     }
 

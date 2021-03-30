@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionallist;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalListAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalListAddCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.transaction.TransactionalList;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalListAddMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalListAddCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalListAddCodec.RequestParameters> {
 
     public TransactionalListAddMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalListAddMessageTask
     }
 
     @Override
-    protected TransactionalListAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalListAddCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalListAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalListAddCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalListAddCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalListAddCodec.encodeResponse((Boolean) response);
     }
 
     @Override

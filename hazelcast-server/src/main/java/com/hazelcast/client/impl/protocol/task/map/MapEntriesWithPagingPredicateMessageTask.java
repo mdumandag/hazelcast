@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEntriesWithPagingPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntriesWithPagingPredicateCodec;
 import com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder;
 import com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder;
 import com.hazelcast.instance.impl.Node;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapEntriesWithPagingPredicateMessageTask
-        extends AbstractMapQueryWithPagingPredicateMessageTask<MapEntriesWithPagingPredicateCodec.RequestParameters> {
+        extends AbstractMapQueryWithPagingPredicateMessageTask<ServerMapEntriesWithPagingPredicateCodec.RequestParameters> {
 
     public MapEntriesWithPagingPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,8 +46,8 @@ public class MapEntriesWithPagingPredicateMessageTask
     }
 
     @Override
-    protected MapEntriesWithPagingPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapEntriesWithPagingPredicateCodec.decodeRequest(clientMessage);
+    protected ServerMapEntriesWithPagingPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapEntriesWithPagingPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MapEntriesWithPagingPredicateMessageTask
         Map.Entry<List<Map.Entry<Integer, Map.Entry>>, List<Map.Entry<Data, Data>>> result =
                 (Map.Entry<List<Map.Entry<Integer, Map.Entry>>, List<Map.Entry<Data, Data>>>) response;
         AnchorDataListHolder anchorDataListHolder = AnchorDataListHolder.of(result.getKey(), serializationService);
-        return MapEntriesWithPagingPredicateCodec.encodeResponse(result.getValue(), anchorDataListHolder);
+        return ServerMapEntriesWithPagingPredicateCodec.encodeResponse(result.getValue(), anchorDataListHolder);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientRemoveMigrationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemoveMigrationListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.partition.IPartitionService;
@@ -46,12 +46,12 @@ public class RemoveMigrationListenerMessageTask
 
     @Override
     protected UUID decodeClientMessage(ClientMessage clientMessage) {
-        return ClientRemoveMigrationListenerCodec.decodeRequest(clientMessage);
+        return ServerClientRemoveMigrationListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientRemoveMigrationListenerCodec.encodeResponse((Boolean) response);
+        return ServerClientRemoveMigrationListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

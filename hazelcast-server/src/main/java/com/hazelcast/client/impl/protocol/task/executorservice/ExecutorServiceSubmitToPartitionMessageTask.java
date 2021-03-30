@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.executorservice;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceSubmitToPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceSubmitToPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.executor.impl.operations.CallableTaskOperation;
@@ -32,7 +32,7 @@ import java.security.Permission;
 import java.util.concurrent.Callable;
 
 public class ExecutorServiceSubmitToPartitionMessageTask
-        extends AbstractPartitionMessageTask<ExecutorServiceSubmitToPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerExecutorServiceSubmitToPartitionCodec.RequestParameters> {
 
     public ExecutorServiceSubmitToPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -58,14 +58,14 @@ public class ExecutorServiceSubmitToPartitionMessageTask
 
 
     @Override
-    protected ExecutorServiceSubmitToPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ExecutorServiceSubmitToPartitionCodec.decodeRequest(clientMessage);
+    protected ServerExecutorServiceSubmitToPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerExecutorServiceSubmitToPartitionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = serializationService.toData(response);
-        return ExecutorServiceSubmitToPartitionCodec.encodeResponse(data);
+        return ServerExecutorServiceSubmitToPartitionCodec.encodeResponse(data);
     }
 
     @Override

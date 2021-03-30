@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapKeySetWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapKeySetWithPredicateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TransactionalMapKeySetWithPredicateMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapKeySetWithPredicateCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapKeySetWithPredicateCodec.RequestParameters> {
 
     public TransactionalMapKeySetWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -61,13 +61,13 @@ public class TransactionalMapKeySetWithPredicateMessageTask
     }
 
     @Override
-    protected TransactionalMapKeySetWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapKeySetWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapKeySetWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapKeySetWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapKeySetWithPredicateCodec.encodeResponse((List<Data>) response);
+        return ServerTransactionalMapKeySetWithPredicateCodec.encodeResponse((List<Data>) response);
     }
 
     @Override

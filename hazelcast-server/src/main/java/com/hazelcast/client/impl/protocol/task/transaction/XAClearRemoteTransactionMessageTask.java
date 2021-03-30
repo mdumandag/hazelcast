@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionClearRemoteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionClearRemoteCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -44,12 +44,12 @@ public class XAClearRemoteTransactionMessageTask
 
     @Override
     protected SerializableXID decodeClientMessage(ClientMessage clientMessage) {
-        return XATransactionClearRemoteCodec.decodeRequest(clientMessage);
+        return ServerXATransactionClearRemoteCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionClearRemoteCodec.encodeResponse();
+        return ServerXATransactionClearRemoteCodec.encodeResponse();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class XAClearRemoteTransactionMessageTask
         InvocationBuilder builder = operationService.createInvocationBuilder(getServiceName(), op, partitionId);
         builder.setTryCount(TRY_COUNT).setResultDeserialized(false);
         builder.invoke();
-        return XATransactionClearRemoteCodec.encodeResponse();
+        return ServerXATransactionClearRemoteCodec.encodeResponse();
     }
 
     @Override

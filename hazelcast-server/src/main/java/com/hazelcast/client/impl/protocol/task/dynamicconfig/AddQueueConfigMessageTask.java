@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddQueueConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddQueueConfigCodec;
 import com.hazelcast.config.ItemListenerConfig;
 import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.config.QueueConfig;
@@ -30,20 +30,20 @@ import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import java.util.List;
 
 public class AddQueueConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddQueueConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddQueueConfigCodec.RequestParameters> {
 
     public AddQueueConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddQueueConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddQueueConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddQueueConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddQueueConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddQueueConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddQueueConfigCodec.encodeResponse();
     }
 
     @Override

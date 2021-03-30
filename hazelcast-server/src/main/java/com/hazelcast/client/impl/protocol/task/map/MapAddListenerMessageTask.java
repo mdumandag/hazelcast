@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryAddListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAddListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -39,10 +39,10 @@ import static com.hazelcast.spi.impl.InternalCompletableFuture.newCompletedFutur
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerCodec#REQUEST_MESSAGE_TYPE}
  */
 public class MapAddListenerMessageTask
-        extends AbstractAddListenerMessageTask<ContinuousQueryAddListenerCodec.RequestParameters>
+        extends AbstractAddListenerMessageTask<ServerContinuousQueryAddListenerCodec.RequestParameters>
         implements ListenerAdapter<IMapEvent> {
 
     public MapAddListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -72,7 +72,7 @@ public class MapAddListenerMessageTask
     private ClientMessage getEventData(IMapEvent iMapEvent) {
         if (iMapEvent instanceof SingleIMapEvent) {
             QueryCacheEventData eventData = ((SingleIMapEvent) iMapEvent).getEventData();
-            ClientMessage clientMessage = ContinuousQueryAddListenerCodec.encodeQueryCacheSingleEvent(eventData);
+            ClientMessage clientMessage = ServerContinuousQueryAddListenerCodec.encodeQueryCacheSingleEvent(eventData);
             int partitionId = eventData.getPartitionId();
             clientMessage.setPartitionId(partitionId);
             return clientMessage;
@@ -83,7 +83,7 @@ public class MapAddListenerMessageTask
             BatchEventData batchEventData = batchIMapEvent.getBatchEventData();
             int partitionId = batchEventData.getPartitionId();
             ClientMessage clientMessage =
-                    ContinuousQueryAddListenerCodec.encodeQueryCacheBatchEvent(batchEventData.getEvents(),
+                    ServerContinuousQueryAddListenerCodec.encodeQueryCacheBatchEvent(batchEventData.getEvents(),
                             batchEventData.getSource(), partitionId);
             clientMessage.setPartitionId(partitionId);
             return clientMessage;
@@ -93,13 +93,13 @@ public class MapAddListenerMessageTask
     }
 
     @Override
-    protected ContinuousQueryAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ContinuousQueryAddListenerCodec.decodeRequest(clientMessage);
+    protected ServerContinuousQueryAddListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerContinuousQueryAddListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ContinuousQueryAddListenerCodec.encodeResponse((UUID) response);
+        return ServerContinuousQueryAddListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

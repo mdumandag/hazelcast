@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCClearWanQueuesCodec;
-import com.hazelcast.client.impl.protocol.codec.MCClearWanQueuesCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCClearWanQueuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCClearWanQueuesCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.operation.ClearWanQueuesOperation;
@@ -51,12 +51,12 @@ public class ClearWanQueuesMessageTask extends AbstractInvocationMessageTask<Req
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCClearWanQueuesCodec.decodeRequest(clientMessage);
+        return ServerMCClearWanQueuesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCClearWanQueuesCodec.encodeResponse();
+        return ServerMCClearWanQueuesCodec.encodeResponse();
     }
 
     @Override

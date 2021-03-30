@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapRemoveCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -31,7 +31,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ReplicatedMapRemoveMessageTask
-        extends AbstractPartitionMessageTask<ReplicatedMapRemoveCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerReplicatedMapRemoveCodec.RequestParameters> {
 
     public ReplicatedMapRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -43,14 +43,14 @@ public class ReplicatedMapRemoveMessageTask
     }
 
     @Override
-    protected ReplicatedMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapRemoveCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         VersionResponsePair versionResponsePair = (VersionResponsePair) response;
-        return ReplicatedMapRemoveCodec.encodeResponse(serializationService.toData(versionResponsePair.getResponse()));
+        return ServerReplicatedMapRemoveCodec.encodeResponse(serializationService.toData(versionResponsePair.getResponse()));
     }
 
     @Override

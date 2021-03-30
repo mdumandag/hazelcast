@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListIteratorCodec;
-import com.hazelcast.client.impl.protocol.codec.ListListIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListListIteratorCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.collection.impl.list.operations.ListSubOperation;
@@ -36,7 +36,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_LISTITERATOR}
  */
 public class ListListIteratorMessageTask
-        extends AbstractPartitionMessageTask<ListListIteratorCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListListIteratorCodec.RequestParameters> {
 
     public ListListIteratorMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -48,13 +48,13 @@ public class ListListIteratorMessageTask
     }
 
     @Override
-    protected ListListIteratorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListListIteratorCodec.decodeRequest(clientMessage);
+    protected ServerListListIteratorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListListIteratorCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListIteratorCodec.encodeResponse(((SerializableList) response).getCollection());
+        return ServerListIteratorCodec.encodeResponse(((SerializableList) response).getCollection());
     }
 
     @Override

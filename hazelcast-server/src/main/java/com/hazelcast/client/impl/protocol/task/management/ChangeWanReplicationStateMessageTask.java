@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCChangeWanReplicationStateCodec;
-import com.hazelcast.client.impl.protocol.codec.MCChangeWanReplicationStateCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeWanReplicationStateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeWanReplicationStateCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.operation.ChangeWanStateOperation;
@@ -59,12 +59,12 @@ public class ChangeWanReplicationStateMessageTask extends AbstractInvocationMess
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCChangeWanReplicationStateCodec.decodeRequest(clientMessage);
+        return ServerMCChangeWanReplicationStateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCChangeWanReplicationStateCodec.encodeResponse();
+        return ServerMCChangeWanReplicationStateCodec.encodeResponse();
     }
 
     @Override

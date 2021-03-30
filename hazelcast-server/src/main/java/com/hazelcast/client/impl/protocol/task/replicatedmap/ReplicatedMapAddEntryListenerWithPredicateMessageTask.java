@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerWithPredicateCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 public class ReplicatedMapAddEntryListenerWithPredicateMessageTask
         extends AbstractReplicatedMapAddEntryListenerMessageTask
-        <ReplicatedMapAddEntryListenerWithPredicateCodec.RequestParameters> {
+        <ServerReplicatedMapAddEntryListenerWithPredicateCodec.RequestParameters> {
 
     public ReplicatedMapAddEntryListenerWithPredicateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -51,7 +51,7 @@ public class ReplicatedMapAddEntryListenerWithPredicateMessageTask
     @Override
     protected ClientMessage encodeEvent(Data key, Data newValue, Data oldValue, Data mergingValue,
                                         int type, UUID uuid, int numberOfAffectedEntries) {
-        return ReplicatedMapAddEntryListenerWithPredicateCodec.encodeEntryEvent(key, newValue,
+        return ServerReplicatedMapAddEntryListenerWithPredicateCodec.encodeEntryEvent(key, newValue,
                 oldValue, mergingValue, type, uuid, numberOfAffectedEntries);
     }
 
@@ -61,13 +61,13 @@ public class ReplicatedMapAddEntryListenerWithPredicateMessageTask
     }
 
     @Override
-    protected ReplicatedMapAddEntryListenerWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapAddEntryListenerWithPredicateCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapAddEntryListenerWithPredicateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapAddEntryListenerWithPredicateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ReplicatedMapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
+        return ServerReplicatedMapAddEntryListenerWithPredicateCodec.encodeResponse((UUID) response);
     }
 
     @Override

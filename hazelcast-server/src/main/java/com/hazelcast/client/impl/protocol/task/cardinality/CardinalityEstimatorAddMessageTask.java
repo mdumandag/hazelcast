@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cardinality;
 import com.hazelcast.cardinality.impl.CardinalityEstimatorService;
 import com.hazelcast.cardinality.impl.operations.AggregateOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CardinalityEstimatorAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCardinalityEstimatorAddCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -30,7 +30,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class CardinalityEstimatorAddMessageTask
-        extends AbstractPartitionMessageTask<CardinalityEstimatorAddCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerCardinalityEstimatorAddCodec.RequestParameters> {
 
     public CardinalityEstimatorAddMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -42,13 +42,13 @@ public class CardinalityEstimatorAddMessageTask
     }
 
     @Override
-    protected CardinalityEstimatorAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CardinalityEstimatorAddCodec.decodeRequest(clientMessage);
+    protected ServerCardinalityEstimatorAddCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCardinalityEstimatorAddCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CardinalityEstimatorAddCodec.encodeResponse();
+        return ServerCardinalityEstimatorAddCodec.encodeResponse();
     }
 
     @Override

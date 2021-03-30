@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.scheduledexecutor;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetResultFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetResultFromPartitionCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -34,7 +34,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class ScheduledExecutorTaskGetResultFromPartitionMessageTask
-        extends AbstractPartitionMessageTask<ScheduledExecutorGetResultFromPartitionCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerScheduledExecutorGetResultFromPartitionCodec.RequestParameters> {
 
     public ScheduledExecutorTaskGetResultFromPartitionMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,14 +49,14 @@ public class ScheduledExecutorTaskGetResultFromPartitionMessageTask
     }
 
     @Override
-    protected ScheduledExecutorGetResultFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ScheduledExecutorGetResultFromPartitionCodec.decodeRequest(clientMessage);
+    protected ServerScheduledExecutorGetResultFromPartitionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerScheduledExecutorGetResultFromPartitionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         Data data = nodeEngine.getSerializationService().toData(response);
-        return ScheduledExecutorGetResultFromPartitionCodec.encodeResponse(data);
+        return ServerScheduledExecutorGetResultFromPartitionCodec.encodeResponse(data);
     }
 
     @Override

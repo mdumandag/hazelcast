@@ -21,7 +21,7 @@ import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheClearOperationFactory;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheClearCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;
@@ -46,12 +46,12 @@ public class CacheClearMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return CacheClearCodec.decodeRequest(clientMessage);
+        return ServerCacheClearCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheClearCodec.encodeResponse();
+        return ServerCacheClearCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerPartialStartCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerPartialStartCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -55,7 +55,7 @@ public class HotRestartTriggerPartialStartMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCTriggerPartialStartCodec.encodeResponse((Boolean) response);
+        return ServerMCTriggerPartialStartCodec.encodeResponse((Boolean) response);
     }
 
     @Override

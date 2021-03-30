@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.countdownlatch.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchGetRoundCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchGetRoundCodec;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.CountDownLatchService;
 import com.hazelcast.cp.internal.datastructures.countdownlatch.operation.GetCountOp;
@@ -33,7 +33,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link GetCountOp}
  */
-public class GetCountMessageTask extends AbstractCPMessageTask<CountDownLatchGetRoundCodec.RequestParameters> {
+public class GetCountMessageTask extends AbstractCPMessageTask<ServerCountDownLatchGetRoundCodec.RequestParameters> {
 
     public GetCountMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class GetCountMessageTask extends AbstractCPMessageTask<CountDownLatchGet
     }
 
     @Override
-    protected CountDownLatchGetRoundCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CountDownLatchGetRoundCodec.decodeRequest(clientMessage);
+    protected ServerCountDownLatchGetRoundCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCountDownLatchGetRoundCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CountDownLatchGetRoundCodec.encodeResponse((Integer) response);
+        return ServerCountDownLatchGetRoundCodec.encodeResponse((Integer) response);
     }
 
     @Override

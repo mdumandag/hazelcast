@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCPromoteToCPMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCPromoteToCPMemberCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractAsyncMessageTask;
 import com.hazelcast.cp.CPSubsystemManagementService;
 import com.hazelcast.instance.impl.Node;
@@ -50,7 +50,7 @@ public class PromoteToCPMemberMessageTask extends AbstractAsyncMessageTask<Void,
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCPromoteToCPMemberCodec.encodeResponse();
+        return ServerMCPromoteToCPMemberCodec.encodeResponse();
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapEventJournalReadCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEventJournalReadCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.journal.MapEventJournalReadOperation;
@@ -52,7 +52,7 @@ import java.util.function.Predicate;
  * @since 3.9
  */
 public class MapEventJournalReadTask<K, V, T>
-        extends AbstractMapPartitionMessageTask<MapEventJournalReadCodec.RequestParameters> {
+        extends AbstractMapPartitionMessageTask<ServerMapEventJournalReadCodec.RequestParameters> {
 
     public MapEventJournalReadTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -68,8 +68,8 @@ public class MapEventJournalReadTask<K, V, T>
     }
 
     @Override
-    protected MapEventJournalReadCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapEventJournalReadCodec.decodeRequest(clientMessage);
+    protected ServerMapEventJournalReadCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapEventJournalReadCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MapEventJournalReadTask<K, V, T>
             seqs[k] = resultSet.getSequence(k);
         }
 
-        return MapEventJournalReadCodec.encodeResponse(resultSet.readCount(), items, seqs, resultSet.getNextSequenceToReadFrom());
+        return ServerMapEventJournalReadCodec.encodeResponse(resultSet.readCount(), items, seqs, resultSet.getNextSequenceToReadFrom());
     }
 
     @Override

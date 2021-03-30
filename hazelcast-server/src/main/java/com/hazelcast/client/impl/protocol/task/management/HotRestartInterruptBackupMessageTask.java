@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCInterruptHotRestartBackupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCInterruptHotRestartBackupCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -51,7 +51,7 @@ public class HotRestartInterruptBackupMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCInterruptHotRestartBackupCodec.encodeResponse();
+        return ServerMCInterruptHotRestartBackupCodec.encodeResponse();
     }
 
     @Override

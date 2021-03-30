@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalqueue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueueSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueueSizeCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.transaction.TransactionalQueue;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalQueueSizeMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalQueueSizeCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalQueueSizeCodec.RequestParameters> {
 
     public TransactionalQueueSizeMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalQueueSizeMessageTask
     }
 
     @Override
-    protected TransactionalQueueSizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalQueueSizeCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalQueueSizeCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalQueueSizeCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalQueueSizeCodec.encodeResponse((Integer) response);
+        return ServerTransactionalQueueSizeCodec.encodeResponse((Integer) response);
     }
 
     @Override

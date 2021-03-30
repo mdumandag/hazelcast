@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientCreateProxiesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientCreateProxiesCodec;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.MemberLeftException;
 import com.hazelcast.instance.impl.Node;
@@ -71,12 +71,12 @@ public class CreateProxiesMessageTask extends AbstractMultiTargetMessageTask<Lis
 
     @Override
     protected List<Map.Entry<String, String>> decodeClientMessage(ClientMessage clientMessage) {
-        return ClientCreateProxiesCodec.decodeRequest(clientMessage);
+        return ServerClientCreateProxiesCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientCreateProxiesCodec.encodeResponse();
+        return ServerClientCreateProxiesCodec.encodeResponse();
     }
 
     @Override

@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.transaction;
 
 import com.hazelcast.client.impl.CollectRemoteTransactionsOperationSupplier;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCollectTransactionsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCollectTransactionsCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractMultiTargetMessageTask;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.MemberLeftException;
@@ -52,7 +52,7 @@ public class XACollectTransactionsMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return XATransactionCollectTransactionsCodec.encodeResponse((List<Xid>) response);
+        return ServerXATransactionCollectTransactionsCodec.encodeResponse((List<Xid>) response);
     }
 
     @Override

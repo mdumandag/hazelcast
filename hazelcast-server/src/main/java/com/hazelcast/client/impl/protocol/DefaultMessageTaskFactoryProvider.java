@@ -16,408 +16,408 @@
 
 package com.hazelcast.client.impl.protocol;
 
-import com.hazelcast.client.impl.protocol.codec.AtomicLongAddAndGetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongAlterCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongApplyCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongCompareAndSetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongGetAndAddCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongGetAndSetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicLongGetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefApplyCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefCompareAndSetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefContainsCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefGetCodec;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefSetCodec;
-import com.hazelcast.client.impl.protocol.codec.CPGroupCreateCPGroupCodec;
-import com.hazelcast.client.impl.protocol.codec.CPGroupDestroyCPObjectCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCloseSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCreateSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionGenerateThreadIdCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionHeartbeatSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemAddGroupAvailabilityListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemAddMembershipListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemRemoveGroupAvailabilityListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSubsystemRemoveMembershipListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheAddEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheAddNearCacheInvalidationListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheAddPartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheClearCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheContainsKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheCreateConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheDestroyCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheEntryProcessorCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheEventJournalReadCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheEventJournalSubscribeCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheFetchNearCacheInvalidationMetadataCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheGetAllCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheGetAndRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheGetAndReplaceCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheGetCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheGetConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheIterateCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheIterateEntriesCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheListenerRegistrationCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheLoadAllCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheManagementConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.CachePutAllCodec;
-import com.hazelcast.client.impl.protocol.codec.CachePutCodec;
-import com.hazelcast.client.impl.protocol.codec.CachePutIfAbsentCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveAllCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveAllKeysCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemoveInvalidationListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheRemovePartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheReplaceCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheSetExpiryPolicyCodec;
-import com.hazelcast.client.impl.protocol.codec.CacheSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.CardinalityEstimatorAddCodec;
-import com.hazelcast.client.impl.protocol.codec.CardinalityEstimatorEstimateCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAddClusterViewListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAddDistributedObjectListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAddMigrationListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAddPartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAuthenticationCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientAuthenticationCustomCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientCreateProxiesCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientCreateProxyCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientDeployClassesCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientDestroyProxyCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientGetDistributedObjectsCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientLocalBackupListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientPingCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientRemoveDistributedObjectListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientRemoveMigrationListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientRemovePartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientStatisticsCodec;
-import com.hazelcast.client.impl.protocol.codec.ClientTriggerPartitionAssignmentCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryAddListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryDestroyCacheCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryMadePublishableCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryPublisherCreateCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQueryPublisherCreateWithValueCodec;
-import com.hazelcast.client.impl.protocol.codec.ContinuousQuerySetReadCursorCodec;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchAwaitCodec;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchCountDownCodec;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchGetCountCodec;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchGetRoundCodec;
-import com.hazelcast.client.impl.protocol.codec.CountDownLatchTrySetCountCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorDisposeResultCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorIsShutdownCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorRetrieveAndDisposeResultCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorRetrieveResultCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorShutdownCodec;
-import com.hazelcast.client.impl.protocol.codec.DurableExecutorSubmitToPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddCacheConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddCardinalityEstimatorConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddDurableExecutorConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddExecutorConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddFlakeIdGeneratorConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddListConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddMultiMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddPNCounterConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddQueueConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddReliableTopicConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddReplicatedMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddRingbufferConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddScheduledExecutorConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddSetConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddTopicConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceCancelOnMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceCancelOnPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceIsShutdownCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceShutdownCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceSubmitToMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ExecutorServiceSubmitToPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.FencedLockGetLockOwnershipCodec;
-import com.hazelcast.client.impl.protocol.codec.FencedLockLockCodec;
-import com.hazelcast.client.impl.protocol.codec.FencedLockTryLockCodec;
-import com.hazelcast.client.impl.protocol.codec.FencedLockUnlockCodec;
-import com.hazelcast.client.impl.protocol.codec.FlakeIdGeneratorNewIdBatchCodec;
-import com.hazelcast.client.impl.protocol.codec.ListAddAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ListAddAllWithIndexCodec;
-import com.hazelcast.client.impl.protocol.codec.ListAddCodec;
-import com.hazelcast.client.impl.protocol.codec.ListAddListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ListAddWithIndexCodec;
-import com.hazelcast.client.impl.protocol.codec.ListClearCodec;
-import com.hazelcast.client.impl.protocol.codec.ListCompareAndRemoveAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ListCompareAndRetainAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ListContainsAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ListContainsCodec;
-import com.hazelcast.client.impl.protocol.codec.ListGetAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ListGetCodec;
-import com.hazelcast.client.impl.protocol.codec.ListIndexOfCodec;
-import com.hazelcast.client.impl.protocol.codec.ListIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.ListIteratorCodec;
-import com.hazelcast.client.impl.protocol.codec.ListLastIndexOfCodec;
-import com.hazelcast.client.impl.protocol.codec.ListListIteratorCodec;
-import com.hazelcast.client.impl.protocol.codec.ListRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.ListRemoveListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ListRemoveWithIndexCodec;
-import com.hazelcast.client.impl.protocol.codec.ListSetCodec;
-import com.hazelcast.client.impl.protocol.codec.ListSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.ListSubCodec;
-import com.hazelcast.client.impl.protocol.codec.MCApplyMCConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCChangeClusterStateCodec;
-import com.hazelcast.client.impl.protocol.codec.MCChangeClusterVersionCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetCPMembersCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetClusterMetadataCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetMemberConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetSystemPropertiesCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetThreadDumpCodec;
-import com.hazelcast.client.impl.protocol.codec.MCGetTimedMemberStateCodec;
-import com.hazelcast.client.impl.protocol.codec.MCInterruptHotRestartBackupCodec;
-import com.hazelcast.client.impl.protocol.codec.MCMatchMCConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MCPollMCEventsCodec;
-import com.hazelcast.client.impl.protocol.codec.MCPromoteLiteMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.MCPromoteToCPMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.MCReadMetricsCodec;
-import com.hazelcast.client.impl.protocol.codec.MCRemoveCPMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.MCResetCPSubsystemCodec;
-import com.hazelcast.client.impl.protocol.codec.MCRunConsoleCommandCodec;
-import com.hazelcast.client.impl.protocol.codec.MCRunGcCodec;
-import com.hazelcast.client.impl.protocol.codec.MCRunScriptCodec;
-import com.hazelcast.client.impl.protocol.codec.MCShutdownClusterCodec;
-import com.hazelcast.client.impl.protocol.codec.MCShutdownMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerForceStartCodec;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerHotRestartBackupCodec;
-import com.hazelcast.client.impl.protocol.codec.MCTriggerPartialStartCodec;
-import com.hazelcast.client.impl.protocol.codec.MCUpdateMapConfigCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerToKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerToKeyWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddIndexCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddInterceptorCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddNearCacheInvalidationListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAddPartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAggregateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapAggregateWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapClearCodec;
-import com.hazelcast.client.impl.protocol.codec.MapContainsKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MapContainsValueCodec;
-import com.hazelcast.client.impl.protocol.codec.MapDeleteCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEntriesWithPagingPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEntriesWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEntrySetCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEventJournalReadCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEventJournalSubscribeCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEvictAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MapEvictCodec;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteOnAllKeysCodec;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteOnKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteOnKeysCodec;
-import com.hazelcast.client.impl.protocol.codec.MapExecuteWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapFetchEntriesCodec;
-import com.hazelcast.client.impl.protocol.codec.MapFetchKeysCodec;
-import com.hazelcast.client.impl.protocol.codec.MapFetchNearCacheInvalidationMetadataCodec;
-import com.hazelcast.client.impl.protocol.codec.MapFetchWithQueryCodec;
-import com.hazelcast.client.impl.protocol.codec.MapFlushCodec;
-import com.hazelcast.client.impl.protocol.codec.MapForceUnlockCodec;
-import com.hazelcast.client.impl.protocol.codec.MapGetAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MapGetCodec;
-import com.hazelcast.client.impl.protocol.codec.MapGetEntryViewCodec;
-import com.hazelcast.client.impl.protocol.codec.MapIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.MapIsLockedCodec;
-import com.hazelcast.client.impl.protocol.codec.MapKeySetCodec;
-import com.hazelcast.client.impl.protocol.codec.MapKeySetWithPagingPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapKeySetWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapLoadAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MapLoadGivenKeysCodec;
-import com.hazelcast.client.impl.protocol.codec.MapLockCodec;
-import com.hazelcast.client.impl.protocol.codec.MapProjectCodec;
-import com.hazelcast.client.impl.protocol.codec.MapProjectWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutIfAbsentCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutIfAbsentWithMaxIdleCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutTransientCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutTransientWithMaxIdleCodec;
-import com.hazelcast.client.impl.protocol.codec.MapPutWithMaxIdleCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveIfSameCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemoveInterceptorCodec;
-import com.hazelcast.client.impl.protocol.codec.MapRemovePartitionLostListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MapReplaceCodec;
-import com.hazelcast.client.impl.protocol.codec.MapReplaceIfSameCodec;
-import com.hazelcast.client.impl.protocol.codec.MapSetCodec;
-import com.hazelcast.client.impl.protocol.codec.MapSetTtlCodec;
-import com.hazelcast.client.impl.protocol.codec.MapSetWithMaxIdleCodec;
-import com.hazelcast.client.impl.protocol.codec.MapSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.MapSubmitToKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MapTryLockCodec;
-import com.hazelcast.client.impl.protocol.codec.MapTryPutCodec;
-import com.hazelcast.client.impl.protocol.codec.MapTryRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.MapUnlockCodec;
-import com.hazelcast.client.impl.protocol.codec.MapValuesCodec;
-import com.hazelcast.client.impl.protocol.codec.MapValuesWithPagingPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MapValuesWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapAddEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapAddEntryListenerToKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapClearCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapContainsEntryCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapContainsKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapContainsValueCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapDeleteCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapEntrySetCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapForceUnlockCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapGetCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapIsLockedCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapKeySetCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapLockCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapPutAllCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapPutCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapRemoveEntryCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapRemoveEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapTryLockCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapUnlockCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapValueCountCodec;
-import com.hazelcast.client.impl.protocol.codec.MultiMapValuesCodec;
-import com.hazelcast.client.impl.protocol.codec.PNCounterAddCodec;
-import com.hazelcast.client.impl.protocol.codec.PNCounterGetCodec;
-import com.hazelcast.client.impl.protocol.codec.PNCounterGetConfiguredReplicaCountCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueAddAllCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueAddListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueClearCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueCompareAndRemoveAllCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueCompareAndRetainAllCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueContainsAllCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueContainsCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueDrainToCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueDrainToMaxSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueIteratorCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueOfferCodec;
-import com.hazelcast.client.impl.protocol.codec.QueuePeekCodec;
-import com.hazelcast.client.impl.protocol.codec.QueuePollCodec;
-import com.hazelcast.client.impl.protocol.codec.QueuePutCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueRemainingCapacityCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueRemoveListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.QueueTakeCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerToKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerToKeyWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddEntryListenerWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapAddNearCacheEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapClearCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapContainsKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapContainsValueCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapEntrySetCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapGetCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapKeySetCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapPutAllCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapPutCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapRemoveEntryListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapValuesCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferAddAllCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferAddCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferCapacityCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferHeadSequenceCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferReadManyCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferReadOneCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferRemainingCapacityCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.RingbufferTailSequenceCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorCancelFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorCancelFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorDisposeFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorDisposeFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetAllScheduledFuturesCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetDelayFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetDelayFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetResultFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetResultFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetStatsFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorGetStatsFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsCancelledFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsCancelledFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsDoneFromMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorIsDoneFromPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorShutdownCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorSubmitToMemberCodec;
-import com.hazelcast.client.impl.protocol.codec.ScheduledExecutorSubmitToPartitionCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreAcquireCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreAvailablePermitsCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreChangeCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreDrainCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreGetSemaphoreTypeCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreInitCodec;
-import com.hazelcast.client.impl.protocol.codec.SemaphoreReleaseCodec;
-import com.hazelcast.client.impl.protocol.codec.SetAddAllCodec;
-import com.hazelcast.client.impl.protocol.codec.SetAddCodec;
-import com.hazelcast.client.impl.protocol.codec.SetAddListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.SetClearCodec;
-import com.hazelcast.client.impl.protocol.codec.SetCompareAndRemoveAllCodec;
-import com.hazelcast.client.impl.protocol.codec.SetCompareAndRetainAllCodec;
-import com.hazelcast.client.impl.protocol.codec.SetContainsAllCodec;
-import com.hazelcast.client.impl.protocol.codec.SetContainsCodec;
-import com.hazelcast.client.impl.protocol.codec.SetGetAllCodec;
-import com.hazelcast.client.impl.protocol.codec.SetIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.SetRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.SetRemoveListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.SetSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.SqlCloseCodec;
-import com.hazelcast.client.impl.protocol.codec.SqlExecuteCodec;
-import com.hazelcast.client.impl.protocol.codec.SqlFetchCodec;
-import com.hazelcast.client.impl.protocol.codec.TopicAddMessageListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.TopicPublishAllCodec;
-import com.hazelcast.client.impl.protocol.codec.TopicPublishCodec;
-import com.hazelcast.client.impl.protocol.codec.TopicRemoveMessageListenerCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionCommitCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionCreateCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionRollbackCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalListAddCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalListRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalListSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapContainsKeyCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapDeleteCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapGetCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapGetForUpdateCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapIsEmptyCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapKeySetCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapKeySetWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapPutCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapPutIfAbsentCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapRemoveIfSameCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapReplaceCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapReplaceIfSameCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapSetCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapValuesCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapValuesWithPredicateCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapGetCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapPutCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapRemoveEntryCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapValueCountCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueueOfferCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueuePeekCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueuePollCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueueSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalQueueTakeCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalSetAddCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalSetRemoveCodec;
-import com.hazelcast.client.impl.protocol.codec.TransactionalSetSizeCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionClearRemoteCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCollectTransactionsCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCommitCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionCreateCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionFinalizeCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionPrepareCodec;
-import com.hazelcast.client.impl.protocol.codec.XATransactionRollbackCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongAddAndGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongAlterCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongApplyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongCompareAndSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongGetAndAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongGetAndSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicLongGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefApplyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefCompareAndSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPGroupCreateCPGroupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPGroupDestroyCPObjectCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCloseSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCreateSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionGenerateThreadIdCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionHeartbeatSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddGroupAvailabilityListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemAddMembershipListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemRemoveGroupAvailabilityListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSubsystemRemoveMembershipListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddNearCacheInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheCreateConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheDestroyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheEntryProcessorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheEventJournalReadCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheEventJournalSubscribeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheFetchNearCacheInvalidationMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetAndRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetAndReplaceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheGetConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheIterateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheIterateEntriesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheListenerRegistrationCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheLoadAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheManagementConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCachePutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCachePutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCachePutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveAllKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemoveInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheReplaceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheSetExpiryPolicyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCardinalityEstimatorAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCardinalityEstimatorEstimateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddClusterViewListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddDistributedObjectListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddMigrationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAuthenticationCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAuthenticationCustomCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientCreateProxiesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientCreateProxyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientDeployClassesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientDestroyProxyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientGetDistributedObjectsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientLocalBackupListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientPingCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemoveDistributedObjectListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemoveMigrationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientStatisticsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientTriggerPartitionAssignmentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryDestroyCacheCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryMadePublishableCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryPublisherCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQueryPublisherCreateWithValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerContinuousQuerySetReadCursorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchAwaitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchCountDownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchGetCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchGetRoundCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCountDownLatchTrySetCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorDisposeResultCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorIsShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorRetrieveAndDisposeResultCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorRetrieveResultCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDurableExecutorSubmitToPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddCacheConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddCardinalityEstimatorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddDurableExecutorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddExecutorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddFlakeIdGeneratorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddListConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddMultiMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddPNCounterConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddQueueConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddReliableTopicConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddReplicatedMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddRingbufferConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddScheduledExecutorConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddSetConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddTopicConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceCancelOnMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceCancelOnPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceIsShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceSubmitToMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerExecutorServiceSubmitToPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockGetLockOwnershipCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFlakeIdGeneratorNewIdBatchCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListAddAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListAddAllWithIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListAddWithIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListCompareAndRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListCompareAndRetainAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListContainsAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListGetAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListIndexOfCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListLastIndexOfCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListListIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListRemoveListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListRemoveWithIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListSubCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCApplyMCConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeClusterStateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeClusterVersionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetCPMembersCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetClusterMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetMemberConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetSystemPropertiesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetThreadDumpCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCGetTimedMemberStateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCInterruptHotRestartBackupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCMatchMCConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCPollMCEventsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCPromoteLiteMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCPromoteToCPMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCReadMetricsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRemoveCPMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCResetCPSubsystemCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunConsoleCommandCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunGcCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCRunScriptCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCShutdownClusterCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCShutdownMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerForceStartCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerHotRestartBackupCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCTriggerPartialStartCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCUpdateMapConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerToKeyWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddIndexCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddInterceptorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddNearCacheInvalidationListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddPartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAggregateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAggregateWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapContainsValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntriesWithPagingPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntriesWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEntrySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEventJournalReadCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEventJournalSubscribeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEvictAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapEvictCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteOnAllKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteOnKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteOnKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapExecuteWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchEntriesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchNearCacheInvalidationMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchWithQueryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFlushCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapForceUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapGetAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapGetEntryViewCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapIsLockedCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapKeySetWithPagingPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapKeySetWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapLoadAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapLoadGivenKeysCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapProjectCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapProjectWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutIfAbsentWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutTransientCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutTransientWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapPutWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemoveInterceptorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapReplaceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapReplaceIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetTtlCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSetWithMaxIdleCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapSubmitToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapTryPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapTryRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapValuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapValuesWithPagingPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapValuesWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapAddEntryListenerToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapContainsEntryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapContainsValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapEntrySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapForceUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapIsLockedCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapPutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveEntryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapValueCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapValuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerPNCounterGetConfiguredReplicaCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueAddAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueCompareAndRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueCompareAndRetainAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueContainsAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueDrainToCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueDrainToMaxSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueIteratorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueOfferCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePeekCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePollCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueuePutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueRemainingCapacityCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueRemoveListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueTakeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerToKeyWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddEntryListenerWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapAddNearCacheEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapContainsValueCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapEntrySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapPutAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapRemoveEntryListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapValuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferAddAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferCapacityCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferHeadSequenceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferReadManyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferReadOneCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferRemainingCapacityCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerRingbufferTailSequenceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorCancelFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorCancelFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorDisposeFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorDisposeFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetAllScheduledFuturesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetDelayFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetDelayFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetResultFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetResultFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetStatsFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorGetStatsFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsCancelledFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsCancelledFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsDoneFromMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorIsDoneFromPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorShutdownCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorSubmitToMemberCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerScheduledExecutorSubmitToPartitionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreAcquireCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreAvailablePermitsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreChangeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreDrainCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreGetSemaphoreTypeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreInitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSemaphoreReleaseCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetAddAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetAddListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetClearCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetCompareAndRemoveAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetCompareAndRetainAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetContainsAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetContainsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetGetAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetRemoveListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlCloseCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlExecuteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSqlFetchCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTopicAddMessageListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTopicPublishAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTopicPublishCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTopicRemoveMessageListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionCommitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionRollbackCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalListAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalListRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalListSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapContainsKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapDeleteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapGetForUpdateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapIsEmptyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapKeySetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapKeySetWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapPutIfAbsentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapRemoveIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapReplaceCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapReplaceIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapSetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapValuesCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapValuesWithPredicateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapGetCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapRemoveEntryCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapValueCountCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueueOfferCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueuePeekCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueuePollCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueueSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalQueueTakeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalSetAddCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalSetRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalSetSizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionClearRemoteCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCollectTransactionsCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCommitCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionCreateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionFinalizeCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionPrepareCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerXATransactionRollbackCodec;
 import com.hazelcast.client.impl.protocol.task.AddBackupListenerMessageTask;
 import com.hazelcast.client.impl.protocol.task.AddClusterViewListenerMessageTask;
 import com.hazelcast.client.impl.protocol.task.AddDistributedObjectListenerMessageTask;
@@ -897,160 +897,160 @@ public class DefaultMessageTaskFactoryProvider implements MessageTaskFactoryProv
     }
 
     private void initializeSetTaskFactories() {
-        factories.put(SetRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetRemoveListenerMessageTask(cm, node, con));
-        factories.put(SetClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetClearMessageTask(cm, node, con));
-        factories.put(SetCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetCompareAndRemoveAllMessageTask(cm, node, con));
-        factories.put(SetContainsAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetContainsAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetContainsAllMessageTask(cm, node, con));
-        factories.put(SetIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetIsEmptyMessageTask(cm, node, con));
-        factories.put(SetAddAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetAddAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetAddAllMessageTask(cm, node, con));
-        factories.put(SetAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetAddMessageTask(cm, node, con));
-        factories.put(SetCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetCompareAndRetainAllMessageTask(cm, node, con));
-        factories.put(SetGetAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetGetAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetGetAllMessageTask(cm, node, con));
-        factories.put(SetRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetRemoveMessageTask(cm, node, con));
-        factories.put(SetAddListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetAddListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetAddListenerMessageTask(cm, node, con));
-        factories.put(SetContainsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetContainsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetContainsMessageTask(cm, node, con));
-        factories.put(SetSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSetSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetSizeMessageTask(cm, node, con));
     }
 
     private void initializeRingBufferTaskFactories() {
-        factories.put(RingbufferReadOneCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferReadOneCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferReadOneMessageTask(cm, node, con));
-        factories.put(RingbufferAddAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferAddAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferAddAllMessageTask(cm, node, con));
-        factories.put(RingbufferCapacityCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferCapacityCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferCapacityMessageTask(cm, node, con));
-        factories.put(RingbufferTailSequenceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferTailSequenceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferTailSequenceMessageTask(cm, node, con));
-        factories.put(RingbufferAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferAddMessageTask(cm, node, con));
-        factories.put(RingbufferRemainingCapacityCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferRemainingCapacityCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferRemainingCapacityMessageTask(cm, node, con));
-        factories.put(RingbufferReadManyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferReadManyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferReadManyMessageTask(cm, node, con));
-        factories.put(RingbufferHeadSequenceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferHeadSequenceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferHeadSequenceMessageTask(cm, node, con));
-        factories.put(RingbufferSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerRingbufferSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RingbufferSizeMessageTask(cm, node, con));
     }
 
     private void initializeCacheTaskFactories() {
-        factories.put(CacheClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheClearMessageTask(cm, node, con));
-        factories.put(CacheFetchNearCacheInvalidationMetadataCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheFetchNearCacheInvalidationMetadataCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheFetchNearCacheInvalidationMetadataTask(cm, node, con));
-        factories.put(CacheReplaceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheReplaceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheReplaceMessageTask(cm, node, con));
-        factories.put(CacheContainsKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheContainsKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheContainsKeyMessageTask(cm, node, con));
-        factories.put(CacheCreateConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheCreateConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheCreateConfigMessageTask(cm, node, con));
-        factories.put(CacheGetAndReplaceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheGetAndReplaceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheGetAndReplaceMessageTask(cm, node, con));
-        factories.put(CacheGetAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheGetAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheGetAllMessageTask(cm, node, con));
-        factories.put(CachePutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCachePutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CachePutMessageTask(cm, node, con));
-        factories.put(CacheAddNearCacheInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheAddNearCacheInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheAddNearCacheInvalidationListenerTask(cm, node, con));
-        factories.put(CachePutAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCachePutAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CachePutAllMessageTask(cm, node, con));
-        factories.put(CacheSetExpiryPolicyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheSetExpiryPolicyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheSetExpiryPolicyMessageTask(cm, node, con));
-        factories.put(CacheLoadAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheLoadAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheLoadAllMessageTask(cm, node, con));
-        factories.put(CacheListenerRegistrationCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheListenerRegistrationCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheListenerRegistrationMessageTask(cm, node, con));
-        factories.put(CacheAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheAddEntryListenerMessageTask(cm, node, con));
-        factories.put(CacheRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemoveEntryListenerMessageTask(cm, node, con));
-        factories.put(CacheRemoveInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemoveInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemoveInvalidationListenerMessageTask(cm, node, con));
-        factories.put(CacheDestroyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheDestroyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheDestroyMessageTask(cm, node, con));
-        factories.put(CacheRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemoveMessageTask(cm, node, con));
-        factories.put(CacheEntryProcessorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheEntryProcessorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheEntryProcessorMessageTask(cm, node, con));
-        factories.put(CacheGetAndRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheGetAndRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheGetAndRemoveMessageTask(cm, node, con));
-        factories.put(CacheManagementConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheManagementConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheManagementConfigMessageTask(cm, node, con));
-        factories.put(CachePutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCachePutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CachePutIfAbsentMessageTask(cm, node, con));
-        factories.put(CacheRemoveAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemoveAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemoveAllMessageTask(cm, node, con));
-        factories.put(CacheRemoveAllKeysCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemoveAllKeysCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemoveAllKeysMessageTask(cm, node, con));
-        factories.put(CacheIterateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheIterateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheIterateMessageTask(cm, node, con));
-        factories.put(CacheAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheAddPartitionLostListenerMessageTask(cm, node, con));
-        factories.put(CacheGetConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheGetConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheGetConfigMessageTask(cm, node, con));
-        factories.put(CacheGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheGetMessageTask(cm, node, con));
-        factories.put(CacheRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheRemovePartitionLostListenerMessageTask(cm, node, con));
-        factories.put(CacheSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheSizeMessageTask(cm, node, con));
-        factories.put(CacheIterateEntriesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheIterateEntriesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheIterateEntriesMessageTask(cm, node, con));
-        factories.put(CacheEventJournalSubscribeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheEventJournalSubscribeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheEventJournalSubscribeTask(cm, node, con));
-        factories.put(CacheEventJournalReadCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCacheEventJournalReadCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CacheEventJournalReadTask<>(cm, node, con));
     }
 
     private void initializeReplicatedMapTaskFactories() {
-        factories.put(ReplicatedMapSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapSizeMessageTask(cm, node, con));
-        factories.put(ReplicatedMapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapRemoveEntryListenerMessageTask(cm, node, con));
-        factories.put(ReplicatedMapAddEntryListenerToKeyWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapAddEntryListenerToKeyWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapAddEntryListenerToKeyWithPredicateMessageTask(cm, node, con));
-        factories.put(ReplicatedMapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapIsEmptyMessageTask(cm, node, con));
-        factories.put(ReplicatedMapPutAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapPutAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapPutAllMessageTask(cm, node, con));
-        factories.put(ReplicatedMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapContainsKeyMessageTask(cm, node, con));
-        factories.put(ReplicatedMapContainsValueCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapContainsValueCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapContainsValueMessageTask(cm, node, con));
-        factories.put(ReplicatedMapAddNearCacheEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapAddNearCacheEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapAddNearCacheListenerMessageTask(cm, node, con));
-        factories.put(ReplicatedMapGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapGetMessageTask(cm, node, con));
-        factories.put(ReplicatedMapAddEntryListenerWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapAddEntryListenerWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapAddEntryListenerWithPredicateMessageTask(cm, node, con));
-        factories.put(ReplicatedMapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapAddEntryListenerToKeyMessageTask(cm, node, con));
-        factories.put(ReplicatedMapRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapRemoveMessageTask(cm, node, con));
-        factories.put(ReplicatedMapClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapClearMessageTask(cm, node, con));
-        factories.put(ReplicatedMapValuesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapValuesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapValuesMessageTask(cm, node, con));
-        factories.put(ReplicatedMapEntrySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapEntrySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapEntrySetMessageTask(cm, node, con));
-        factories.put(ReplicatedMapPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapPutMessageTask(cm, node, con));
-        factories.put(ReplicatedMapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapAddEntryListenerMessageTask(cm, node, con));
-        factories.put(ReplicatedMapKeySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerReplicatedMapKeySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReplicatedMapKeySetMessageTask(cm, node, con));
     }
 
@@ -1074,758 +1074,758 @@ public class DefaultMessageTaskFactoryProvider implements MessageTaskFactoryProv
     }
 
     private void initializeTransactionalListTaskFactories() {
-        factories.put(TransactionalListSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalListSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalListSizeMessageTask(cm, node, con));
-        factories.put(TransactionalListRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalListRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalListRemoveMessageTask(cm, node, con));
-        factories.put(TransactionalListAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalListAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalListAddMessageTask(cm, node, con));
     }
 
     private void initializeTransactionalMultiMapTaskFactories() {
-        factories.put(TransactionalMultiMapPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapPutMessageTask(cm, node, con));
-        factories.put(TransactionalMultiMapRemoveEntryCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapRemoveEntryCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapRemoveEntryMessageTask(cm, node, con));
-        factories.put(TransactionalMultiMapGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapGetMessageTask(cm, node, con));
-        factories.put(TransactionalMultiMapRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapRemoveMessageTask(cm, node, con));
-        factories.put(TransactionalMultiMapSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapSizeMessageTask(cm, node, con));
-        factories.put(TransactionalMultiMapValueCountCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMultiMapValueCountCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMultiMapValueCountMessageTask(cm, node, con));
     }
 
     private void initializeListTaskFactories() {
-        factories.put(ListGetAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListGetAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListGetAllMessageTask(cm, node, con));
-        factories.put(ListListIteratorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListListIteratorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListListIteratorMessageTask(cm, node, con));
-        factories.put(ListSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListSetMessageTask(cm, node, con));
-        factories.put(ListAddAllWithIndexCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListAddAllWithIndexCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListAddAllWithIndexMessageTask(cm, node, con));
-        factories.put(ListCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListCompareAndRemoveAllMessageTask(cm, node, con));
-        factories.put(ListGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListGetMessageTask(cm, node, con));
-        factories.put(ListRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListRemoveListenerMessageTask(cm, node, con));
-        factories.put(ListRemoveWithIndexCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListRemoveWithIndexCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListRemoveWithIndexMessageTask(cm, node, con));
-        factories.put(ListAddListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListAddListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListAddListenerMessageTask(cm, node, con));
-        factories.put(ListIteratorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListIteratorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListIteratorMessageTask(cm, node, con));
-        factories.put(ListClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListClearMessageTask(cm, node, con));
-        factories.put(ListAddAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListAddAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListAddAllMessageTask(cm, node, con));
-        factories.put(ListAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListAddMessageTask(cm, node, con));
-        factories.put(ListAddWithIndexCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListAddWithIndexCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListAddWithIndexMessageTask(cm, node, con));
-        factories.put(ListLastIndexOfCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListLastIndexOfCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListLastIndexOfMessageTask(cm, node, con));
-        factories.put(ListRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListRemoveMessageTask(cm, node, con));
-        factories.put(ListSubCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListSubCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListSubMessageTask(cm, node, con));
-        factories.put(ListContainsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListContainsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListContainsMessageTask(cm, node, con));
-        factories.put(ListIndexOfCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListIndexOfCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListIndexOfMessageTask(cm, node, con));
-        factories.put(ListSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListSizeMessageTask(cm, node, con));
-        factories.put(ListContainsAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListContainsAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListContainsAllMessageTask(cm, node, con));
-        factories.put(ListIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListIsEmptyMessageTask(cm, node, con));
-        factories.put(ListCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerListCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ListCompareAndRetainAllMessageTask(cm, node, con));
     }
 
     private void initializeTransactionalQueueTaskFactories() {
-        factories.put(TransactionalQueueSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalQueueSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalQueueSizeMessageTask(cm, node, con));
-        factories.put(TransactionalQueueOfferCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalQueueOfferCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalQueueOfferMessageTask(cm, node, con));
-        factories.put(TransactionalQueuePeekCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalQueuePeekCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalQueuePeekMessageTask(cm, node, con));
-        factories.put(TransactionalQueuePollCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalQueuePollCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalQueuePollMessageTask(cm, node, con));
-        factories.put(TransactionalQueueTakeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalQueueTakeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalQueueTakeMessageTask(cm, node, con));
     }
 
     private void initializeMultiMapTaskFactories() {
-        factories.put(MultiMapClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapClearMessageTask(cm, node, con));
-        factories.put(MultiMapGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapGetMessageTask(cm, node, con));
-        factories.put(MultiMapRemoveEntryCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapRemoveEntryCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapRemoveEntryMessageTask(cm, node, con));
-        factories.put(MultiMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapContainsKeyMessageTask(cm, node, con));
-        factories.put(MultiMapSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapSizeMessageTask(cm, node, con));
-        factories.put(MultiMapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapAddEntryListenerToKeyMessageTask(cm, node, con));
-        factories.put(MultiMapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapAddEntryListenerMessageTask(cm, node, con));
-        factories.put(MultiMapRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapRemoveMessageTask(cm, node, con));
-        factories.put(MultiMapTryLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapTryLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapTryLockMessageTask(cm, node, con));
-        factories.put(MultiMapIsLockedCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapIsLockedCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapIsLockedMessageTask(cm, node, con));
-        factories.put(MultiMapContainsValueCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapContainsValueCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapContainsValueMessageTask(cm, node, con));
-        factories.put(MultiMapKeySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapKeySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapKeySetMessageTask(cm, node, con));
-        factories.put(MultiMapPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapPutMessageTask(cm, node, con));
-        factories.put(MultiMapPutAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapPutAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapPutAllMessageTask(cm, node, con));
-        factories.put(MultiMapEntrySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapEntrySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapEntrySetMessageTask(cm, node, con));
-        factories.put(MultiMapValueCountCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapValueCountCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapValueCountMessageTask(cm, node, con));
-        factories.put(MultiMapUnlockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapUnlockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapUnlockMessageTask(cm, node, con));
-        factories.put(MultiMapLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapLockMessageTask(cm, node, con));
-        factories.put(MultiMapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapRemoveEntryListenerMessageTask(cm, node, con));
-        factories.put(MultiMapContainsEntryCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapContainsEntryCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapContainsEntryMessageTask(cm, node, con));
-        factories.put(MultiMapForceUnlockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapForceUnlockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapForceUnlockMessageTask(cm, node, con));
-        factories.put(MultiMapValuesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapValuesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapValuesMessageTask(cm, node, con));
-        factories.put(MultiMapDeleteCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMultiMapDeleteCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MultiMapDeleteMessageTask(cm, node, con));
     }
 
     private void initializeTopicTaskFactories() {
-        factories.put(TopicPublishCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTopicPublishCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TopicPublishMessageTask(cm, node, con));
-        factories.put(TopicPublishAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTopicPublishAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TopicPublishAllMessageTask(cm, node, con));
-        factories.put(TopicAddMessageListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTopicAddMessageListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TopicAddMessageListenerMessageTask(cm, node, con));
-        factories.put(TopicRemoveMessageListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTopicRemoveMessageListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TopicRemoveMessageListenerMessageTask(cm, node, con));
     }
 
     private void initializeTransactionalMapTaskFactories() {
-        factories.put(TransactionalMapValuesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapValuesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapValuesMessageTask(cm, node, con));
-        factories.put(TransactionalMapSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapSizeMessageTask(cm, node, con));
-        factories.put(TransactionalMapPutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapPutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapPutIfAbsentMessageTask(cm, node, con));
-        factories.put(TransactionalMapRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapRemoveMessageTask(cm, node, con));
-        factories.put(TransactionalMapGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapGetMessageTask(cm, node, con));
-        factories.put(TransactionalMapGetForUpdateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapGetForUpdateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapGetForUpdateMessageTask(cm, node, con));
-        factories.put(TransactionalMapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapIsEmptyMessageTask(cm, node, con));
-        factories.put(TransactionalMapKeySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapKeySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapKeySetMessageTask(cm, node, con));
-        factories.put(TransactionalMapKeySetWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapKeySetWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapKeySetWithPredicateMessageTask(cm, node, con));
-        factories.put(TransactionalMapReplaceIfSameCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapReplaceIfSameCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapReplaceIfSameMessageTask(cm, node, con));
-        factories.put(TransactionalMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapContainsKeyMessageTask(cm, node, con));
-        factories.put(TransactionalMapRemoveIfSameCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapRemoveIfSameCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapRemoveIfSameMessageTask(cm, node, con));
-        factories.put(TransactionalMapSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapSetMessageTask(cm, node, con));
-        factories.put(TransactionalMapReplaceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapReplaceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapReplaceMessageTask(cm, node, con));
-        factories.put(TransactionalMapPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapPutMessageTask(cm, node, con));
-        factories.put(TransactionalMapDeleteCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapDeleteCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapDeleteMessageTask(cm, node, con));
-        factories.put(TransactionalMapValuesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalMapValuesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalMapValuesWithPredicateMessageTask(cm, node, con));
     }
 
     private void initializeExecutorServiceTaskFactories() {
-        factories.put(ExecutorServiceCancelOnPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceCancelOnPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceCancelOnPartitionMessageTask(cm, node, con));
-        factories.put(ExecutorServiceSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceSubmitToPartitionMessageTask(cm, node, con));
-        factories.put(ExecutorServiceCancelOnMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceCancelOnMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceCancelOnAddressMessageTask(cm, node, con));
-        factories.put(ExecutorServiceIsShutdownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceIsShutdownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceIsShutdownMessageTask(cm, node, con));
-        factories.put(ExecutorServiceShutdownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceShutdownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceShutdownMessageTask(cm, node, con));
-        factories.put(ExecutorServiceSubmitToMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerExecutorServiceSubmitToMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ExecutorServiceSubmitToAddressMessageTask(cm, node, con));
     }
 
     private void initializeDurableExecutorTaskFactories() {
-        factories.put(DurableExecutorSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorSubmitToPartitionMessageTask(cm, node, con));
-        factories.put(DurableExecutorIsShutdownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorIsShutdownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorIsShutdownMessageTask(cm, node, con));
-        factories.put(DurableExecutorShutdownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorShutdownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorShutdownMessageTask(cm, node, con));
-        factories.put(DurableExecutorRetrieveResultCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorRetrieveResultCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorRetrieveResultMessageTask(cm, node, con));
-        factories.put(DurableExecutorDisposeResultCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorDisposeResultCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorDisposeResultMessageTask(cm, node, con));
-        factories.put(DurableExecutorRetrieveAndDisposeResultCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDurableExecutorRetrieveAndDisposeResultCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DurableExecutorRetrieveAndDisposeResultMessageTask(cm, node, con));
     }
 
     private void initializeTransactionTaskFactories() {
-        factories.put(TransactionCreateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionCreateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionCreateMessageTask(cm, node, con));
-        factories.put(XATransactionClearRemoteCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionClearRemoteCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XAClearRemoteTransactionMessageTask(cm, node, con));
-        factories.put(XATransactionFinalizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionFinalizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XAFinalizeTransactionMessageTask(cm, node, con));
-        factories.put(TransactionCommitCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionCommitCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionCommitMessageTask(cm, node, con));
-        factories.put(XATransactionCollectTransactionsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionCollectTransactionsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XACollectTransactionsMessageTask(cm, node, con));
-        factories.put(XATransactionPrepareCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionPrepareCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XATransactionPrepareMessageTask(cm, node, con));
-        factories.put(XATransactionCreateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionCreateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XATransactionCreateMessageTask(cm, node, con));
-        factories.put(TransactionRollbackCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionRollbackCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionRollbackMessageTask(cm, node, con));
-        factories.put(XATransactionCommitCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionCommitCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XATransactionCommitMessageTask(cm, node, con));
-        factories.put(XATransactionRollbackCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerXATransactionRollbackCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new XATransactionRollbackMessageTask(cm, node, con));
     }
 
     private void initializeTransactionalSetTaskFactories() {
-        factories.put(TransactionalSetSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalSetSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalSetSizeMessageTask(cm, node, con));
-        factories.put(TransactionalSetAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalSetAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalSetAddMessageTask(cm, node, con));
-        factories.put(TransactionalSetRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerTransactionalSetRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TransactionalSetRemoveMessageTask(cm, node, con));
     }
 
     private void initializeMapTaskFactories() {
-        factories.put(MapEntriesWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEntriesWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEntriesWithPagingPredicateMessageTask(cm, node, con));
-        factories.put(MapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddEntryListenerMessageTask(cm, node, con));
-        factories.put(MapFetchNearCacheInvalidationMetadataCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapFetchNearCacheInvalidationMetadataCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapFetchNearCacheInvalidationMetadataTask(cm, node, con));
-        factories.put(MapRemoveIfSameCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemoveIfSameCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemoveIfSameMessageTask(cm, node, con));
-        factories.put(MapAddInterceptorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddInterceptorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddInterceptorMessageTask(cm, node, con));
-        factories.put(MapEntriesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEntriesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEntriesWithPredicateMessageTask(cm, node, con));
-        factories.put(MapPutTransientCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutTransientCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutTransientMessageTask(cm, node, con));
-        factories.put(MapContainsValueCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapContainsValueCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapContainsValueMessageTask(cm, node, con));
-        factories.put(MapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapIsEmptyMessageTask(cm, node, con));
-        factories.put(MapReplaceCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapReplaceCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapReplaceMessageTask(cm, node, con));
-        factories.put(MapRemoveInterceptorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemoveInterceptorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemoveInterceptorMessageTask(cm, node, con));
-        factories.put(MapAddNearCacheInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddNearCacheInvalidationListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddNearCacheInvalidationListenerMessageTask(cm, node, con));
-        factories.put(MapExecuteOnAllKeysCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapExecuteOnAllKeysCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapExecuteOnAllKeysMessageTask(cm, node, con));
-        factories.put(MapFlushCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapFlushCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapFlushMessageTask(cm, node, con));
-        factories.put(MapSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSetMessageTask(cm, node, con));
-        factories.put(MapTryLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapTryLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapTryLockMessageTask(cm, node, con));
-        factories.put(MapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddEntryListenerToKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddEntryListenerToKeyMessageTask(cm, node, con));
-        factories.put(MapEntrySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEntrySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEntrySetMessageTask(cm, node, con));
-        factories.put(MapClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapClearMessageTask(cm, node, con));
-        factories.put(MapLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapLockMessageTask(cm, node, con));
-        factories.put(MapGetEntryViewCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapGetEntryViewCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapGetEntryViewMessageTask(cm, node, con));
-        factories.put(MapRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemovePartitionLostListenerMessageTask(cm, node, con));
-        factories.put(MapLoadGivenKeysCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapLoadGivenKeysCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapLoadGivenKeysMessageTask(cm, node, con));
-        factories.put(MapExecuteWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapExecuteWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapExecuteWithPredicateMessageTask(cm, node, con));
-        factories.put(MapRemoveAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemoveAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemoveAllMessageTask(cm, node, con));
-        factories.put(MapPutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutIfAbsentCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutIfAbsentMessageTask(cm, node, con));
-        factories.put(MapTryRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapTryRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapTryRemoveMessageTask(cm, node, con));
-        factories.put(MapPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutMessageTask(cm, node, con));
-        factories.put(MapUnlockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapUnlockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapUnlockMessageTask(cm, node, con));
-        factories.put(MapSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSizeMessageTask(cm, node, con));
-        factories.put(MapValuesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapValuesWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapValuesWithPredicateMessageTask(cm, node, con));
-        factories.put(MapAddEntryListenerToKeyWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddEntryListenerToKeyWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddEntryListenerToKeyWithPredicateMessageTask(cm, node, con));
-        factories.put(MapEvictCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEvictCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEvictMessageTask(cm, node, con));
-        factories.put(MapGetAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapGetAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapGetAllMessageTask(cm, node, con));
-        factories.put(MapForceUnlockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapForceUnlockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapForceUnlockMessageTask(cm, node, con));
-        factories.put(MapLoadAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapLoadAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapLoadAllMessageTask(cm, node, con));
-        factories.put(MapAddIndexCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddIndexCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddIndexMessageTask(cm, node, con));
-        factories.put(MapExecuteOnKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapExecuteOnKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapExecuteOnKeyMessageTask(cm, node, con));
-        factories.put(MapKeySetWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapKeySetWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapKeySetWithPagingPredicateMessageTask(cm, node, con));
-        factories.put(MapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemoveEntryListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemoveEntryListenerMessageTask(cm, node, con));
-        factories.put(MapIsLockedCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapIsLockedCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapIsLockedMessageTask(cm, node, con));
-        factories.put(MapEvictAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEvictAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEvictAllMessageTask(cm, node, con));
-        factories.put(MapSubmitToKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapSubmitToKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSubmitToKeyMessageTask(cm, node, con));
-        factories.put(MapValuesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapValuesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapValuesMessageTask(cm, node, con));
-        factories.put(MapAddEntryListenerWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddEntryListenerWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddEntryListenerWithPredicateMessageTask(cm, node, con));
-        factories.put(MapDeleteCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapDeleteCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapDeleteMessageTask(cm, node, con));
-        factories.put(MapAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddPartitionLostListenerMessageTask(cm, node, con));
-        factories.put(MapPutAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutAllMessageTask(cm, node, con));
-        factories.put(MapRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapRemoveMessageTask(cm, node, con));
-        factories.put(MapKeySetWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapKeySetWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapKeySetWithPredicateMessageTask(cm, node, con));
-        factories.put(MapExecuteOnKeysCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapExecuteOnKeysCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapExecuteOnKeysMessageTask(cm, node, con));
-        factories.put(MapReplaceIfSameCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapReplaceIfSameCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapReplaceIfSameMessageTask(cm, node, con));
-        factories.put(MapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapContainsKeyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapContainsKeyMessageTask(cm, node, con));
-        factories.put(MapTryPutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapTryPutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapTryPutMessageTask(cm, node, con));
-        factories.put(MapValuesWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapValuesWithPagingPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapValuesWithPagingPredicateMessageTask(cm, node, con));
-        factories.put(MapGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapGetMessageTask(cm, node, con));
-        factories.put(MapKeySetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapKeySetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapKeySetMessageTask(cm, node, con));
-        factories.put(MapFetchKeysCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapFetchKeysCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapFetchKeysMessageTask(cm, node, con));
-        factories.put(MapFetchEntriesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapFetchEntriesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapFetchEntriesMessageTask(cm, node, con));
-        factories.put(MapAggregateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAggregateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAggregateMessageTask(cm, node, con));
-        factories.put(MapAggregateWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapAggregateWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAggregateWithPredicateMessageTask(cm, node, con));
-        factories.put(MapProjectCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapProjectCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapProjectionMessageTask(cm, node, con));
-        factories.put(MapProjectWithPredicateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapProjectWithPredicateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapProjectionWithPredicateMessageTask(cm, node, con));
-        factories.put(MapFetchWithQueryCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapFetchWithQueryCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapFetchWithQueryMessageTask(cm, node, con));
-        factories.put(MapEventJournalSubscribeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEventJournalSubscribeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEventJournalSubscribeTask(cm, node, con));
-        factories.put(MapEventJournalReadCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapEventJournalReadCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapEventJournalReadTask<>(cm, node, con));
-        factories.put(MapSetTtlCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapSetTtlCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSetTtlMessageTask(cm, node, con));
-        factories.put(MapSetWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapSetWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSetWithMaxIdleMessageTask(cm, node, con));
-        factories.put(MapPutWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutWithMaxIdleMessageTask(cm, node, con));
-        factories.put(MapPutIfAbsentWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutIfAbsentWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutIfAbsentWithMaxIdleMessageTask(cm, node, con));
-        factories.put(MapPutTransientWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMapPutTransientWithMaxIdleCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPutTransientWithMaxIdleMessageTask(cm, node, con));
     }
 
     private void initializeGeneralTaskFactories() {
-        factories.put(ClientAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAddPartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddPartitionLostListenerMessageTask(cm, node, con));
-        factories.put(ClientRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientRemovePartitionLostListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemovePartitionLostListenerMessageTask(cm, node, con));
-        factories.put(ClientAddMigrationListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAddMigrationListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddMigrationListenerMessageTask(cm, node, con));
-        factories.put(ClientRemoveMigrationListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientRemoveMigrationListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemoveMigrationListenerMessageTask(cm, node, con));
-        factories.put(ClientCreateProxyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientCreateProxyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CreateProxyMessageTask(cm, node, con));
-        factories.put(ClientGetDistributedObjectsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientGetDistributedObjectsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetDistributedObjectsMessageTask(cm, node, con));
-        factories.put(ClientAddDistributedObjectListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAddDistributedObjectListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddDistributedObjectListenerMessageTask(cm, node, con));
-        factories.put(ClientDestroyProxyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientDestroyProxyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DestroyProxyMessageTask(cm, node, con));
-        factories.put(ClientPingCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientPingCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PingMessageTask(cm, node, con));
-        factories.put(ClientAddClusterViewListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAddClusterViewListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddClusterViewListenerMessageTask(cm, node, con));
-        factories.put(ClientAuthenticationCustomCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAuthenticationCustomCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AuthenticationCustomCredentialsMessageTask(cm, node, con));
-        factories.put(ClientRemoveDistributedObjectListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientRemoveDistributedObjectListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemoveDistributedObjectListenerMessageTask(cm, node, con));
-        factories.put(ClientAuthenticationCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientAuthenticationCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AuthenticationMessageTask(cm, node, con));
-        factories.put(ClientStatisticsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientStatisticsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ClientStatisticsMessageTask(cm, node, con));
-        factories.put(ClientDeployClassesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientDeployClassesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DeployClassesMessageTask(cm, node, con));
-        factories.put(ClientCreateProxiesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientCreateProxiesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CreateProxiesMessageTask(cm, node, con));
-        factories.put(ClientLocalBackupListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientLocalBackupListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddBackupListenerMessageTask(cm, node, con));
-        factories.put(ClientTriggerPartitionAssignmentCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerClientTriggerPartitionAssignmentCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TriggerPartitionAssignmentMessageTask(cm, node, con));
     }
 
     private void initializeQueueTaskFactories() {
-        factories.put(QueueCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueCompareAndRemoveAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueCompareAndRemoveAllMessageTask(cm, node, con));
-        factories.put(QueueContainsAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueContainsAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueContainsAllMessageTask(cm, node, con));
-        factories.put(QueueAddAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueAddAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueAddAllMessageTask(cm, node, con));
-        factories.put(QueueTakeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueTakeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueTakeMessageTask(cm, node, con));
-        factories.put(QueueAddListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueAddListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueAddListenerMessageTask(cm, node, con));
-        factories.put(QueueCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueCompareAndRetainAllCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueCompareAndRetainAllMessageTask(cm, node, con));
-        factories.put(QueueOfferCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueOfferCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueOfferMessageTask(cm, node, con));
-        factories.put(QueuePeekCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueuePeekCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueuePeekMessageTask(cm, node, con));
-        factories.put(QueueRemoveCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueRemoveCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueRemoveMessageTask(cm, node, con));
-        factories.put(QueueIsEmptyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueIsEmptyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueIsEmptyMessageTask(cm, node, con));
-        factories.put(QueueIteratorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueIteratorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueIteratorMessageTask(cm, node, con));
-        factories.put(QueueSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueSizeMessageTask(cm, node, con));
-        factories.put(QueuePutCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueuePutCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueuePutMessageTask(cm, node, con));
-        factories.put(QueueContainsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueContainsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueContainsMessageTask(cm, node, con));
-        factories.put(QueuePollCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueuePollCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueuePollMessageTask(cm, node, con));
-        factories.put(QueueDrainToCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueDrainToCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueDrainMessageTask(cm, node, con));
-        factories.put(QueueRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueRemoveListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueRemoveListenerMessageTask(cm, node, con));
-        factories.put(QueueRemainingCapacityCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueRemainingCapacityCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueRemainingCapacityMessageTask(cm, node, con));
-        factories.put(QueueClearCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueClearCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueClearMessageTask(cm, node, con));
-        factories.put(QueueDrainToMaxSizeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerQueueDrainToMaxSizeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new QueueDrainMaxSizeMessageTask(cm, node, con));
     }
 
     private void initializeCardinalityTaskFactories() {
-        factories.put(CardinalityEstimatorAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCardinalityEstimatorAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CardinalityEstimatorAddMessageTask(cm, node, con));
-        factories.put(CardinalityEstimatorEstimateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCardinalityEstimatorEstimateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CardinalityEstimatorEstimateMessageTask(cm, node, con));
     }
 
     private void initializeScheduledExecutorTaskFactories() {
-        factories.put(ScheduledExecutorSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorSubmitToPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorSubmitToPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorSubmitToMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorSubmitToMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorSubmitToTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorShutdownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorShutdownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorShutdownMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorDisposeFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorDisposeFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskDisposeFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorDisposeFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorDisposeFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskDisposeFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorCancelFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorCancelFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskCancelFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorCancelFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorCancelFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskCancelFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorIsDoneFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorIsDoneFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskIsDoneFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorIsDoneFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorIsDoneFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskIsDoneFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetDelayFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetDelayFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetDelayFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetDelayFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetDelayFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetDelayFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetStatsFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetStatsFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetStatisticsFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetStatsFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetStatsFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetStatisticsFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetResultFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetResultFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetResultFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetResultFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetResultFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskGetResultFromTargetMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorGetAllScheduledFuturesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorGetAllScheduledFuturesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorGetAllScheduledMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorIsCancelledFromPartitionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorIsCancelledFromPartitionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskIsCancelledFromPartitionMessageTask(cm, node, con));
-        factories.put(ScheduledExecutorIsCancelledFromMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerScheduledExecutorIsCancelledFromMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ScheduledExecutorTaskIsCancelledFromTargetMessageTask(cm, node, con));
     }
 
     private void initializeContinuousMapQueryOperations() {
-        factories.put(ContinuousQueryDestroyCacheCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQueryDestroyCacheCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapDestroyCacheMessageTask(cm, node, con));
-        factories.put(ContinuousQueryPublisherCreateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQueryPublisherCreateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPublisherCreateMessageTask(cm, node, con));
-        factories.put(ContinuousQuerySetReadCursorCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQuerySetReadCursorCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapSetReadCursorMessageTask(cm, node, con));
-        factories.put(ContinuousQueryAddListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQueryAddListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapAddListenerMessageTask(cm, node, con));
-        factories.put(ContinuousQueryMadePublishableCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQueryMadePublishableCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapMadePublishableMessageTask(cm, node, con));
-        factories.put(ContinuousQueryPublisherCreateWithValueCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerContinuousQueryPublisherCreateWithValueCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MapPublisherCreateWithValueMessageTask(cm, node, con));
     }
 
     private void initializeDynamicConfigTaskFactories() {
-        factories.put(DynamicConfigAddMultiMapConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddMultiMapConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddMultiMapConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddCardinalityEstimatorConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddCardinalityEstimatorConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddCardinalityEstimatorConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddExecutorConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddDurableExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddDurableExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddDurableExecutorConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddScheduledExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddScheduledExecutorConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddScheduledExecutorConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddRingbufferConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddRingbufferConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddRingbufferConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddListConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddListConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddListConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddSetConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddSetConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddSetConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddTopicConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddTopicConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddTopicConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddReplicatedMapConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddReplicatedMapConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddReplicatedMapConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddQueueConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddQueueConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddQueueConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddMapConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddMapConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddMapConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddReliableTopicConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddReliableTopicConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddReliableTopicConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddCacheConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddCacheConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddCacheConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddFlakeIdGeneratorConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddFlakeIdGeneratorConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddFlakeIdGeneratorConfigMessageTask(cm, node, con));
-        factories.put(DynamicConfigAddPNCounterConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerDynamicConfigAddPNCounterConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddPNCounterConfigMessageTask(cm, node, con));
     }
 
     private void initializeFlakeIdGeneratorTaskFactories() {
-        factories.put(FlakeIdGeneratorNewIdBatchCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerFlakeIdGeneratorNewIdBatchCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new NewIdBatchMessageTask(cm, node, con));
     }
 
     private void initializePnCounterTaskFactories() {
-        factories.put(PNCounterGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerPNCounterGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PNCounterGetMessageTask(cm, node, con));
-        factories.put(PNCounterAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerPNCounterAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PNCounterAddMessageTask(cm, node, con));
-        factories.put(PNCounterGetConfiguredReplicaCountCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerPNCounterGetConfiguredReplicaCountCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PNCounterGetConfiguredReplicaCountMessageTask(cm, node, con));
     }
 
     private void initializeCPGroupTaskFactories() {
-        factories.put(CPGroupCreateCPGroupCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPGroupCreateCPGroupCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CreateRaftGroupMessageTask(cm, node, con));
-        factories.put(CPGroupDestroyCPObjectCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPGroupDestroyCPObjectCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DestroyRaftObjectMessageTask(cm, node, con));
 
-        factories.put(CPSessionCreateSessionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSessionCreateSessionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CreateSessionMessageTask(cm, node, con));
-        factories.put(CPSessionHeartbeatSessionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSessionHeartbeatSessionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new HeartbeatSessionMessageTask(cm, node, con));
-        factories.put(CPSessionCloseSessionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSessionCloseSessionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CloseSessionMessageTask(cm, node, con));
-        factories.put(CPSessionGenerateThreadIdCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSessionGenerateThreadIdCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GenerateThreadIdMessageTask(cm, node, con));
     }
 
     private void initializeCPListenerTaskFactories() {
-        factories.put(CPSubsystemAddMembershipListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSubsystemAddMembershipListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddCPMembershipListenerMessageTask(cm, node, con));
-        factories.put(CPSubsystemRemoveMembershipListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSubsystemRemoveMembershipListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemoveCPMembershipListenerMessageTask(cm, node, con));
-        factories.put(CPSubsystemAddGroupAvailabilityListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSubsystemAddGroupAvailabilityListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddCPGroupAvailabilityListenerMessageTask(cm, node, con));
-        factories.put(CPSubsystemRemoveGroupAvailabilityListenerCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCPSubsystemRemoveGroupAvailabilityListenerCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemoveCPGroupAvailabilityListenerMessageTask(cm, node, con));
     }
 
     private void initializeAtomicLongTaskFactories() {
-        factories.put(AtomicLongAddAndGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongAddAndGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddAndGetMessageTask(cm, node, con));
-        factories.put(AtomicLongCompareAndSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongCompareAndSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CompareAndSetMessageTask(cm, node, con));
-        factories.put(AtomicLongGetAndAddCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongGetAndAddCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetAndAddMessageTask(cm, node, con));
-        factories.put(AtomicLongGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetMessageTask(cm, node, con));
-        factories.put(AtomicLongGetAndSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongGetAndSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetAndSetMessageTask(cm, node, con));
-        factories.put(AtomicLongApplyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongApplyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ApplyMessageTask(cm, node, con));
-        factories.put(AtomicLongAlterCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicLongAlterCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AlterMessageTask(cm, node, con));
     }
 
     private void initializeAtomicReferenceTaskFactories() {
-        factories.put(AtomicRefApplyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicRefApplyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new com.hazelcast.cp.internal.datastructures.atomicref.client.ApplyMessageTask(cm, node, con));
-        factories.put(AtomicRefSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicRefSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SetMessageTask(cm, node, con));
-        factories.put(AtomicRefContainsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicRefContainsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ContainsMessageTask(cm, node, con));
-        factories.put(AtomicRefGetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicRefGetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new com.hazelcast.cp.internal.datastructures.atomicref.client.GetMessageTask(cm, node, con));
-        factories.put(AtomicRefCompareAndSetCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerAtomicRefCompareAndSetCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new com.hazelcast.cp.internal.datastructures.atomicref.client.CompareAndSetMessageTask(cm, node, con));
     }
 
     private void initializeCountDownLatchTaskFactories() {
-        factories.put(CountDownLatchAwaitCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCountDownLatchAwaitCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AwaitMessageTask(cm, node, con));
-        factories.put(CountDownLatchCountDownCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCountDownLatchCountDownCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CountDownMessageTask(cm, node, con));
-        factories.put(CountDownLatchGetCountCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCountDownLatchGetCountCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetCountMessageTask(cm, node, con));
-        factories.put(CountDownLatchGetRoundCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCountDownLatchGetRoundCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetRoundMessageTask(cm, node, con));
-        factories.put(CountDownLatchTrySetCountCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerCountDownLatchTrySetCountCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TrySetCountMessageTask(cm, node, con));
     }
 
     private void initializeFencedLockTaskFactories() {
-        factories.put(FencedLockLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerFencedLockLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new LockMessageTask(cm, node, con));
-        factories.put(FencedLockTryLockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerFencedLockTryLockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new TryLockMessageTask(cm, node, con));
-        factories.put(FencedLockUnlockCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerFencedLockUnlockCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new UnlockMessageTask(cm, node, con));
-        factories.put(FencedLockGetLockOwnershipCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerFencedLockGetLockOwnershipCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetLockOwnershipStateMessageTask(cm, node, con));
     }
 
     private void initializeSemaphoreTaskFactories() {
-        factories.put(SemaphoreAcquireCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreAcquireCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AcquirePermitsMessageTask(cm, node, con));
-        factories.put(SemaphoreAvailablePermitsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreAvailablePermitsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AvailablePermitsMessageTask(cm, node, con));
-        factories.put(SemaphoreChangeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreChangeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ChangePermitsMessageTask(cm, node, con));
-        factories.put(SemaphoreDrainCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreDrainCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new DrainPermitsMessageTask(cm, node, con));
-        factories.put(SemaphoreGetSemaphoreTypeCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreGetSemaphoreTypeCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetSemaphoreTypeMessageTask(cm, node, con));
-        factories.put(SemaphoreInitCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreInitCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new InitSemaphoreMessageTask(cm, node, con));
-        factories.put(SemaphoreReleaseCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSemaphoreReleaseCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReleasePermitsMessageTask(cm, node, con));
     }
 
     private void initializeManagementCenterTaskFactories() {
-        factories.put(MCReadMetricsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCReadMetricsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ReadMetricsMessageTask(cm, node, con));
-        factories.put(MCChangeClusterStateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCChangeClusterStateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ChangeClusterStateMessageTask(cm, node, con));
-        factories.put(MCGetMapConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetMapConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetMapConfigMessageTask(cm, node, con));
-        factories.put(MCUpdateMapConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCUpdateMapConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new UpdateMapConfigMessageTask(cm, node, con));
-        factories.put(MCGetMemberConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetMemberConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetMemberConfigMessageTask(cm, node, con));
-        factories.put(MCRunGcCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCRunGcCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RunGcMessageTask(cm, node, con));
-        factories.put(MCGetThreadDumpCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetThreadDumpCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetThreadDumpMessageTask(cm, node, con));
-        factories.put(MCShutdownMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCShutdownMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ShutdownMemberMessageTask(cm, node, con));
-        factories.put(MCPromoteLiteMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCPromoteLiteMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PromoteLiteMemberMessageTask(cm, node, con));
-        factories.put(MCGetSystemPropertiesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetSystemPropertiesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetSystemPropertiesMessageTask(cm, node, con));
-        factories.put(MCGetTimedMemberStateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetTimedMemberStateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetTimedMemberStateMessageTask(cm, node, con));
-        factories.put(MCMatchMCConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCMatchMCConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new MatchClientFilteringConfigMessageTask(cm, node, con));
-        factories.put(MCApplyMCConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCApplyMCConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ApplyClientFilteringConfigMessageTask(cm, node, con));
-        factories.put(MCGetClusterMetadataCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetClusterMetadataCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetClusterMetadataMessageTask(cm, node, con));
-        factories.put(MCShutdownClusterCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCShutdownClusterCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ShutdownClusterMessageTask(cm, node, con));
-        factories.put(MCChangeClusterVersionCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCChangeClusterVersionCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ChangeClusterVersionMessageTask(cm, node, con));
-        factories.put(MCRunScriptCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCRunScriptCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RunScriptMessageTask(cm, node, con));
-        factories.put(MCRunConsoleCommandCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCRunConsoleCommandCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RunConsoleCommandMessageTask(cm, node, con));
-        factories.put(com.hazelcast.client.impl.protocol.codec.MCChangeWanReplicationStateCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(com.hazelcast.client.impl.protocol.codec.ServerMCChangeWanReplicationStateCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ChangeWanReplicationStateMessageTask(cm, node, con));
-        factories.put(com.hazelcast.client.impl.protocol.codec.MCClearWanQueuesCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(com.hazelcast.client.impl.protocol.codec.ServerMCClearWanQueuesCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ClearWanQueuesMessageTask(cm, node, con));
-        factories.put(com.hazelcast.client.impl.protocol.codec.MCAddWanBatchPublisherConfigCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(com.hazelcast.client.impl.protocol.codec.ServerMCAddWanBatchPublisherConfigCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new AddWanBatchPublisherConfigMessageTask(cm, node, con));
-        factories.put(com.hazelcast.client.impl.protocol.codec.MCWanSyncMapCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(com.hazelcast.client.impl.protocol.codec.ServerMCWanSyncMapCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new WanSyncMapMessageTask(cm, node, con));
-        factories.put(com.hazelcast.client.impl.protocol.codec.MCCheckWanConsistencyCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(com.hazelcast.client.impl.protocol.codec.ServerMCCheckWanConsistencyCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new CheckWanConsistencyMessageTask(cm, node, con));
-        factories.put(MCPollMCEventsCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCPollMCEventsCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PollMCEventsMessageTask(cm, node, con));
-        factories.put(MCGetCPMembersCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCGetCPMembersCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new GetCPMembersMessageTask(cm, node, con));
-        factories.put(MCPromoteToCPMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCPromoteToCPMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new PromoteToCPMemberMessageTask(cm, node, con));
-        factories.put(MCRemoveCPMemberCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCRemoveCPMemberCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new RemoveCPMemberMessageTask(cm, node, con));
-        factories.put(MCResetCPSubsystemCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCResetCPSubsystemCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new ResetCPSubsystemMessageTask(cm, node, con));
-        factories.put(MCTriggerPartialStartCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCTriggerPartialStartCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new HotRestartTriggerPartialStartMessageTask(cm, node, con));
-        factories.put(MCTriggerForceStartCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCTriggerForceStartCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new HotRestartTriggerForceStartMessageTask(cm, node, con));
-        factories.put(MCTriggerHotRestartBackupCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCTriggerHotRestartBackupCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new HotRestartTriggerBackupMessageTask(cm, node, con));
-        factories.put(MCInterruptHotRestartBackupCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerMCInterruptHotRestartBackupCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new HotRestartInterruptBackupMessageTask(cm, node, con));
     }
 
     private void initializeSqlTaskFactories() {
-        factories.put(SqlExecuteCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSqlExecuteCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SqlExecuteMessageTask(cm, node, con));
-        factories.put(SqlFetchCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSqlFetchCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SqlFetchMessageTask(cm, node, con));
-        factories.put(SqlCloseCodec.REQUEST_MESSAGE_TYPE,
+        factories.put(ServerSqlCloseCodec.REQUEST_MESSAGE_TYPE,
                 (cm, con) -> new SqlCloseMessageTask(cm, node, con));
     }
 

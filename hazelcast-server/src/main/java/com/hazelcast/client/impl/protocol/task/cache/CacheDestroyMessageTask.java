@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheDestroyOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheDestroyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheDestroyCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -51,12 +51,12 @@ public class CacheDestroyMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return CacheDestroyCodec.decodeRequest(clientMessage);
+        return ServerCacheDestroyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheDestroyCodec.encodeResponse();
+        return ServerCacheDestroyCodec.encodeResponse();
     }
 
     @Override

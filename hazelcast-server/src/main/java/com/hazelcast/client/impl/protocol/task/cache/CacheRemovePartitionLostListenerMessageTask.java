@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cache;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheRemovePartitionLostListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheRemovePartitionLostListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -29,7 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 
 public class CacheRemovePartitionLostListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<CacheRemovePartitionLostListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerCacheRemovePartitionLostListenerCodec.RequestParameters> {
 
 
     public CacheRemovePartitionLostListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -49,13 +49,13 @@ public class CacheRemovePartitionLostListenerMessageTask
     }
 
     @Override
-    protected CacheRemovePartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
+    protected ServerCacheRemovePartitionLostListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheRemovePartitionLostListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
+        return ServerCacheRemovePartitionLostListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

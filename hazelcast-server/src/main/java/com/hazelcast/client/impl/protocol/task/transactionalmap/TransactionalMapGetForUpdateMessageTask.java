@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapGetForUpdateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapGetForUpdateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapGetForUpdateMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapGetForUpdateCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapGetForUpdateCodec.RequestParameters> {
 
     public TransactionalMapGetForUpdateMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -50,13 +50,13 @@ public class TransactionalMapGetForUpdateMessageTask
     }
 
     @Override
-    protected TransactionalMapGetForUpdateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapGetForUpdateCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapGetForUpdateCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapGetForUpdateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapGetForUpdateCodec.encodeResponse(serializationService.toData(response));
+        return ServerTransactionalMapGetForUpdateCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

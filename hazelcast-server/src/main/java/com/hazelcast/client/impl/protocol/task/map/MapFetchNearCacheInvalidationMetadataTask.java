@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapFetchNearCacheInvalidationMetadataCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapFetchNearCacheInvalidationMetadataCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTargetMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -29,7 +29,7 @@ import java.security.Permission;
 import java.util.UUID;
 
 public class MapFetchNearCacheInvalidationMetadataTask
-        extends AbstractTargetMessageTask<MapFetchNearCacheInvalidationMetadataCodec.RequestParameters> {
+        extends AbstractTargetMessageTask<ServerMapFetchNearCacheInvalidationMetadataCodec.RequestParameters> {
 
     public MapFetchNearCacheInvalidationMetadataTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,15 +46,15 @@ public class MapFetchNearCacheInvalidationMetadataTask
     }
 
     @Override
-    protected MapFetchNearCacheInvalidationMetadataCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapFetchNearCacheInvalidationMetadataCodec.decodeRequest(clientMessage);
+    protected ServerMapFetchNearCacheInvalidationMetadataCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapFetchNearCacheInvalidationMetadataCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         MapGetInvalidationMetaDataOperation.MetaDataResponse metaDataResponse =
                 (MapGetInvalidationMetaDataOperation.MetaDataResponse) response;
-        return MapFetchNearCacheInvalidationMetadataCodec
+        return ServerMapFetchNearCacheInvalidationMetadataCodec
                 .encodeResponse(metaDataResponse.getNamePartitionSequenceList().entrySet(),
                         metaDataResponse.getPartitionUuidList().entrySet());
     }

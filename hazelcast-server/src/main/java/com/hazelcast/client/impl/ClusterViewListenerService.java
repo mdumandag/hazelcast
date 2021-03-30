@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAddClusterViewListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddClusterViewListenerCodec;
 import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.internal.cluster.MemberInfo;
@@ -154,7 +154,7 @@ public class ClusterViewListenerService {
         }
         version = partitionTableVersion.get();
 
-        return ClientAddClusterViewListenerCodec.encodePartitionsViewEvent(version, partitions.entrySet());
+        return ServerClientAddClusterViewListenerCodec.encodePartitionsViewEvent(version, partitions.entrySet());
     }
 
     private ClientMessage getMemberListViewMessage() {
@@ -169,7 +169,7 @@ public class ClusterViewListenerService {
             memberInfos.add(new MemberInfo(clientAddressOf(member.getAddress()), member.getUuid(), member.getAttributes(),
                     member.isLiteMember(), member.getVersion(), member.getAddressMap()));
         }
-        return ClientAddClusterViewListenerCodec.encodeMembersViewEvent(version, memberInfos);
+        return ServerClientAddClusterViewListenerCodec.encodeMembersViewEvent(version, memberInfos);
     }
 
     public void deregisterListener(ClientEndpoint clientEndpoint) {

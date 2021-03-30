@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMapRemoveIfSameCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMapRemoveIfSameCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMap;
 import com.hazelcast.instance.impl.Node;
@@ -30,7 +30,7 @@ import com.hazelcast.transaction.TransactionContext;
 import java.security.Permission;
 
 public class TransactionalMapRemoveIfSameMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMapRemoveIfSameCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMapRemoveIfSameCodec.RequestParameters> {
 
     public TransactionalMapRemoveIfSameMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class TransactionalMapRemoveIfSameMessageTask
     }
 
     @Override
-    protected TransactionalMapRemoveIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMapRemoveIfSameCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMapRemoveIfSameCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMapRemoveIfSameCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMapRemoveIfSameCodec.encodeResponse((Boolean) response);
+        return ServerTransactionalMapRemoveIfSameCodec.encodeResponse((Boolean) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.transactionalmultimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapRemoveCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerTransactionalMultiMapRemoveCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractTransactionalMessageTask;
 import com.hazelcast.transaction.TransactionalMultiMap;
 import com.hazelcast.instance.impl.Node;
@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class TransactionalMultiMapRemoveMessageTask
-        extends AbstractTransactionalMessageTask<TransactionalMultiMapRemoveCodec.RequestParameters> {
+        extends AbstractTransactionalMessageTask<ServerTransactionalMultiMapRemoveCodec.RequestParameters> {
 
     public TransactionalMultiMapRemoveMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -58,13 +58,13 @@ public class TransactionalMultiMapRemoveMessageTask
     }
 
     @Override
-    protected TransactionalMultiMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return TransactionalMultiMapRemoveCodec.decodeRequest(clientMessage);
+    protected ServerTransactionalMultiMapRemoveCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerTransactionalMultiMapRemoveCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return TransactionalMultiMapRemoveCodec.encodeResponse((List<Data>) response);
+        return ServerTransactionalMultiMapRemoveCodec.encodeResponse((List<Data>) response);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.multimap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MultiMapIsLockedCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMultiMapIsLockedCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.IsLockedOperation;
@@ -36,7 +36,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.MultiMapMessageType#MULTIMAP_ISLOCKED}
  */
 public class MultiMapIsLockedMessageTask
-        extends AbstractPartitionMessageTask<MultiMapIsLockedCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMultiMapIsLockedCodec.RequestParameters> {
 
     public MultiMapIsLockedMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -49,13 +49,13 @@ public class MultiMapIsLockedMessageTask
     }
 
     @Override
-    protected MultiMapIsLockedCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MultiMapIsLockedCodec.decodeRequest(clientMessage);
+    protected ServerMultiMapIsLockedCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMultiMapIsLockedCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MultiMapIsLockedCodec.encodeResponse((Boolean) response);
+        return ServerMultiMapIsLockedCodec.encodeResponse((Boolean) response);
     }
 
     @Override

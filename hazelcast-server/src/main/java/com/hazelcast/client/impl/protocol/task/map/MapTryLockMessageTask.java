@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapTryLockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapTryLockCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.LockOperation;
@@ -33,7 +33,7 @@ import java.security.Permission;
 import java.util.concurrent.TimeUnit;
 
 public class MapTryLockMessageTask
-        extends AbstractPartitionMessageTask<MapTryLockCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMapTryLockCodec.RequestParameters> {
 
     public MapTryLockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class MapTryLockMessageTask
     }
 
     @Override
-    protected MapTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapTryLockCodec.decodeRequest(clientMessage);
+    protected ServerMapTryLockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapTryLockCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapTryLockCodec.encodeResponse((Boolean) response);
+        return ServerMapTryLockCodec.encodeResponse((Boolean) response);
     }
 
     @Override

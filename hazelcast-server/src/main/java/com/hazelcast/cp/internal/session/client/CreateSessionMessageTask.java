@@ -17,8 +17,8 @@
 package com.hazelcast.cp.internal.session.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCreateSessionCodec;
-import com.hazelcast.client.impl.protocol.codec.CPSessionCreateSessionCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCreateSessionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCPSessionCreateSessionCodec.RequestParameters;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.session.SessionResponse;
@@ -48,14 +48,14 @@ public class CreateSessionMessageTask extends AbstractSessionMessageTask<Request
     }
 
     @Override
-    protected CPSessionCreateSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CPSessionCreateSessionCodec.decodeRequest(clientMessage);
+    protected ServerCPSessionCreateSessionCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCPSessionCreateSessionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         SessionResponse session = (SessionResponse) response;
-        return CPSessionCreateSessionCodec.encodeResponse(session.getSessionId(), session.getTtlMillis(),
+        return ServerCPSessionCreateSessionCodec.encodeResponse(session.getSessionId(), session.getTtlMillis(),
                 session.getHeartbeatMillis());
     }
 }

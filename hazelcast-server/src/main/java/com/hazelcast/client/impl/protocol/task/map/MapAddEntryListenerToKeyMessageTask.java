@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task.map;
 
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapAddEntryListenerToKeyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapAddEntryListenerToKeyCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.map.impl.EntryEventFilter;
 import com.hazelcast.map.impl.EventListenerFilter;
@@ -29,26 +29,26 @@ import com.hazelcast.spi.impl.eventservice.EventFilter;
 import java.util.UUID;
 
 public class MapAddEntryListenerToKeyMessageTask
-        extends AbstractMapAddEntryListenerMessageTask<MapAddEntryListenerToKeyCodec.RequestParameters> {
+        extends AbstractMapAddEntryListenerMessageTask<ServerMapAddEntryListenerToKeyCodec.RequestParameters> {
 
     public MapAddEntryListenerToKeyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected MapAddEntryListenerToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapAddEntryListenerToKeyCodec.decodeRequest(clientMessage);
+    protected ServerMapAddEntryListenerToKeyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapAddEntryListenerToKeyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapAddEntryListenerToKeyCodec.encodeResponse((UUID) response);
+        return ServerMapAddEntryListenerToKeyCodec.encodeResponse((UUID) response);
     }
 
     @Override
     protected ClientMessage encodeEvent(Data keyData, Data newValueData, Data oldValueData,
                                         Data meringValueData, int type, UUID uuid, int numberOfAffectedEntries) {
-        return MapAddEntryListenerToKeyCodec.encodeEntryEvent(keyData, newValueData,
+        return ServerMapAddEntryListenerToKeyCodec.encodeEntryEvent(keyData, newValueData,
                 oldValueData, meringValueData, type, uuid, numberOfAffectedEntries);
     }
 

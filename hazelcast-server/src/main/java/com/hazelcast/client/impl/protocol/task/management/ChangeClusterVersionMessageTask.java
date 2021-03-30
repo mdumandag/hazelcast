@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCChangeClusterVersionCodec;
-import com.hazelcast.client.impl.protocol.codec.MCChangeClusterVersionCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeClusterVersionCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCChangeClusterVersionCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractInvocationMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.management.ManagementCenterService;
@@ -53,12 +53,12 @@ public class ChangeClusterVersionMessageTask extends AbstractInvocationMessageTa
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCChangeClusterVersionCodec.decodeRequest(clientMessage);
+        return ServerMCChangeClusterVersionCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCChangeClusterVersionCodec.encodeResponse();
+        return ServerMCChangeClusterVersionCodec.encodeResponse();
     }
 
     @Override

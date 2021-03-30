@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.replicatedmap;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ReplicatedMapPutCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerReplicatedMapPutCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -32,7 +32,7 @@ import java.security.Permission;
 import java.util.concurrent.TimeUnit;
 
 public class ReplicatedMapPutMessageTask
-        extends AbstractPartitionMessageTask<ReplicatedMapPutCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerReplicatedMapPutCodec.RequestParameters> {
 
     public ReplicatedMapPutMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -44,14 +44,14 @@ public class ReplicatedMapPutMessageTask
     }
 
     @Override
-    protected ReplicatedMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ReplicatedMapPutCodec.decodeRequest(clientMessage);
+    protected ServerReplicatedMapPutCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerReplicatedMapPutCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         VersionResponsePair versionResponsePair = (VersionResponsePair) response;
-        return ReplicatedMapPutCodec.encodeResponse(serializationService.toData(versionResponsePair.getResponse()));
+        return ServerReplicatedMapPutCodec.encodeResponse(serializationService.toData(versionResponsePair.getResponse()));
     }
 
     @Override

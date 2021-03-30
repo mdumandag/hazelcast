@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientLocalBackupListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientLocalBackupListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.cluster.impl.ClusterServiceImpl;
 import com.hazelcast.internal.nio.Connection;
@@ -60,7 +60,7 @@ public class AddBackupListenerMessageTask
 
     @Override
     public void accept(Long backupCorrelationId) {
-        ClientMessage eventMessage = ClientLocalBackupListenerCodec.encodeBackupEvent(backupCorrelationId);
+        ClientMessage eventMessage = ServerClientLocalBackupListenerCodec.encodeBackupEvent(backupCorrelationId);
         eventMessage.getStartFrame().flags |= ClientMessage.BACKUP_EVENT_FLAG;
         sendClientMessage(eventMessage);
     }
@@ -72,7 +72,7 @@ public class AddBackupListenerMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientLocalBackupListenerCodec.encodeResponse((UUID) response);
+        return ServerClientLocalBackupListenerCodec.encodeResponse((UUID) response);
     }
 
     @Override

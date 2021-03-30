@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetRemoveListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetRemoveListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.collection.impl.set.SetService;
 import com.hazelcast.instance.impl.Node;
@@ -34,7 +34,7 @@ import java.util.concurrent.Future;
  * SetRemoveListenerMessageTask
  */
 public class SetRemoveListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<SetRemoveListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerSetRemoveListenerCodec.RequestParameters> {
 
     public SetRemoveListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -52,13 +52,13 @@ public class SetRemoveListenerMessageTask
     }
 
     @Override
-    protected SetRemoveListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SetRemoveListenerCodec.decodeRequest(clientMessage);
+    protected ServerSetRemoveListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSetRemoveListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetRemoveListenerCodec.encodeResponse((Boolean) response);
+        return ServerSetRemoveListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

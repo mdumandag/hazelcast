@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListRemoveListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListRemoveListenerCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractRemoveListenerMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.instance.impl.Node;
@@ -32,10 +32,10 @@ import java.util.concurrent.Future;
 
 /**
  * Client Protocol Task for handling messages with type ID:
- * {@link com.hazelcast.client.impl.protocol.codec.ListRemoveListenerCodec#REQUEST_MESSAGE_TYPE}
+ * {@link com.hazelcast.client.impl.protocol.codec.ServerListRemoveListenerCodec#REQUEST_MESSAGE_TYPE}
  */
 public class ListRemoveListenerMessageTask
-        extends AbstractRemoveListenerMessageTask<ListRemoveListenerCodec.RequestParameters> {
+        extends AbstractRemoveListenerMessageTask<ServerListRemoveListenerCodec.RequestParameters> {
 
     public ListRemoveListenerMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -53,13 +53,13 @@ public class ListRemoveListenerMessageTask
     }
 
     @Override
-    protected ListRemoveListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListRemoveListenerCodec.decodeRequest(clientMessage);
+    protected ServerListRemoveListenerCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListRemoveListenerCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListRemoveListenerCodec.encodeResponse((Boolean) response);
+        return ServerListRemoveListenerCodec.encodeResponse((Boolean) response);
     }
 
     @Override

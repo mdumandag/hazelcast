@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientTriggerPartitionAssignmentCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientTriggerPartitionAssignmentCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.partition.InternalPartitionService;
@@ -38,7 +38,7 @@ public class TriggerPartitionAssignmentMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientTriggerPartitionAssignmentCodec.encodeRequest();
+        return ServerClientTriggerPartitionAssignmentCodec.encodeRequest();
     }
 
     @Override

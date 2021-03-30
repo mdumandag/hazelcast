@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.atomicref.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.AtomicRefApplyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerAtomicRefApplyCodec;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
@@ -36,7 +36,7 @@ import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 /**
  * Client message task for {@link ApplyOp}
  */
-public class ApplyMessageTask extends AbstractCPMessageTask<AtomicRefApplyCodec.RequestParameters> {
+public class ApplyMessageTask extends AbstractCPMessageTask<ServerAtomicRefApplyCodec.RequestParameters> {
 
     public ApplyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -56,13 +56,13 @@ public class ApplyMessageTask extends AbstractCPMessageTask<AtomicRefApplyCodec.
     }
 
     @Override
-    protected AtomicRefApplyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return AtomicRefApplyCodec.decodeRequest(clientMessage);
+    protected ServerAtomicRefApplyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerAtomicRefApplyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return AtomicRefApplyCodec.encodeResponse(serializationService.toData(response));
+        return ServerAtomicRefApplyCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

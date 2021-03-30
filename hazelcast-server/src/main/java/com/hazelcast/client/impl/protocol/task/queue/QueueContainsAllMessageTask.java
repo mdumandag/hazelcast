@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueContainsAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueContainsAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.ContainsOperation;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.QueueMessageType#QUEUE_CONTAINSALL}
  */
 public class QueueContainsAllMessageTask
-        extends AbstractPartitionMessageTask<QueueContainsAllCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerQueueContainsAllCodec.RequestParameters> {
 
     public QueueContainsAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,14 +46,14 @@ public class QueueContainsAllMessageTask
     }
 
     @Override
-    protected QueueContainsAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return QueueContainsAllCodec.decodeRequest(clientMessage);
+    protected ServerQueueContainsAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerQueueContainsAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
         final boolean result = response != null && ((Boolean) response);
-        return QueueContainsAllCodec.encodeResponse(result);
+        return ServerQueueContainsAllCodec.encodeResponse(result);
     }
 
     @Override

@@ -17,7 +17,7 @@
 package com.hazelcast.cp.internal.datastructures.lock.client;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.FencedLockUnlockCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerFencedLockUnlockCodec;
 import com.hazelcast.cp.internal.RaftOp;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.lock.LockService;
@@ -32,7 +32,7 @@ import java.security.Permission;
 /**
  * Client message task for {@link UnlockOp}
  */
-public class UnlockMessageTask extends AbstractCPMessageTask<FencedLockUnlockCodec.RequestParameters> {
+public class UnlockMessageTask extends AbstractCPMessageTask<ServerFencedLockUnlockCodec.RequestParameters> {
 
     public UnlockMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class UnlockMessageTask extends AbstractCPMessageTask<FencedLockUnlockCod
     }
 
     @Override
-    protected FencedLockUnlockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return FencedLockUnlockCodec.decodeRequest(clientMessage);
+    protected ServerFencedLockUnlockCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerFencedLockUnlockCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return FencedLockUnlockCodec.encodeResponse((Boolean) response);
+        return ServerFencedLockUnlockCodec.encodeResponse((Boolean) response);
     }
 
     @Override

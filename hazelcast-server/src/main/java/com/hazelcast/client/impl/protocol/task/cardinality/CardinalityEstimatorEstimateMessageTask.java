@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.task.cardinality;
 import com.hazelcast.cardinality.impl.CardinalityEstimatorService;
 import com.hazelcast.cardinality.impl.operations.EstimateOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CardinalityEstimatorEstimateCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCardinalityEstimatorEstimateCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -43,12 +43,12 @@ public class CardinalityEstimatorEstimateMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return CardinalityEstimatorEstimateCodec.decodeRequest(clientMessage);
+        return ServerCardinalityEstimatorEstimateCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CardinalityEstimatorEstimateCodec.encodeResponse((Long) response);
+        return ServerCardinalityEstimatorEstimateCodec.encodeResponse((Long) response);
     }
 
     @Override

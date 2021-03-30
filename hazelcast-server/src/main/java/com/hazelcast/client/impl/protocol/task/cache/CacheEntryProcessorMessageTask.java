@@ -20,7 +20,7 @@ import com.hazelcast.cache.impl.CacheOperationProvider;
 import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.cache.impl.operation.CacheEntryProcessorOperation;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.CacheEntryProcessorCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerCacheEntryProcessorCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.serialization.Data;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * @see CacheEntryProcessorOperation
  */
 public class CacheEntryProcessorMessageTask
-        extends AbstractCacheMessageTask<CacheEntryProcessorCodec.RequestParameters> {
+        extends AbstractCacheMessageTask<ServerCacheEntryProcessorCodec.RequestParameters> {
 
     public CacheEntryProcessorMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -59,13 +59,13 @@ public class CacheEntryProcessorMessageTask
     }
 
     @Override
-    protected CacheEntryProcessorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return CacheEntryProcessorCodec.decodeRequest(clientMessage);
+    protected ServerCacheEntryProcessorCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerCacheEntryProcessorCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return CacheEntryProcessorCodec.encodeResponse(serializationService.toData(response));
+        return ServerCacheEntryProcessorCodec.encodeResponse(serializationService.toData(response));
     }
 
     @Override

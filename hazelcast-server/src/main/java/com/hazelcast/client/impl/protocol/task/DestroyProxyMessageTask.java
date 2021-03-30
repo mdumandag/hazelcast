@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientDestroyProxyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientDestroyProxyCodec;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
 import com.hazelcast.instance.impl.Node;
@@ -37,7 +37,7 @@ import static com.hazelcast.security.permission.ActionConstants.getPermission;
 import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.WARNING;
 
-public class DestroyProxyMessageTask extends AbstractMultiTargetMessageTask<ClientDestroyProxyCodec.RequestParameters>
+public class DestroyProxyMessageTask extends AbstractMultiTargetMessageTask<ServerClientDestroyProxyCodec.RequestParameters>
         implements Supplier<Operation> {
 
     public DestroyProxyMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
@@ -76,13 +76,13 @@ public class DestroyProxyMessageTask extends AbstractMultiTargetMessageTask<Clie
     }
 
     @Override
-    protected ClientDestroyProxyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ClientDestroyProxyCodec.decodeRequest(clientMessage);
+    protected ServerClientDestroyProxyCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerClientDestroyProxyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientDestroyProxyCodec.encodeResponse();
+        return ServerClientDestroyProxyCodec.encodeResponse();
     }
 
     @Override

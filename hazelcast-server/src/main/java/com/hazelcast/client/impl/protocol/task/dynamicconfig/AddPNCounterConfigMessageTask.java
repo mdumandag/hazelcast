@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.dynamicconfig;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.DynamicConfigAddPNCounterConfigCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerDynamicConfigAddPNCounterConfigCodec;
 import com.hazelcast.config.PNCounterConfig;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.dynamicconfig.DynamicConfigurationAwareConfig;
@@ -25,20 +25,20 @@ import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 public class AddPNCounterConfigMessageTask
-        extends AbstractAddConfigMessageTask<DynamicConfigAddPNCounterConfigCodec.RequestParameters> {
+        extends AbstractAddConfigMessageTask<ServerDynamicConfigAddPNCounterConfigCodec.RequestParameters> {
 
     public AddPNCounterConfigMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
     }
 
     @Override
-    protected DynamicConfigAddPNCounterConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return DynamicConfigAddPNCounterConfigCodec.decodeRequest(clientMessage);
+    protected ServerDynamicConfigAddPNCounterConfigCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerDynamicConfigAddPNCounterConfigCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return DynamicConfigAddPNCounterConfigCodec.encodeResponse();
+        return ServerDynamicConfigAddPNCounterConfigCodec.encodeResponse();
     }
 
     @Override

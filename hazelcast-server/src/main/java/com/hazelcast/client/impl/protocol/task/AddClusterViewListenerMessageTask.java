@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.task;
 
 import com.hazelcast.client.impl.ClusterViewListenerService;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ClientAddClusterViewListenerCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerClientAddClusterViewListenerCodec;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.cluster.impl.ClusterServiceImpl;
 import com.hazelcast.internal.nio.Connection;
@@ -57,7 +57,7 @@ public class AddClusterViewListenerMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ClientAddClusterViewListenerCodec.encodeResponse();
+        return ServerClientAddClusterViewListenerCodec.encodeResponse();
     }
 
     @Override

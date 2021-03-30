@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.map;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MapIsLockedCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMapIsLockedCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.internal.locksupport.LockSupportService;
 import com.hazelcast.internal.locksupport.operations.IsLockedOperation;
@@ -32,7 +32,7 @@ import com.hazelcast.spi.impl.operationservice.Operation;
 import java.security.Permission;
 
 public class MapIsLockedMessageTask
-        extends AbstractPartitionMessageTask<MapIsLockedCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerMapIsLockedCodec.RequestParameters> {
 
     public MapIsLockedMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -44,13 +44,13 @@ public class MapIsLockedMessageTask
     }
 
     @Override
-    protected MapIsLockedCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MapIsLockedCodec.decodeRequest(clientMessage);
+    protected ServerMapIsLockedCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerMapIsLockedCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MapIsLockedCodec.encodeResponse((Boolean) response);
+        return ServerMapIsLockedCodec.encodeResponse((Boolean) response);
     }
 
 

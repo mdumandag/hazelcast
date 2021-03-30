@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.list;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.ListLastIndexOfCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerListLastIndexOfCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.list.ListService;
 import com.hazelcast.collection.impl.list.operations.ListIndexOfOperation;
@@ -34,7 +34,7 @@ import java.security.Permission;
  * {@link com.hazelcast.client.impl.protocol.codec.ListMessageType#LIST_LASTINDEXOF}
  */
 public class ListLastIndexOfMessageTask
-        extends AbstractPartitionMessageTask<ListLastIndexOfCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerListLastIndexOfCodec.RequestParameters> {
 
     public ListLastIndexOfMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -46,13 +46,13 @@ public class ListLastIndexOfMessageTask
     }
 
     @Override
-    protected ListLastIndexOfCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return ListLastIndexOfCodec.decodeRequest(clientMessage);
+    protected ServerListLastIndexOfCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerListLastIndexOfCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ListLastIndexOfCodec.encodeResponse((Integer) response);
+        return ServerListLastIndexOfCodec.encodeResponse((Integer) response);
     }
 
     @Override

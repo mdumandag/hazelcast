@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.queue;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.QueueDrainToCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerQueueDrainToCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.queue.QueueService;
 import com.hazelcast.collection.impl.queue.operations.DrainOperation;
@@ -50,7 +50,7 @@ public class QueueDrainMessageTask
 
     @Override
     protected String decodeClientMessage(ClientMessage clientMessage) {
-        return QueueDrainToCodec.decodeRequest(clientMessage);
+        return ServerQueueDrainToCodec.decodeRequest(clientMessage);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class QueueDrainMessageTask
     protected ClientMessage encodeResponse(Object response) {
         SerializableList serializableList = (SerializableList) response;
         List<Data> coll = serializableList.getCollection();
-        return QueueDrainToCodec.encodeResponse(coll);
+        return ServerQueueDrainToCodec.encodeResponse(coll);
     }
 
     @Override

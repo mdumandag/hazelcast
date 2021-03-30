@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.task.set;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.SetAddAllCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerSetAddAllCodec;
 import com.hazelcast.client.impl.protocol.task.AbstractPartitionMessageTask;
 import com.hazelcast.collection.impl.collection.operations.CollectionAddAllOperation;
 import com.hazelcast.collection.impl.set.SetService;
@@ -33,7 +33,7 @@ import java.security.Permission;
  * SetAddAllMessageTask
  */
 public class SetAddAllMessageTask
-        extends AbstractPartitionMessageTask<SetAddAllCodec.RequestParameters> {
+        extends AbstractPartitionMessageTask<ServerSetAddAllCodec.RequestParameters> {
 
     public SetAddAllMessageTask(ClientMessage clientMessage, Node node, Connection connection) {
         super(clientMessage, node, connection);
@@ -45,13 +45,13 @@ public class SetAddAllMessageTask
     }
 
     @Override
-    protected SetAddAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return SetAddAllCodec.decodeRequest(clientMessage);
+    protected ServerSetAddAllCodec.RequestParameters decodeClientMessage(ClientMessage clientMessage) {
+        return ServerSetAddAllCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return SetAddAllCodec.encodeResponse((Boolean) response);
+        return ServerSetAddAllCodec.encodeResponse((Boolean) response);
     }
 
     @Override

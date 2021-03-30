@@ -17,8 +17,8 @@
 package com.hazelcast.client.impl.protocol.task.management;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.codec.MCCheckWanConsistencyCodec;
-import com.hazelcast.client.impl.protocol.codec.MCCheckWanConsistencyCodec.RequestParameters;
+import com.hazelcast.client.impl.protocol.codec.ServerMCCheckWanConsistencyCodec;
+import com.hazelcast.client.impl.protocol.codec.ServerMCCheckWanConsistencyCodec.RequestParameters;
 import com.hazelcast.client.impl.protocol.task.AbstractCallableMessageTask;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
@@ -44,12 +44,12 @@ public class CheckWanConsistencyMessageTask extends AbstractCallableMessageTask<
 
     @Override
     protected RequestParameters decodeClientMessage(ClientMessage clientMessage) {
-        return MCCheckWanConsistencyCodec.decodeRequest(clientMessage);
+        return ServerMCCheckWanConsistencyCodec.decodeRequest(clientMessage);
     }
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return MCCheckWanConsistencyCodec.encodeResponse((UUID) response);
+        return ServerMCCheckWanConsistencyCodec.encodeResponse((UUID) response);
     }
 
     @Override
