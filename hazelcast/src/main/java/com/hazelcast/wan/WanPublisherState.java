@@ -16,8 +16,6 @@
 
 package com.hazelcast.wan;
 
-import com.hazelcast.wan.impl.WanReplicationService;
-
 /**
  * Defines the state in which a WAN publisher can be in if it is not shutting
  * down.
