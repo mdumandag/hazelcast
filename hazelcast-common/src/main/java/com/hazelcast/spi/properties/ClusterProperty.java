@@ -559,7 +559,7 @@ public final class ClusterProperty {
      * Default failure detector is <code>deadline</code>.
      */
     public static final HazelcastProperty HEARTBEAT_FAILURE_DETECTOR_TYPE
-            = new HazelcastProperty("hazelcast.heartbeat.failuredetector.type", "DEADLINE");
+            = new HazelcastProperty("hazelcast.heartbeat.failuredetector.type", "deadline");
 
     /**
      * The interval at which the master sends the member lists are sent to other
