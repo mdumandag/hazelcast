@@ -118,7 +118,7 @@ public final class ProxyManager {
         register(ServiceNames.REPLICATED_MAP, ClientReplicatedMapProxy.class);
         register(ServiceNames.XA, XAResourceProxy.class);
         register(ServiceNames.RINGBUFFER, ClientRingbufferProxy.class);
-        register(ServiceNames.REPLICATED_MAP, (id, context) -> new ClientReliableTopicProxy(id, context, client));
+        register(ServiceNames.RELIABLE_TOPIC, (id, context) -> new ClientReliableTopicProxy(id, context, client));
         register(ServiceNames.FLAKE_ID_GENERATOR, ClientFlakeIdGeneratorProxy.class);
         register(ServiceNames.CARDINALITY_ESTIMATOR, ClientCardinalityEstimatorProxy.class);
         register(ServiceNames.SCHEDULED_EXECUTOR, ClientScheduledExecutorProxy.class);
