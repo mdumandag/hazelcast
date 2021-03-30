@@ -19,7 +19,6 @@ package com.hazelcast.flakeidgen;
 import com.hazelcast.config.FlakeIdGeneratorConfig;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.HazelcastException;
-import com.hazelcast.internal.cluster.ClusterService;
 
 /**
  * A cluster-wide unique ID generator. Generated IDs are {@code long} primitive values and are

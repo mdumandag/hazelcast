@@ -17,7 +17,6 @@
 package com.hazelcast.splitbrainprotection;
 
 import com.hazelcast.cluster.Member;
-import com.hazelcast.internal.cluster.fd.PingFailureDetector;
 
 /**
  * Split brain protection functions that need access to ICMP ping failure detector should implement this interface;

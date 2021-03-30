@@ -17,7 +17,6 @@
 package com.hazelcast.query;
 
 import com.hazelcast.instance.LocalInstanceStats;
-import com.hazelcast.internal.monitor.MemberState;
 import com.hazelcast.map.LocalMapStats;
 
 /**

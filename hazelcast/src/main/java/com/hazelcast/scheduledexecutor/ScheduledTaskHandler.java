@@ -17,7 +17,6 @@
 package com.hazelcast.scheduledexecutor;
 
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import com.hazelcast.scheduledexecutor.impl.ScheduledTaskHandlerImpl;
 
 import java.util.UUID;
 
@@ -83,13 +82,4 @@ public abstract class ScheduledTaskHandler
      */
     public abstract String toUrn();
 
-    /**
-     * Reconstructs a {@link ScheduledTaskHandler} from a URN String.
-     *
-     * @param urn The URN of the handler as retrieved from {@link #toUrn()}
-     * @return A {@link ScheduledTaskHandler} instance that can be used to access the scheduled task
-     */
-    public static ScheduledTaskHandler of(String urn) {
-        return ScheduledTaskHandlerImpl.of(urn);
-    }
 }

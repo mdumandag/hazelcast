@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.hazelcast.multimap;
-
-import com.hazelcast.map.LocalMapStats;
-
 /**
- * Local multi map statistics to be used by {@link MemberState} implementations.
+ * <p>
+ *     Event classes to define listenters for JCache other than EntryListener
+ *     @since 3.6
+ * </p>
  */
-public interface LocalMultiMapStats extends LocalMapStats {
-}
+package com.hazelcast.cache.impl.event;

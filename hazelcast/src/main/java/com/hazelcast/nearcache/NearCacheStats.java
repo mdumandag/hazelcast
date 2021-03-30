@@ -17,7 +17,6 @@
 package com.hazelcast.nearcache;
 
 import com.hazelcast.instance.LocalInstanceStats;
-import com.hazelcast.internal.monitor.MemberState;
 
 /**
  * Near Cache statistics to be used by {@link MemberState} implementations.

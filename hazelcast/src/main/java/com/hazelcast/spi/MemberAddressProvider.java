@@ -42,7 +42,7 @@ import java.util.List;
  * <p>
  * This is practical in some cloud environments where the default strategy is not yielding good results.
  *
- * @see com.hazelcast.config.NetworkConfig#setMemberAddressProviderConfig(com.hazelcast.config.MemberAddressProviderConfig)
+ * @see NetworkConfig#setMemberAddressProviderConfig(com.hazelcast.config.MemberAddressProviderConfig)
  */
 public interface MemberAddressProvider {
     /**

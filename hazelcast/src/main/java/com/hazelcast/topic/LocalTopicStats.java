@@ -17,7 +17,6 @@
 package com.hazelcast.topic;
 
 import com.hazelcast.instance.LocalInstanceStats;
-import com.hazelcast.internal.monitor.MemberState;
 
 /**
  * Local topic statistics to be used by {@link MemberState} implementations.

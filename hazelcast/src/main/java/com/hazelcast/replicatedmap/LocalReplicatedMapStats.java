@@ -16,7 +16,6 @@
 
 package com.hazelcast.replicatedmap;
 
-import com.hazelcast.internal.monitor.MemberState;
 import com.hazelcast.map.LocalMapStats;
 
 /**

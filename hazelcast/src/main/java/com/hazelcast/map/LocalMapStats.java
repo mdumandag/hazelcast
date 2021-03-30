@@ -18,7 +18,6 @@ package com.hazelcast.map;
 
 import com.hazelcast.query.LocalIndexStats;
 import com.hazelcast.instance.LocalInstanceStats;
-import com.hazelcast.internal.monitor.MemberState;
 import com.hazelcast.nearcache.NearCacheStats;
 
 import java.util.Map;
