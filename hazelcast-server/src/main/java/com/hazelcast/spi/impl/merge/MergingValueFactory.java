@@ -32,6 +32,7 @@ import com.hazelcast.multimap.impl.MultiMapMergeContainer;
 import com.hazelcast.multimap.impl.MultiMapRecord;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecord;
 import com.hazelcast.ringbuffer.impl.Ringbuffer;
+import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorMergeTypes;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
 import com.hazelcast.spi.merge.MergingEntry;
 import com.hazelcast.spi.merge.MergingValue;
@@ -46,7 +47,6 @@ import com.hazelcast.spi.merge.SplitBrainMergeTypes.MultiMapMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.QueueMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.ReplicatedMapMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.RingbufferMergeTypes;
-import com.hazelcast.spi.merge.SplitBrainMergeTypes.ScheduledExecutorMergeTypes;
 
 import java.util.ArrayList;
 import java.util.Collection;

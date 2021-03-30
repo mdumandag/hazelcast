@@ -25,7 +25,6 @@ import com.hazelcast.cp.IAtomicReference;
 import com.hazelcast.map.IMap;
 import com.hazelcast.multimap.MultiMap;
 import com.hazelcast.replicatedmap.ReplicatedMap;
-import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
 
 import java.util.Collection;
 
@@ -129,14 +128,6 @@ public class SplitBrainMergeTypes {
      * @since 3.10
      */
     public interface AtomicReferenceMergeTypes extends MergingValue<Object> {
-    }
-
-    /**
-     * Provided merge types of {@link com.hazelcast.scheduledexecutor.IScheduledExecutorService}.
-     *
-     * @since 3.10
-     */
-    public interface ScheduledExecutorMergeTypes extends MergingEntry<String, ScheduledTaskDescriptor> {
     }
 
     /**

@@ -16,8 +16,8 @@
 
 package com.hazelcast.spi.impl.merge;
 
+import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorMergeTypes;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
-import com.hazelcast.spi.merge.SplitBrainMergeTypes.ScheduledExecutorMergeTypes;
 import com.hazelcast.internal.serialization.SerializationService;
 
 /**
