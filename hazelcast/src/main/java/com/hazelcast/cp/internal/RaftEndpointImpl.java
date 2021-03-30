@@ -73,12 +73,12 @@ public class RaftEndpointImpl implements RaftEndpoint, IdentifiedDataSerializabl
 
     @Override
     public int getFactoryId() {
-        return RaftServiceDataSerializerHook.F_ID;
+        return RaftServiceDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return RaftServiceDataSerializerHook.CP_ENDPOINT;
+        return RaftServiceDataSerializerHookBase.CP_ENDPOINT;
     }
 
     @Override
