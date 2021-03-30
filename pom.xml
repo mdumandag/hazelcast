@@ -30,7 +30,7 @@
 
     <modules>
         <module>extensions</module>
-        <module>hazelcast</module>
+        <module>hazelcast-common</module>
         <module>hazelcast-jet-sql</module>
         <module>hazelcast-spring</module>
         <module>hazelcast-spring-tests</module>
