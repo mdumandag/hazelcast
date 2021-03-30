@@ -16,8 +16,6 @@
 
 package com.hazelcast.core;
 
-import com.hazelcast.instance.impl.OutOfMemoryHandlerHelper;
-
 /**
  * Handler for <code>OutOfMemoryError</code>.
  * <p>
@@ -77,24 +75,5 @@ public abstract class OutOfMemoryHandler {
      */
     public boolean shouldHandle(OutOfMemoryError oome) {
         return true;
-    }
-
-    /**
-     * Tries to close the server socket and connections to other <code>HazelcastInstance</code>s.
-     *
-     * @param hazelcastInstance the Hazelcast instance to close server socket
-     */
-    protected final void tryCloseConnections(HazelcastInstance hazelcastInstance) {
-        OutOfMemoryHandlerHelper.tryCloseConnections(hazelcastInstance);
-    }
-
-    /**
-     * Tries to shutdown <code>HazelcastInstance</code> forcefully;
-     * including closing sockets and connections, stopping threads, etc.
-     *
-     * @param hazelcastInstance the Hazelcast instance to shutdown
-     */
-    protected final void tryShutdown(final HazelcastInstance hazelcastInstance) {
-        OutOfMemoryHandlerHelper.tryShutdown(hazelcastInstance);
     }
 }
