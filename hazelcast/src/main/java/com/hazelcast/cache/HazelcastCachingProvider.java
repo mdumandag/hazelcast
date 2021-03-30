@@ -16,10 +16,7 @@
 
 package com.hazelcast.cache;
 
-import com.hazelcast.cache.impl.HazelcastServerCachingProvider;
-import com.hazelcast.client.cache.impl.HazelcastClientCachingProvider;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.spi.properties.ClusterProperty;
 
 import javax.cache.CacheException;
 import javax.cache.CacheManager;
@@ -160,23 +157,23 @@ public final class HazelcastCachingProvider implements CachingProvider {
      */
     public static final String HAZELCAST_INSTANCE_ITSELF = "hazelcast.instance.itself";
 
-    /**
-     * Class name of the member-side Caching Provider
-     */
-    public static final String MEMBER_CACHING_PROVIDER = HazelcastMemberCachingProvider.class.getName();
-
-    /**
-     * Same value as {@link #MEMBER_CACHING_PROVIDER}. This field is maintained for backwards compatibility.
-     * Its use is discouraged and will be removed in a future version.
-     */
-    @Deprecated
-    public static final String SERVER_CACHING_PROVIDER = HazelcastMemberCachingProvider.class.getName();
-
-    /**
-     * Class name of the client-side Caching Provider
-     */
-    public static final String CLIENT_CACHING_PROVIDER =
-            com.hazelcast.client.cache.HazelcastClientCachingProvider.class.getName();
+//    /**
+//     * Class name of the member-side Caching Provider
+//     */
+//    public static final String MEMBER_CACHING_PROVIDER = HazelcastMemberCachingProvider.class.getName();
+//
+//    /**
+//     * Same value as {@link #MEMBER_CACHING_PROVIDER}. This field is maintained for backwards compatibility.
+//     * Its use is discouraged and will be removed in a future version.
+//     */
+//    @Deprecated
+//    public static final String SERVER_CACHING_PROVIDER = HazelcastMemberCachingProvider.class.getName();
+//
+//    /**
+//     * Class name of the client-side Caching Provider
+//     */
+//    public static final String CLIENT_CACHING_PROVIDER =
+//            com.hazelcast.client.cache.HazelcastClientCachingProvider.class.getName();
 
     /**
      * Name of default {@link HazelcastInstance} which may be started when
@@ -191,22 +188,23 @@ public final class HazelcastCachingProvider implements CachingProvider {
     private final CachingProvider delegate;
 
     public HazelcastCachingProvider() {
-        CachingProvider cp = null;
-        String providerType = ClusterProperty.JCACHE_PROVIDER_TYPE.getSystemProperty();
-        if (providerType != null) {
-            if (PROVIDER_TYPE_CLIENT.equals(providerType)) {
-                cp = new HazelcastClientCachingProvider();
-            } else if (PROVIDER_TYPE_MEMBER.equals(providerType)
-                    || LEGACY_PROVIDER_TYPE_MEMBER.equals(providerType)) {
-                cp = new HazelcastServerCachingProvider();
-            } else {
-                throw new CacheException("Unknown CachingProvider type \"" + providerType + "\". Use "
-                        + "\"client\" or \"member\" as provider type.");
-            }
-        } else {
-            cp = new HazelcastClientCachingProvider();
-        }
-        delegate = cp;
+//        CachingProvider cp = null;
+//        String providerType = ClusterProperty.JCACHE_PROVIDER_TYPE.getSystemProperty();
+//        if (providerType != null) {
+//            if (PROVIDER_TYPE_CLIENT.equals(providerType)) {
+//                cp = new HazelcastClientCachingProvider();
+//            } else if (PROVIDER_TYPE_MEMBER.equals(providerType)
+//                    || LEGACY_PROVIDER_TYPE_MEMBER.equals(providerType)) {
+//                cp = new HazelcastServerCachingProvider();
+//            } else {
+//                throw new CacheException("Unknown CachingProvider type \"" + providerType + "\". Use "
+//                        + "\"client\" or \"member\" as provider type.");
+//            }
+//        } else {
+//            cp = new HazelcastClientCachingProvider();
+//        }
+//        delegate = cp;
+        throw new UnsupportedOperationException("Leftover from client/member seperation");
     }
 
     /**
