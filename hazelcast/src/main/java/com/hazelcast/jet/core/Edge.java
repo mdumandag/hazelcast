@@ -22,7 +22,7 @@ import com.hazelcast.function.FunctionEx;
 import com.hazelcast.jet.JetException;
 import com.hazelcast.jet.config.EdgeConfig;
 import com.hazelcast.jet.config.JetConfig;
-import com.hazelcast.jet.impl.MasterJobContext;
+import com.hazelcast.jet.config.ProcessingGuarantee;
 import com.hazelcast.jet.impl.execution.init.CustomClassLoadedObject;
 import com.hazelcast.jet.impl.util.ConstantFunctionEx;
 import com.hazelcast.nio.ObjectDataInput;
@@ -39,8 +39,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.hazelcast.function.Functions.wholeItem;
+import static com.hazelcast.internal.serialization.impl.SerializationUtil.checkSerializable;
 import static com.hazelcast.jet.core.Partitioner.defaultPartitioner;
-import static com.hazelcast.jet.impl.util.Util.checkSerializable;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -248,24 +248,24 @@ public class Edge implements IdentifiedDataSerializable {
      * the first snapshot until after upstream vertices of higher priority
      * edges are completed.
      * Reason: after receiving a {@link
-     * com.hazelcast.jet.impl.execution.SnapshotBarrier barrier} we stop
+     * SnapshotBarrier barrier} we stop
      * processing items on that edge until the barrier is received from all
      * other edges. However, we also don't process lower priority edges until
      * higher priority edges are done, which prevents receiving the barrier on
      * them, which in the end stalls the job indefinitely. Technically this
      * applies only to {@link
-     * com.hazelcast.jet.config.ProcessingGuarantee#EXACTLY_ONCE EXACTLY_ONCE}
+     * ProcessingGuarantee#EXACTLY_ONCE EXACTLY_ONCE}
      * snapshot mode, but the snapshot is also postponed for {@link
-     * com.hazelcast.jet.config.ProcessingGuarantee#AT_LEAST_ONCE
+     * ProcessingGuarantee#AT_LEAST_ONCE
      * AT_LEAST_ONCE} jobs, because the snapshot won't complete until after all
      * higher priority edges are completed and will increase the number of
      * duplicately processed items.
      */
     @Nonnull
     public Edge priority(int priority) {
-        if (priority == MasterJobContext.SNAPSHOT_RESTORE_EDGE_PRIORITY) {
+        if (priority == Integer.MIN_VALUE) {
             throw new IllegalArgumentException("priority must not be Integer.MIN_VALUE ("
-                    + MasterJobContext.SNAPSHOT_RESTORE_EDGE_PRIORITY + ')');
+                    + Integer.MIN_VALUE + ')');
         }
         this.priority = priority;
         return this;

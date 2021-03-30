@@ -16,10 +16,12 @@
 
 package com.hazelcast.jet.impl.execution;
 
+import com.hazelcast.jet.core.Edge;
+
 /**
  * Marker interface for items which are always broadcast along an edge,
  * regardless of the configured {@link
- * com.hazelcast.jet.core.Edge.RoutingPolicy}.
+ * Edge.RoutingPolicy}.
  */
 public interface BroadcastItem {
 }

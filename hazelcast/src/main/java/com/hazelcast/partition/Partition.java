@@ -28,6 +28,11 @@ import com.hazelcast.cluster.Member;
 public interface Partition {
 
     /**
+     * The maximum number of backups.
+     */
+    int MAX_BACKUP_COUNT = 6;
+
+    /**
      * Returns the ID of the partition. This value will never change and will always be greater to  or equal to 0 and smaller
      * than the partition-count.
      *

@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import static com.hazelcast.cp.internal.RaftNameUtil.getObjectNameForProxy;
 import static com.hazelcast.cp.internal.RaftNameUtil.withoutDefaultGroupName;
-import static com.hazelcast.cp.internal.ServiceNames.*;
+import static com.hazelcast.core.ServiceNames.*;
 
 /**
  * Creates client-side proxies of the CP data structures

@@ -18,8 +18,6 @@ package com.hazelcast.jet.core;
 
 import com.hazelcast.internal.serialization.DataSerializerHook;
 import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
-import com.hazelcast.jet.impl.connector.AbstractUpdateMapP.ApplyValuesEntryProcessor;
-import com.hazelcast.jet.impl.connector.UpdateMapP.ApplyFnEntryProcessor;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.spi.annotation.PrivateApi;
@@ -80,10 +78,10 @@ public final class JetDataSerializerHook implements DataSerializerHook {
                     return new Edge();
                 case VERTEX:
                     return new Vertex();
-                case APPLY_FN_ENTRY_PROCESSOR:
-                    return new ApplyFnEntryProcessor();
-                case APPLY_VALUE_ENTRY_PROCESSOR:
-                    return new ApplyValuesEntryProcessor();
+//                case APPLY_FN_ENTRY_PROCESSOR:
+//                    return new ApplyFnEntryProcessor();
+//                case APPLY_VALUE_ENTRY_PROCESSOR:
+//                    return new ApplyValuesEntryProcessor();
                 default:
                     throw new IllegalArgumentException("Unknown type id " + typeId);
             }

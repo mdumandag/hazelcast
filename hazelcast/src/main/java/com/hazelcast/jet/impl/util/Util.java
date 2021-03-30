@@ -27,10 +27,8 @@ import com.hazelcast.jet.core.Vertex;
 import com.hazelcast.jet.core.Watermark;
 import com.hazelcast.jet.function.RunnableEx;
 import com.hazelcast.jet.impl.JetEvent;
-import com.hazelcast.jet.impl.JetService;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.nio.serialization.DataSerializable;
-import com.hazelcast.spi.impl.NodeEngine;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -72,13 +70,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.hazelcast.internal.util.ExceptionUtil.sneakyThrow;
 import static com.hazelcast.jet.Util.entry;
 import static com.hazelcast.jet.Util.idToString;
 import static com.hazelcast.jet.core.Edge.between;
-import static com.hazelcast.jet.core.processor.SinkProcessors.writeMapP;
-import static com.hazelcast.jet.core.processor.SourceProcessors.readMapP;
-import static com.hazelcast.jet.impl.util.Util.toLocalTime;
-import static com.hazelcast.jet.impl.util.ExceptionUtil.sneakyThrow;
 import static java.lang.Math.abs;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 import static java.util.Arrays.asList;
@@ -136,9 +131,9 @@ public final class Util {
         return true;
     }
 
-    public static JetInstance getJetInstance(NodeEngine nodeEngine) {
-        return nodeEngine.<JetService>getService(JetService.SERVICE_NAME).getJetInstance();
-    }
+//    public static JetInstance getJetInstance(NodeEngine nodeEngine) {
+//        return nodeEngine.<JetService>getService(JetService.SERVICE_NAME).getJetInstance();
+//    }
 
     public static long addClamped(long a, long b) {
         long sum = a + b;
@@ -250,7 +245,7 @@ public final class Util {
     public static <T> Map<Integer, List<T>> distributeObjects(int count, List<T> objects) {
         Map<Integer, List<T>> processorToObjects = range(0, objects.size())
                 .mapToObj(i -> entry(i, objects.get(i)))
-                .collect(groupingBy(e -> e.getKey() % count, mapping(Map.Entry::getValue, Collectors.toList())));
+                .collect(groupingBy(e -> e.getKey() % count, mapping(Entry::getValue, Collectors.toList())));
 
         for (int i = 0; i < count; i++) {
             processorToObjects.putIfAbsent(i, emptyList());
@@ -426,17 +421,17 @@ public final class Util {
         return value.replace("\"", "\\\"");
     }
 
-    @SuppressWarnings("WeakerAccess")  // used in jet-enterprise
-    public static CompletableFuture<Void> copyMapUsingJob(JetInstance instance, int queueSize,
-                                                          String sourceMap, String targetMap) {
-        DAG dag = new DAG();
-        Vertex source = dag.newVertex("readMap(" + sourceMap + ')', readMapP(sourceMap));
-        Vertex sink = dag.newVertex("writeMap(" + targetMap + ')', writeMapP(targetMap));
-        dag.edge(between(source, sink).setConfig(new EdgeConfig().setQueueSize(queueSize)));
-        JobConfig jobConfig = new JobConfig()
-                .setName("copy-" + sourceMap + "-to-" + targetMap);
-        return instance.newJob(dag, jobConfig).getFuture();
-    }
+//    @SuppressWarnings("WeakerAccess")  // used in jet-enterprise
+//    public static CompletableFuture<Void> copyMapUsingJob(JetInstance instance, int queueSize,
+//                                                          String sourceMap, String targetMap) {
+//        DAG dag = new DAG();
+//        Vertex source = dag.newVertex("readMap(" + sourceMap + ')', readMapP(sourceMap));
+//        Vertex sink = dag.newVertex("writeMap(" + targetMap + ')', writeMapP(targetMap));
+//        dag.edge(between(source, sink).setConfig(new EdgeConfig().setQueueSize(queueSize)));
+//        JobConfig jobConfig = new JobConfig()
+//                .setName("copy-" + sourceMap + "-to-" + targetMap);
+//        return instance.newJob(dag, jobConfig).getFuture();
+//    }
 
     /**
      * If the name ends with "-N", returns a new name where "-N" is replaced

@@ -265,10 +265,10 @@ public interface BatchStage<T> extends GeneralStage<T> {
             @Nonnull TriFunction<T, T1, T2, R> mapToOutputFn
     );
 
-    @Nonnull @Override
-    default HashJoinBuilder<T> hashJoinBuilder() {
-        return new HashJoinBuilder<>(this);
-    }
+//    @Nonnull @Override
+//    default HashJoinBuilder<T> hashJoinBuilder() {
+//        return new HashJoinBuilder<>(this);
+//    }
 
     /**
      * Attaches a stage that performs the given aggregate operation over all
@@ -476,10 +476,10 @@ public interface BatchStage<T> extends GeneralStage<T> {
      * );
      *}</pre>
      */
-    @Nonnull
-    default <R0> AggregateBuilder<R0> aggregateBuilder(AggregateOperation1<? super T, ?, ? extends R0> aggrOp0) {
-        return new AggregateBuilder<>(this, aggrOp0);
-    }
+//    @Nonnull
+//    default <R0> AggregateBuilder<R0> aggregateBuilder(AggregateOperation1<? super T, ?, ? extends R0> aggrOp0) {
+//        return new AggregateBuilder<>(this, aggrOp0);
+//    }
 
     /**
      * Offers a step-by-step API to build a pipeline stage that co-aggregates
@@ -528,10 +528,10 @@ public interface BatchStage<T> extends GeneralStage<T> {
      *         .andFinish(HashSet::size));
      * }</pre>
      */
-    @Nonnull
-    default AggregateBuilder1<T> aggregateBuilder() {
-        return new AggregateBuilder1<>(this);
-    }
+//    @Nonnull
+//    default AggregateBuilder1<T> aggregateBuilder() {
+//        return new AggregateBuilder1<>(this);
+//    }
 
     @Nonnull @Override
     default BatchStage<T> peek() {

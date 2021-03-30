@@ -18,7 +18,7 @@ package com.hazelcast.jet.sql.impl;
 
 import com.hazelcast.instance.impl.HazelcastInstanceImpl;
 import com.hazelcast.jet.Job;
-import com.hazelcast.jet.JobStateSnapshot;
+import com.hazelcast.jet.JobStateSnapshotImpl;
 import com.hazelcast.jet.config.JobConfig;
 import com.hazelcast.jet.impl.AbstractJetInstance;
 import com.hazelcast.jet.impl.JetService;
@@ -143,7 +143,7 @@ class JetPlanExecutor {
     }
 
     SqlResult execute(DropSnapshotPlan plan) {
-        JobStateSnapshot snapshot = jetInstance.getJobStateSnapshot(plan.getSnapshotName());
+        JobStateSnapshotImpl snapshot = jetInstance.getJobStateSnapshot(plan.getSnapshotName());
         if (snapshot == null) {
             if (plan.isIfExists()) {
                 return SqlResultImpl.createUpdateCountResult(0);

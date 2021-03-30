@@ -387,12 +387,12 @@ public interface BatchStageWithKey<T, K> extends GeneralStageWithKey<T, K> {
      * );
      *}</pre>
      */
-    @Nonnull
-    default <R0> GroupAggregateBuilder<K, R0> aggregateBuilder(
-            @Nonnull AggregateOperation1<? super T, ?, ? extends R0> aggrOp0
-    ) {
-        return new GroupAggregateBuilder<>(this, aggrOp0);
-    }
+//    @Nonnull
+//    default <R0> GroupAggregateBuilder<K, R0> aggregateBuilder(
+//            @Nonnull AggregateOperation1<? super T, ?, ? extends R0> aggrOp0
+//    ) {
+//        return new GroupAggregateBuilder<>(this, aggrOp0);
+//    }
 
     /**
      * Offers a step-by-step API to build a pipeline stage that co-aggregates
@@ -444,10 +444,10 @@ public interface BatchStageWithKey<T, K> extends GeneralStageWithKey<T, K> {
      *         .andFinish(HashSet::size));
      * }</pre>
      */
-    @Nonnull
-    default GroupAggregateBuilder1<T, K> aggregateBuilder() {
-        return new GroupAggregateBuilder1<>(this);
-    }
+//    @Nonnull
+//    default GroupAggregateBuilder1<T, K> aggregateBuilder() {
+//        return new GroupAggregateBuilder1<>(this);
+//    }
 
     @Nonnull @Override
     default <R> BatchStage<R> customTransform(

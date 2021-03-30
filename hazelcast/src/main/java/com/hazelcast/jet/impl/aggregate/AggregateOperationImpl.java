@@ -26,7 +26,6 @@ import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.IOException;
 
 import static com.hazelcast.internal.serialization.impl.SerializationUtil.checkSerializable;

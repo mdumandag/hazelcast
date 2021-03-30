@@ -41,11 +41,9 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
+import static com.hazelcast.jet.core.Edge.DISTRIBUTE_TO_ALL;
 import static com.hazelcast.jet.core.Vertex.LOCAL_PARALLELISM_USE_DEFAULT;
 import static com.hazelcast.jet.impl.TopologicalSorter.topologicalSort;
-import static com.hazelcast.jet.core.Edge.DISTRIBUTE_TO_ALL;
-import static com.hazelcast.jet.impl.pipeline.transform.AggregateTransform.FIRST_STAGE_VERTEX_NAME_SUFFIX;
-import static com.hazelcast.jet.impl.util.Util.escapeGraphviz;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.newSetFromMap;
 import static java.util.stream.Collectors.groupingBy;
@@ -78,6 +76,8 @@ import static java.util.stream.Collectors.joining;
  * @since 3.0
  */
 public class DAG implements IdentifiedDataSerializable, Iterable<Vertex> {
+
+    public static final String FIRST_STAGE_VERTEX_NAME_SUFFIX = "-prepare";
 
     private final Set<Edge> edges = new LinkedHashSet<>();
     private final Map<String, Vertex> nameToVertex = new HashMap<>();
@@ -462,7 +462,7 @@ public class DAG implements IdentifiedDataSerializable, Iterable<Vertex> {
                     : String.valueOf(defaultParallelism)
                 : String.valueOf(localParallelism);
             builder.append("\t\"")
-                   .append(escapeGraphviz(v.getName()))
+                   .append(escapeGraphviz(v.getName().replace("\"", "\\\"")))
                    .append("\" [localParallelism=").append(parallelism).append("]")
                    .append(";\n");
         }
@@ -513,6 +513,14 @@ public class DAG implements IdentifiedDataSerializable, Iterable<Vertex> {
         }
         builder.append("}");
         return builder.toString();
+    }
+
+    /**
+     * Escapes the vertex name for graphviz by prefixing the quote character
+     * with backslash.
+     */
+    public static String escapeGraphviz(String value) {
+        return value.replace("\"", "\\\"");
     }
 
     private String getEdgeLabel(Edge e) {

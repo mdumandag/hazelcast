@@ -38,7 +38,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static com.hazelcast.cp.internal.session.AbstractProxySessionManager.NO_SESSION_ID;
-import static com.hazelcast.cp.internal.ServiceNames.SEMAPHORE_SERVICE;
+import static com.hazelcast.core.ServiceNames.SEMAPHORE_SERVICE;
 import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
 import static com.hazelcast.internal.util.Preconditions.checkPositive;
 import static com.hazelcast.internal.util.UuidUtil.newUnsecureUUID;

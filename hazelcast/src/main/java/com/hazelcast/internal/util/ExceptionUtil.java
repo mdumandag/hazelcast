@@ -18,7 +18,9 @@ package com.hazelcast.internal.util;
 
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.instance.impl.OutOfMemoryErrorDispatcher;
+import com.hazelcast.jet.JetException;
 import com.hazelcast.logging.ILogger;
+import com.hazelcast.nio.serialization.HazelcastSerializationException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -293,5 +295,30 @@ public final class ExceptionUtil {
         newStackTrace[remoteStackTrace.length] = new StackTraceElement(EXCEPTION_SEPARATOR, "", "", -1);
         System.arraycopy(localSideStackTrace, 1, newStackTrace, remoteStackTrace.length + 1, localSideStackTrace.length - 1);
         return newStackTrace;
+    }
+
+    /**
+     * If the given exception has "java.lang.ClassCastException: cannot assign
+     * instance of java.lang.invoke.SerializedLambda" in the causes, wrap it in
+     * another JetException explaining the possible reason.
+     * <p>
+     * This is a hack to improve readability of this common exception.
+     *
+     * @param e the exception to handle
+     * @return the given exception wrapped, if it is a case of CCE for SerializedLambda
+     *     or the given exception otherwise
+     */
+    public static RuntimeException handleSerializedLambdaCce(HazelcastSerializationException e) {
+        Throwable cause = e.getCause();
+        while (cause != null) {
+            if (cause instanceof ClassCastException
+                    && cause.getMessage().startsWith("cannot assign instance of java.lang.invoke.SerializedLambda")) {
+                throw new JetException("Class containing the lambda probably missing from class path, did you add it " +
+                        "using JobConfig.addClass()?: " + e, e);
+            }
+            cause = cause.getCause();
+        }
+
+        throw e;
     }
 }

@@ -17,6 +17,7 @@
 package com.hazelcast.jet.impl;
 
 import javax.annotation.Nonnull;
+import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
@@ -25,9 +26,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import static com.hazelcast.jet.Util.entry;
-import static com.hazelcast.jet.impl.util.Util.toList;
 import static java.lang.Math.min;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
@@ -73,12 +73,12 @@ public final class TopologicalSorter<V> {
         // metadata needed by the algorithm
         Map<V, TarjanVertex<V>> tarjanVertices =
                 adjacencyMap.keySet().stream()
-                            .map(v -> entry(v, new TarjanVertex<>(v)))
+                            .map(v -> new AbstractMap.SimpleImmutableEntry<>(v, new TarjanVertex<>(v)))
                             .collect(toMap(Entry::getKey, Entry::getValue));
         Map<TarjanVertex<V>, List<TarjanVertex<V>>> tarjanAdjacencyMap =
                 adjacencyMap.entrySet().stream()
                             .collect(toMap(e -> tarjanVertices.get(e.getKey()),
-                                           e -> toList(e.getValue(), tarjanVertices::get)));
+                                           e -> e.getValue().stream().map(tarjanVertices::get).collect(Collectors.toList())));
         return new TopologicalSorter<>(tarjanAdjacencyMap, vertexNameFn).go();
     }
 

@@ -17,6 +17,7 @@
 package com.hazelcast.jet.core;
 
 import com.hazelcast.function.SupplierEx;
+import com.hazelcast.internal.serialization.impl.SerializationUtil;
 import com.hazelcast.jet.impl.execution.init.CustomClassLoadedObject;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
@@ -28,7 +29,6 @@ import java.io.IOException;
 import java.util.function.UnaryOperator;
 
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
-import static com.hazelcast.jet.impl.util.Util.checkSerializable;
 import static java.lang.Math.min;
 
 /**
@@ -108,7 +108,7 @@ public class Vertex implements IdentifiedDataSerializable {
     public Vertex(@Nonnull String name, @Nonnull ProcessorMetaSupplier metaSupplier) {
         checkNotNull(name, "name");
         checkNotNull(metaSupplier, "supplier");
-        checkSerializable(metaSupplier, "metaSupplier");
+        SerializationUtil.checkSerializable(metaSupplier, "metaSupplier");
 
         this.metaSupplier = metaSupplier;
         this.name = name;

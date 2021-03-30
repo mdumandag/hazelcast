@@ -39,7 +39,7 @@ import com.hazelcast.spi.impl.InternalCompletableFuture;
 
 import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.NEW_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.OLD_VALUE;
-import static com.hazelcast.cp.internal.ServiceNames.ATOMIC_LONG_SERVICE;
+import static com.hazelcast.core.ServiceNames.ATOMIC_LONG_SERVICE;
 
 /**
  * Client-side Raft-based proxy implementation of {@link IAtomicLong}

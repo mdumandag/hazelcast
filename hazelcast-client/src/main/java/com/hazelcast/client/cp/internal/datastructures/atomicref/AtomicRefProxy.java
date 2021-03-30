@@ -39,7 +39,7 @@ import com.hazelcast.spi.impl.InternalCompletableFuture;
 import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.NO_RETURN_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_NEW_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_OLD_VALUE;
-import static com.hazelcast.cp.internal.ServiceNames.ATOMIC_REF_SERVICE;
+import static com.hazelcast.core.ServiceNames.ATOMIC_REF_SERVICE;
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
 
 /**

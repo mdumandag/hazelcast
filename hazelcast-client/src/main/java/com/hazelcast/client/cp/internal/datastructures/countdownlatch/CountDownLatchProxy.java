@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 import static com.hazelcast.internal.util.Preconditions.checkPositive;
 import static com.hazelcast.internal.util.UuidUtil.newUnsecureUUID;
-import static com.hazelcast.cp.internal.ServiceNames.COUNTDOWN_LATCH_SERVICE;
+import static com.hazelcast.core.ServiceNames.COUNTDOWN_LATCH_SERVICE;
 
 /**
  * Client-side Raft-based proxy implementation of {@link ICountDownLatch}

@@ -18,8 +18,8 @@ package com.hazelcast.jet.impl.execution.init;
 
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.internal.util.ExceptionUtil;
 import com.hazelcast.jet.impl.serialization.SerializerHookConstants;
-import com.hazelcast.jet.impl.util.ExceptionUtil;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.DataSerializable;
@@ -110,7 +110,7 @@ public final class CustomClassLoadedObject {
         @Override
         // explicit cast to InputStream and intentionally omitting to close ObjectInputStream
         @SuppressFBWarnings({"BC_UNCONFIRMED_CAST", "OS_OPEN_STREAM"})
-        public CustomClassLoadedObject read(com.hazelcast.nio.ObjectDataInput in) throws IOException {
+        public CustomClassLoadedObject read(ObjectDataInput in) throws IOException {
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
             boolean isJavaSerialized = in.readBoolean();
             Object object;

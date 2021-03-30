@@ -326,12 +326,12 @@ public interface StageWithWindow<T> {
      * );
      *}</pre>
      */
-    @Nonnull
-    default <R0> WindowAggregateBuilder<R0> aggregateBuilder(
-            AggregateOperation1<? super T, ?, ? extends R0> aggrOp
-    ) {
-        return new WindowAggregateBuilder<>(streamStage(), aggrOp, windowDefinition());
-    }
+//    @Nonnull
+//    default <R0> WindowAggregateBuilder<R0> aggregateBuilder(
+//            AggregateOperation1<? super T, ?, ? extends R0> aggrOp
+//    ) {
+//        return new WindowAggregateBuilder<>(streamStage(), aggrOp, windowDefinition());
+//    }
 
     /**
      * Offers a step-by-step API to build a pipeline stage that co-aggregates
@@ -379,8 +379,8 @@ public interface StageWithWindow<T> {
      *         .andExportFinish(HashSet::size));
      * }</pre>
      */
-    @Nonnull
-    default WindowAggregateBuilder1<T> aggregateBuilder() {
-        return new WindowAggregateBuilder1<>(streamStage(), windowDefinition());
-    }
+//    @Nonnull
+//    default WindowAggregateBuilder1<T> aggregateBuilder() {
+//        return new WindowAggregateBuilder1<>(streamStage(), windowDefinition());
+//    }
 }

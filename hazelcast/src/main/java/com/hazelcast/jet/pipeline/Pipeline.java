@@ -17,10 +17,10 @@
 package com.hazelcast.jet.pipeline;
 
 import com.hazelcast.jet.core.DAG;
-import com.hazelcast.jet.impl.pipeline.PipelineImpl;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
+import java.util.ServiceLoader;
 
 /**
  * Models a distributed computation job using an analogy with a system of
@@ -52,7 +52,7 @@ public interface Pipeline extends Serializable {
      */
     @Nonnull
     static Pipeline create() {
-        return new PipelineImpl();
+        return ServiceLoader.load(Pipeline.class).iterator().next();
     }
 
     /**

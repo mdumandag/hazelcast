@@ -16,13 +16,10 @@
 
 package com.hazelcast.jet;
 
-import com.hazelcast.jet.impl.JobRepository;
-import com.hazelcast.jet.impl.SnapshotValidationRecord;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.hazelcast.jet.impl.JobRepository.exportedSnapshotMapName;
 
 /**
  * A handle to an exported state snapshot created using {@link
@@ -30,73 +27,45 @@ import static com.hazelcast.jet.impl.JobRepository.exportedSnapshotMapName;
  *
  * @since 3.0
  */
-public final class JobStateSnapshot {
+public interface JobStateSnapshot {
 
-    private final JetInstance instance;
-    private final String name;
-    private final SnapshotValidationRecord snapshotValidationRecord;
 
-    JobStateSnapshot(@Nonnull JetInstance instance, @Nonnull String name, @Nonnull SnapshotValidationRecord record) {
-        this.instance = instance;
-        this.name = name;
-        this.snapshotValidationRecord = record;
-    }
 
-    /**
-     * Returns the snapshot name. This is the name that was given to {@link
-     * Job#exportSnapshot(String)}.
-     */
-    @Nonnull
-    public String name() {
-        return name;
-    }
+    public String name();
 
     /**
      * Returns the time the snapshot was created.
      */
-    public long creationTime() {
-        return snapshotValidationRecord.creationTime();
-    }
+    public long creationTime();
 
     /**
      * Returns the job ID of the job the snapshot was originally exported from.
      */
-    public long jobId() {
-        return snapshotValidationRecord.jobId();
-    }
+    public long jobId();
 
     /**
      * Returns the job name of the job the snapshot was originally exported
      * from.
      */
     @Nullable
-    public String jobName() {
-        return snapshotValidationRecord.jobName();
-    }
+    public String jobName();
 
     /**
      * Returns the size in bytes of the payload data of the state snapshot.
      * Doesn't include storage overhead and especially doesn't account for
      * backup copies.
      */
-    public long payloadSize() {
-        return snapshotValidationRecord.numBytes();
-    }
+    public long payloadSize();
 
     /**
      * Returns the JSON representation of the DAG of the job this snapshot was
      * created from.
      */
     @Nonnull
-    public String dagJsonString() {
-        return snapshotValidationRecord.dagJsonString();
-    }
+    public String dagJsonString();
 
     /**
      * Destroy the underlying distributed object.
      */
-    public void destroy() {
-        instance.getMap(exportedSnapshotMapName(name)).destroy();
-        instance.getMap(JobRepository.EXPORTED_SNAPSHOTS_DETAIL_CACHE).delete(name);
-    }
+    public void destroy();
 }

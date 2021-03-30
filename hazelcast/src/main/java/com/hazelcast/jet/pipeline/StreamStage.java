@@ -216,10 +216,10 @@ public interface StreamStage<T> extends GeneralStage<T> {
             @Nonnull TriFunction<T, T1, T2, R> mapToOutputFn
     );
 
-    @Nonnull @Override
-    default StreamHashJoinBuilder<T> hashJoinBuilder() {
-        return new StreamHashJoinBuilder<>(this);
-    }
+//    @Nonnull @Override
+//    default StreamHashJoinBuilder<T> hashJoinBuilder() {
+//        return new StreamHashJoinBuilder<>(this);
+//    }
 
     @Nonnull @Override
     default StreamStage<T> peek() {

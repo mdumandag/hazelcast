@@ -324,12 +324,12 @@ public interface StageWithKeyAndWindow<T, K> {
      * );
      *}</pre>
      */
-    @Nonnull
-    default <R0> WindowGroupAggregateBuilder<K, R0> aggregateBuilder(
-            @Nonnull AggregateOperation1<? super T, ?, ? extends R0> aggrOp0
-    ) {
-        return new WindowGroupAggregateBuilder<>(this, aggrOp0);
-    }
+//    @Nonnull
+//    default <R0> WindowGroupAggregateBuilder<K, R0> aggregateBuilder(
+//            @Nonnull AggregateOperation1<? super T, ?, ? extends R0> aggrOp0
+//    ) {
+//        return new WindowGroupAggregateBuilder<>(this, aggrOp0);
+//    }
 
     /**
      * Offers a step-by-step API to build a pipeline stage that co-aggregates
@@ -383,8 +383,8 @@ public interface StageWithKeyAndWindow<T, K> {
      *         .andFinish(HashSet::size));
      * }</pre>
      */
-    @Nonnull
-    default WindowGroupAggregateBuilder1<T, K> aggregateBuilder() {
-        return new WindowGroupAggregateBuilder1<>(this);
-    }
+//    @Nonnull
+//    default WindowGroupAggregateBuilder1<T, K> aggregateBuilder() {
+//        return new WindowGroupAggregateBuilder1<>(this);
+//    }
 }
