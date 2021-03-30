@@ -16,8 +16,6 @@
 
 package com.hazelcast.map.impl.querycache;
 
-import com.hazelcast.map.impl.querycache.accumulator.AccumulatorProcessor;
-
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 

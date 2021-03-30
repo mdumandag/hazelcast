@@ -16,9 +16,9 @@
 
 package com.hazelcast.query.impl.predicates;
 
+import com.hazelcast.internal.serialization.BinaryInterface;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.BinaryInterface;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.query.Predicate;
 
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * A {@link com.hazelcast.query.Predicate} which always returns true.
+ * A {@link Predicate} which always returns true.
  *
  * @param <K> map key type
  * @param <V> map value type

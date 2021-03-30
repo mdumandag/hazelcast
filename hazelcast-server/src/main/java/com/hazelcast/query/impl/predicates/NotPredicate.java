@@ -16,13 +16,12 @@
 
 package com.hazelcast.query.impl.predicates;
 
-import com.hazelcast.internal.nio.ClassLoaderUtil;
+import com.hazelcast.internal.serialization.BinaryInterface;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.internal.serialization.BinaryInterface;
-import com.hazelcast.nio.serialization.HazelcastSerializationException;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.query.Predicate;
+import com.hazelcast.query.impl.Indexes;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,51 +29,67 @@ import java.util.Map;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.PREDICATE_DS_FACTORY_ID;
 
 /**
- * Predicate version of `instaceof` operator from Java.
- *
+ * Not Predicate
  */
 @BinaryInterface
-public class InstanceOfPredicate
-        implements Predicate, IdentifiedDataSerializable {
+public final class NotPredicate
+        implements Predicate, VisitablePredicate, NegatablePredicate, IdentifiedDataSerializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Class klass;
+    protected Predicate predicate;
 
-    public InstanceOfPredicate(Class klass) {
-        this.klass = klass;
+    public NotPredicate(Predicate predicate) {
+        this.predicate = predicate;
     }
 
-    public InstanceOfPredicate() {
+    public NotPredicate() {
+    }
+
+    public Predicate getPredicate() {
+        return predicate;
     }
 
     @Override
     public boolean apply(Map.Entry mapEntry) {
-        Object value = mapEntry.getValue();
-        if (value == null) {
-            return false;
-        }
-        return klass.isAssignableFrom(value.getClass());
+        return !predicate.apply(mapEntry);
     }
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-        out.writeString(klass.getName());
+        out.writeObject(predicate);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
-        String klassName = in.readString();
-        try {
-            klass = ClassLoaderUtil.loadClass(in.getClassLoader(), klassName);
-        } catch (ClassNotFoundException e) {
-            throw new HazelcastSerializationException("Failed to load class: " + klass, e);
-        }
+        predicate = in.readObject();
     }
 
     @Override
     public String toString() {
-        return " instanceOf (" + klass.getName() + ")";
+        return "NOT(" + predicate + ")";
+    }
+
+    @Override
+    public Predicate accept(Visitor visitor, Indexes indexes) {
+        Predicate target = predicate;
+        if (predicate instanceof VisitablePredicate) {
+            target = ((VisitablePredicate) predicate).accept(visitor, indexes);
+        }
+        if (target == predicate) {
+            // visitor didn't change the inner predicate
+            return visitor.visit(this, indexes);
+        }
+
+        // visitor returned a different copy of the inner predicate.
+        // We have to create our copy with the new inner predicate to maintained immutability
+        NotPredicate copy = new NotPredicate(target);
+        return visitor.visit(copy, indexes);
+    }
+
+    @Override
+    public Predicate negate() {
+        return predicate;
     }
 
     @Override
@@ -84,7 +99,7 @@ public class InstanceOfPredicate
 
     @Override
     public int getClassId() {
-        return PredicateDataSerializerHook.INSTANCEOF_PREDICATE;
+        return PredicateDataSerializerHook.NOT_PREDICATE;
     }
 
     @Override
@@ -92,16 +107,16 @@ public class InstanceOfPredicate
         if (this == o) {
             return true;
         }
-        if (o == null || !(o instanceof InstanceOfPredicate)) {
+        if (o == null || !(o instanceof NotPredicate)) {
             return false;
         }
 
-        InstanceOfPredicate that = (InstanceOfPredicate) o;
-        return klass != null ? klass.equals(that.klass) : that.klass == null;
+        NotPredicate that = (NotPredicate) o;
+        return predicate != null ? predicate.equals(that.predicate) : that.predicate == null;
     }
 
     @Override
     public int hashCode() {
-        return klass != null ? klass.hashCode() : 0;
+        return predicate != null ? predicate.hashCode() : 0;
     }
 }

@@ -94,7 +94,7 @@ public class QueryContext {
      *                  attribute name or an exact index name.
      * @param matchHint the match hint.
      * @return the matched index or {@code null} if nothing matched.
-     * @see QueryContext.IndexMatchHint
+     * @see IndexMatchHint
      */
     public Index matchIndex(String pattern, IndexMatchHint matchHint) {
         return indexes.matchIndex(pattern, matchHint, ownedPartitionCount);

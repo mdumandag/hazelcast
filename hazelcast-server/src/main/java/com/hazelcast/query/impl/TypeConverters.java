@@ -22,13 +22,14 @@ import com.hazelcast.nio.serialization.Portable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.LocalDateTime;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.TimeZone;
+
 import static com.hazelcast.query.impl.AbstractIndex.NULL;
 
 public final class TypeConverters {
@@ -91,7 +92,7 @@ public final class TypeConverters {
 
         @Override
         Comparable convertInternal(Comparable value) {
-            if (value instanceof java.util.Date) {
+            if (value instanceof Date) {
                 return value;
             }
             if (value instanceof String) {
@@ -113,7 +114,7 @@ public final class TypeConverters {
             if (value instanceof Timestamp) {
                 return value;
             }
-            if (value instanceof java.util.Date) {
+            if (value instanceof Date) {
                 return new Timestamp(((Date) value).getTime());
             }
             if (value instanceof String) {

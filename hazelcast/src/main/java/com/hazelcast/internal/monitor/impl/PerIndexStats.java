@@ -21,7 +21,7 @@ import com.hazelcast.query.impl.Comparison;
 import com.hazelcast.query.impl.Index;
 
 /**
- * Provides internal per-index statistics for {@link com.hazelcast.query.impl.Index
+ * Provides internal per-index statistics for {@link Index
  * Index}.
  */
 @SuppressWarnings({"checkstyle:methodcount", "checkstyle:anoninnerlength"})
@@ -252,7 +252,7 @@ public interface PerIndexStats {
      * @param operationStats  the operation stats to track the stats.
      * @param operationSource the operation source.
      * @see #makeTimestamp
-     * @see com.hazelcast.query.impl.Index#putEntry
+     * @see Index#putEntry
      */
     void onInsert(long timestamp, IndexOperationStats operationStats, Index.OperationSource operationSource);
 
@@ -263,7 +263,7 @@ public interface PerIndexStats {
      * @param operationStats  the operation stats to track the stats.
      * @param operationSource the operation source.
      * @see #makeTimestamp
-     * @see com.hazelcast.query.impl.Index#putEntry
+     * @see Index#putEntry
      */
     void onUpdate(long timestamp, IndexOperationStats operationStats, Index.OperationSource operationSource);
 
@@ -274,14 +274,14 @@ public interface PerIndexStats {
      * @param operationStats  the operation stats to track the stats.
      * @param operationSource the operation source.
      * @see #makeTimestamp
-     * @see com.hazelcast.query.impl.Index#removeEntry
+     * @see Index#removeEntry
      */
     void onRemove(long timestamp, IndexOperationStats operationStats, Index.OperationSource operationSource);
 
     /**
      * Invoked by the associated index after the index was cleared.
      *
-     * @see com.hazelcast.query.impl.Index#clear
+     * @see Index#clear
      */
     void onClear();
 
@@ -290,10 +290,10 @@ public interface PerIndexStats {
      * <p>
      * Following operations generate a hit:
      * <ul>
-     * <li>{@link com.hazelcast.query.impl.Index#getRecords(Comparable)}
-     * <li>{@link com.hazelcast.query.impl.Index#getRecords(Comparable[])}
-     * <li>{@link com.hazelcast.query.impl.Index#getRecords(Comparison, Comparable)}
-     * <li>{@link com.hazelcast.query.impl.Index#getRecords(Comparable, boolean, Comparable, boolean)}
+     * <li>{@link Index#getRecords(Comparable)}
+     * <li>{@link Index#getRecords(Comparable[])}
+     * <li>{@link Index#getRecords(Comparison, Comparable)}
+     * <li>{@link Index#getRecords(Comparable, boolean, Comparable, boolean)}
      * </ul>
      *
      * @param timestamp      the time at which the hit-producing operation was

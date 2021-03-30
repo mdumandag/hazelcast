@@ -16,8 +16,6 @@
 
 package com.hazelcast.map;
 
-import com.hazelcast.internal.services.PostJoinAwareService;
-
 import java.util.Properties;
 
 /**

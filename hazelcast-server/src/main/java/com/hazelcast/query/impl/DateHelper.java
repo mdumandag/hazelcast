@@ -61,7 +61,7 @@ final class DateHelper {
         }
     }
 
-    static java.sql.Time parseSqlTime(final String value) {
+    static Time parseSqlTime(final String value) {
         try {
             // JDK format in Time.valueOf is compatible with DATE_FORMAT
             return Time.valueOf(value);

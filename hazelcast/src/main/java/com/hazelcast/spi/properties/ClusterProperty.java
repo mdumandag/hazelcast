@@ -34,8 +34,6 @@ import com.hazelcast.internal.util.RuntimeAvailableProcessors;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.QueryResultSizeExceededException;
 import com.hazelcast.query.Predicates;
-import com.hazelcast.query.impl.IndexCopyBehavior;
-import com.hazelcast.query.impl.predicates.QueryOptimizerFactory;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -960,7 +958,7 @@ public final class ClusterProperty {
      * Values are case sensitive
      */
     public static final HazelcastProperty QUERY_OPTIMIZER_TYPE
-            = new HazelcastProperty("hazelcast.query.optimizer.type", QueryOptimizerFactory.Type.RULES.toString());
+            = new HazelcastProperty("hazelcast.query.optimizer.type", "RULES");
 
     /**
      * Type of Query Index result copying behavior. Defines the behavior for
@@ -1024,7 +1022,7 @@ public final class ClusterProperty {
      * </ul>
      */
     public static final HazelcastProperty INDEX_COPY_BEHAVIOR
-            = new HazelcastProperty("hazelcast.index.copy.behavior", IndexCopyBehavior.COPY_ON_READ.toString());
+            = new HazelcastProperty("hazelcast.index.copy.behavior", "COPY_ON_READ");
 
     /**
      * The number of threads that the client engine has available for processing

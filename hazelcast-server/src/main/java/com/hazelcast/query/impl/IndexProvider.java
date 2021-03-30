@@ -17,12 +17,12 @@
 package com.hazelcast.query.impl;
 
 import com.hazelcast.config.IndexConfig;
-import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.internal.monitor.impl.PerIndexStats;
+import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.query.impl.getters.Extractors;
 
 /**
- * Provides storage-specific indexes to {@link com.hazelcast.query.impl.Indexes
+ * Provides storage-specific indexes to {@link Indexes
  * Indexes}.
  */
 public interface IndexProvider {
