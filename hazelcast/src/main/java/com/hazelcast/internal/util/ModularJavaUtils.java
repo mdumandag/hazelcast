@@ -16,7 +16,7 @@
 
 package com.hazelcast.internal.util;
 
-import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
 
@@ -45,7 +45,7 @@ public final class ModularJavaUtils {
             Method methodGetModule = Class.class.getMethod("getModule");
             Class<?> classModule = Class.forName("java.lang.Module");
             Method methodGetName = classModule.getMethod("getName");
-            Object moduleHazelcast = methodGetModule.invoke(Hazelcast.class);
+            Object moduleHazelcast = methodGetModule.invoke(HazelcastInstance.class);
             return (String) methodGetName.invoke(moduleHazelcast);
         } catch (Exception e) {
             LOGGER.finest("Getting Hazelcast module name failed", e);
@@ -110,7 +110,7 @@ public final class ModularJavaUtils {
             Method methodIsOpen = classModule.getMethod("isOpen", String.class, classModule);
             Method methodIsExported = classModule.getMethod("isExported", String.class, classModule);
 
-            Object moduleHazelcast = methodGetModule.invoke(Hazelcast.class);
+            Object moduleHazelcast = methodGetModule.invoke(HazelcastInstance.class);
             Object moduleLayerBoot = methodBoot.invoke(null);
             Set<?> moduleSet = (Set<?>) methodModules.invoke(moduleLayerBoot);
             for (Object m : moduleSet) {
