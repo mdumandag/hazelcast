@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.hazelcast.internal.nearcache.impl;
+package com.hazelcast.internal.nearcache.impl.invalidation;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.LifecycleEvent;
 import com.hazelcast.core.LifecycleListener;
 import com.hazelcast.core.LifecycleService;
-import com.hazelcast.internal.nearcache.impl.invalidation.BatchNearCacheInvalidation;
-import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
-import com.hazelcast.internal.nearcache.impl.invalidation.InvalidationQueue;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.spi.impl.NodeEngine;
