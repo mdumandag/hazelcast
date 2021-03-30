@@ -20,7 +20,6 @@ import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricsRegistry;
 import com.hazelcast.internal.metrics.collectors.MetricsCollector;
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.properties.ClusterProperty;
 import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.spi.properties.HazelcastProperty;
@@ -51,10 +50,6 @@ public class MetricsPlugin extends DiagnosticsPlugin {
     private final MetricsRegistry metricsRegistry;
     private final long periodMillis;
     private final MetricsCollectorImpl metricCollector = new MetricsCollectorImpl();
-
-    public MetricsPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getLogger(MetricsPlugin.class), nodeEngine.getMetricsRegistry(), nodeEngine.getProperties());
-    }
 
     public MetricsPlugin(ILogger logger, MetricsRegistry metricsRegistry, HazelcastProperties properties) {
         super(logger);

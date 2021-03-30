@@ -18,7 +18,6 @@ package com.hazelcast.internal.diagnostics;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.properties.HazelcastProperties;
 
 import java.util.ArrayList;
@@ -33,10 +32,6 @@ public class ConfigPropertiesPlugin extends DiagnosticsPlugin {
 
     private final HazelcastProperties properties;
     private final List<String> keyList = new ArrayList<String>();
-
-    public ConfigPropertiesPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getLogger(ConfigPropertiesPlugin.class), nodeEngine.getProperties());
-    }
 
     public ConfigPropertiesPlugin(ILogger logger, HazelcastProperties properties) {
         super(logger);

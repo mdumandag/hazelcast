@@ -46,11 +46,13 @@ public abstract class InvocationBuilder {
 
     /**
      * Default try count.
+     * {@link com.hazelcast.spi.properties.ClusterProperty#INVOCATION_MAX_RETRY_COUNT}
      */
     public static final int DEFAULT_TRY_COUNT = 250;
 
     /**
      * Default try pause in milliseconds. If a call is retried, then perhaps a delay is needed.
+     * {@link com.hazelcast.spi.properties.ClusterProperty#}
      */
     public static final long DEFAULT_TRY_PAUSE_MILLIS = 500;
 

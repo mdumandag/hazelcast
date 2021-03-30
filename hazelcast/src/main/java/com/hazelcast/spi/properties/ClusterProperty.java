@@ -29,17 +29,13 @@ import com.hazelcast.core.IndeterminateOperationStateException;
 import com.hazelcast.instance.BuildInfo;
 import com.hazelcast.instance.BuildInfoProvider;
 import com.hazelcast.instance.EndpointQualifier;
-import com.hazelcast.internal.cluster.fd.ClusterFailureDetectorType;
 import com.hazelcast.internal.diagnostics.HealthMonitorLevel;
 import com.hazelcast.internal.util.RuntimeAvailableProcessors;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.QueryResultSizeExceededException;
-import com.hazelcast.map.impl.query.QueryResultSizeLimiter;
 import com.hazelcast.query.Predicates;
 import com.hazelcast.query.impl.IndexCopyBehavior;
 import com.hazelcast.query.impl.predicates.QueryOptimizerFactory;
-import com.hazelcast.spi.impl.operationservice.InvocationBuilder;
-import com.hazelcast.spi.impl.operationservice.OperationService;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -565,7 +561,7 @@ public final class ClusterProperty {
      * Default failure detector is <code>deadline</code>.
      */
     public static final HazelcastProperty HEARTBEAT_FAILURE_DETECTOR_TYPE
-            = new HazelcastProperty("hazelcast.heartbeat.failuredetector.type", ClusterFailureDetectorType.DEADLINE.toString());
+            = new HazelcastProperty("hazelcast.heartbeat.failuredetector.type", "DEADLINE");
 
     /**
      * The interval at which the master sends the member lists are sent to other
@@ -1212,14 +1208,14 @@ public final class ClusterProperty {
      * invocation is assumed as failed.
      */
     public static final HazelcastProperty INVOCATION_MAX_RETRY_COUNT
-            = new HazelcastProperty("hazelcast.invocation.max.retry.count", InvocationBuilder.DEFAULT_TRY_COUNT);
+            = new HazelcastProperty("hazelcast.invocation.max.retry.count", 250);
 
     /**
      * Pause time between each retry cycle of an invocation in milliseconds.
      */
     public static final HazelcastProperty INVOCATION_RETRY_PAUSE
             = new HazelcastProperty("hazelcast.invocation.retry.pause.millis",
-            InvocationBuilder.DEFAULT_TRY_PAUSE_MILLIS, MILLISECONDS);
+            500, MILLISECONDS);
 
     /**
      * Using back pressure, you can prevent an overload of pending asynchronous

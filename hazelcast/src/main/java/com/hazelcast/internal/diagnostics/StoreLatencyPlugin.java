@@ -23,7 +23,6 @@ import com.hazelcast.internal.util.LatencyDistribution;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.MapStore;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.spi.properties.HazelcastProperty;
 
@@ -84,10 +83,6 @@ public class StoreLatencyPlugin extends DiagnosticsPlugin {
     private final long resetFrequency;
 
     private long iteration;
-
-    public StoreLatencyPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getLogger(StoreLatencyPlugin.class), nodeEngine.getProperties());
-    }
 
     public StoreLatencyPlugin(ILogger logger, HazelcastProperties properties) {
         super(logger);

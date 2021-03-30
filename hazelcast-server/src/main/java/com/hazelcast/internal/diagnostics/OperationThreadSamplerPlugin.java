@@ -16,11 +16,11 @@
 
 package com.hazelcast.internal.diagnostics;
 
-import com.hazelcast.spi.impl.operationservice.NamedOperation;
 import com.hazelcast.internal.util.concurrent.ConcurrentItemCounter;
 import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.impl.operationexecutor.OperationExecutor;
 import com.hazelcast.spi.impl.operationexecutor.OperationRunner;
+import com.hazelcast.spi.impl.operationservice.NamedOperation;
 import com.hazelcast.spi.impl.operationservice.impl.OperationServiceImpl;
 import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.spi.properties.HazelcastProperty;

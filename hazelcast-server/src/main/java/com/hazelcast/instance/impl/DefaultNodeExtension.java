@@ -49,7 +49,6 @@ import com.hazelcast.internal.cluster.impl.VersionMismatchException;
 import com.hazelcast.internal.diagnostics.BuildInfoPlugin;
 import com.hazelcast.internal.diagnostics.ConfigPropertiesPlugin;
 import com.hazelcast.internal.diagnostics.Diagnostics;
-import com.hazelcast.internal.diagnostics.EventQueuePlugin;
 import com.hazelcast.internal.diagnostics.InvocationProfilerPlugin;
 import com.hazelcast.internal.diagnostics.InvocationSamplePlugin;
 import com.hazelcast.internal.diagnostics.MemberHazelcastInstanceInfoPlugin;
@@ -61,9 +60,10 @@ import com.hazelcast.internal.diagnostics.OperationProfilerPlugin;
 import com.hazelcast.internal.diagnostics.OperationThreadSamplerPlugin;
 import com.hazelcast.internal.diagnostics.OverloadedConnectionsPlugin;
 import com.hazelcast.internal.diagnostics.PendingInvocationsPlugin;
+import com.hazelcast.internal.diagnostics.ServerEventQueuePlugin;
+import com.hazelcast.internal.diagnostics.ServerSystemLogPlugin;
 import com.hazelcast.internal.diagnostics.SlowOperationPlugin;
 import com.hazelcast.internal.diagnostics.StoreLatencyPlugin;
-import com.hazelcast.internal.diagnostics.SystemLogPlugin;
 import com.hazelcast.internal.diagnostics.SystemPropertiesPlugin;
 import com.hazelcast.internal.dynamicconfig.DynamicConfigListener;
 import com.hazelcast.internal.dynamicconfig.EmptyDynamicConfigListener;
@@ -76,17 +76,20 @@ import com.hazelcast.internal.memory.DefaultMemoryStats;
 import com.hazelcast.internal.memory.MemoryStats;
 import com.hazelcast.internal.networking.ChannelInitializer;
 import com.hazelcast.internal.networking.InboundHandler;
+import com.hazelcast.internal.networking.Networking;
 import com.hazelcast.internal.networking.OutboundHandler;
 import com.hazelcast.internal.nio.ClassLoaderUtil;
 import com.hazelcast.internal.nio.Packet;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.internal.serialization.SerializationServiceBuilder;
 import com.hazelcast.internal.serialization.impl.DefaultSerializationServiceBuilder;
+import com.hazelcast.internal.server.Server;
 import com.hazelcast.internal.server.ServerConnection;
 import com.hazelcast.internal.server.ServerContext;
 import com.hazelcast.internal.server.tcp.ChannelInitializerFunction;
 import com.hazelcast.internal.server.tcp.PacketDecoder;
 import com.hazelcast.internal.server.tcp.PacketEncoder;
+import com.hazelcast.internal.server.tcp.TcpServer;
 import com.hazelcast.internal.util.ByteArrayProcessor;
 import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.internal.util.ExceptionUtil;
@@ -110,6 +113,7 @@ import com.hazelcast.spi.impl.NodeEngineImpl.JetPacketConsumer;
 import com.hazelcast.spi.impl.eventservice.impl.EventServiceImpl;
 import com.hazelcast.spi.impl.servicemanager.ServiceManager;
 import com.hazelcast.spi.properties.ClusterProperty;
+import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.version.MemberVersion;
 import com.hazelcast.version.Version;
 import com.hazelcast.wan.impl.WanReplicationService;
@@ -576,28 +580,46 @@ public class DefaultNodeExtension implements NodeExtension, JetPacketConsumer {
         final NodeEngineImpl nodeEngine = node.nodeEngine;
 
         // static loggers at beginning of file
-        diagnostics.register(new BuildInfoPlugin(nodeEngine));
-        diagnostics.register(new SystemPropertiesPlugin(nodeEngine));
-        diagnostics.register(new ConfigPropertiesPlugin(nodeEngine));
+        diagnostics.register(new BuildInfoPlugin(logger(BuildInfoPlugin.class)));
+        diagnostics.register(new SystemPropertiesPlugin(logger(SystemPropertiesPlugin.class)));
+        diagnostics.register(new ConfigPropertiesPlugin(logger(ConfigPropertiesPlugin.class), properties()));
 
         // periodic loggers
         diagnostics.register(new OverloadedConnectionsPlugin(nodeEngine));
-        diagnostics.register(new EventQueuePlugin(nodeEngine,
+        diagnostics.register(new ServerEventQueuePlugin(nodeEngine,
                 ((EventServiceImpl) nodeEngine.getEventService()).getEventExecutor()));
         diagnostics.register(new PendingInvocationsPlugin(nodeEngine));
-        diagnostics.register(new MetricsPlugin(nodeEngine));
+        diagnostics.register(new MetricsPlugin(logger(MetricsPlugin.class),
+                nodeEngine.getMetricsRegistry(), properties()));
         diagnostics.register(new SlowOperationPlugin(nodeEngine));
         diagnostics.register(new InvocationSamplePlugin(nodeEngine));
         diagnostics.register(new InvocationProfilerPlugin(nodeEngine));
         diagnostics.register(new OperationProfilerPlugin(nodeEngine));
         diagnostics.register(new MemberHazelcastInstanceInfoPlugin(nodeEngine));
-        diagnostics.register(new SystemLogPlugin(nodeEngine));
-        diagnostics.register(new StoreLatencyPlugin(nodeEngine));
+        diagnostics.register(new ServerSystemLogPlugin(nodeEngine));
+        diagnostics.register(new StoreLatencyPlugin(logger(StoreLatencyPlugin.class), properties()));
         diagnostics.register(new MemberHeartbeatPlugin(nodeEngine));
-        diagnostics.register(new NetworkingImbalancePlugin(nodeEngine));
+        diagnostics.register(new NetworkingImbalancePlugin(properties(), getThreadingModel(), logger(NetworkingImbalancePlugin.class)));
         diagnostics.register(new OperationHeartbeatPlugin(nodeEngine));
         diagnostics.register(new OperationThreadSamplerPlugin(nodeEngine));
     }
+
+    private Networking getThreadingModel() {
+        Server server = node.getServer();
+        if (!(server instanceof TcpServer)) {
+            return null;
+        }
+        return ((TcpServer) server).getNetworking();
+    }
+
+    ILogger logger(Class<?> clazz) {
+        return node.nodeEngine.getLogger(clazz);
+    }
+
+    HazelcastProperties properties() {
+        return node.nodeEngine.getProperties();
+    }
+
 
     @Override
     public ManagementService createJMXManagementService(HazelcastInstanceImpl instance) {

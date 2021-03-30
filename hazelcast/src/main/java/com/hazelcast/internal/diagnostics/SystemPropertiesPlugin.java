@@ -17,7 +17,6 @@
 package com.hazelcast.internal.diagnostics;
 
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -35,10 +34,6 @@ public class SystemPropertiesPlugin extends DiagnosticsPlugin {
 
     private final List keys = new ArrayList();
     private String inputArgs;
-
-    public SystemPropertiesPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getLogger(SystemPropertiesPlugin.class));
-    }
 
     public SystemPropertiesPlugin(ILogger logger) {
         super(logger);

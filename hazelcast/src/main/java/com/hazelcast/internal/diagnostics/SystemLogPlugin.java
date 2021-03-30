@@ -23,17 +23,13 @@ import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.LifecycleEvent;
 import com.hazelcast.core.LifecycleListener;
-import com.hazelcast.instance.impl.NodeExtension;
-import com.hazelcast.internal.cluster.ClusterVersionListener;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.internal.nio.ConnectionListenable;
 import com.hazelcast.internal.nio.ConnectionListener;
-import com.hazelcast.internal.server.ServerConnection;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.partition.MigrationListener;
 import com.hazelcast.partition.MigrationState;
 import com.hazelcast.partition.ReplicaMigrationEvent;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.spi.properties.HazelcastProperty;
 import com.hazelcast.version.Version;
@@ -79,41 +75,25 @@ public class SystemLogPlugin extends DiagnosticsPlugin {
      */
     private static final long PERIOD_MILLIS = SECONDS.toMillis(1);
 
-    private final Queue<Object> logQueue = new ConcurrentLinkedQueue<Object>();
+    final Queue<Object> logQueue = new ConcurrentLinkedQueue<>();
+
     private final ConnectionListenable connectionObservable;
     private final HazelcastInstance hazelcastInstance;
     private final Address thisAddress;
     private final boolean logPartitions;
     private final boolean enabled;
-    private final NodeExtension nodeExtension;
 
-    public SystemLogPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getProperties(),
-                nodeEngine.getNode().getServer(),
-                nodeEngine.getHazelcastInstance(),
-                nodeEngine.getLogger(SystemLogPlugin.class),
-                nodeEngine.getNode().getNodeExtension());
-    }
 
     public SystemLogPlugin(HazelcastProperties properties,
                            ConnectionListenable connectionObservable,
                            HazelcastInstance hazelcastInstance,
                            ILogger logger) {
-        this(properties, connectionObservable, hazelcastInstance, logger, null);
-    }
-
-    public SystemLogPlugin(HazelcastProperties properties,
-                           ConnectionListenable connectionObservable,
-                           HazelcastInstance hazelcastInstance,
-                           ILogger logger,
-                           NodeExtension nodeExtension) {
         super(logger);
         this.connectionObservable = connectionObservable;
         this.hazelcastInstance = hazelcastInstance;
         this.thisAddress = getThisAddress(hazelcastInstance);
         this.logPartitions = properties.getBoolean(LOG_PARTITIONS);
         this.enabled = properties.getBoolean(ENABLED);
-        this.nodeExtension = nodeExtension;
     }
 
     private Address getThisAddress(HazelcastInstance hazelcastInstance) {
@@ -142,9 +122,6 @@ public class SystemLogPlugin extends DiagnosticsPlugin {
             hazelcastInstance.getPartitionService().addMigrationListener(new MigrationListenerImpl());
         }
         hazelcastInstance.getLifecycleService().addLifecycleListener(new LifecycleListenerImpl());
-        if (nodeExtension != null) {
-            nodeExtension.registerListener(new ClusterVersionListenerImpl());
-        }
     }
 
     @Override
@@ -247,6 +224,9 @@ public class SystemLogPlugin extends DiagnosticsPlugin {
         writer.endSection();
     }
 
+    void writeConnectionType(DiagnosticsLogWriter writer, Connection connection) {
+    }
+
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     private void render(DiagnosticsLogWriter writer, ConnectionEvent event) {
         if (event.added) {
@@ -258,9 +238,6 @@ public class SystemLogPlugin extends DiagnosticsPlugin {
         Connection connection = event.connection;
         writer.writeEntry(connection.toString());
 
-        if (connection instanceof ServerConnection) {
-            writer.writeKeyValueEntry("type", ((ServerConnection) connection).getConnectionType());
-        }
         writer.writeKeyValueEntry("isAlive", connection.isAlive());
 
         if (!event.added) {
@@ -353,13 +330,6 @@ public class SystemLogPlugin extends DiagnosticsPlugin {
         @Override
         public void replicaMigrationFailed(ReplicaMigrationEvent event) {
             logQueue.add(event);
-        }
-    }
-
-    protected class ClusterVersionListenerImpl implements ClusterVersionListener {
-        @Override
-        public void onClusterVersionChange(Version newVersion) {
-            logQueue.add(newVersion);
         }
     }
 }

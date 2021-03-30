@@ -20,7 +20,6 @@ import com.hazelcast.instance.BuildInfo;
 import com.hazelcast.instance.BuildInfoProvider;
 import com.hazelcast.instance.JetBuildInfo;
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.spi.impl.NodeEngineImpl;
 
 /**
  * A {@link DiagnosticsPlugin} that displays the build info.
@@ -28,10 +27,6 @@ import com.hazelcast.spi.impl.NodeEngineImpl;
 public class BuildInfoPlugin extends DiagnosticsPlugin {
 
     private final BuildInfo buildInfo = BuildInfoProvider.getBuildInfo();
-
-    public BuildInfoPlugin(NodeEngineImpl nodeEngine) {
-        this(nodeEngine.getLogger(BuildInfoPlugin.class));
-    }
 
     public BuildInfoPlugin(ILogger logger) {
         super(logger);

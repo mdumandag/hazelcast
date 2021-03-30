@@ -16,13 +16,13 @@
 
 package com.hazelcast.internal.diagnostics;
 
+import com.hazelcast.internal.util.ItemCounter;
 import com.hazelcast.spi.impl.NodeEngineImpl;
 import com.hazelcast.spi.impl.operationservice.impl.Invocation;
 import com.hazelcast.spi.impl.operationservice.impl.InvocationRegistry;
 import com.hazelcast.spi.impl.operationservice.impl.OperationServiceImpl;
 import com.hazelcast.spi.properties.HazelcastProperties;
 import com.hazelcast.spi.properties.HazelcastProperty;
-import com.hazelcast.internal.util.ItemCounter;
 
 import static com.hazelcast.internal.diagnostics.OperationDescriptors.toOperationDesc;
 import static java.util.concurrent.TimeUnit.SECONDS;
