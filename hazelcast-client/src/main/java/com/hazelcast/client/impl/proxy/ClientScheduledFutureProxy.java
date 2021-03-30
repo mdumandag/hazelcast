@@ -35,12 +35,12 @@ import com.hazelcast.client.impl.spi.ClientContext;
 import com.hazelcast.client.impl.spi.ClientProxy;
 import com.hazelcast.client.impl.spi.impl.ClientInvocation;
 import com.hazelcast.client.impl.spi.impl.ClientInvocationFuture;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.scheduledexecutor.IScheduledFuture;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 import com.hazelcast.scheduledexecutor.ScheduledTaskStatistics;
 import com.hazelcast.scheduledexecutor.StaleTaskException;
-import com.hazelcast.scheduledexecutor.impl.DistributedScheduledExecutorService;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskStatisticsImpl;
 
 import java.util.UUID;
@@ -65,7 +65,7 @@ public class ClientScheduledFutureProxy<V>
     private ScheduledTaskHandler handler;
 
     ClientScheduledFutureProxy(ScheduledTaskHandler handler, ClientContext context) {
-        super(DistributedScheduledExecutorService.SERVICE_NAME, handler.getSchedulerName(), context);
+        super(ServiceNames.SCHEDULED_EXECUTOR, handler.getSchedulerName(), context);
         this.handler = handler;
     }
 

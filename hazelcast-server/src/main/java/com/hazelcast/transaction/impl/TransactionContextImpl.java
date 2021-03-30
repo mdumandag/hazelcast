@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.hazelcast.transaction.impl.Transaction.State.ACTIVE;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ACTIVE;
 
 final class TransactionContextImpl implements TransactionContext {
 

@@ -28,6 +28,8 @@ import com.hazelcast.partition.PartitionService;
 
 import java.io.IOException;
 
+import static com.hazelcast.internal.partition.PartitionConstants.MAX_BACKUP_COUNT;
+
 /**
  * The event that is fired when a partition lost its owner and all backups.
  *
@@ -76,7 +78,7 @@ public class PartitionLostEventImpl implements PartitionLostEvent, IPartitionLos
      */
     @Override
     public boolean allReplicasInPartitionLost() {
-        return getLostBackupCount() == InternalPartition.MAX_BACKUP_COUNT;
+        return getLostBackupCount() == MAX_BACKUP_COUNT;
     }
 
     @Override
