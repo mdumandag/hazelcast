@@ -25,14 +25,7 @@ import com.hazelcast.topic.impl.reliable.ReliableTopicMessage;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.TOPIC_DS_FACTORY;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.TOPIC_DS_FACTORY_ID;
 
-public final class TopicDataSerializerHook implements DataSerializerHook {
-
-    public static final int F_ID = FactoryIdHelper.getFactoryId(TOPIC_DS_FACTORY, TOPIC_DS_FACTORY_ID);
-
-    public static final int PUBLISH = 0;
-    public static final int TOPIC_EVENT = 1;
-    public static final int RELIABLE_TOPIC_MESSAGE = 2;
-    public static final int PUBLISH_ALL = 3;
+public final class TopicDataSerializerHook extends TopicDataSerializerHookBase implements DataSerializerHook {
 
     @Override
     public int getFactoryId() {

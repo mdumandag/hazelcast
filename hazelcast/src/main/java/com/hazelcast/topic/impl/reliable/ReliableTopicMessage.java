@@ -24,11 +24,9 @@ import com.hazelcast.internal.util.Clock;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
+import com.hazelcast.topic.impl.TopicDataSerializerHookBase;
 
 import java.io.IOException;
-
-import static com.hazelcast.topic.impl.TopicDataSerializerHook.F_ID;
-import static com.hazelcast.topic.impl.TopicDataSerializerHook.RELIABLE_TOPIC_MESSAGE;
 
 /**
  * The Object that is going to be stored in the Ringbuffer. It contains the actual message payload and some metadata.
@@ -62,12 +60,12 @@ public class ReliableTopicMessage implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return TopicDataSerializerHook.F_ID;
+        return TopicDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return TopicDataSerializerHook.RELIABLE_TOPIC_MESSAGE;
+        return TopicDataSerializerHookBase.RELIABLE_TOPIC_MESSAGE;
     }
 
     @Override
