@@ -18,7 +18,7 @@ package com.hazelcast.config;
 
 import com.hazelcast.internal.cluster.Versions;
 import com.hazelcast.internal.config.ConfigDataSerializerHook;
-import com.hazelcast.internal.partition.IPartition;
+import com.hazelcast.internal.partition.PartitionConstants;
 import com.hazelcast.map.IMap;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
@@ -55,7 +55,7 @@ public class MapConfig implements IdentifiedDataSerializable, NamedConfig, Versi
     /**
      * The maximum number of backups
      */
-    public static final int MAX_BACKUP_COUNT = IPartition.MAX_BACKUP_COUNT;
+    public static final int MAX_BACKUP_COUNT = PartitionConstants.MAX_BACKUP_COUNT;
 
     /**
      * The number of default Time to Live in seconds.

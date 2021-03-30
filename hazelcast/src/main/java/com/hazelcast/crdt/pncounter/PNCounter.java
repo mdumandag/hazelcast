@@ -19,7 +19,6 @@ package com.hazelcast.crdt.pncounter;
 import com.hazelcast.config.PNCounterConfig;
 import com.hazelcast.core.ConsistencyLostException;
 import com.hazelcast.core.DistributedObject;
-import com.hazelcast.internal.cluster.ClusterService;
 import com.hazelcast.partition.NoDataMemberInClusterException;
 
 /**

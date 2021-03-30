@@ -16,8 +16,6 @@
 
 package com.hazelcast.collection;
 
-import com.hazelcast.internal.monitor.MemberState;
-
 /**
  * Local Set statistics to be used by {@link MemberState} implementations.
  * Derived from {@link LocalCollectionStats} so it can be extended with {@link ISet} specific metrics.

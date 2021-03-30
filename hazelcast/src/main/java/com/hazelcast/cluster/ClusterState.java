@@ -16,9 +16,6 @@
 
 package com.hazelcast.cluster;
 
-import com.hazelcast.instance.impl.NodeState;
-import com.hazelcast.spi.impl.AllowedDuringPassiveState;
-
 /**
  * {@code ClusterState} are several possible states of the cluster
  * where each state can allow and/or deny specific actions

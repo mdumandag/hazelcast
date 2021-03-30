@@ -33,7 +33,7 @@ public interface IPartition {
     /**
      * The maximum number of backups.
      */
-    int MAX_BACKUP_COUNT = 6;
+    int MAX_BACKUP_COUNT = PartitionConstants.MAX_BACKUP_COUNT;
 
     /**
      * Checks if the partition is local.

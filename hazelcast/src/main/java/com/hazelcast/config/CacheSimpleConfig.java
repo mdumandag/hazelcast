@@ -17,7 +17,7 @@
 package com.hazelcast.config;
 
 import com.hazelcast.internal.config.ConfigDataSerializerHook;
-import com.hazelcast.internal.partition.IPartition;
+import com.hazelcast.internal.partition.PartitionConstants;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
@@ -51,7 +51,7 @@ public class CacheSimpleConfig implements IdentifiedDataSerializable, NamedConfi
     /**
      * The maximum number of backups.
      */
-    public static final int MAX_BACKUP_COUNT = IPartition.MAX_BACKUP_COUNT;
+    public static final int MAX_BACKUP_COUNT = PartitionConstants.MAX_BACKUP_COUNT;
 
     /**
      * The default number of backups.

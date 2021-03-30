@@ -17,7 +17,6 @@
 package com.hazelcast.collection;
 
 import com.hazelcast.instance.LocalInstanceStats;
-import com.hazelcast.internal.monitor.MemberState;
 
 /**
  * Local collections statistics to be used by {@link MemberState} implementations.

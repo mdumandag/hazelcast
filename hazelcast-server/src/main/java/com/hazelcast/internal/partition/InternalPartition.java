@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 
 public interface InternalPartition extends IPartition {
 
-    int MAX_REPLICA_COUNT = MAX_BACKUP_COUNT + 1;
+    int MAX_REPLICA_COUNT = PartitionConstants.MAX_REPLICA_COUNT;
 
     /**
      * Returns the partition replica of the owner of this partition.

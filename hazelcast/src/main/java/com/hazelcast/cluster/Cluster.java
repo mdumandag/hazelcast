@@ -17,7 +17,6 @@
 package com.hazelcast.cluster;
 
 import com.hazelcast.hotrestart.HotRestartService;
-import com.hazelcast.instance.impl.NodeExtension;
 import com.hazelcast.spi.properties.ClusterProperty;
 import com.hazelcast.transaction.TransactionException;
 import com.hazelcast.transaction.TransactionOptions;
