@@ -21,7 +21,7 @@ import com.hazelcast.client.impl.protocol.codec.TransactionalSetAddCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalSetRemoveCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalSetSizeCodec;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
-import com.hazelcast.collection.impl.set.SetService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.Preconditions;
 import com.hazelcast.transaction.TransactionalSet;
@@ -66,6 +66,6 @@ public class ClientTxnSetProxy<E> extends AbstractClientTxnCollectionProxy imple
 
     @Override
     public String getServiceName() {
-        return SetService.SERVICE_NAME;
+        return ServiceNames.SET;
     }
 }

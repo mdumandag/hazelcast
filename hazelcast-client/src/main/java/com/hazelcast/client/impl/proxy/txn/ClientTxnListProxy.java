@@ -21,7 +21,7 @@ import com.hazelcast.client.impl.protocol.codec.TransactionalListAddCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalListRemoveCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalListSizeCodec;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
-import com.hazelcast.collection.impl.list.ListService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.transaction.TransactionalList;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.util.Preconditions;
@@ -41,7 +41,7 @@ public class ClientTxnListProxy<E> extends AbstractClientTxnCollectionProxy impl
 
     @Override
     public String getServiceName() {
-        return ListService.SERVICE_NAME;
+        return ServiceNames.LIST;
     }
 
     @Override

@@ -16,7 +16,6 @@
 
 package com.hazelcast.client.impl.spi;
 
-import com.hazelcast.cache.impl.CacheService;
 import com.hazelcast.client.cache.impl.nearcache.invalidation.ClientCacheInvalidationMetaDataFetcher;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.impl.ClientExtension;
@@ -26,6 +25,7 @@ import com.hazelcast.client.map.impl.querycache.ClientQueryCacheContext;
 import com.hazelcast.client.map.impl.nearcache.invalidation.ClientMapInvalidationMetaDataFetcher;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.LifecycleService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.nearcache.NearCacheManager;
 import com.hazelcast.internal.nearcache.impl.invalidation.InvalidationMetaDataFetcher;
 import com.hazelcast.internal.nearcache.impl.invalidation.MinimalPartitionService;
@@ -34,7 +34,6 @@ import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.LoggingService;
-import com.hazelcast.map.impl.MapService;
 import com.hazelcast.spi.impl.executionservice.TaskScheduler;
 import com.hazelcast.spi.properties.HazelcastProperties;
 
@@ -124,11 +123,11 @@ public class ClientContext {
     }
 
     private InvalidationMetaDataFetcher newMetaDataFetcher(String serviceName) {
-        if (MapService.SERVICE_NAME.equals(serviceName)) {
+        if (ServiceNames.MAP.equals(serviceName)) {
             return new ClientMapInvalidationMetaDataFetcher(this);
         }
 
-        if (CacheService.SERVICE_NAME.equals(serviceName)) {
+        if (ServiceNames.ICACHE.equals(serviceName)) {
             return new ClientCacheInvalidationMetaDataFetcher(this);
         }
 

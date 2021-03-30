@@ -51,7 +51,6 @@ import static com.hazelcast.internal.util.Preconditions.checkFalse;
 import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
-import static com.hazelcast.ringbuffer.impl.RingbufferProxy.MAX_BATCH_SIZE;
 import static com.hazelcast.spi.impl.InternalCompletableFuture.completedExceptionally;
 import static java.lang.String.format;
 
@@ -61,6 +60,12 @@ import static java.lang.String.format;
  * @param <E> the type of elements in this ringbuffer
  */
 public class ClientRingbufferProxy<E> extends ClientProxy implements Ringbuffer<E> {
+
+    /**
+     * The maximum number of items that can be retrieved in 1 go using the
+     * {@link #readManyAsync(long, int, int, IFunction)} method.
+     */
+    public static final int MAX_BATCH_SIZE = 1000;
 
     private ClientMessageDecoder readManyAsyncResponseDecoder;
 

@@ -34,8 +34,8 @@ import com.hazelcast.client.impl.protocol.codec.TransactionalMapSizeCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalMapValuesCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalMapValuesWithPredicateCodec;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
-import com.hazelcast.map.impl.MapService;
 import com.hazelcast.query.Predicate;
 import com.hazelcast.spi.impl.UnmodifiableLazyList;
 import com.hazelcast.transaction.TransactionalMap;
@@ -250,7 +250,7 @@ public class ClientTxnMapProxy<K, V> extends ClientTxnProxy implements Transacti
 
     @Override
     public String getServiceName() {
-        return MapService.SERVICE_NAME;
+        return ServiceNames.MAP;
     }
 
     @Override

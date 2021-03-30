@@ -24,11 +24,11 @@ import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapRemoveEntry
 import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapSizeCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalMultiMapValueCountCodec;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
-import com.hazelcast.transaction.TransactionalMultiMap;
-import com.hazelcast.multimap.impl.MultiMapService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.UnmodifiableLazyList;
 import com.hazelcast.transaction.TransactionException;
+import com.hazelcast.transaction.TransactionalMultiMap;
 
 import java.util.Collection;
 import java.util.List;
@@ -99,7 +99,7 @@ public class ClientTxnMultiMapProxy<K, V> extends ClientTxnProxy implements Tran
 
     @Override
     public String getServiceName() {
-        return MultiMapService.SERVICE_NAME;
+        return ServiceNames.MULTI_MAP;
     }
 
     @Override

@@ -23,9 +23,9 @@ import com.hazelcast.client.impl.protocol.codec.TransactionalQueuePollCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalQueueSizeCodec;
 import com.hazelcast.client.impl.protocol.codec.TransactionalQueueTakeCodec;
 import com.hazelcast.client.impl.spi.ClientTransactionContext;
-import com.hazelcast.collection.impl.queue.QueueService;
-import com.hazelcast.transaction.TransactionalQueue;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.transaction.TransactionalQueue;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.TimeUnit;
@@ -116,7 +116,7 @@ public class ClientTxnQueueProxy<E> extends ClientTxnProxy implements Transactio
 
     @Override
     public String getServiceName() {
-        return QueueService.SERVICE_NAME;
+        return ServiceNames.QUEUE;
     }
 
     @Override
