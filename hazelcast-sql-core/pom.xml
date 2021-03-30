@@ -78,13 +78,13 @@
     <dependencies>
         <dependency>
             <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-server</artifactId>
+            <artifactId>hazelcast</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-server</artifactId>
+            <artifactId>hazelcast</artifactId>
             <scope>test</scope>
             <version>${project.parent.version}</version>
             <classifier>tests</classifier>

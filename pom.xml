@@ -31,6 +31,8 @@
     <modules>
         <module>extensions</module>
         <module>hazelcast-common</module>
+        <module>hazelcast</module>
+        <module>hazelcast-client</module>
         <module>hazelcast-jet-sql</module>
         <module>hazelcast-spring</module>
         <module>hazelcast-spring-tests</module>
@@ -39,8 +41,6 @@
         <module>hazelcast-sql</module>
         <module>hazelcast-all</module>
         <module>distribution</module>
-        <module>hazelcast-client</module>
-        <module>hazelcast-server</module>
     </modules>
 
     <properties>
