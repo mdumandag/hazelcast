@@ -66,8 +66,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 
-import static com.hazelcast.cluster.impl.MemberImpl.NA_MEMBER_LIST_JOIN_VERSION;
+import static com.hazelcast.cluster.impl.MemberImpl.toMemberInfo;
 import static com.hazelcast.instance.EndpointQualifier.MEMBER;
+import static com.hazelcast.internal.cluster.MemberInfo.NA_MEMBER_LIST_JOIN_VERSION;
 import static com.hazelcast.internal.cluster.impl.ClusterServiceImpl.CLUSTER_EXECUTOR_NAME;
 import static com.hazelcast.internal.cluster.impl.ClusterServiceImpl.MEMBERSHIP_EVENT_EXECUTOR_NAME;
 import static com.hazelcast.internal.cluster.impl.ClusterServiceImpl.SERVICE_NAME;
@@ -917,7 +918,7 @@ public class MembershipManager {
         // we wait until either we suspect of that address or find its result in the futures.
 
         for (MemberImpl member : members) {
-            futures.put(new MemberInfo(member), invokeFetchMembersViewOp(member.getAddress(), member.getUuid()));
+            futures.put(toMemberInfo(member), invokeFetchMembersViewOp(member.getAddress(), member.getUuid()));
         }
 
         long mastershipClaimTimeout = SECONDS.toMillis(mastershipClaimTimeoutSeconds);
@@ -1279,7 +1280,7 @@ public class MembershipManager {
         } else if (getLocalMember().equals(sender)) {
             logger.warning("Received suspected members: " + suspectedMemberInfos + " from itself.");
             return false;
-        } else if (suspectedMemberInfos.contains(new MemberInfo(getLocalMember()))) {
+        } else if (suspectedMemberInfos.contains(toMemberInfo(getLocalMember()))) {
             logger.warning("Received suspected members: " + suspectedMemberInfos + " from " + sender + " contains this member!");
             return false;
         } else if (clusterService.getClusterJoinManager().isMastershipClaimInProgress()) {

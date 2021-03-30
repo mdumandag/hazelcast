@@ -22,6 +22,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.instance.EndpointQualifier;
 import com.hazelcast.instance.impl.HazelcastInstanceImpl;
+import com.hazelcast.internal.cluster.MemberInfo;
 import com.hazelcast.internal.cluster.impl.ClusterDataSerializerHook;
 import com.hazelcast.internal.util.Preconditions;
 import com.hazelcast.logging.ILogger;
@@ -33,16 +34,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.hazelcast.instance.EndpointQualifier.MEMBER;
+import static com.hazelcast.internal.cluster.MemberInfo.NA_MEMBER_LIST_JOIN_VERSION;
 import static com.hazelcast.internal.util.Preconditions.isNotNull;
 
 public final class MemberImpl
         extends AbstractMember
         implements Member, HazelcastInstanceAware, IdentifiedDataSerializable {
-
-    /**
-     * Denotes that member list join version of a member is not known yet.
-     */
-    public static final int NA_MEMBER_LIST_JOIN_VERSION = -1;
 
     private boolean localMember;
 
@@ -222,5 +219,20 @@ public final class MemberImpl
         Map<EndpointQualifier, Address> result = new HashMap<>();
         result.put(member, address);
         return result;
+    }
+
+    public static MemberInfo toMemberInfo(MemberImpl member) {
+        return new MemberInfo(member.getAddress(), member.getUuid(), member.getAttributes(), member.isLiteMember(),
+                member.getVersion(), member.getMemberListJoinVersion(), member.getAddressMap());
+    }
+
+    public static MemberImpl  toMember(MemberInfo memberInfo) {
+        return new MemberImpl.Builder(memberInfo.getAddress())
+                .version(memberInfo.getVersion())
+                .uuid(memberInfo.getUuid())
+                .attributes(memberInfo.getAttributes())
+                .liteMember(memberInfo.isLiteMember())
+                .memberListJoinVersion(memberInfo.getMemberListJoinVersion())
+                .build();
     }
 }

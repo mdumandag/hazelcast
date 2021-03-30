@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.hazelcast.cluster.impl.MemberImpl.toMemberInfo;
 import static com.hazelcast.internal.serialization.impl.SerializationUtil.readList;
 import static com.hazelcast.internal.serialization.impl.SerializationUtil.writeList;
 import static java.lang.Math.max;
@@ -83,7 +84,7 @@ public final class MembersView implements IdentifiedDataSerializable {
         List<MemberInfo> list = new ArrayList<>(members.size());
 
         for (MemberImpl member : members) {
-            list.add(new MemberInfo(member));
+            list.add(toMemberInfo(member));
         }
 
         return new MembersView(version, unmodifiableList(list));
@@ -105,7 +106,7 @@ public final class MembersView implements IdentifiedDataSerializable {
         MemberImpl[] m = new MemberImpl[size()];
         int ix = 0;
         for (MemberInfo memberInfo : members) {
-            m[ix++] = memberInfo.toMember();
+            m[ix++] = MemberImpl.toMember(memberInfo);
         }
         return MemberMap.createNew(version, m);
     }

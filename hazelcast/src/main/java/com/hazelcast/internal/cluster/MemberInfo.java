@@ -17,7 +17,6 @@
 package com.hazelcast.internal.cluster;
 
 import com.hazelcast.cluster.Address;
-import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.instance.EndpointQualifier;
 import com.hazelcast.internal.cluster.impl.ClusterDataSerializerHook;
 import com.hazelcast.internal.util.UUIDSerializationUtil;
@@ -32,12 +31,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.hazelcast.cluster.impl.MemberImpl.NA_MEMBER_LIST_JOIN_VERSION;
 import static com.hazelcast.internal.serialization.impl.SerializationUtil.readMap;
 import static com.hazelcast.internal.serialization.impl.SerializationUtil.writeMap;
 import static com.hazelcast.internal.util.MapUtil.createHashMap;
 
 public class MemberInfo implements IdentifiedDataSerializable {
+
+    /**
+     * Denotes that member list join version of a member is not known yet.
+     */
+    public static final int NA_MEMBER_LIST_JOIN_VERSION = -1;
 
     private Address address;
     private UUID uuid;
@@ -76,11 +79,6 @@ public class MemberInfo implements IdentifiedDataSerializable {
         this.addressMap = addressMap;
     }
 
-    public MemberInfo(MemberImpl member) {
-        this(member.getAddress(), member.getUuid(), member.getAttributes(), member.isLiteMember(), member.getVersion(),
-                member.getMemberListJoinVersion(), member.getAddressMap());
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -107,16 +105,6 @@ public class MemberInfo implements IdentifiedDataSerializable {
 
     public Map<EndpointQualifier, Address> getAddressMap() {
         return addressMap;
-    }
-
-    public MemberImpl toMember() {
-        return new MemberImpl.Builder(address)
-                .version(version)
-                .uuid(uuid)
-                .attributes(attributes)
-                .liteMember(liteMember)
-                .memberListJoinVersion(memberListJoinVersion)
-                .build();
     }
 
     @Override
