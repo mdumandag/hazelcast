@@ -87,12 +87,12 @@ public class LockOwnershipState implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return LockDataSerializerHook.F_ID;
+        return LockDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return LockDataSerializerHook.RAFT_LOCK_OWNERSHIP_STATE;
+        return LockDataSerializerHookBase.RAFT_LOCK_OWNERSHIP_STATE;
     }
 
     @Override

@@ -28,22 +28,7 @@ import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 
 @SuppressWarnings("checkstyle:declarationorder")
-public class RaftSessionServiceDataSerializerHook implements DataSerializerHook {
-    private static final int RAFT_SESSION_DS_FACTORY_ID = -1003;
-    private static final String RAFT_SESSION_DS_FACTORY = "hazelcast.serialization.ds.raft.session";
-
-    public static final int F_ID = FactoryIdHelper.getFactoryId(RAFT_SESSION_DS_FACTORY, RAFT_SESSION_DS_FACTORY_ID);
-
-    public static final int RAFT_SESSION = 1;
-    public static final int RAFT_SESSION_REGISTRY = 2;
-    public static final int SESSION_RESPONSE = 3;
-    public static final int CREATE_SESSION_OP = 4;
-    public static final int HEARTBEAT_SESSION_OP = 5;
-    public static final int CLOSE_SESSION_OP = 6;
-    public static final int EXPIRE_SESSIONS_OP = 7;
-    public static final int CLOSE_INACTIVE_SESSIONS_OP = 8;
-    public static final int GET_SESSIONS_OP = 9;
-    public static final int GENERATE_THREAD_ID_OP = 10;
+public class RaftSessionServiceDataSerializerHook extends RaftSessionServiceDataSerializerHookBase implements DataSerializerHook {
 
     @Override
     public int getFactoryId() {

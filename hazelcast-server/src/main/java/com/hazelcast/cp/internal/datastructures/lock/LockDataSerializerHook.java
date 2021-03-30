@@ -25,21 +25,7 @@ import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 
 @SuppressWarnings("checkstyle:declarationorder")
-public class LockDataSerializerHook implements DataSerializerHook {
-    private static final int RAFT_LOCK_DS_FACTORY_ID = -1012;
-    private static final String RAFT_LOCK_DS_FACTORY = "hazelcast.serialization.ds.raft.lock";
-
-    public static final int F_ID = FactoryIdHelper.getFactoryId(RAFT_LOCK_DS_FACTORY, RAFT_LOCK_DS_FACTORY_ID);
-
-    public static final int RAFT_LOCK_REGISTRY = 1;
-    public static final int RAFT_LOCK = 2;
-    public static final int LOCK_ENDPOINT = 3;
-    public static final int LOCK_INVOCATION_KEY = 4;
-    public static final int RAFT_LOCK_OWNERSHIP_STATE = 5;
-    public static final int LOCK_OP = 6;
-    public static final int TRY_LOCK_OP = 7;
-    public static final int UNLOCK_OP = 8;
-    public static final int GET_RAFT_LOCK_OWNERSHIP_STATE_OP = 9;
+public class LockDataSerializerHook extends LockDataSerializerHookBase implements DataSerializerHook {
 
     @Override
     public int getFactoryId() {

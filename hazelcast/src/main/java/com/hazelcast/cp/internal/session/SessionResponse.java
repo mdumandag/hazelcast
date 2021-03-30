@@ -58,12 +58,12 @@ public class SessionResponse implements IdentifiedDataSerializable {
 
     @Override
     public int getFactoryId() {
-        return RaftSessionServiceDataSerializerHook.F_ID;
+        return RaftSessionServiceDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return RaftSessionServiceDataSerializerHook.SESSION_RESPONSE;
+        return RaftSessionServiceDataSerializerHookBase.SESSION_RESPONSE;
     }
 
     @Override
