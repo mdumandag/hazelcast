@@ -40,6 +40,7 @@
         <module>hazelcast-sql-core</module>
         <module>hazelcast-sql</module>
         <module>hazelcast-all</module>
+        <module>hazelcast-client-standolane</module>
         <module>distribution</module>
     </modules>
 
