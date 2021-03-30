@@ -1973,4 +1973,26 @@ public abstract class AbstractInvocationFuture<V> extends InternalCompletableFut
         Error result = cloneExceptionWithFixedAsyncStackTrace(cause);
         return result == null ? cause : result;
     }
+
+    // public for tests
+    public static <T> T returnOrThrowWithGetConventions(Object response) throws ExecutionException, InterruptedException {
+        if (!(response instanceof ExceptionalResult)) {
+            return (T) response;
+        }
+        response = ((ExceptionalResult) response).getCause();
+        if (response instanceof WrappableException) {
+            response = ((WrappableException) response).wrap();
+        } else if (response instanceof RuntimeException || response instanceof Error) {
+            response = cloneExceptionWithFixedAsyncStackTrace((Throwable) response);
+        }
+        if (response instanceof CancellationException) {
+            throw (CancellationException) response;
+        } else if (response instanceof ExecutionException) {
+            throw (ExecutionException) response;
+        } else if (response instanceof InterruptedException) {
+            throw (InterruptedException) response;
+        } else {
+            throw new ExecutionException((Throwable) response);
+        }
+    }
 }

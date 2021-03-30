@@ -40,7 +40,7 @@ import static com.hazelcast.client.properties.ClientProperty.RESPONSE_THREAD_DYN
 import static com.hazelcast.instance.impl.OutOfMemoryErrorDispatcher.onOutOfMemory;
 import static com.hazelcast.internal.util.HashUtil.hashToIndex;
 import static com.hazelcast.internal.util.ThreadAffinity.newSystemThreadAffinity;
-import static com.hazelcast.spi.impl.operationservice.impl.InboundResponseHandlerSupplier.getIdleStrategy;
+import static com.hazelcast.spi.impl.operationservice.impl.ResponseHandlerUtil.getIdleStrategy;
 
 /**
  * A {@link Supplier} for {@link Supplier} instance that processes responses for client
@@ -161,7 +161,7 @@ public class ClientResponseHandlerSupplier implements Supplier<Consumer<ClientMe
         }
 
         if (EXCEPTION_MESSAGE_TYPE == message.getMessageType()) {
-            invocation.notifyException(correlationId , client.getClientExceptionFactory().createException(message));
+            invocation.notifyException(correlationId, client.getClientExceptionFactory().createException(message));
         } else {
             invocation.notify(message);
         }

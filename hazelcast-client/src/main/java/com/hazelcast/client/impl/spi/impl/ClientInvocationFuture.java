@@ -35,8 +35,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.hazelcast.spi.impl.operationservice.impl.InvocationFuture.returnOrThrowWithGetConventions;
-
 public class ClientInvocationFuture extends AbstractInvocationFuture<ClientMessage> {
 
     private final ClientMessage request;
