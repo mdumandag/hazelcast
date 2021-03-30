@@ -140,10 +140,10 @@ final class SparseArray<E> {
             this.storageIterator = new SparseIntArray.Iterator<>();
 
             long prefix = storages.iterate(storageIterator);
-            if (prefix != SparseIntArray.Iterator.END) {
+            if (prefix != END) {
                 storage = storageIterator.getValue();
                 long postfix = storage.iterate(this);
-                assert postfix != SparseIntArray.Iterator.END;
+                assert postfix != END;
                 index = prefix << Integer.SIZE | postfix;
             } else {
                 index = Iterator.END;
@@ -165,7 +165,7 @@ final class SparseArray<E> {
             // Try to advance the current storage.
 
             long postfix = storage.advance((int) current, this);
-            if (postfix != SparseIntArray.Iterator.END) {
+            if (postfix != END) {
                 index = current & INT_PREFIX_MASK | postfix;
                 return current;
             }
@@ -173,10 +173,10 @@ final class SparseArray<E> {
             // Try to advance to the next storage.
 
             long prefix = storages.advance((int) (current >>> Integer.SIZE), storageIterator);
-            if (prefix != SparseIntArray.Iterator.END) {
+            if (prefix != END) {
                 storage = storageIterator.getValue();
                 postfix = storage.iterate(this);
-                if (postfix != SparseIntArray.Iterator.END) {
+                if (postfix != END) {
                     index = prefix << Integer.SIZE | postfix;
                     return current;
                 }
@@ -210,17 +210,17 @@ final class SparseArray<E> {
                 // Try to advance the current storage.
 
                 long postfix = storage.advanceAtLeastTo((int) member, (int) current, this);
-                if (postfix != SparseIntArray.Iterator.END) {
+                if (postfix != END) {
                     index = current & INT_PREFIX_MASK | postfix;
                     return index;
                 } else {
                     // Try to advance to the next storage.
 
                     long prefix = storages.advance(currentPrefix, storageIterator);
-                    if (prefix != SparseIntArray.Iterator.END) {
+                    if (prefix != END) {
                         storage = storageIterator.getValue();
                         postfix = storage.iterate(this);
-                        assert postfix != SparseIntArray.Iterator.END;
+                        assert postfix != END;
                         index = prefix << Integer.SIZE | postfix;
                         return index;
                     }
@@ -229,13 +229,13 @@ final class SparseArray<E> {
                 // Try to advance to the requested storage.
 
                 long prefix = storages.advanceAtLeastTo(memberPrefix, currentPrefix, storageIterator);
-                if (prefix != SparseIntArray.Iterator.END) {
+                if (prefix != END) {
                     storage = storageIterator.getValue();
                     if (prefix == memberPrefix) {
                         // We got the storage we have requested.
 
                         long postfix = storage.iterateAtLeastFrom((int) member, this);
-                        if (postfix != SparseIntArray.Iterator.END) {
+                        if (postfix != END) {
                             index = prefix << Integer.SIZE | postfix;
                             return index;
                         } else {
@@ -245,10 +245,10 @@ final class SparseArray<E> {
                             // be non-empty).
 
                             prefix = storages.advance((int) prefix, storageIterator);
-                            if (prefix != SparseIntArray.Iterator.END) {
+                            if (prefix != END) {
                                 storage = storageIterator.getValue();
                                 postfix = storage.iterate(this);
-                                assert postfix != SparseIntArray.Iterator.END;
+                                assert postfix != END;
                                 index = prefix << Integer.SIZE | postfix;
                                 return index;
                             }
@@ -259,7 +259,7 @@ final class SparseArray<E> {
                         // (storages are guaranteed to be non-empty).
 
                         long postfix = storage.iterate(this);
-                        assert postfix != SparseIntArray.Iterator.END;
+                        assert postfix != END;
                         index = prefix << Integer.SIZE | postfix;
                         return index;
                     }

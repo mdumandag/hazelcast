@@ -106,7 +106,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
         ContextMutexFactory.Mutex mutex = lifecycleMutexFactory.mutexFor(mapName);
         try {
             synchronized (mutex) {
-                EventRegistration registration = eventService.registerLocalListener(SERVICE_NAME, cacheId,
+                EventRegistration registration = eventService.registerLocalListener(MapService.SERVICE_NAME, cacheId,
                         filter == null ? TrueEventFilter.INSTANCE : filter, listenerAdaptor);
                 return registration.getId();
             }
@@ -117,7 +117,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
 
     @Override
     public boolean removeListener(String mapName, String cacheId, UUID listenerId) {
-        return eventService.deregisterListener(SERVICE_NAME, cacheId, listenerId);
+        return eventService.deregisterListener(MapService.SERVICE_NAME, cacheId, listenerId);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
         ContextMutexFactory.Mutex mutex = lifecycleMutexFactory.mutexFor(mapName);
         try {
             synchronized (mutex) {
-                eventService.deregisterAllListeners(SERVICE_NAME, cacheId);
+                eventService.deregisterAllListeners(MapService.SERVICE_NAME, cacheId);
             }
         } finally {
             closeResource(mutex);
@@ -217,11 +217,11 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
     }
 
     private Collection<EventRegistration> getRegistrations(String mapName) {
-        return eventService.getRegistrations(SERVICE_NAME, mapName);
+        return eventService.getRegistrations(MapService.SERVICE_NAME, mapName);
     }
 
     private void publishEventInternal(EventRegistration registration, Object eventData, int orderKey) {
-        eventService.publishEvent(SERVICE_NAME, registration, eventData, orderKey);
+        eventService.publishEvent(MapService.SERVICE_NAME, registration, eventData, orderKey);
     }
 
     @Override

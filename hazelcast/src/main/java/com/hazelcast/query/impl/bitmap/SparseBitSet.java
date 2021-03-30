@@ -254,7 +254,7 @@ final class SparseBitSet {
 
         @Override
         public Storage32 add(int member) {
-            int index = unsignedBinarySearch(members, size, toUnsignedLong(member));
+            int index = BitmapUtils.unsignedBinarySearch(members, size, BitmapUtils.toUnsignedLong(member));
             if (index >= 0) {
                 // already in the array
                 return this;
@@ -268,7 +268,7 @@ final class SparseBitSet {
                     return new PrefixStorage32(members, member, index);
                 }
 
-                int newCapacity = Math.min(ARRAY_STORAGE_32_MAX_SIZE, size + capacityDeltaInt(members.length));
+                int newCapacity = Math.min(ARRAY_STORAGE_32_MAX_SIZE, size + BitmapUtils.capacityDeltaInt(members.length));
                 int[] newMembers = new int[newCapacity];
                 arraycopy(members, 0, newMembers, 0, index);
                 arraycopy(members, index, newMembers, index + 1, size - index);
@@ -284,7 +284,7 @@ final class SparseBitSet {
 
         @Override
         public boolean remove(int member) {
-            int index = unsignedBinarySearch(members, size, toUnsignedLong(member));
+            int index = BitmapUtils.unsignedBinarySearch(members, size, BitmapUtils.toUnsignedLong(member));
             if (index < 0) {
                 // not a member
                 return false;
@@ -296,7 +296,7 @@ final class SparseBitSet {
                 return true;
             }
 
-            int delta = capacityDeltaInt(members.length);
+            int delta = BitmapUtils.capacityDeltaInt(members.length);
             int wasted = members.length - size;
             int newCapacity = members.length - delta;
             if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -317,14 +317,14 @@ final class SparseBitSet {
         public void iterate(IteratorImpl iterator) {
             assert size > 0;
             iterator.position32 = 1;
-            iterator.index = iterator.index & INT_PREFIX_MASK | toUnsignedLong(members[0]);
+            iterator.index = iterator.index & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(members[0]);
         }
 
         @Override
         public boolean advance(IteratorImpl iterator) {
             int position = iterator.position32;
             if (position < size) {
-                iterator.index = iterator.index & INT_PREFIX_MASK | toUnsignedLong(members[position]);
+                iterator.index = iterator.index & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(members[position]);
                 iterator.position32 = position + 1;
                 return true;
             } else {
@@ -334,15 +334,15 @@ final class SparseBitSet {
 
         @Override
         public boolean iterateAtLeastFrom(int member, IteratorImpl iterator) {
-            long unsignedMember = toUnsignedLong(member);
-            int position = unsignedBinarySearch(members, size, unsignedMember);
+            long unsignedMember = BitmapUtils.toUnsignedLong(member);
+            int position = BitmapUtils.unsignedBinarySearch(members, size, unsignedMember);
 
             if (position < 0) {
                 position = -(position + 1);
                 if (position == size) {
                     return false;
                 }
-                unsignedMember = toUnsignedLong(members[position]);
+                unsignedMember = BitmapUtils.toUnsignedLong(members[position]);
             }
 
             iterator.index = iterator.index & INT_PREFIX_MASK | unsignedMember;
@@ -352,7 +352,7 @@ final class SparseBitSet {
 
         @Override
         public boolean advanceAtLeastTo(int member, IteratorImpl iterator) {
-            long unsignedMember = toUnsignedLong(member);
+            long unsignedMember = BitmapUtils.toUnsignedLong(member);
             long current = iterator.index;
             assert (current & INT_POSTFIX_MASK) < unsignedMember;
 
@@ -361,14 +361,14 @@ final class SparseBitSet {
                 return false;
             }
 
-            position = unsignedBinarySearch(members, position, size, unsignedMember);
+            position = BitmapUtils.unsignedBinarySearch(members, position, size, unsignedMember);
 
             if (position < 0) {
                 position = -(position + 1);
                 if (position == size) {
                     return false;
                 }
-                unsignedMember = toUnsignedLong(members[position]);
+                unsignedMember = BitmapUtils.toUnsignedLong(members[position]);
             }
 
             iterator.index = current & INT_PREFIX_MASK | unsignedMember;
@@ -415,7 +415,7 @@ final class SparseBitSet {
         @Override
         public Storage32 add(int member) {
             short prefix = (short) (member >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
 
             // Try to resolve the corresponding 16-bit postfix storage by its
             // 16-bit prefix.
@@ -426,7 +426,7 @@ final class SparseBitSet {
                 Storage16 newStorage = lastStorage.add((short) member);
                 // handle potential storage upgrade
                 if (newStorage != lastStorage) {
-                    int index = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+                    int index = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
                     assert index >= 0;
                     storages[index] = newStorage;
                     lastStorage = newStorage;
@@ -434,7 +434,7 @@ final class SparseBitSet {
                 return this;
             }
 
-            int index = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+            int index = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
             if (index >= 0) {
                 // The storage already exists: just add the member to it.
 
@@ -456,7 +456,7 @@ final class SparseBitSet {
             if (size == prefixes.length) {
                 // Grow the arrays.
 
-                int newCapacity = Math.min(MAX_CAPACITY, size + capacityDeltaShort(prefixes.length));
+                int newCapacity = Math.min(MAX_CAPACITY, size + BitmapUtils.capacityDeltaShort(prefixes.length));
 
                 short[] newPrefixes = new short[newCapacity];
                 arraycopy(prefixes, 0, newPrefixes, 0, index);
@@ -486,7 +486,7 @@ final class SparseBitSet {
         @Override
         public boolean remove(int member) {
             short prefix = (short) (member >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
 
             // Try to resolve the corresponding 16-bit postfix storage by its
             // 16-bit prefix.
@@ -504,10 +504,10 @@ final class SparseBitSet {
                 }
                 // To handle the storage downgrade or removal we need to know
                 // its prefix index.
-                index = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+                index = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
                 assert index >= 0;
             } else {
-                index = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+                index = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
                 if (index < 0) {
                     // no storage, no problems
                     return false;
@@ -537,7 +537,7 @@ final class SparseBitSet {
                     return true;
                 }
 
-                int delta = capacityDeltaShort(prefixes.length);
+                int delta = BitmapUtils.capacityDeltaShort(prefixes.length);
                 int wasted = prefixes.length - size;
                 int newCapacity = prefixes.length - delta;
                 if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -574,7 +574,7 @@ final class SparseBitSet {
             iterator.position32 = 1;
             Storage16 storage = storages[0];
             iterator.storage16 = storage;
-            iterator.index = iterator.index & INT_PREFIX_MASK | toUnsignedLong(prefixes[0]) << Short.SIZE;
+            iterator.index = iterator.index & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(prefixes[0]) << Short.SIZE;
             storage.iterate(iterator);
         }
 
@@ -592,7 +592,7 @@ final class SparseBitSet {
             if (position < size) {
                 Storage16 storage = storages[position];
                 iterator.storage16 = storage;
-                iterator.index = iterator.index & INT_PREFIX_MASK | toUnsignedLong(prefixes[position]) << Short.SIZE;
+                iterator.index = iterator.index & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE;
                 iterator.position32 = position + 1;
                 storage.iterate(iterator);
                 return true;
@@ -609,7 +609,7 @@ final class SparseBitSet {
         @Override
         public boolean advanceAtLeastTo(int member, IteratorImpl iterator) {
             short prefix = (short) (member >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
             long current = iterator.index;
             int currentUnsignedPrefix = (int) (current & SHORT_PREFIX_MASK) >>> Short.SIZE;
             assert currentUnsignedPrefix <= unsignedPrefix;
@@ -633,7 +633,7 @@ final class SparseBitSet {
 
                 Storage16 storage = storages[position];
                 iterator.storage16 = storage;
-                iterator.index = current & INT_PREFIX_MASK | toUnsignedLong(prefixes[position]) << Short.SIZE;
+                iterator.index = current & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE;
                 iterator.position32 = position + 1;
                 storage.iterate(iterator);
                 return true;
@@ -657,7 +657,7 @@ final class SparseBitSet {
             }
 
             if (size == prefixes.length) {
-                int newCapacity = Math.min(MAX_CAPACITY, size + capacityDeltaShort(prefixes.length));
+                int newCapacity = Math.min(MAX_CAPACITY, size + BitmapUtils.capacityDeltaShort(prefixes.length));
                 prefixes = copyOf(prefixes, newCapacity);
                 storages = copyOf(storages, newCapacity);
             }
@@ -669,7 +669,7 @@ final class SparseBitSet {
 
         private boolean iterateAtLeastFrom(int member, int fromPosition, IteratorImpl iterator) {
             short prefix = (short) (member >>> Short.SIZE);
-            int position = unsignedBinarySearch(prefixes, fromPosition, size, toUnsignedInt(prefix));
+            int position = BitmapUtils.unsignedBinarySearch(prefixes, fromPosition, size, BitmapUtils.toUnsignedInt(prefix));
 
             if (position < 0) {
                 position = -(position + 1);
@@ -686,7 +686,7 @@ final class SparseBitSet {
 
                 iterator.storage16 = storage;
                 iterator.index =
-                        iterator.index & INT_PREFIX_SHORT_POSTFIX_MASK | toUnsignedLong(prefixes[position]) << Short.SIZE;
+                        iterator.index & INT_PREFIX_SHORT_POSTFIX_MASK | BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE;
                 iterator.position32 = position + 1;
             } else {
                 // The postfix storage corresponding to the requested member
@@ -700,7 +700,7 @@ final class SparseBitSet {
 
                 storage = storages[position];
                 iterator.storage16 = storage;
-                iterator.index = iterator.index & INT_PREFIX_MASK | toUnsignedLong(prefixes[position]) << Short.SIZE;
+                iterator.index = iterator.index & INT_PREFIX_MASK | BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE;
                 iterator.position32 = position + 1;
                 storage.iterate(iterator);
             }
@@ -825,7 +825,7 @@ final class SparseBitSet {
 
         @Override
         public Storage16 add(short member) {
-            int index = unsignedBinarySearch(members, size, toUnsignedInt(member));
+            int index = BitmapUtils.unsignedBinarySearch(members, size, BitmapUtils.toUnsignedInt(member));
             if (index >= 0) {
                 // already in the array
                 return this;
@@ -839,7 +839,7 @@ final class SparseBitSet {
                     return new BitSetStorage16(members, member, index);
                 }
 
-                int newCapacity = Math.min(ARRAY_STORAGE_16_MAX_SIZE, size + capacityDeltaShort(members.length));
+                int newCapacity = Math.min(ARRAY_STORAGE_16_MAX_SIZE, size + BitmapUtils.capacityDeltaShort(members.length));
                 short[] newMembers = new short[newCapacity];
                 arraycopy(members, 0, newMembers, 0, index);
                 arraycopy(members, index, newMembers, index + 1, size - index);
@@ -855,7 +855,7 @@ final class SparseBitSet {
 
         @Override
         public Storage16 remove(short member) {
-            int index = unsignedBinarySearch(members, size, toUnsignedInt(member));
+            int index = BitmapUtils.unsignedBinarySearch(members, size, BitmapUtils.toUnsignedInt(member));
             if (index < 0) {
                 // not a member
                 return this;
@@ -867,7 +867,7 @@ final class SparseBitSet {
                 return null;
             }
 
-            int delta = capacityDeltaShort(members.length);
+            int delta = BitmapUtils.capacityDeltaShort(members.length);
             int wasted = members.length - size;
             int newCapacity = members.length - delta;
             if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -888,14 +888,14 @@ final class SparseBitSet {
         public void iterate(IteratorImpl iterator) {
             assert size > 0;
             iterator.position16 = 1;
-            iterator.index = iterator.index & INT_PREFIX_SHORT_PREFIX_MASK | toUnsignedInt(members[0]);
+            iterator.index = iterator.index & INT_PREFIX_SHORT_PREFIX_MASK | BitmapUtils.toUnsignedInt(members[0]);
         }
 
         @Override
         public boolean advance(IteratorImpl iterator) {
             int index = iterator.position16;
             if (index < size) {
-                iterator.index = iterator.index & INT_PREFIX_SHORT_PREFIX_MASK | toUnsignedInt(members[index]);
+                iterator.index = iterator.index & INT_PREFIX_SHORT_PREFIX_MASK | BitmapUtils.toUnsignedInt(members[index]);
                 iterator.position16 = index + 1;
                 return true;
             } else {
@@ -905,15 +905,15 @@ final class SparseBitSet {
 
         @Override
         public boolean iterateAtLeastFrom(short member, IteratorImpl iterator) {
-            int unsignedMember = toUnsignedInt(member);
-            int index = unsignedBinarySearch(members, size, unsignedMember);
+            int unsignedMember = BitmapUtils.toUnsignedInt(member);
+            int index = BitmapUtils.unsignedBinarySearch(members, size, unsignedMember);
 
             if (index < 0) {
                 index = -(index + 1);
                 if (index == size) {
                     return false;
                 }
-                unsignedMember = toUnsignedInt(members[index]);
+                unsignedMember = BitmapUtils.toUnsignedInt(members[index]);
             }
 
             iterator.index = iterator.index & INT_PREFIX_SHORT_PREFIX_MASK | unsignedMember;
@@ -923,7 +923,7 @@ final class SparseBitSet {
 
         @Override
         public boolean advanceAtLeastTo(short member, IteratorImpl iterator) {
-            int unsignedMember = toUnsignedInt(member);
+            int unsignedMember = BitmapUtils.toUnsignedInt(member);
             long current = iterator.index;
             assert (current & SHORT_POSTFIX_MASK) < unsignedMember;
 
@@ -931,14 +931,14 @@ final class SparseBitSet {
             if (position == size) {
                 return false;
             }
-            position = unsignedBinarySearch(members, position, size, unsignedMember);
+            position = BitmapUtils.unsignedBinarySearch(members, position, size, unsignedMember);
 
             if (position < 0) {
                 position = -(position + 1);
                 if (position == size) {
                     return false;
                 }
-                unsignedMember = toUnsignedInt(members[position]);
+                unsignedMember = BitmapUtils.toUnsignedInt(members[position]);
             }
 
             iterator.index = current & INT_PREFIX_SHORT_PREFIX_MASK | unsignedMember;
@@ -952,7 +952,7 @@ final class SparseBitSet {
          */
         public void append(short member) {
             if (size == members.length) {
-                int newCapacity = size + capacityDeltaShort(members.length);
+                int newCapacity = size + BitmapUtils.capacityDeltaShort(members.length);
                 assert newCapacity <= ARRAY_STORAGE_16_MAX_SIZE;
                 members = copyOf(members, newCapacity);
             }
@@ -996,7 +996,7 @@ final class SparseBitSet {
 
         @Override
         public Storage16 add(short member) {
-            int bitIndex = toUnsignedInt(member);
+            int bitIndex = BitmapUtils.toUnsignedInt(member);
             int longIndex = bitIndex >>> BIT_SET_LONG_SHIFT;
 
             long bitSet = members[longIndex];
@@ -1011,7 +1011,7 @@ final class SparseBitSet {
 
         @Override
         public Storage16 remove(short member) {
-            int bitIndex = toUnsignedInt(member);
+            int bitIndex = BitmapUtils.toUnsignedInt(member);
             int longIndex = bitIndex >>> BIT_SET_LONG_SHIFT;
 
             long bitSet = members[longIndex];
@@ -1070,7 +1070,7 @@ final class SparseBitSet {
 
         @Override
         public boolean iterateAtLeastFrom(short member, IteratorImpl iterator) {
-            int bitIndex = toUnsignedInt(member);
+            int bitIndex = BitmapUtils.toUnsignedInt(member);
             int longIndex = bitIndex >>> BIT_SET_LONG_SHIFT;
 
             iterator.position16 = longIndex;
@@ -1083,7 +1083,7 @@ final class SparseBitSet {
         @Override
         public boolean advanceAtLeastTo(short member, IteratorImpl iterator) {
             long current = iterator.index;
-            int bitIndex = toUnsignedInt(member);
+            int bitIndex = BitmapUtils.toUnsignedInt(member);
             assert (current & SHORT_POSTFIX_MASK) < bitIndex;
 
             int longIndex = bitIndex >>> BIT_SET_LONG_SHIFT;
@@ -1096,7 +1096,7 @@ final class SparseBitSet {
         }
 
         private void append(short member) {
-            int bitIndex = toUnsignedInt(member);
+            int bitIndex = BitmapUtils.toUnsignedInt(member);
             members[bitIndex >>> BIT_SET_LONG_SHIFT] |= 1L << bitIndex;
         }
 

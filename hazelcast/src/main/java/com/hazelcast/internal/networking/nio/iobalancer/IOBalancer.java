@@ -22,7 +22,6 @@ import com.hazelcast.internal.networking.nio.NioInboundPipeline;
 import com.hazelcast.internal.networking.nio.NioOutboundPipeline;
 import com.hazelcast.internal.networking.nio.NioThread;
 import com.hazelcast.internal.nio.ConnectionListener;
-import com.hazelcast.internal.server.ServerConnectionManager;
 import com.hazelcast.internal.util.counters.MwCounter;
 import com.hazelcast.internal.util.counters.SwCounter;
 import com.hazelcast.logging.ILogger;

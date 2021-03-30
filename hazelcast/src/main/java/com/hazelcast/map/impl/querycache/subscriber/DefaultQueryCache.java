@@ -90,7 +90,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
 
     @Override
     public void prepopulate(Iterator<Map.Entry<Data, Data>> entries) {
-        recordStore.addBatch(entries, (entry, oldRecord) -> publishEntryEvent(context, mapName, cacheId,
+        recordStore.addBatch(entries, (entry, oldRecord) -> EventPublisherHelper.publishEntryEvent(context, mapName, cacheId,
                 entry.getKey(), entry.getValue(), oldRecord, EntryEventType.ADDED, extractors));
     }
 
@@ -107,7 +107,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
                 ? recordStore.add(keyData, valueData) : recordStore.addWithoutEvictionCheck(keyData, valueData);
 
         if (eventType != null) {
-            publishEntryEvent(context, mapName, cacheId,
+            EventPublisherHelper.publishEntryEvent(context, mapName, cacheId,
                     keyData, valueData, oldRecord, eventType, extractors);
         }
     }
@@ -123,7 +123,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
             return;
         }
         if (eventType != null) {
-            publishEntryEvent(context, mapName, cacheId, keyData,
+            EventPublisherHelper.publishEntryEvent(context, mapName, cacheId, keyData,
                     null, oldRecord, eventType, extractors);
         }
     }
@@ -209,7 +209,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
                 Future future = invokerWrapper.invokeOnTarget(removePublisher, member);
                 futures.add(future);
             }
-            waitWithDeadline(futures, OPERATION_WAIT_TIMEOUT_MINUTES, MINUTES);
+            waitWithDeadline(futures, AbstractQueryCacheEndToEndConstructor.OPERATION_WAIT_TIMEOUT_MINUTES, MINUTES);
         } else {
             try {
                 subscriberContext.getEventService().removePublisherListener(mapName, cacheId, publisherListenerId);

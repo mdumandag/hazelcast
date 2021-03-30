@@ -21,6 +21,7 @@ import com.hazelcast.core.TypeConverter;
 import com.hazelcast.internal.json.Json;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.map.impl.record.Record;
 import com.hazelcast.nio.serialization.Portable;
 import com.hazelcast.query.QueryException;
 import com.hazelcast.query.impl.getters.Extractors;

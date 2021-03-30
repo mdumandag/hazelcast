@@ -266,8 +266,8 @@ public class AttributeIndexRegistry {
 
         @Override
         public Set<QueryableEntry> getRecords(Comparable value) {
-            Comparable from = new CompositeValue(width, value, NEGATIVE_INFINITY);
-            Comparable to = new CompositeValue(width, value, POSITIVE_INFINITY);
+            Comparable from = new CompositeValue(width, value, CompositeValue.NEGATIVE_INFINITY);
+            Comparable to = new CompositeValue(width, value, CompositeValue.POSITIVE_INFINITY);
             return delegate.getRecords(from, false, to, false);
         }
 
@@ -307,8 +307,8 @@ public class AttributeIndexRegistry {
 
         @Override
         public Set<QueryableEntry> getRecords(Comparable from, boolean fromInclusive, Comparable to, boolean toInclusive) {
-            Comparable compositeFrom = new CompositeValue(width, from, fromInclusive ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
-            Comparable compositeTo = new CompositeValue(width, to, toInclusive ? POSITIVE_INFINITY : NEGATIVE_INFINITY);
+            Comparable compositeFrom = new CompositeValue(width, from, fromInclusive ? CompositeValue.NEGATIVE_INFINITY : CompositeValue.POSITIVE_INFINITY);
+            Comparable compositeTo = new CompositeValue(width, to, toInclusive ? CompositeValue.POSITIVE_INFINITY : CompositeValue.NEGATIVE_INFINITY);
             return delegate.getRecords(compositeFrom, false, compositeTo, false);
         }
 
@@ -316,17 +316,17 @@ public class AttributeIndexRegistry {
         public Set<QueryableEntry> getRecords(Comparison comparison, Comparable value) {
             switch (comparison) {
                 case LESS:
-                    CompositeValue lessFrom = new CompositeValue(width, NULL, POSITIVE_INFINITY);
-                    CompositeValue lessTo = new CompositeValue(width, value, NEGATIVE_INFINITY);
+                    CompositeValue lessFrom = new CompositeValue(width, NULL, CompositeValue.POSITIVE_INFINITY);
+                    CompositeValue lessTo = new CompositeValue(width, value, CompositeValue.NEGATIVE_INFINITY);
                     return delegate.getRecords(lessFrom, false, lessTo, false);
                 case GREATER:
-                    return delegate.getRecords(GREATER, new CompositeValue(width, value, POSITIVE_INFINITY));
+                    return delegate.getRecords(GREATER, new CompositeValue(width, value, CompositeValue.POSITIVE_INFINITY));
                 case LESS_OR_EQUAL:
-                    CompositeValue greaterOrEqualFrom = new CompositeValue(width, NULL, POSITIVE_INFINITY);
-                    CompositeValue greaterOrEqualTo = new CompositeValue(width, value, POSITIVE_INFINITY);
+                    CompositeValue greaterOrEqualFrom = new CompositeValue(width, NULL, CompositeValue.POSITIVE_INFINITY);
+                    CompositeValue greaterOrEqualTo = new CompositeValue(width, value, CompositeValue.POSITIVE_INFINITY);
                     return delegate.getRecords(greaterOrEqualFrom, false, greaterOrEqualTo, false);
                 case GREATER_OR_EQUAL:
-                    return delegate.getRecords(GREATER_OR_EQUAL, new CompositeValue(width, value, NEGATIVE_INFINITY));
+                    return delegate.getRecords(GREATER_OR_EQUAL, new CompositeValue(width, value, CompositeValue.NEGATIVE_INFINITY));
                 default:
                     throw new IllegalStateException("unexpected comparison: " + comparison);
             }

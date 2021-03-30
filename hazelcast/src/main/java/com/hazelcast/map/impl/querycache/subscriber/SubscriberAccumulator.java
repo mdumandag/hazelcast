@@ -137,7 +137,7 @@ public class SubscriberAccumulator extends BasicAccumulator<QueryCacheEventData>
         int partitionId = event.getPartitionId();
         long sequence = event.getSequence();
 
-        if (sequence == END_SEQUENCE) {
+        if (sequence == Accumulator.END_SEQUENCE) {
             brokenSequences.remove(partitionId);
         } else {
             Long expected = brokenSequences.get(partitionId);
@@ -188,6 +188,6 @@ public class SubscriberAccumulator extends BasicAccumulator<QueryCacheEventData>
     }
 
     private boolean isEndEvent(QueryCacheEventData event) {
-        return event.getSequence() == END_SEQUENCE;
+        return event.getSequence() == Accumulator.END_SEQUENCE;
     }
 }

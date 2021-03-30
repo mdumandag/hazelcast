@@ -82,7 +82,7 @@ public abstract class AbstractQueryCacheEndToEndConstructor implements QueryCach
             }
             queryCache = createUnderlyingQueryCache(queryCacheConfig, request, cacheId);
 
-            AccumulatorInfo info = toAccumulatorInfo(queryCacheConfig, mapName, cacheId, predicate);
+            AccumulatorInfo info = AccumulatorInfo.toAccumulatorInfo(queryCacheConfig, mapName, cacheId, predicate);
             addInfoToSubscriberContext(info);
 
             info.setPublishable(true);

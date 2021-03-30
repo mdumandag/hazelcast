@@ -313,7 +313,7 @@ class SparseIntArray<E> {
 
         @SuppressWarnings("checkstyle:npathcomplexity")
         private Storage32 setDense(int index, Object value) {
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
             if (unsignedIndex < values.length) {
                 // The index is inside the bounds: just set the corresponding
@@ -328,7 +328,7 @@ class SparseIntArray<E> {
 
             // We need to grow the array.
 
-            int delta = denseCapacityDeltaInt(size, values.length);
+            int delta = BitmapUtils.denseCapacityDeltaInt(size, values.length);
             int newCapacity = Math.min(ARRAY_STORAGE_32_MAX_DENSE_SIZE, size + delta);
             if (unsignedIndex < newCapacity) {
                 // We are good: just grow the array and store the value.
@@ -388,9 +388,9 @@ class SparseIntArray<E> {
 
         private Storage32 setSparse(int index, Object value) {
             assert size > 0;
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
-            int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+            int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
             if (position >= 0) {
                 // Already there: just overwrite it.
 
@@ -403,8 +403,8 @@ class SparseIntArray<E> {
                 // We are full: either grow the array or try to convert to
                 // dense representation.
 
-                int delta = capacityDeltaInt(indexes.length);
-                long lastIndex = toUnsignedLong(indexes[indexes.length - 1]);
+                int delta = BitmapUtils.capacityDeltaInt(indexes.length);
+                long lastIndex = BitmapUtils.toUnsignedLong(indexes[indexes.length - 1]);
                 long denseCapacity = Math.max(unsignedIndex, lastIndex) + 1;
                 if (denseCapacity <= size + delta) {
                     // The wasted space is bellow the threshold: convert to
@@ -466,7 +466,7 @@ class SparseIntArray<E> {
 
         @SuppressWarnings({"checkstyle:cyclomaticcomplexity", "checkstyle:npathcomplexity"})
         private Storage32 clearDense(int index) {
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
             if (unsignedIndex >= values.length) {
                 // Out of bounds.
@@ -484,7 +484,7 @@ class SparseIntArray<E> {
                 return null;
             }
 
-            int delta = capacityDeltaInt(values.length);
+            int delta = BitmapUtils.capacityDeltaInt(values.length);
             int wasted = values.length - size;
             if (wasted < delta) {
                 return this;
@@ -534,9 +534,9 @@ class SparseIntArray<E> {
 
         private Storage32 clearSparse(int index) {
             assert size > 0;
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
-            int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+            int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
             if (position < 0) {
                 return this;
             }
@@ -550,7 +550,7 @@ class SparseIntArray<E> {
                 return null;
             }
 
-            int delta = capacityDeltaInt(indexes.length);
+            int delta = BitmapUtils.capacityDeltaInt(indexes.length);
             int wasted = indexes.length - size;
             int newCapacity = indexes.length - delta;
             if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -576,7 +576,7 @@ class SparseIntArray<E> {
 
         @Override
         public Object get(int index) {
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
             if (indexes == null) {
                 // Dense representation.
@@ -587,7 +587,7 @@ class SparseIntArray<E> {
                 // empty arrays are represented as dense ones.
                 assert size > 0;
 
-                int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+                int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
                 return position >= 0 ? values[position] : null;
             }
         }
@@ -631,7 +631,7 @@ class SparseIntArray<E> {
                 if (position < size) {
                     iterator.value = values[position];
                     iterator.position32 = position + 1;
-                    return toUnsignedLong(indexes[position]);
+                    return BitmapUtils.toUnsignedLong(indexes[position]);
                 } else {
                     return Iterator.END;
                 }
@@ -640,7 +640,7 @@ class SparseIntArray<E> {
 
         @Override
         public long iterateAtLeastFrom(int index, Iterator iterator) {
-            long unsignedIndex = toUnsignedLong(index);
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
 
             if (indexes == null) {
                 // Dense representation.
@@ -664,14 +664,14 @@ class SparseIntArray<E> {
                 // empty arrays are represented as dense ones.
                 assert size > 0;
 
-                int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+                int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
 
                 if (position < 0) {
                     position = -(position + 1);
                     if (position == size) {
                         return Iterator.END;
                     }
-                    unsignedIndex = toUnsignedLong(indexes[position]);
+                    unsignedIndex = BitmapUtils.toUnsignedLong(indexes[position]);
                 }
 
                 iterator.position32 = position + 1;
@@ -682,8 +682,8 @@ class SparseIntArray<E> {
 
         @Override
         public long advanceAtLeastTo(int index, int current, Iterator iterator) {
-            long unsignedIndex = toUnsignedLong(index);
-            assert toUnsignedLong(current) < unsignedIndex;
+            long unsignedIndex = BitmapUtils.toUnsignedLong(index);
+            assert BitmapUtils.toUnsignedLong(current) < unsignedIndex;
 
             if (indexes == null) {
                 // Dense representation.
@@ -711,14 +711,14 @@ class SparseIntArray<E> {
                 if (position == size) {
                     return Iterator.END;
                 }
-                position = unsignedBinarySearch(indexes, position, size, unsignedIndex);
+                position = BitmapUtils.unsignedBinarySearch(indexes, position, size, unsignedIndex);
 
                 if (position < 0) {
                     position = -(position + 1);
                     if (position == size) {
                         return Iterator.END;
                     }
-                    unsignedIndex = toUnsignedLong(indexes[position]);
+                    unsignedIndex = BitmapUtils.toUnsignedLong(indexes[position]);
                 }
 
                 iterator.value = values[position];
@@ -815,7 +815,7 @@ class SparseIntArray<E> {
         @Override
         public Storage32 set(int index, Object value) {
             short prefix = (short) (index >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
 
             // Try to resolve the corresponding 16-bit postfix storage by its
             // 16-bit prefix.
@@ -828,7 +828,7 @@ class SparseIntArray<E> {
                 return this;
             }
 
-            int position = size == 0 ? -1 : unsignedBinarySearch(prefixes, size, unsignedPrefix);
+            int position = size == 0 ? -1 : BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
             if (position >= 0) {
                 // The storage already exists: just add the index-value pair to
                 // it.
@@ -847,7 +847,7 @@ class SparseIntArray<E> {
             if (size == prefixes.length) {
                 // Grow the arrays.
 
-                int newCapacity = Math.min(MAX_CAPACITY, size + capacityDeltaShort(prefixes.length));
+                int newCapacity = Math.min(MAX_CAPACITY, size + BitmapUtils.capacityDeltaShort(prefixes.length));
 
                 short[] newPrefixes = new short[newCapacity];
                 arraycopy(prefixes, 0, newPrefixes, 0, position);
@@ -877,7 +877,7 @@ class SparseIntArray<E> {
         @Override
         public Storage32 clear(int index) {
             short prefix = (short) (index >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
 
             // Try to resolve the corresponding 16-bit postfix storage by its
             // 16-bit prefix.
@@ -893,14 +893,14 @@ class SparseIntArray<E> {
                     return this;
                 }
                 // To handle the storage removal we need to know its prefix index.
-                position = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+                position = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
                 assert position >= 0;
             } else {
                 if (size == 0) {
                     // no storages, no problems
                     return this;
                 }
-                position = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+                position = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
                 if (position < 0) {
                     // no storage, no problems
                     return this;
@@ -926,7 +926,7 @@ class SparseIntArray<E> {
                 return null;
             }
 
-            int delta = capacityDeltaShort(prefixes.length);
+            int delta = BitmapUtils.capacityDeltaShort(prefixes.length);
             int wasted = prefixes.length - size;
             int newCapacity = prefixes.length - delta;
             if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -954,7 +954,7 @@ class SparseIntArray<E> {
         @Override
         public Object get(int index) {
             short prefix = (short) (index >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
 
             // Try to resolve the corresponding 16-bit postfix storage by its
             // 16-bit prefix.
@@ -968,7 +968,7 @@ class SparseIntArray<E> {
                 // no storages, no problems
                 return null;
             }
-            int position = unsignedBinarySearch(prefixes, size, unsignedPrefix);
+            int position = BitmapUtils.unsignedBinarySearch(prefixes, size, unsignedPrefix);
             if (position < 0) {
                 // no storage, no problems
                 return null;
@@ -985,7 +985,7 @@ class SparseIntArray<E> {
             if (size > 0) {
                 iterator.position32 = 1;
                 iterator.storage16 = storages[0];
-                return toUnsignedLong(prefixes[0]) << Short.SIZE | iterator.storage16.iterate(iterator);
+                return BitmapUtils.toUnsignedLong(prefixes[0]) << Short.SIZE | iterator.storage16.iterate(iterator);
             } else {
                 return Iterator.END;
             }
@@ -997,7 +997,7 @@ class SparseIntArray<E> {
 
             int postfix = iterator.storage16.advance(iterator);
             if (postfix != Storage16.END) {
-                return toUnsignedLong(current) & SHORT_PREFIX_MASK_LONG | postfix;
+                return BitmapUtils.toUnsignedLong(current) & SHORT_PREFIX_MASK_LONG | postfix;
             }
 
             // Try to advance to the next postfix storage and iterate it.
@@ -1007,7 +1007,7 @@ class SparseIntArray<E> {
                 iterator.storage16 = storages[index];
                 iterator.position32 = index + 1;
                 postfix = iterator.storage16.iterate(iterator);
-                return toUnsignedLong(prefixes[index]) << Short.SIZE | postfix;
+                return BitmapUtils.toUnsignedLong(prefixes[index]) << Short.SIZE | postfix;
             } else {
                 return Iterator.END;
             }
@@ -1024,7 +1024,7 @@ class SparseIntArray<E> {
         @Override
         public long advanceAtLeastTo(int index, int current, Iterator iterator) {
             short prefix = (short) (index >>> Short.SIZE);
-            int unsignedPrefix = toUnsignedInt(prefix);
+            int unsignedPrefix = BitmapUtils.toUnsignedInt(prefix);
             int currentUnsignedPrefix = (current & SHORT_PREFIX_MASK_INT) >>> Short.SIZE;
             assert currentUnsignedPrefix <= unsignedPrefix;
 
@@ -1035,7 +1035,7 @@ class SparseIntArray<E> {
                 int postfix = iterator.storage16.advanceAtLeastTo((short) index, (short) current, iterator);
                 if (postfix != Storage16.END) {
                     // found in the current postfix storage
-                    return toUnsignedLong(prefix) << Short.SIZE | postfix;
+                    return BitmapUtils.toUnsignedLong(prefix) << Short.SIZE | postfix;
                 }
 
                 int position = iterator.position32;
@@ -1051,7 +1051,7 @@ class SparseIntArray<E> {
                 iterator.position32 = position + 1;
                 postfix = storage.iterate(iterator);
                 assert postfix != Storage16.END;
-                return toUnsignedLong(prefixes[position]) << Short.SIZE | postfix;
+                return BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE | postfix;
             }
 
             // Resolve and iterate the requested prefix.
@@ -1072,7 +1072,7 @@ class SparseIntArray<E> {
             }
 
             if (size == prefixes.length) {
-                int newCapacity = Math.min(MAX_CAPACITY, size + capacityDeltaShort(prefixes.length));
+                int newCapacity = Math.min(MAX_CAPACITY, size + BitmapUtils.capacityDeltaShort(prefixes.length));
                 prefixes = copyOf(prefixes, newCapacity);
                 storages = copyOf(storages, newCapacity);
             }
@@ -1084,7 +1084,7 @@ class SparseIntArray<E> {
 
         private long iterateAtLeastFrom(int index, int startFrom, Iterator iterator) {
             short prefix = (short) (index >>> Short.SIZE);
-            int position = unsignedBinarySearch(prefixes, startFrom, size, toUnsignedInt(prefix));
+            int position = BitmapUtils.unsignedBinarySearch(prefixes, startFrom, size, BitmapUtils.toUnsignedInt(prefix));
 
             Storage16 storage;
             int postfix;
@@ -1110,7 +1110,7 @@ class SparseIntArray<E> {
 
                 iterator.storage16 = storage;
                 iterator.position32 = position + 1;
-                return toUnsignedLong(prefix) << Short.SIZE | postfix;
+                return BitmapUtils.toUnsignedLong(prefix) << Short.SIZE | postfix;
             } else {
                 // The postfix storage corresponding to the requested index
                 // doesn't contain the requested index or any indexes greater
@@ -1126,7 +1126,7 @@ class SparseIntArray<E> {
                 iterator.position32 = position + 1;
                 postfix = storage.iterate(iterator);
                 assert postfix != Storage16.END;
-                return toUnsignedLong(prefixes[position]) << Short.SIZE | postfix;
+                return BitmapUtils.toUnsignedLong(prefixes[position]) << Short.SIZE | postfix;
             }
         }
 
@@ -1173,7 +1173,7 @@ class SparseIntArray<E> {
         }
 
         private void setDense(short index, Object value) {
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
             if (unsignedIndex < values.length) {
                 // The index is inside the bounds: just set the corresponding
@@ -1188,7 +1188,7 @@ class SparseIntArray<E> {
 
             // We need to grow the array.
 
-            int delta = denseCapacityDeltaShort(size, values.length);
+            int delta = BitmapUtils.denseCapacityDeltaShort(size, values.length);
             int newCapacity = Math.min(STORAGE_16_MAX_DENSE_SIZE, size + delta);
             if (unsignedIndex < newCapacity) {
                 // We are good: just grow the array and store the value.
@@ -1240,9 +1240,9 @@ class SparseIntArray<E> {
         }
 
         private void setSparse(short index, Object value) {
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
-            int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+            int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
             if (position >= 0) {
                 // Already there: just overwrite it.
 
@@ -1255,8 +1255,8 @@ class SparseIntArray<E> {
                 // We are full: either grow the array or try to convert to
                 // dense representation.
 
-                int delta = capacityDeltaShort(indexes.length);
-                int lastIndex = toUnsignedInt(indexes[indexes.length - 1]);
+                int delta = BitmapUtils.capacityDeltaShort(indexes.length);
+                int lastIndex = BitmapUtils.toUnsignedInt(indexes[indexes.length - 1]);
                 int denseCapacity = Math.max(unsignedIndex, lastIndex) + 1;
                 if (denseCapacity <= size + delta) {
                     // The wasted space is bellow the threshold: convert to
@@ -1264,7 +1264,7 @@ class SparseIntArray<E> {
 
                     Object[] newValues = new Object[denseCapacity];
                     for (int i = 0; i < indexes.length; ++i) {
-                        newValues[toUnsignedInt(indexes[i])] = values[i];
+                        newValues[BitmapUtils.toUnsignedInt(indexes[i])] = values[i];
                     }
                     newValues[unsignedIndex] = value;
 
@@ -1277,7 +1277,7 @@ class SparseIntArray<E> {
                 // We were unable to convert to dense representation: reallocate
                 // the arrays to gain the space for the new value.
 
-                int newCapacity = Math.min(STORAGE_16_MAX_SPARSE_SIZE, size + capacityDeltaShort(indexes.length));
+                int newCapacity = Math.min(STORAGE_16_MAX_SPARSE_SIZE, size + BitmapUtils.capacityDeltaShort(indexes.length));
 
                 short[] newIndexes = new short[newCapacity];
                 arraycopy(indexes, 0, newIndexes, 0, position);
@@ -1317,7 +1317,7 @@ class SparseIntArray<E> {
 
         @SuppressWarnings("checkstyle:npathcomplexity")
         private boolean clearDense(short index) {
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
             if (unsignedIndex >= values.length) {
                 // Out of bounds.
@@ -1335,7 +1335,7 @@ class SparseIntArray<E> {
             }
             values[unsignedIndex] = null;
 
-            int delta = capacityDeltaShort(values.length);
+            int delta = BitmapUtils.capacityDeltaShort(values.length);
             int wasted = values.length - size;
             if (wasted < delta) {
                 return false;
@@ -1380,9 +1380,9 @@ class SparseIntArray<E> {
         }
 
         private boolean clearSparse(short index) {
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
-            int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+            int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
             if (position < 0) {
                 return false;
             }
@@ -1393,7 +1393,7 @@ class SparseIntArray<E> {
                 return true;
             }
 
-            int delta = capacityDeltaShort(indexes.length);
+            int delta = BitmapUtils.capacityDeltaShort(indexes.length);
             int wasted = indexes.length - size;
             int newCapacity = indexes.length - delta;
             if (wasted >= delta && newCapacity >= MIN_CAPACITY) {
@@ -1424,12 +1424,12 @@ class SparseIntArray<E> {
          * {@code null} if nothing stored at it.
          */
         public Object get(short index) {
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
             if (indexes == null) {
                 return unsignedIndex < values.length ? values[unsignedIndex] : null;
             } else {
-                int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+                int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
                 return position >= 0 ? values[position] : null;
             }
         }
@@ -1481,7 +1481,7 @@ class SparseIntArray<E> {
                 if (position < size) {
                     iterator.value = values[position];
                     iterator.position16 = position + 1;
-                    return toUnsignedInt(indexes[position]);
+                    return BitmapUtils.toUnsignedInt(indexes[position]);
                 } else {
                     return Storage16.END;
                 }
@@ -1500,7 +1500,7 @@ class SparseIntArray<E> {
          */
         public int iterateAtLeastFrom(short index, Iterator iterator) {
             assert size > 0;
-            int unsignedIndex = toUnsignedInt(index);
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
 
             if (indexes == null) {
                 // Dense representation.
@@ -1521,14 +1521,14 @@ class SparseIntArray<E> {
             } else {
                 // Sparse representation.
 
-                int position = unsignedBinarySearch(indexes, size, unsignedIndex);
+                int position = BitmapUtils.unsignedBinarySearch(indexes, size, unsignedIndex);
 
                 if (position < 0) {
                     position = -(position + 1);
                     if (position == size) {
                         return Storage16.END;
                     }
-                    unsignedIndex = toUnsignedInt(indexes[position]);
+                    unsignedIndex = BitmapUtils.toUnsignedInt(indexes[position]);
                 }
 
                 iterator.value = values[position];
@@ -1550,8 +1550,8 @@ class SparseIntArray<E> {
          */
         public int advanceAtLeastTo(short index, short current, Iterator iterator) {
             assert size > 0;
-            int unsignedIndex = toUnsignedInt(index);
-            assert toUnsignedInt(current) < unsignedIndex;
+            int unsignedIndex = BitmapUtils.toUnsignedInt(index);
+            assert BitmapUtils.toUnsignedInt(current) < unsignedIndex;
 
             if (indexes == null) {
                 // Dense representation.
@@ -1577,14 +1577,14 @@ class SparseIntArray<E> {
                 if (position == size) {
                     return Storage16.END;
                 }
-                position = unsignedBinarySearch(indexes, position, size, unsignedIndex);
+                position = BitmapUtils.unsignedBinarySearch(indexes, position, size, unsignedIndex);
 
                 if (position < 0) {
                     position = -(position + 1);
                     if (position == size) {
                         return Storage16.END;
                     }
-                    unsignedIndex = toUnsignedInt(indexes[position]);
+                    unsignedIndex = BitmapUtils.toUnsignedInt(indexes[position]);
                 }
 
                 iterator.value = values[position];

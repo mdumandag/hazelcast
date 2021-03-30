@@ -87,7 +87,7 @@ public class QueryCacheEndToEndProvider<K, V> {
 
                 queryCache = constructor.createNew(cacheId);
 
-                if (queryCache != NULL_QUERY_CACHE) {
+                if (queryCache != NullQueryCache.NULL_QUERY_CACHE) {
                     queryCacheRegistry.put(cacheName, queryCache);
                     return queryCache;
                 }

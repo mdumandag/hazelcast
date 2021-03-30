@@ -61,7 +61,7 @@ public final class GetterFactory {
 
         Class elementType = null;
         if (isExtractingFromCollection(type, modifier)) {
-            validateModifier(modifier);
+            AbstractMultiValueGetter.validateModifier(modifier);
             if (currentObject == null) {
                 return NULL_GETTER;
             }
@@ -79,7 +79,7 @@ public final class GetterFactory {
                 return NULL_GETTER;
             }
         } else if (isExtractingFromArray(type, modifier)) {
-            validateModifier(modifier);
+            AbstractMultiValueGetter.validateModifier(modifier);
             if (currentObject == null) {
                 return NULL_GETTER;
             }

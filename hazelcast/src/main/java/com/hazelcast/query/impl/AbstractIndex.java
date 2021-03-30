@@ -389,7 +389,7 @@ public abstract class AbstractIndex implements InternalIndex {
             if (this == o) {
                 return 0;
             }
-            return o == NEGATIVE_INFINITY ? +1 : -1;
+            return o == CompositeValue.NEGATIVE_INFINITY ? +1 : -1;
         }
 
         @Override
