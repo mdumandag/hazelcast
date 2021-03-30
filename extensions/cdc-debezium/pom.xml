@@ -116,6 +116,12 @@
             <version>${jackson.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- TEST -->
         <dependency>
             <groupId>io.debezium</groupId>
