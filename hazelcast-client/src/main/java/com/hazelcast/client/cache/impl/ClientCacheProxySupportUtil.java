@@ -17,7 +17,7 @@
 package com.hazelcast.client.cache.impl;
 
 import com.hazelcast.cache.impl.CacheEventData;
-import com.hazelcast.cache.impl.CacheEventListenerAdaptor;
+import com.hazelcast.cache.impl.CacheEventListenerAdaptorBase;
 import com.hazelcast.cache.impl.event.CachePartitionLostEvent;
 import com.hazelcast.cache.impl.event.CachePartitionLostListener;
 import com.hazelcast.client.impl.protocol.ClientMessage;
@@ -85,7 +85,7 @@ final class ClientCacheProxySupportUtil {
         return callback == null ? future : future.whenCompleteAsync(callback, CALLER_RUNS);
     }
 
-    static EventHandler createHandler(CacheEventListenerAdaptor<?, ?> adaptor) {
+    static EventHandler createHandler(CacheEventListenerAdaptorBase<?, ?> adaptor) {
         return new CacheEventHandler(adaptor);
     }
 
@@ -173,9 +173,9 @@ final class ClientCacheProxySupportUtil {
             extends CacheAddEntryListenerCodec.AbstractEventHandler
             implements EventHandler<ClientMessage> {
 
-        private final CacheEventListenerAdaptor<?, ?> adaptor;
+        private final CacheEventListenerAdaptorBase<?, ?> adaptor;
 
-        CacheEventHandler(CacheEventListenerAdaptor<?, ?> adaptor) {
+        CacheEventHandler(CacheEventListenerAdaptorBase<?, ?> adaptor) {
             this.adaptor = adaptor;
         }
 

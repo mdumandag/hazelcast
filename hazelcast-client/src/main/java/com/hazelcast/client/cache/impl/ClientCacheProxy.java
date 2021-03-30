@@ -19,7 +19,7 @@ package com.hazelcast.client.cache.impl;
 import com.hazelcast.cache.CacheStatistics;
 import com.hazelcast.cache.EventJournalCacheEvent;
 import com.hazelcast.cache.impl.CacheEntryProcessorResult;
-import com.hazelcast.cache.impl.CacheEventListenerAdaptor;
+import com.hazelcast.cache.impl.CacheEventListenerAdaptorBase;
 import com.hazelcast.cache.impl.CacheSyncListenerCompleter;
 import com.hazelcast.cache.impl.event.CachePartitionLostListener;
 import com.hazelcast.client.impl.ClientDelegatingFuture;
@@ -309,7 +309,7 @@ public class ClientCacheProxy<K, V> extends ClientCacheProxySupport<K, V>
             throw new NullPointerException("CacheEntryListenerConfiguration can't be null");
         }
 
-        CacheEventListenerAdaptor<K, V> adaptor = new CacheEventListenerAdaptor<>(this, cacheEntryListenerConfiguration,
+        CacheEventListenerAdaptorBase<K, V> adaptor = new CacheEventListenerAdaptorBase<>(this, cacheEntryListenerConfiguration,
                 getSerializationService());
 
         UUID regId = getContext().getListenerService()

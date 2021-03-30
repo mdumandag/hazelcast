@@ -41,7 +41,7 @@ public abstract class AbstractCacheSyncListenerCompleter
     private final ConcurrentMap<CacheEntryListenerConfiguration, UUID> asyncListenerRegistrations = new ConcurrentHashMap<>();
     private final ConcurrentMap<CacheEntryListenerConfiguration, UUID> syncListenerRegistrations = new ConcurrentHashMap<>();
 
-    private static final int IGNORE_COMPLETION = -1;
+    public static final int IGNORE_COMPLETION = -1;
 
     @Override
     public void countDownCompletionLatch(int countDownLatchId) {

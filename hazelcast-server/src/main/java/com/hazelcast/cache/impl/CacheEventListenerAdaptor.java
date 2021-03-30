@@ -59,88 +59,11 @@ import java.util.HashSet;
  * @see CacheEntryExpiredListener
  * @see CacheEntryEventFilter
  */
-public class CacheEventListenerAdaptor<K, V>
+public class CacheEventListenerAdaptor<K, V> extends CacheEventListenerAdaptorBase<K, V>
         implements CacheEventListener,
-                   CacheEntryListenerProvider<K, V>,
                    NotifiableEventListener<CacheService>,
                    ListenerWrapperEventFilter,
                    IdentifiedDataSerializable {
-
-    // all fields are effectively final
-    private transient CacheEntryListener<K, V> cacheEntryListener;
-    private transient CacheEntryCreatedListener cacheEntryCreatedListener;
-    private transient CacheEntryRemovedListener cacheEntryRemovedListener;
-    private transient CacheEntryUpdatedListener cacheEntryUpdatedListener;
-    private transient CacheEntryExpiredListener cacheEntryExpiredListener;
-    private transient CacheEntryEventFilter<? super K, ? super V> filter;
-    private boolean isOldValueRequired;
-
-    private transient SerializationService serializationService;
-    private transient ICache<K, V> source;
-
-    public CacheEventListenerAdaptor() {
-    }
-
-    public CacheEventListenerAdaptor(ICache<K, V> source,
-                                     CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration,
-                                     SerializationService serializationService) {
-        this.source = source;
-        this.serializationService = serializationService;
-
-        this.cacheEntryListener = createCacheEntryListener(cacheEntryListenerConfiguration);
-        if (cacheEntryListener instanceof CacheEntryCreatedListener) {
-            this.cacheEntryCreatedListener = (CacheEntryCreatedListener) cacheEntryListener;
-        } else {
-            this.cacheEntryCreatedListener = null;
-        }
-        if (cacheEntryListener instanceof CacheEntryRemovedListener) {
-            this.cacheEntryRemovedListener = (CacheEntryRemovedListener) cacheEntryListener;
-        } else {
-            this.cacheEntryRemovedListener = null;
-        }
-        if (cacheEntryListener instanceof CacheEntryUpdatedListener) {
-            this.cacheEntryUpdatedListener = (CacheEntryUpdatedListener) cacheEntryListener;
-        } else {
-            this.cacheEntryUpdatedListener = null;
-        }
-        if (cacheEntryListener instanceof CacheEntryExpiredListener) {
-            this.cacheEntryExpiredListener = (CacheEntryExpiredListener) cacheEntryListener;
-        } else {
-            this.cacheEntryExpiredListener = null;
-        }
-        cacheEntryListener = injectDependencies(cacheEntryListener);
-
-        Factory<CacheEntryEventFilter<? super K, ? super V>> filterFactory =
-                cacheEntryListenerConfiguration.getCacheEntryEventFilterFactory();
-        if (filterFactory != null) {
-            this.filter = filterFactory.create();
-        } else {
-            this.filter = null;
-        }
-        filter = injectDependencies(filter);
-
-        this.isOldValueRequired = cacheEntryListenerConfiguration.isOldValueRequired();
-    }
-
-    private CacheEntryListener<K, V> createCacheEntryListener(
-            CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
-        Factory<CacheEntryListener<? super K, ? super V>> cacheEntryListenerFactory =
-                cacheEntryListenerConfiguration.getCacheEntryListenerFactory();
-        cacheEntryListenerFactory = injectDependencies(cacheEntryListenerFactory);
-
-        return (CacheEntryListener<K, V>) cacheEntryListenerFactory.create();
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T injectDependencies(Object obj) {
-        ManagedContext managedContext = serializationService.getManagedContext();
-        return (T) managedContext.initialize(obj);
-    }
-
-    @Override
-    public CacheEntryListener<K, V> getCacheEntryListener() {
-        return cacheEntryListener;
-    }
 
     @Override
     public void handleEvent(Object eventObject) {
@@ -153,84 +76,6 @@ public class CacheEventListenerAdaptor<K, V>
             } finally {
                 ((CacheSyncListenerCompleter) source).countDownCompletionLatch(cacheEventSet.getCompletionId());
             }
-        }
-    }
-
-    private void handleEvent(int type, Collection<CacheEventData> keys) {
-        final Iterable<CacheEntryEvent<? extends K, ? extends V>> cacheEntryEvent = createCacheEntryEvent(keys);
-        CacheEventType eventType = CacheEventType.getByType(type);
-        switch (eventType) {
-            case CREATED:
-                if (this.cacheEntryCreatedListener != null) {
-                    this.cacheEntryCreatedListener.onCreated(cacheEntryEvent);
-                }
-                break;
-            case UPDATED:
-                if (this.cacheEntryUpdatedListener != null) {
-                    this.cacheEntryUpdatedListener.onUpdated(cacheEntryEvent);
-                }
-                break;
-            case REMOVED:
-                if (this.cacheEntryRemovedListener != null) {
-                    this.cacheEntryRemovedListener.onRemoved(cacheEntryEvent);
-                }
-                break;
-            case EXPIRED:
-                if (this.cacheEntryExpiredListener != null) {
-                    this.cacheEntryExpiredListener.onExpired(cacheEntryEvent);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid event type: " + eventType.name());
-        }
-    }
-
-    private Iterable<CacheEntryEvent<? extends K, ? extends V>> createCacheEntryEvent(Collection<CacheEventData> keys) {
-        HashSet<CacheEntryEvent<? extends K, ? extends V>> evt = new HashSet<CacheEntryEvent<? extends K, ? extends V>>();
-        for (CacheEventData cacheEventData : keys) {
-            EventType eventType = CacheEventType.convertToEventType(cacheEventData.getCacheEventType());
-            K key = toObject(cacheEventData.getDataKey());
-            boolean hasNewValue = !(eventType == EventType.REMOVED || eventType == EventType.EXPIRED);
-            final V newValue;
-            final V oldValue;
-            if (isOldValueRequired) {
-                if (hasNewValue) {
-                    newValue = toObject(cacheEventData.getDataValue());
-                    oldValue = toObject(cacheEventData.getDataOldValue());
-                } else {
-                    // according to contract of CacheEntryEvent#getValue
-                    oldValue = toObject(cacheEventData.getDataValue());
-                    newValue = oldValue;
-                }
-            } else {
-                if (hasNewValue) {
-                    newValue = toObject(cacheEventData.getDataValue());
-                    oldValue = null;
-                } else {
-                    newValue = null;
-                    oldValue = null;
-                }
-            }
-            final CacheEntryEventImpl<K, V> event =
-                    new CacheEntryEventImpl<K, V>(source, eventType, key, newValue, oldValue);
-            if (filter == null || filter.evaluate(event)) {
-                evt.add(event);
-            }
-        }
-        return evt;
-    }
-
-    private <T> T toObject(Data data) {
-        return serializationService.toObject(data);
-    }
-
-    public void handle(int type, Collection<CacheEventData> keys, int completionId) {
-        try {
-            if (CacheEventType.getByType(type) != CacheEventType.COMPLETED) {
-                handleEvent(type, keys);
-            }
-        } finally {
-            ((CacheSyncListenerCompleter) source).countDownCompletionLatch(completionId);
         }
     }
 

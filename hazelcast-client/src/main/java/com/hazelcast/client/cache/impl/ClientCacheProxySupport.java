@@ -17,11 +17,11 @@
 package com.hazelcast.client.cache.impl;
 
 import com.hazelcast.cache.HazelcastCacheManager;
-import com.hazelcast.cache.impl.CacheEventListenerAdaptor;
+import com.hazelcast.cache.impl.CacheEventListenerAdaptorBase;
 import com.hazelcast.cache.impl.CacheSyncListenerCompleter;
 import com.hazelcast.cache.impl.ICacheInternal;
-import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.EmptyCompletionListener;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.nearcache.impl.NearCachingHook;
 import com.hazelcast.client.impl.ClientDelegatingFuture;
 import com.hazelcast.client.impl.clientside.ClientMessageDecoder;
@@ -89,10 +89,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 
+import static com.hazelcast.cache.impl.AbstractCacheSyncListenerCompleter.IGNORE_COMPLETION;
 import static com.hazelcast.cache.impl.CacheProxyUtilBase.NULL_KEY_IS_NOT_ALLOWED;
 import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateConfiguredTypes;
 import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateNotNull;
-import static com.hazelcast.cache.impl.operation.MutableOperation.IGNORE_COMPLETION;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.addCallback;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.getSafely;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.handleFailureOnCompletionListener;
@@ -142,7 +142,7 @@ abstract class ClientCacheProxySupport<K, V> extends ClientProxy implements ICac
     private final ConcurrentMap<UUID, Closeable> closeableListeners;
 
     ClientCacheProxySupport(CacheConfig<K, V> cacheConfig, ClientContext context) {
-        super(ICacheService.SERVICE_NAME, cacheConfig.getName(), context);
+        super(ServiceNames.ICACHE, cacheConfig.getName(), context);
         this.name = cacheConfig.getName();
         this.nameWithPrefix = cacheConfig.getNameWithPrefix();
         this.cacheConfig = cacheConfig;
@@ -794,7 +794,7 @@ abstract class ClientCacheProxySupport<K, V> extends ClientProxy implements ICac
     }
 
     protected void addListenerLocally(UUID regId, CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration,
-                                      CacheEventListenerAdaptor<K, V> adaptor) {
+                                      CacheEventListenerAdaptorBase<K, V> adaptor) {
         listenerCompleter.putListenerIfAbsent(cacheEntryListenerConfiguration, regId);
         CacheEntryListener<K, V> entryListener = adaptor.getCacheEntryListener();
         if (entryListener instanceof Closeable) {
