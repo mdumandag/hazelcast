@@ -32,14 +32,13 @@ import com.hazelcast.core.IFunction;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.IAtomicReference;
 import com.hazelcast.cp.internal.RaftGroupId;
-import com.hazelcast.cp.internal.datastructures.atomicref.AtomicRefService;
-import com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType;
+import com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.InternalCompletableFuture;
 
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.NO_RETURN_VALUE;
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_NEW_VALUE;
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_OLD_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.NO_RETURN_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_NEW_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_OLD_VALUE;
 import static com.hazelcast.cp.internal.ServiceNames.ATOMIC_REF_SERVICE;
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
 

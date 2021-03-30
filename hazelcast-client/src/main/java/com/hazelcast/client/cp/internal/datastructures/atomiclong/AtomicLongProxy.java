@@ -37,8 +37,8 @@ import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.spi.impl.InternalCompletableFuture;
 
-import static com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp.AlterResultType.NEW_VALUE;
-import static com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp.AlterResultType.OLD_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.NEW_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.OLD_VALUE;
 import static com.hazelcast.cp.internal.ServiceNames.ATOMIC_LONG_SERVICE;
 
 /**

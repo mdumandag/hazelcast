@@ -18,6 +18,7 @@ package com.hazelcast.cp.internal.datastructures.atomiclong.operation;
 
 import com.hazelcast.cp.IAtomicLong;
 import com.hazelcast.core.IFunction;
+import com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.cp.CPGroupId;
@@ -26,48 +27,13 @@ import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLong;
 
 import java.io.IOException;
 
-import static com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp.AlterResultType.OLD_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.OLD_VALUE;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 
 /**
  * Operation for {@link IAtomicLong#alter(IFunction)}
  */
 public class AlterOp extends AbstractAtomicLongOp {
-
-    /**
-     * Denotes how the return value will be chosen.
-     */
-    public enum AlterResultType {
-        /**
-         * The value before the function is applied
-         */
-        OLD_VALUE(0),
-        /**
-         * The value after the function is applied
-         */
-        NEW_VALUE(1);
-
-        private final int value;
-
-        AlterResultType(int value) {
-            this.value = value;
-        }
-
-        public static AlterResultType fromValue(int value) {
-            switch (value) {
-                case 0:
-                    return OLD_VALUE;
-                case 1:
-                    return NEW_VALUE;
-                default:
-                    throw new IllegalArgumentException("No " + AlterResultType.class + " for value: " + value);
-            }
-        }
-
-        public int value() {
-            return value;
-        }
-    }
 
     private IFunction<Long, Long> function;
     private AlterResultType alterResultType;

@@ -19,7 +19,6 @@ package com.hazelcast.cp.internal.datastructures.lock.proxy;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.cp.internal.datastructures.exception.WaitKeyCancelledException;
 import com.hazelcast.cp.internal.datastructures.lock.LockOwnershipState;
-import com.hazelcast.cp.internal.datastructures.lock.LockService;
 import com.hazelcast.cp.internal.session.AbstractProxySessionManager;
 import com.hazelcast.cp.internal.session.SessionAwareProxy;
 import com.hazelcast.cp.internal.session.SessionExpiredException;
@@ -37,6 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
+import static com.hazelcast.cp.internal.ServiceNames.LOCK_SERVICE;
 import static com.hazelcast.cp.internal.session.AbstractProxySessionManager.NO_SESSION_ID;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
@@ -334,7 +334,7 @@ public abstract class AbstractFencedLockProxy extends SessionAwareProxy implemen
 
     @Override
     public String getServiceName() {
-        return LockService.SERVICE_NAME;
+        return LOCK_SERVICE;
     }
 
     // !!! only for testing !!!
