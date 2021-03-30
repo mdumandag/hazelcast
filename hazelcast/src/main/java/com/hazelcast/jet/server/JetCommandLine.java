@@ -35,6 +35,7 @@ import com.hazelcast.internal.util.FutureUtil;
 import com.hazelcast.jet.JetException;
 import com.hazelcast.jet.JetInstance;
 import com.hazelcast.jet.Job;
+import com.hazelcast.jet.JobStateSnapshot;
 import com.hazelcast.jet.JobStateSnapshotImpl;
 import com.hazelcast.jet.Util;
 import com.hazelcast.jet.core.JobNotFoundException;
@@ -424,7 +425,7 @@ public class JetCommandLine implements Runnable {
                     String snapshotName
     ) {
         runWithJet(targets, verbosity, false, jet -> {
-            JobStateSnapshotImpl jobStateSnapshot = jet.getJobStateSnapshot(snapshotName);
+            JobStateSnapshot jobStateSnapshot = jet.getJobStateSnapshot(snapshotName);
             if (jobStateSnapshot == null) {
                 throw new JetException(String.format("Didn't find a snapshot named '%s'", snapshotName));
             }
@@ -514,10 +515,10 @@ public class JetCommandLine implements Runnable {
                     description = "Don't trim job name to fit, can break layout")
                     boolean fullJobName) {
         runWithJet(targets, verbosity, false, jet -> {
-            Collection<JobStateSnapshotImpl> snapshots = jet.getJobStateSnapshots();
+            Collection<JobStateSnapshot> snapshots = jet.getJobStateSnapshots();
             printf("%-23s %-15s %-24s %s", "TIME", "SIZE (bytes)", "JOB NAME", "SNAPSHOT NAME");
             snapshots.stream()
-                    .sorted(Comparator.comparing(JobStateSnapshotImpl::name))
+                    .sorted(Comparator.comparing(JobStateSnapshot::name))
                     .forEach(ss -> {
                         LocalDateTime creationTime = toLocalDateTime(ss.creationTime());
                         String jobName = ss.jobName() == null ? Util.idToString(ss.jobId()) : ss.jobName();

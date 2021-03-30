@@ -29,6 +29,7 @@ import com.hazelcast.map.impl.query.QueryEngine;
 import com.hazelcast.map.impl.query.QueryResult;
 import com.hazelcast.map.impl.query.QueryResultRow;
 import com.hazelcast.map.impl.query.Target;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfoSupplier;
@@ -146,11 +147,11 @@ public class PublisherCreateOperation extends AbstractNamedOperation {
     }
 
     private PublisherContext getPublisherContext() {
-        QueryCacheContext queryCacheContext = getContext();
+        NodeQueryCacheContext queryCacheContext = getContext();
         return queryCacheContext.getPublisherContext();
     }
 
-    private QueryCacheContext getContext() {
+    private NodeQueryCacheContext getContext() {
         return getMapServiceContext().getQueryCacheContext();
     }
 
@@ -265,7 +266,7 @@ public class PublisherCreateOperation extends AbstractNamedOperation {
     private Collection<Integer> getPartitionIdsOfAccumulators() {
         String mapName = info.getMapName();
         String cacheId = info.getCacheId();
-        QueryCacheContext context = getContext();
+        NodeQueryCacheContext context = getContext();
         return QueryCacheUtil.getAccumulators(context, mapName, cacheId).keySet();
     }
 

@@ -19,10 +19,10 @@ package com.hazelcast.scheduledexecutor.impl.operations;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorContainer;
-import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorMergeTypes;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.merge.SplitBrainMergePolicy;
+import com.hazelcast.spi.merge.SplitBrainMergeTypes.ScheduledExecutorMergeTypes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class MergeOperation
     public void run()
             throws Exception {
         ScheduledExecutorContainer container = getContainer();
-        mergedTasks = new ArrayList<ScheduledTaskDescriptor>();
+        mergedTasks = new ArrayList<>();
 
         for (ScheduledExecutorMergeTypes mergingEntry : mergingEntries) {
             ScheduledTaskDescriptor merged = container.merge(mergingEntry, mergePolicy);

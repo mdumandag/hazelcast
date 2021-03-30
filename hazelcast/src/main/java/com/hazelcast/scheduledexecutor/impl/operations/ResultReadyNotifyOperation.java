@@ -21,6 +21,7 @@ import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorDataSerializerHook;
 import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorWaitNotifyKey;
+import com.hazelcast.scheduledexecutor.impl.ScheduledTaskHandlerImpl;
 import com.hazelcast.spi.impl.operationservice.Notifier;
 import com.hazelcast.spi.impl.operationservice.WaitNotifyKey;
 
@@ -72,6 +73,6 @@ public class ResultReadyNotifyOperation<V>
     protected void readInternal(ObjectDataInput in)
             throws IOException {
         super.readInternal(in);
-        this.handler = ScheduledTaskHandler.of(in.readString());
+        this.handler = ScheduledTaskHandlerImpl.of(in.readString());
     }
 }

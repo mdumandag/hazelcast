@@ -28,6 +28,7 @@ import com.hazelcast.scheduledexecutor.StaleTaskException;
 import com.hazelcast.scheduledexecutor.impl.operations.SyncStateOperation;
 import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.impl.executionservice.ExecutionService;
+import com.hazelcast.spi.impl.merge.MergingValueFactory;
 import com.hazelcast.spi.impl.merge.ScheduledExecutorMergingEntryImpl;
 import com.hazelcast.spi.impl.operationservice.InvocationBuilder;
 import com.hazelcast.spi.impl.operationservice.Operation;
@@ -322,7 +323,7 @@ public class ScheduledExecutorContainer {
                 return newTask;
             }
         } else {
-            ScheduledExecutorMergeTypes existingEntry = createMergingEntry(serializationService, existingTask);
+            ScheduledExecutorMergeTypes existingEntry = MergingValueFactory.createMergingEntry(serializationService, existingTask);
             ScheduledTaskDescriptor newTask = mergePolicy.merge(mergingEntry, existingEntry);
             // we are using == instead of equals() for the task comparison,
             // since the descriptor may have the same fields for merging and existing entry,

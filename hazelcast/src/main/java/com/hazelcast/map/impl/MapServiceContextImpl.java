@@ -70,6 +70,7 @@ import com.hazelcast.map.impl.query.QueryResultProcessor;
 import com.hazelcast.map.impl.query.QueryRunner;
 import com.hazelcast.map.impl.query.ResultProcessorRegistry;
 import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContextImpl;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.recordstore.DefaultRecordStore;
 import com.hazelcast.map.impl.recordstore.RecordStore;
@@ -132,7 +133,7 @@ class MapServiceContextImpl implements MapServiceContext {
     private final MapEventJournal eventJournal;
     private final QueryOptimizer queryOptimizer;
     private final MapEventPublisher mapEventPublisher;
-    private final QueryCacheContext queryCacheContext;
+    private final NodeQueryCacheContext queryCacheContext;
     private final ExpirationManager expirationManager;
     private final PartitionScanRunner partitionScanRunner;
     private final MapNearCacheManager mapNearCacheManager;
@@ -163,7 +164,7 @@ class MapServiceContextImpl implements MapServiceContext {
         this.nodeEngine = nodeEngine;
         this.serializationService = ((InternalSerializationService) nodeEngine.getSerializationService());
         this.mapConstructor = createMapConstructor();
-        this.queryCacheContext = new NodeQueryCacheContext(this);
+        this.queryCacheContext = new NodeQueryCacheContextImpl(this);
         this.partitionContainers = createPartitionContainers();
         this.clearExpiredRecordsTask = new MapClearExpiredRecordsTask(partitionContainers, nodeEngine);
         this.expirationManager = new ExpirationManager(clearExpiredRecordsTask, nodeEngine);
@@ -860,7 +861,7 @@ class MapServiceContextImpl implements MapServiceContext {
     }
 
     @Override
-    public QueryCacheContext getQueryCacheContext() {
+    public NodeQueryCacheContext getQueryCacheContext() {
         return queryCacheContext;
     }
 

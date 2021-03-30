@@ -32,11 +32,11 @@ import com.hazelcast.multimap.impl.MultiMapMergeContainer;
 import com.hazelcast.multimap.impl.MultiMapRecord;
 import com.hazelcast.replicatedmap.impl.record.ReplicatedRecord;
 import com.hazelcast.ringbuffer.impl.Ringbuffer;
-import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorMergeTypes;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
 import com.hazelcast.spi.merge.MergingEntry;
 import com.hazelcast.spi.merge.MergingValue;
 import com.hazelcast.spi.merge.RingbufferMergeData;
+import com.hazelcast.spi.merge.SplitBrainMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.AtomicLongMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.AtomicReferenceMergeTypes;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.CacheMergeTypes;
@@ -246,8 +246,10 @@ public final class MergingValueFactory {
                 .setValue(hyperLogLog);
     }
 
-    public static ScheduledExecutorMergeTypes createMergingEntry(SerializationService serializationService,
-                                                                 ScheduledTaskDescriptor task) {
+    public static SplitBrainMergeTypes.ScheduledExecutorMergeTypes createMergingEntry(
+            SerializationService serializationService,
+                                                                                      ScheduledTaskDescriptor task
+    ) {
         return new ScheduledExecutorMergingEntryImpl(serializationService)
                 .setKey(task.getDefinition().getName())
                 .setValue(task);

@@ -34,6 +34,7 @@ import com.hazelcast.map.impl.operation.MapOperationProvider;
 import com.hazelcast.map.impl.query.QueryEngine;
 import com.hazelcast.map.impl.query.QueryRunner;
 import com.hazelcast.map.impl.query.ResultProcessorRegistry;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.recordstore.RecordStore;
 import com.hazelcast.partition.PartitioningStrategy;
@@ -184,7 +185,7 @@ public interface MapServiceContext extends MapServiceContextInterceptorSupport,
 
     MapNearCacheManager getMapNearCacheManager();
 
-    QueryCacheContext getQueryCacheContext();
+    NodeQueryCacheContext getQueryCacheContext();
 
     UUID addListenerAdapter(ListenerAdapter listenerAdaptor, EventFilter eventFilter, String mapName);
 

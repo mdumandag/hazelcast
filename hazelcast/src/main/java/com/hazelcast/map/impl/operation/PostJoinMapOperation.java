@@ -25,6 +25,7 @@ import com.hazelcast.map.impl.MapContainer;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.MapServiceContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfoSupplier;
@@ -142,7 +143,7 @@ public class PostJoinMapOperation extends Operation implements IdentifiedDataSer
     private void createQueryCaches() {
         MapService mapService = getService();
         MapServiceContext mapServiceContext = mapService.getMapServiceContext();
-        QueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
+        NodeQueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
         PublisherContext publisherContext = queryCacheContext.getPublisherContext();
         MapPublisherRegistry mapPublisherRegistry = publisherContext.getMapPublisherRegistry();
 
@@ -158,7 +159,7 @@ public class PostJoinMapOperation extends Operation implements IdentifiedDataSer
         }
     }
 
-    private void addAccumulatorInfo(QueryCacheContext context, AccumulatorInfo info) {
+    private void addAccumulatorInfo(NodeQueryCacheContext context, AccumulatorInfo info) {
         PublisherContext publisherContext = context.getPublisherContext();
         AccumulatorInfoSupplier infoSupplier = publisherContext.getAccumulatorInfoSupplier();
         infoSupplier.putIfAbsent(info.getMapName(), info.getCacheId(), info);

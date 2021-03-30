@@ -16,19 +16,19 @@
 
 package com.hazelcast.spi.impl.merge;
 
-import com.hazelcast.scheduledexecutor.impl.ScheduledExecutorMergeTypes;
 import com.hazelcast.scheduledexecutor.impl.ScheduledTaskDescriptor;
 import com.hazelcast.internal.serialization.SerializationService;
+import com.hazelcast.spi.merge.SplitBrainMergeTypes;
 
 /**
- * Implementation of {@link ScheduledExecutorMergeTypes}.
+ * Implementation of {@link SplitBrainMergeTypes.ScheduledExecutorMergeTypes}.
  *
  * @since 3.10
  */
 @SuppressWarnings("WeakerAccess")
 public class ScheduledExecutorMergingEntryImpl
         extends AbstractMergingEntryImpl<String, ScheduledTaskDescriptor, ScheduledExecutorMergingEntryImpl>
-        implements ScheduledExecutorMergeTypes {
+        implements SplitBrainMergeTypes.ScheduledExecutorMergeTypes {
 
     public ScheduledExecutorMergingEntryImpl() {
     }

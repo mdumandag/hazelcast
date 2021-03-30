@@ -25,6 +25,7 @@ import com.hazelcast.map.impl.record.Record;
 import com.hazelcast.map.impl.recordstore.RecordStore;
 import com.hazelcast.map.impl.recordstore.expiry.ExpiryMetadata;
 import com.hazelcast.spi.impl.merge.AbstractMergeRunnable;
+import com.hazelcast.spi.impl.merge.MergingValueFactory;
 import com.hazelcast.spi.impl.operationservice.OperationFactory;
 import com.hazelcast.spi.merge.SplitBrainMergePolicy;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.MapMergeTypes;
@@ -54,7 +55,7 @@ class MapMergeRunnable extends AbstractMergeRunnable<Object, Object, RecordStore
             Data dataValue = toHeapData(record.getValue());
             ExpiryMetadata expiredMetadata = store.getExpirySystem().getExpiredMetadata(dataKey);
             consumer.accept(partitionId,
-                    createMergingEntry(getSerializationService(), dataKey, dataValue,
+                    MergingValueFactory.createMergingEntry(getSerializationService(), dataKey, dataValue,
                             record, expiredMetadata));
         }, false);
     }

@@ -17,7 +17,7 @@
 package com.hazelcast.map.impl;
 
 import com.hazelcast.internal.services.ClientAwareService;
-import com.hazelcast.map.impl.querycache.QueryCacheContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 
 import java.util.UUID;
@@ -38,7 +38,7 @@ class MapClientAwareService implements ClientAwareService {
 
     @Override
     public void clientDisconnected(UUID clientUuid) {
-        QueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
+        NodeQueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
         PublisherContext publisherContext = queryCacheContext.getPublisherContext();
         publisherContext.handleDisconnectedSubscriber(clientUuid);
     }

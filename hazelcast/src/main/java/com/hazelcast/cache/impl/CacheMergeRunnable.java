@@ -35,6 +35,7 @@ import java.util.function.BiConsumer;
 
 import static com.hazelcast.cache.impl.AbstractCacheRecordStore.SOURCE_NOT_AVAILABLE;
 import static com.hazelcast.cache.impl.ICacheService.SERVICE_NAME;
+import static com.hazelcast.spi.impl.merge.MergingValueFactory.createMergingEntry;
 
 class CacheMergeRunnable extends AbstractMergeRunnable<Object, Object, ICacheRecordStore, CacheMergeTypes<Object, Object>> {
 

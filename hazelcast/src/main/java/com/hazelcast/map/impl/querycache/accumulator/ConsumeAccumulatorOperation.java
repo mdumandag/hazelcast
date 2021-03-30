@@ -20,6 +20,7 @@ import com.hazelcast.internal.partition.IPartition;
 import com.hazelcast.internal.partition.IPartitionService;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.MapService;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.event.sequence.Sequenced;
@@ -61,7 +62,7 @@ public class ConsumeAccumulatorOperation extends Operation
 
     @Override
     public void run() throws Exception {
-        QueryCacheContext context = getQueryCacheContext();
+        NodeQueryCacheContext context = getQueryCacheContext();
 
         QueryCacheEventService queryCacheEventService = context.getQueryCacheEventService();
         EventPublisherAccumulatorProcessor processor = new EventPublisherAccumulatorProcessor(queryCacheEventService);
@@ -100,7 +101,7 @@ public class ConsumeAccumulatorOperation extends Operation
         accumulator.poll(handler, info.getDelaySeconds(), TimeUnit.SECONDS);
     }
 
-    private QueryCacheContext getQueryCacheContext() {
+    private NodeQueryCacheContext getQueryCacheContext() {
         MapService mapService = getService();
         return mapService.getMapServiceContext().getQueryCacheContext();
     }
@@ -112,7 +113,7 @@ public class ConsumeAccumulatorOperation extends Operation
         return partition.isLocal();
     }
 
-    private void removeAccumulator(QueryCacheContext context, Accumulator accumulator) {
+    private void removeAccumulator(NodeQueryCacheContext context, Accumulator accumulator) {
         PublisherContext publisherContext = context.getPublisherContext();
         MapPublisherRegistry mapPublisherRegistry = publisherContext.getMapPublisherRegistry();
         AccumulatorInfo info = accumulator.getInfo();

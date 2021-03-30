@@ -21,6 +21,7 @@ import com.hazelcast.logging.Logger;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.MapServiceContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
 import com.hazelcast.map.impl.querycache.publisher.PartitionAccumulatorRegistry;
@@ -74,7 +75,7 @@ public class MadePublishableOperation extends AbstractNamedOperation {
         this.done = true;
     }
 
-    private QueryCacheContext getContext() {
+    private NodeQueryCacheContext getContext() {
         MapService service = getService();
         MapServiceContext mapServiceContext = service.getMapServiceContext();
         return mapServiceContext.getQueryCacheContext();

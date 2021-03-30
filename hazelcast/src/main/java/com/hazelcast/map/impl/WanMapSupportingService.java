@@ -24,6 +24,7 @@ import com.hazelcast.map.impl.operation.MapOperationProvider;
 import com.hazelcast.map.impl.wan.WanMapAddOrUpdateEvent;
 import com.hazelcast.map.impl.wan.WanMapRemoveEvent;
 import com.hazelcast.spi.impl.NodeEngine;
+import com.hazelcast.spi.impl.merge.MergingValueFactory;
 import com.hazelcast.spi.merge.SplitBrainMergePolicy;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.MapMergeTypes;
 import com.hazelcast.wan.WanEventCounters;
@@ -78,7 +79,7 @@ class WanMapSupportingService implements WanSupportingService {
         MapOperationProvider operationProvider = mapServiceContext.getMapOperationProvider(mapName);
 
         SerializationService serializationService = nodeEngine.getSerializationService();
-        MapMergeTypes<Object, Object> mergingEntry = createMergingEntry(serializationService, replicationUpdate.getEntryView());
+        MapMergeTypes<Object, Object> mergingEntry = MergingValueFactory.createMergingEntry(serializationService, replicationUpdate.getEntryView());
         //noinspection unchecked
         MapOperation operation = operationProvider.createMergeOperation(mapName, mergingEntry,
                 (SplitBrainMergePolicy<Object, MapMergeTypes<Object, Object>, Object>) mergePolicy, true);

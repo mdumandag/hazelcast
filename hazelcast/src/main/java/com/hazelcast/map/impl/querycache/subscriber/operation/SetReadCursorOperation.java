@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.querycache.subscriber.operation;
 
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.operation.MapOperation;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.nio.ObjectDataInput;
@@ -80,7 +81,7 @@ public class SetReadCursorOperation
     }
 
     private boolean setReadCursor() {
-        QueryCacheContext context = getContext();
+        NodeQueryCacheContext context = getContext();
         Accumulator accumulator = getAccumulatorOrNull(context, name, cacheId, getPartitionId());
         if (accumulator == null) {
             return false;
@@ -88,7 +89,7 @@ public class SetReadCursorOperation
         return accumulator.setHead(sequence);
     }
 
-    private QueryCacheContext getContext() {
+    private NodeQueryCacheContext getContext() {
         return mapServiceContext.getQueryCacheContext();
     }
 

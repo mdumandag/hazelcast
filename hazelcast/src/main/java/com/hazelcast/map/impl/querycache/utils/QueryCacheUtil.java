@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl.querycache.utils;
 
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.map.impl.querycache.publisher.MapPublisherRegistry;
@@ -40,7 +41,7 @@ public final class QueryCacheUtil {
      * Returns accumulators of a {@code QueryCache}.
      */
     @Nonnull
-    public static Map<Integer, Accumulator> getAccumulators(QueryCacheContext context, String mapName, String cacheId) {
+    public static Map<Integer, Accumulator> getAccumulators(NodeQueryCacheContext context, String mapName, String cacheId) {
         PartitionAccumulatorRegistry partitionAccumulatorRegistry = getAccumulatorRegistryOrNull(context, mapName, cacheId);
         if (partitionAccumulatorRegistry == null) {
             return Collections.emptyMap();
@@ -54,7 +55,7 @@ public final class QueryCacheUtil {
      * @see PartitionAccumulatorRegistry
      */
     @Nullable
-    public static PartitionAccumulatorRegistry getAccumulatorRegistryOrNull(QueryCacheContext context,
+    public static PartitionAccumulatorRegistry getAccumulatorRegistryOrNull(NodeQueryCacheContext context,
                                                                             String mapName, String cacheId) {
         PublisherContext publisherContext = context.getPublisherContext();
         MapPublisherRegistry mapPublisherRegistry = publisherContext.getMapPublisherRegistry();
@@ -71,7 +72,7 @@ public final class QueryCacheUtil {
      * @see Accumulator
      */
     @Nullable
-    public static Accumulator getAccumulatorOrNull(QueryCacheContext context,
+    public static Accumulator getAccumulatorOrNull(NodeQueryCacheContext context,
                                                    String mapName, String cacheId, int partitionId) {
         PartitionAccumulatorRegistry accumulatorRegistry = getAccumulatorRegistryOrNull(context, mapName, cacheId);
         if (accumulatorRegistry == null) {

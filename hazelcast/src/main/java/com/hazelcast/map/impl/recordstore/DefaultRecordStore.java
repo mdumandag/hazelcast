@@ -43,6 +43,7 @@ import com.hazelcast.map.impl.mapstore.MapDataStore;
 import com.hazelcast.map.impl.mapstore.writebehind.WriteBehindQueue;
 import com.hazelcast.map.impl.mapstore.writebehind.WriteBehindStore;
 import com.hazelcast.map.impl.mapstore.writebehind.entry.DelayedEntry;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.publisher.MapPublisherRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
@@ -52,6 +53,7 @@ import com.hazelcast.map.impl.recordstore.expiry.ExpiryMetadata;
 import com.hazelcast.map.impl.recordstore.expiry.ExpiryReason;
 import com.hazelcast.spi.exception.RetryableHazelcastException;
 import com.hazelcast.spi.impl.NodeEngine;
+import com.hazelcast.spi.impl.merge.MergingValueFactory;
 import com.hazelcast.spi.merge.SplitBrainMergePolicy;
 import com.hazelcast.spi.merge.SplitBrainMergeTypes.MapMergeTypes;
 import com.hazelcast.wan.impl.CallerProvenance;
@@ -786,7 +788,7 @@ public class DefaultRecordStore extends AbstractEvictableRecordStore {
      * @return {@code true} if this IMap has any query-cache, otherwise return {@code false}
      */
     public boolean hasQueryCache() {
-        QueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
+        NodeQueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
         PublisherContext publisherContext = queryCacheContext.getPublisherContext();
         MapPublisherRegistry mapPublisherRegistry = publisherContext.getMapPublisherRegistry();
         PublisherRegistry publisherRegistry = mapPublisherRegistry.getOrNull(name);
@@ -993,7 +995,7 @@ public class DefaultRecordStore extends AbstractEvictableRecordStore {
             oldValue = record.getValue();
             ExpiryMetadata expiredMetadata = expirySystem.getExpiredMetadata(key);
             MapMergeTypes<Object, Object> existingEntry
-                    = createMergingEntry(serializationService, key, record, expiredMetadata);
+                    = MergingValueFactory.createMergingEntry(serializationService, key, record, expiredMetadata);
             newValue = mergePolicy.merge(mergingEntry, existingEntry);
             // existing entry will be removed
             if (newValue == null) {

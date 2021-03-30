@@ -20,6 +20,7 @@ import com.hazelcast.internal.util.ExceptionUtil;
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.MapService;
 import com.hazelcast.map.impl.MapServiceContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfoSupplier;
 import com.hazelcast.map.impl.querycache.publisher.MapListenerRegistry;
@@ -114,7 +115,7 @@ public class DestroyQueryCacheOperation extends AbstractNamedOperation {
     }
 
     private PublisherContext getPublisherContext() {
-        QueryCacheContext queryCacheContext = getMapServiceContext().getQueryCacheContext();
+        NodeQueryCacheContext queryCacheContext = getMapServiceContext().getQueryCacheContext();
         return queryCacheContext.getPublisherContext();
     }
 

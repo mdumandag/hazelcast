@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.querycache.publisher;
 
 import com.hazelcast.internal.util.ConcurrencyUtil;
 import com.hazelcast.internal.util.ConstructorFunction;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.Registry;
 
@@ -46,10 +47,10 @@ public class QueryCacheListenerRegistry implements Registry<String, UUID> {
             };
 
     private final String mapName;
-    private final QueryCacheContext context;
+    private final NodeQueryCacheContext context;
     private final ConcurrentMap<String, UUID> listeners;
 
-    public QueryCacheListenerRegistry(QueryCacheContext context, String mapName) {
+    public QueryCacheListenerRegistry(NodeQueryCacheContext context, String mapName) {
         this.context = context;
         this.mapName = mapName;
         this.listeners = new ConcurrentHashMap<>();

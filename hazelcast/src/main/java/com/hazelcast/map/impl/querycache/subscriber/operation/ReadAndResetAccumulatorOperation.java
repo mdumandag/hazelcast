@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.querycache.subscriber.operation;
 
 import com.hazelcast.map.impl.MapDataSerializerHook;
 import com.hazelcast.map.impl.operation.MapOperation;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.map.impl.querycache.event.sequence.Sequenced;
@@ -55,7 +56,7 @@ public class ReadAndResetAccumulatorOperation
 
     @Override
     protected void runInternal() {
-        QueryCacheContext context = getQueryCacheContext();
+        NodeQueryCacheContext context = getQueryCacheContext();
         Map<Integer, Accumulator> accumulators = getAccumulators(context, name, cacheId);
         Accumulator<Sequenced> accumulator = accumulators.get(getPartitionId());
         if (accumulator == null || accumulator.isEmpty()) {
@@ -92,7 +93,7 @@ public class ReadAndResetAccumulatorOperation
         cacheId = in.readString();
     }
 
-    private QueryCacheContext getQueryCacheContext() {
+    private NodeQueryCacheContext getQueryCacheContext() {
         return mapServiceContext.getQueryCacheContext();
     }
 

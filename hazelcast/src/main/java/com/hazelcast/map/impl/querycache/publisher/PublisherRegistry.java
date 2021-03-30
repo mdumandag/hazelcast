@@ -17,7 +17,7 @@
 package com.hazelcast.map.impl.querycache.publisher;
 
 import com.hazelcast.internal.util.ConstructorFunction;
-import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContextImpl;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.Registry;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
@@ -103,7 +103,7 @@ public class PublisherRegistry implements Registry<String, PartitionAccumulatorR
     }
 
     private AccumulatorInfo getAccumulatorInfo(String cacheId) {
-        PublisherContext publisherContext = ((NodeQueryCacheContext) context).getPublisherContext();
+        PublisherContext publisherContext = ((NodeQueryCacheContextImpl) context).getPublisherContext();
         AccumulatorInfoSupplier infoSupplier = publisherContext.getAccumulatorInfoSupplier();
         return infoSupplier.getAccumulatorInfoOrNull(mapName, cacheId);
     }

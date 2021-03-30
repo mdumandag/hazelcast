@@ -17,7 +17,7 @@
 package com.hazelcast.map.impl.querycache.accumulator;
 
 import com.hazelcast.map.impl.MapService;
-import com.hazelcast.map.impl.querycache.QueryCacheContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.publisher.MapPublisherRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PartitionAccumulatorRegistry;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
@@ -44,9 +44,9 @@ public class AccumulatorScannerTask implements Runnable {
     private static final int MAX_PROCESSABLE_ACCUMULATOR_COUNT = 10;
 
     private final ScannerConsumer consumer;
-    private final QueryCacheContext context;
+    private final NodeQueryCacheContext context;
 
-    public AccumulatorScannerTask(QueryCacheContext context) {
+    public AccumulatorScannerTask(NodeQueryCacheContext context) {
         this.context = context;
         this.consumer = new ScannerConsumer();
     }

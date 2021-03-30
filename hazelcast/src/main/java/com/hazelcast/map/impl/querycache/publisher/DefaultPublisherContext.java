@@ -20,6 +20,7 @@ import com.hazelcast.cluster.Member;
 import com.hazelcast.cluster.MembershipAdapter;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.internal.cluster.ClusterService;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheScheduler;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
@@ -53,7 +54,7 @@ public class DefaultPublisherContext implements PublisherContext {
     private static final long SCAN_PERIOD_SECONDS = 5L;
     private static final long ORPHANED_QUERY_CACHE_REMOVAL_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(10);
 
-    private final QueryCacheContext context;
+    private final NodeQueryCacheContext context;
     private final NodeEngine nodeEngine;
     private final MapListenerRegistry mapListenerRegistry;
     private final MapPublisherRegistry mapPublisherRegistry;
@@ -61,7 +62,7 @@ public class DefaultPublisherContext implements PublisherContext {
     private final Function<String, UUID> listenerRegistrator;
     private final ConcurrentMap<UUID, ScheduledFuture> removalCandidateFutures;
 
-    public DefaultPublisherContext(QueryCacheContext context, NodeEngine nodeEngine,
+    public DefaultPublisherContext(NodeQueryCacheContext context, NodeEngine nodeEngine,
                                    Function<String, UUID> listenerRegistrator) {
         this.context = context;
         this.nodeEngine = nodeEngine;

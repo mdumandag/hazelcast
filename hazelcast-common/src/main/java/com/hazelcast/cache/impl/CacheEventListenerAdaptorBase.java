@@ -50,7 +50,6 @@ public class CacheEventListenerAdaptorBase<K, V> implements CacheEntryListenerPr
     protected transient ICache<K, V> source;
 
     public CacheEventListenerAdaptorBase() {
-
     }
 
     public CacheEventListenerAdaptorBase(ICache<K, V> source,

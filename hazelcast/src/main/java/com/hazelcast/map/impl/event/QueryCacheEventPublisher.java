@@ -20,7 +20,7 @@ import com.hazelcast.cluster.Address;
 import com.hazelcast.core.EntryEventType;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
-import com.hazelcast.map.impl.querycache.QueryCacheContext;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.map.impl.querycache.event.DefaultQueryCacheEventData;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
@@ -49,10 +49,10 @@ import static com.hazelcast.map.impl.querycache.event.QueryCacheEventDataBuilder
 public class QueryCacheEventPublisher {
 
     private final FilteringStrategy filteringStrategy;
-    private final QueryCacheContext queryCacheContext;
+    private final NodeQueryCacheContext queryCacheContext;
     private final InternalSerializationService serializationService;
 
-    public QueryCacheEventPublisher(FilteringStrategy filteringStrategy, QueryCacheContext queryCacheContext,
+    public QueryCacheEventPublisher(FilteringStrategy filteringStrategy, NodeQueryCacheContext queryCacheContext,
                                     InternalSerializationService serializationService) {
         this.filteringStrategy = filteringStrategy;
         this.queryCacheContext = queryCacheContext;

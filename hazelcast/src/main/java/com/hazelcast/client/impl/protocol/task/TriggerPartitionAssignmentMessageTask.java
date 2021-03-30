@@ -38,7 +38,7 @@ public class TriggerPartitionAssignmentMessageTask
 
     @Override
     protected ClientMessage encodeResponse(Object response) {
-        return ServerClientTriggerPartitionAssignmentCodec.encodeRequest();
+        return ServerClientTriggerPartitionAssignmentCodec.encodeResponse();
     }
 
     @Override

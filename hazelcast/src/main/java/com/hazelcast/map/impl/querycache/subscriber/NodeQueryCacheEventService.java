@@ -16,6 +16,7 @@
 
 package com.hazelcast.map.impl.querycache.subscriber;
 
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.SerializationService;
 import com.hazelcast.internal.util.ContextMutexFactory;
@@ -106,7 +107,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
         ContextMutexFactory.Mutex mutex = lifecycleMutexFactory.mutexFor(mapName);
         try {
             synchronized (mutex) {
-                EventRegistration registration = eventService.registerLocalListener(MapService.SERVICE_NAME, cacheId,
+                EventRegistration registration = eventService.registerLocalListener(ServiceNames.MAP, cacheId,
                         filter == null ? TrueEventFilter.INSTANCE : filter, listenerAdaptor);
                 return registration.getId();
             }
@@ -117,7 +118,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
 
     @Override
     public boolean removeListener(String mapName, String cacheId, UUID listenerId) {
-        return eventService.deregisterListener(MapService.SERVICE_NAME, cacheId, listenerId);
+        return eventService.deregisterListener(ServiceNames.MAP, cacheId, listenerId);
     }
 
     @Override
@@ -125,7 +126,7 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
         ContextMutexFactory.Mutex mutex = lifecycleMutexFactory.mutexFor(mapName);
         try {
             synchronized (mutex) {
-                eventService.deregisterAllListeners(MapService.SERVICE_NAME, cacheId);
+                eventService.deregisterAllListeners(ServiceNames.MAP, cacheId);
             }
         } finally {
             closeResource(mutex);
@@ -217,11 +218,11 @@ public class NodeQueryCacheEventService implements QueryCacheEventService<EventD
     }
 
     private Collection<EventRegistration> getRegistrations(String mapName) {
-        return eventService.getRegistrations(MapService.SERVICE_NAME, mapName);
+        return eventService.getRegistrations(ServiceNames.MAP, mapName);
     }
 
     private void publishEventInternal(EventRegistration registration, Object eventData, int orderKey) {
-        eventService.publishEvent(MapService.SERVICE_NAME, registration, eventData, orderKey);
+        eventService.publishEvent(ServiceNames.MAP, registration, eventData, orderKey);
     }
 
     @Override

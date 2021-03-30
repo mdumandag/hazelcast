@@ -28,6 +28,7 @@ import com.hazelcast.internal.services.ServiceNamespace;
 import com.hazelcast.internal.util.Clock;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.map.impl.operation.MapReplicationOperation;
+import com.hazelcast.map.impl.querycache.NodeQueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 import com.hazelcast.map.impl.record.Record;
@@ -103,7 +104,7 @@ class MapMigrationAwareService implements FragmentedMigrationAwareService {
      */
     private void flushAndRemoveQueryCaches(PartitionMigrationEvent event) {
         int partitionId = event.getPartitionId();
-        QueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
+        NodeQueryCacheContext queryCacheContext = mapServiceContext.getQueryCacheContext();
         PublisherContext publisherContext = queryCacheContext.getPublisherContext();
 
         if (event.getMigrationEndpoint() == MigrationEndpoint.SOURCE) {

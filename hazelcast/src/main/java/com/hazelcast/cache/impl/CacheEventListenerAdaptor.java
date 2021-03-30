@@ -65,6 +65,18 @@ public class CacheEventListenerAdaptor<K, V> extends CacheEventListenerAdaptorBa
                    ListenerWrapperEventFilter,
                    IdentifiedDataSerializable {
 
+    public CacheEventListenerAdaptor() {
+        super();
+    }
+
+    public CacheEventListenerAdaptor(
+            CacheProxy<K, V> proxy,
+            CacheEntryListenerConfiguration<K, V> entryListenerConfiguration,
+            SerializationService serializationService
+    ) {
+        super(proxy, entryListenerConfiguration, serializationService);
+    }
+
     @Override
     public void handleEvent(Object eventObject) {
         if (eventObject instanceof CacheEventSet) {
