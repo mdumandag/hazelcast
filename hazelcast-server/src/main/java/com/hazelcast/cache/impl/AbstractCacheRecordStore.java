@@ -101,6 +101,7 @@ import static com.hazelcast.internal.util.EmptyStatement.ignore;
 import static com.hazelcast.internal.util.MapUtil.createHashMap;
 import static com.hazelcast.internal.util.SetUtil.createHashSet;
 import static com.hazelcast.internal.util.ThreadUtil.assertRunningOnPartitionThread;
+import static com.hazelcast.spi.impl.merge.MergingValueFactory.createMergingEntry;
 import static java.util.Collections.emptySet;
 
 @SuppressWarnings({"checkstyle:methodcount", "checkstyle:classfanoutcomplexity"})

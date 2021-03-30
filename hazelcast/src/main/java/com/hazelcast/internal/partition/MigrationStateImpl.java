@@ -16,7 +16,7 @@
 
 package com.hazelcast.internal.partition;
 
-import com.hazelcast.internal.partition.impl.PartitionDataSerializerHook;
+import com.hazelcast.internal.partition.impl.PartitionDataSerializerHookBase;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
@@ -97,12 +97,12 @@ public class MigrationStateImpl implements MigrationState, IdentifiedDataSeriali
 
     @Override
     public int getFactoryId() {
-        return PartitionDataSerializerHook.F_ID;
+        return PartitionDataSerializerHookBase.F_ID;
     }
 
     @Override
     public int getClassId() {
-        return PartitionDataSerializerHook.MIGRATION_EVENT;
+        return PartitionDataSerializerHookBase.MIGRATION_EVENT;
     }
 
     @Override
