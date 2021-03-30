@@ -625,7 +625,7 @@ public class ClusterHeartbeatManager {
                 suspectedMembers = clusterService.getMembershipManager()
                                                  .getSuspectedMembers()
                                                  .stream()
-                                                 .map(ClusterHeartbeatManager::memberInfo)
+                                                 .map(MemberImpl::toMemberInfo)
                                                  .collect(toSet());
             }
 
@@ -638,11 +638,6 @@ public class ClusterHeartbeatManager {
                 logger.fine(format("Error while sending heartbeat -> %s[%s]", e.getClass().getName(), e.getMessage()));
             }
         }
-    }
-
-    private static MemberInfo memberInfo(MemberImpl member) {
-        return new MemberInfo(member.getAddress(), member.getUuid(), member.getAttributes(), member.isLiteMember(),
-                member.getVersion(), member.getMemberListJoinVersion(), member.getAddressMap());
     }
 
     /**

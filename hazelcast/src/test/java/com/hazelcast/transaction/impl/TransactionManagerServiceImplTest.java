@@ -34,10 +34,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.hazelcast.test.Accessors.getNodeEngineImpl;
-import static com.hazelcast.transaction.impl.Transaction.State.ACTIVE;
-import static com.hazelcast.transaction.impl.Transaction.State.COMMITTING;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLED_BACK;
-import static com.hazelcast.transaction.impl.Transaction.State.ROLLING_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ACTIVE;
+import static com.hazelcast.transaction.impl.TransactionBase.State.COMMITTING;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLED_BACK;
+import static com.hazelcast.transaction.impl.TransactionBase.State.ROLLING_BACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

@@ -17,6 +17,7 @@
 package com.hazelcast.test.starter.constructor;
 
 import com.hazelcast.cluster.impl.MemberImpl;
+import com.hazelcast.internal.cluster.MemberInfo;
 import com.hazelcast.test.starter.HazelcastStarterConstructor;
 import com.hazelcast.version.MemberVersion;
 
@@ -58,7 +59,7 @@ public class MemberImplConstructor extends AbstractStarterObjectConstructor {
         Map addressMap = new HashMap();
         addressMap.put(memberEndpointQualifer, address);
         Object[] args = new Object[] {addressMap, memberVersion, localMember, uuid, attributes, liteMember,
-                                      MemberImpl.NA_MEMBER_LIST_JOIN_VERSION, null};
+                                      MemberInfo.NA_MEMBER_LIST_JOIN_VERSION, null};
         return constructor.newInstance(proxyArgumentsIfNeeded(args, targetClassloader));
     }
 

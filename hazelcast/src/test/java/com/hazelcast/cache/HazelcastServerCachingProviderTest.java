@@ -33,7 +33,7 @@ public class HazelcastServerCachingProviderTest
     public static void init() {
         JsrTestUtil.setup();
         System.setProperty("javax.cache.spi.CachingProvider",
-                HazelcastCachingProvider.SERVER_CACHING_PROVIDER);
+                HazelcastMemberCachingProvider.class.getName());
     }
 
     @AfterClass

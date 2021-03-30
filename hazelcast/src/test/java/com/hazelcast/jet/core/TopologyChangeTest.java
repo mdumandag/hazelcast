@@ -16,6 +16,7 @@
 
 package com.hazelcast.jet.core;
 
+import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
@@ -504,7 +505,7 @@ public class TopologyChangeTest extends JetTestSupport {
         int memberListVersion = Accessors.getClusterService(master).getMemberListVersion();
         Set<MemberInfo> memberInfos = new HashSet<>();
         for (int i = 1; i < instances.length; i++) {
-            memberInfos.add(new MemberInfo(getNode(instances[i]).getLocalMember()));
+            memberInfos.add(MemberImpl.toMemberInfo(getNode(instances[i]).getLocalMember()));
         }
 
         JobRecord jobRecord = new JobRecord(jobId, null, "", new JobConfig(), Collections.emptySet());

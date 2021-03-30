@@ -56,7 +56,7 @@ public class MembersViewTest {
         int version = 6;
         MemberImpl[] members = MemberMapTest.newMembers(4);
         List<MemberInfo> additionalMembers
-                = Arrays.asList(new MemberInfo(newMember(6000)), new MemberInfo(newMember(7000)));
+                = Arrays.asList(MemberImpl.toMemberInfo(newMember(6000)), MemberImpl.toMemberInfo(newMember(7000)));
 
         MembersView view =
                 MembersView.cloneAdding(MembersView.createNew(version, Arrays.asList(members)), additionalMembers);
@@ -65,7 +65,7 @@ public class MembersViewTest {
 
         MemberImpl[] newMembers = Arrays.copyOf(members, members.length + additionalMembers.size());
         for (int i = 0; i < additionalMembers.size(); i++) {
-            newMembers[members.length + i] = additionalMembers.get(i).toMember();
+            newMembers[members.length + i] = MemberImpl.toMember(additionalMembers.get(i));
         }
 
         assertMembersViewEquals(newMembers, view);
@@ -150,7 +150,7 @@ public class MembersViewTest {
         assertEquals(members.length, view.size());
         List<MemberInfo> membersInfos = view.getMembers();
         for (int i = 0; i < members.length; i++) {
-            assertEquals(members[i], membersInfos.get(i).toMember());
+            assertEquals(members[i], MemberImpl.toMember(membersInfos.get(i)));
         }
     }
 }
