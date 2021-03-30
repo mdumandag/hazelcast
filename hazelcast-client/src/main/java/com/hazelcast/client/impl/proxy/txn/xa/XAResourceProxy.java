@@ -29,7 +29,6 @@ import com.hazelcast.transaction.HazelcastXAResource;
 import com.hazelcast.transaction.TransactionContext;
 import com.hazelcast.transaction.TransactionOptions;
 import com.hazelcast.transaction.impl.xa.SerializableXID;
-import com.hazelcast.transaction.impl.xa.XAResourceImpl;
 
 import javax.annotation.Nonnull;
 import javax.transaction.xa.XAException;
@@ -182,21 +181,6 @@ public class XAResourceProxy extends ClientProxy implements HazelcastXAResource 
     }
 
     @Override
-    public boolean isSameRM(XAResource xaResource) throws XAException {
-        if (this == xaResource) {
-            return true;
-        }
-        String otherClusterName = null;
-        if (xaResource instanceof XAResourceProxy) {
-            otherClusterName = ((XAResourceProxy) xaResource).getClusterName();
-        }
-        if (xaResource instanceof XAResourceImpl) {
-            otherClusterName = ((XAResourceImpl) xaResource).getClusterName();
-        }
-        return getClusterName().equals(otherClusterName);
-    }
-
-    @Override
     public Xid[] recover(int flag) throws XAException {
         ClientMessage request = XATransactionCollectTransactionsCodec.encodeRequest();
         ClientMessage response = invoke(request);
@@ -234,7 +218,7 @@ public class XAResourceProxy extends ClientProxy implements HazelcastXAResource 
         return Thread.currentThread().getId();
     }
 
-    private String getClusterName() {
+    public String getClusterName() {
         ClientTransactionManagerService transactionManager = getContext().getTransactionManager();
         return transactionManager.getClusterName();
     }

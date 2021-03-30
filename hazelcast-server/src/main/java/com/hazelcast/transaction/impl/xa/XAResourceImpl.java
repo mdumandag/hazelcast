@@ -221,18 +221,6 @@ public final class XAResourceImpl extends AbstractDistributedObject<XAService> i
     }
 
     @Override
-    public boolean isSameRM(XAResource xaResource) throws XAException {
-        if (this == xaResource) {
-            return true;
-        }
-        if (xaResource instanceof XAResourceImpl) {
-            XAResourceImpl otherXaResource = (XAResourceImpl) xaResource;
-            return clusterName.equals(otherXaResource.clusterName);
-        }
-        return xaResource.isSameRM(this);
-    }
-
-    @Override
     public Xid[] recover(int flag) throws XAException {
         NodeEngine nodeEngine = getNodeEngine();
         XAService xaService = getService();

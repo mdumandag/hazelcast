@@ -19,6 +19,7 @@ package com.hazelcast.transaction;
 import com.hazelcast.core.DistributedObject;
 
 import javax.annotation.Nonnull;
+import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 
 /**
@@ -34,5 +35,17 @@ public interface HazelcastXAResource extends XAResource, DistributedObject {
      */
     @Nonnull TransactionContext getTransactionContext();
 
+    String getClusterName();
 
+    @Override
+    default boolean isSameRM(XAResource otherXAResource) throws XAException {
+        if (this == otherXAResource) {
+            return true;
+        }
+        if (otherXAResource instanceof HazelcastXAResource) {
+            String otherClusterName = ((HazelcastXAResource) otherXAResource).getClusterName();
+            return getClusterName().equals(otherClusterName);
+        }
+        return false;
+    }
 }
