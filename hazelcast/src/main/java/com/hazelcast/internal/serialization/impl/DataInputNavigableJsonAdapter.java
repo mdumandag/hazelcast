@@ -22,7 +22,7 @@ import com.hazelcast.internal.json.JsonReducedValueParser;
 import com.hazelcast.internal.json.JsonValue;
 import com.hazelcast.internal.nio.BufferObjectDataInput;
 import com.hazelcast.query.impl.getters.JsonPathCursor;
-import com.hazelcast.spi.impl.operationexecutor.impl.OperationThread;
+import com.hazelcast.spi.impl.operationexecutor.OperationThreadInterface;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -106,7 +106,7 @@ public class DataInputNavigableJsonAdapter extends NavigableJsonInputAdapter {
             byte[] data = obtainBytes(input);
             inputBuffer = ByteBuffer.wrap(data);
             inputBuffer.position(input.position());
-            decoder = Thread.currentThread() instanceof OperationThread
+            decoder = Thread.currentThread() instanceof OperationThreadInterface
                     ? DECODER_THREAD_LOCAL.get()
                     : StandardCharsets.UTF_8.newDecoder();
         }

@@ -17,7 +17,6 @@
 package com.hazelcast.map;
 
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.internal.services.PostJoinAwareService;
 
 import java.util.Properties;
 

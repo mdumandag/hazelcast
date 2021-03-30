@@ -207,10 +207,6 @@ import static com.hazelcast.internal.config.ConfigSections.TOPIC;
 import static com.hazelcast.internal.config.ConfigSections.USER_CODE_DEPLOYMENT;
 import static com.hazelcast.internal.config.ConfigSections.WAN_REPLICATION;
 import static com.hazelcast.internal.config.ConfigSections.canOccurMultipleTimes;
-import static com.hazelcast.internal.config.ConfigValidator.checkCacheConfig;
-import static com.hazelcast.internal.config.ConfigValidator.checkCacheEvictionConfig;
-import static com.hazelcast.internal.config.ConfigValidator.checkMapEvictionConfig;
-import static com.hazelcast.internal.config.ConfigValidator.checkNearCacheEvictionConfig;
 import static com.hazelcast.internal.config.DomConfigHelper.childElements;
 import static com.hazelcast.internal.config.DomConfigHelper.childElementsWithName;
 import static com.hazelcast.internal.config.DomConfigHelper.cleanNodeName;
@@ -1899,7 +1895,7 @@ public class MemberDomConfigProcessor extends AbstractDomConfigProcessor {
             }
         }
         try {
-            checkCacheConfig(cacheConfig, null);
+            CommonConfigValidator.checkCacheConfig(cacheConfig);
         } catch (IllegalArgumentException e) {
             throw new InvalidConfigurationException(e.getMessage());
         }
@@ -2012,17 +2008,17 @@ public class MemberDomConfigProcessor extends AbstractDomConfigProcessor {
                                                boolean isIMap,
                                                boolean isNearCache) {
         if (isIMap) {
-            checkMapEvictionConfig(evictionConfig);
+            CommonConfigValidator.checkMapEvictionConfig(evictionConfig);
             return;
         }
 
         if (isNearCache) {
-            checkNearCacheEvictionConfig(evictionConfig.getEvictionPolicy(),
+            CommonConfigValidator.checkNearCacheEvictionConfig(evictionConfig.getEvictionPolicy(),
                     evictionConfig.getComparatorClassName(), evictionConfig.getComparator());
             return;
         }
 
-        checkCacheEvictionConfig(evictionConfig);
+        CommonConfigValidator.checkCacheEvictionConfig(evictionConfig);
     }
 
     private void cacheWanReplicationRefHandle(Node n, CacheSimpleConfig cacheConfig) {

@@ -28,6 +28,7 @@ import com.hazelcast.internal.util.executor.HazelcastManagedThread;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.spi.impl.PartitionSpecificRunnable;
 import com.hazelcast.spi.impl.operationexecutor.OperationRunner;
+import com.hazelcast.spi.impl.operationexecutor.OperationThreadInterface;
 import com.hazelcast.spi.impl.operationservice.Operation;
 
 import java.util.concurrent.TimeUnit;
@@ -56,7 +57,7 @@ import static com.hazelcast.internal.util.counters.SwCounter.newSwCounter;
  * The actual processing of an operation is forwarded to the {@link OperationRunner}.
  */
 @ExcludedMetricTargets(MANAGEMENT_CENTER)
-public abstract class OperationThread extends HazelcastManagedThread implements StaticMetricsProvider {
+public abstract class OperationThread extends HazelcastManagedThread implements StaticMetricsProvider, OperationThreadInterface {
 
     final int threadId;
     final OperationQueue queue;

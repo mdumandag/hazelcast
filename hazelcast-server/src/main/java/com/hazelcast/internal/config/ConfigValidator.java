@@ -160,18 +160,6 @@ public final class ConfigValidator extends CommonConfigValidator {
         throw new InvalidConfigurationException(format(msg, maxSizePolicy, inMemoryFormat, policies));
     }
 
-    public static void checkMapEvictionConfig(EvictionConfig evictionConfig) {
-        EvictionPolicyComparator comparator = evictionConfig.getComparator();
-        String comparatorClassName = evictionConfig.getComparatorClassName();
-        EvictionPolicy evictionPolicy = evictionConfig.getEvictionPolicy();
-
-        checkComparatorDefinedOnlyOnce(comparatorClassName, comparator);
-        checkEvictionPolicyConfiguredOnlyOnce(evictionPolicy, comparatorClassName,
-                comparator, MapConfig.DEFAULT_EVICTION_POLICY);
-
-        checkMapMaxSizePolicyConfig(evictionConfig.getMaxSizePolicy());
-    }
-
     public static void checkMapEvictionConfig(MaxSizePolicy maxSizePolicy,
                                               EvictionPolicy evictionPolicy,
                                               String comparatorClassName,
@@ -179,20 +167,6 @@ public final class ConfigValidator extends CommonConfigValidator {
         checkEvictionConfig(evictionPolicy, comparatorClassName,
                 comparator, MAP_SUPPORTED_EVICTION_POLICIES);
         checkMapMaxSizePolicyConfig(maxSizePolicy);
-    }
-
-    static void checkMapMaxSizePolicyConfig(MaxSizePolicy maxSizePolicy) {
-        if (!MAP_SUPPORTED_ON_HEAP_MAX_SIZE_POLICIES.contains(maxSizePolicy)
-                && !MAP_SUPPORTED_NATIVE_MAX_SIZE_POLICIES.contains(maxSizePolicy)) {
-
-            EnumSet<MaxSizePolicy> allMaxSizePolicies = EnumSet.copyOf(MAP_SUPPORTED_ON_HEAP_MAX_SIZE_POLICIES);
-            allMaxSizePolicies.addAll(MAP_SUPPORTED_NATIVE_MAX_SIZE_POLICIES);
-
-            String msg = format("IMap eviction config doesn't support max size policy `%s`. "
-                    + "Please select a valid one: %s.", maxSizePolicy, allMaxSizePolicies);
-
-            throw new InvalidConfigurationException(msg);
-        }
     }
 
     /**
@@ -311,60 +285,6 @@ public final class ConfigValidator extends CommonConfigValidator {
         }
     }
 
-    /**
-     * Checks if a {@link EvictionConfig} is valid in its context.
-     *
-     * @param evictionConfig the {@link EvictionConfig}
-     */
-    public static void checkCacheEvictionConfig(EvictionConfig evictionConfig) {
-        checkEvictionConfig(evictionConfig, COMMONLY_SUPPORTED_EVICTION_POLICIES);
-    }
-
-    /**
-     * Checks if a {@link EvictionConfig} is valid in its context.
-     *
-     * @param evictionConfig the {@link EvictionConfig}
-     */
-    public static void checkEvictionConfig(EvictionConfig evictionConfig,
-                                           EnumSet<EvictionPolicy> supportedEvictionPolicies) {
-        if (evictionConfig == null) {
-            throw new InvalidConfigurationException("Eviction config cannot be null!");
-        }
-
-        EvictionPolicy evictionPolicy = evictionConfig.getEvictionPolicy();
-        String comparatorClassName = evictionConfig.getComparatorClassName();
-        EvictionPolicyComparator comparator = evictionConfig.getComparator();
-
-        checkEvictionConfig(evictionPolicy, comparatorClassName,
-                comparator, supportedEvictionPolicies);
-    }
-
-
-    /**
-     * Checks if parameters for an {@link EvictionConfig} are valid in their context.
-     *
-     * @param evictionPolicy      the {@link EvictionPolicy} for the {@link EvictionConfig}
-     * @param comparatorClassName the comparator class name for the {@link EvictionConfig}
-     * @param comparator          the comparator implementation for the {@link EvictionConfig}
-     */
-    public static void checkEvictionConfig(EvictionPolicy evictionPolicy,
-                                           String comparatorClassName,
-                                           Object comparator,
-                                           EnumSet<EvictionPolicy> supportedEvictionPolicies) {
-        checkComparatorDefinedOnlyOnce(comparatorClassName, comparator);
-
-        if (!supportedEvictionPolicies.contains(evictionPolicy)) {
-            if (isNullOrEmpty(comparatorClassName) && comparator == null) {
-                String msg = format("Eviction policy `%s` is not supported. Either you can provide a custom one or "
-                        + "you can use a supported one: %s.", evictionPolicy, supportedEvictionPolicies);
-
-                throw new InvalidConfigurationException(msg);
-            }
-        } else {
-            checkEvictionPolicyConfiguredOnlyOnce(evictionPolicy, comparatorClassName,
-                    comparator, EvictionConfig.DEFAULT_EVICTION_POLICY);
-        }
-    }
 
     /**
      * Validates the given {@link CacheSimpleConfig}.
@@ -414,30 +334,11 @@ public final class ConfigValidator extends CommonConfigValidator {
                                         SplitBrainMergePolicyProvider mergePolicyProvider,
                                         EnumSet<EvictionPolicy> supportedEvictionPolicies) {
         try {
-            checkNotNativeWhenOpenSource(inMemoryFormat);
-            checkEvictionConfig(evictionConfig, supportedEvictionPolicies);
+            ConfigValidator.checkCacheConfig(inMemoryFormat, evictionConfig, supportedEvictionPolicies);
             checkCacheMaxSizePolicy(evictionConfig.getMaxSizePolicy(), inMemoryFormat);
             checkMergeTypeProviderHasRequiredTypes(mergeTypes, mergePolicyProvider, mergePolicyClassname);
         } catch (InvalidConfigurationException e) {
             throw new IllegalArgumentException(e.getMessage());
-        }
-    }
-
-    // package private for testing.
-    static void checkCacheMaxSizePolicy(MaxSizePolicy maxSizePolicy,
-                                        InMemoryFormat inMemoryFormat) {
-        if (inMemoryFormat == NATIVE) {
-            if (!CACHE_SUPPORTED_NATIVE_MAX_SIZE_POLICIES.contains(maxSizePolicy)) {
-                throw new IllegalArgumentException("Maximum size policy " + maxSizePolicy
-                        + " cannot be used with NATIVE in memory format backed Cache."
-                        + " Supported maximum size policies are: " + CACHE_SUPPORTED_NATIVE_MAX_SIZE_POLICIES);
-            }
-        } else {
-            if (!CACHE_SUPPORTED_ON_HEAP_MAX_SIZE_POLICIES.contains(maxSizePolicy)) {
-                String msg = format("Cache eviction config doesn't support max size policy `%s`. "
-                        + "Please select a valid one: %s.", maxSizePolicy, CACHE_SUPPORTED_ON_HEAP_MAX_SIZE_POLICIES);
-                throw new IllegalArgumentException(msg);
-            }
         }
     }
 

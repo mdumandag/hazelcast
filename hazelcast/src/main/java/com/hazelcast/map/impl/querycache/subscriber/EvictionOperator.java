@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.querycache.subscriber;
 
 import com.hazelcast.config.EvictionConfig;
 import com.hazelcast.config.QueryCacheConfig;
+import com.hazelcast.internal.config.CommonConfigValidator;
 import com.hazelcast.internal.eviction.EvictionChecker;
 import com.hazelcast.internal.eviction.EvictionListener;
 import com.hazelcast.internal.eviction.impl.evaluator.EvictionPolicyEvaluator;
@@ -80,8 +81,7 @@ class EvictionOperator {
     }
 
     private EvictionPolicyEvaluator<Data, QueryCacheRecord> createEvictionPolicyEvaluator() {
-        //todo client
-//        checkCacheEvictionConfig(evictionConfig);
+        CommonConfigValidator.checkCacheEvictionConfig(evictionConfig);
         return getEvictionPolicyEvaluator(evictionConfig, classLoader);
     }
 }

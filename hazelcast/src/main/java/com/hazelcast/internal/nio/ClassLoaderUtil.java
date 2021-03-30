@@ -16,7 +16,6 @@
 
 package com.hazelcast.internal.nio;
 
-import com.hazelcast.internal.usercodedeployment.impl.ClassSource;
 import com.hazelcast.internal.util.ConcurrentReferenceHashMap;
 import com.hazelcast.internal.util.ExceptionUtil;
 
@@ -428,7 +427,9 @@ public final class ClassLoaderUtil {
     private static boolean shouldBypassCache(Class clazz) {
         // dynamically loaded class should not be cached here, as they are already
         // cached in the DistributedLoadingService (when cache is enabled)
-        return (clazz.getClassLoader() instanceof ClassSource);
+        return clazz.getName().equals("com.hazelcast.internal.usercodedeployment.impl.ClassSource");
+        //todo client
+//        return (clazz.getClassLoader() instanceof ClassSource);
     }
 
     private static final class IrresolvableConstructor {

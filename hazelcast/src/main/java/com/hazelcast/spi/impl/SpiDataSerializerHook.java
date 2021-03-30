@@ -18,33 +18,10 @@ package com.hazelcast.spi.impl;
 
 import com.hazelcast.internal.serialization.DataSerializerHook;
 import com.hazelcast.internal.serialization.impl.FactoryIdHelper;
-import com.hazelcast.internal.services.DistributedObjectNamespace;
 import com.hazelcast.nio.serialization.DataSerializableFactory;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 import com.hazelcast.security.SimpleTokenCredentials;
 import com.hazelcast.security.UsernamePasswordCredentials;
-import com.hazelcast.spi.impl.eventservice.impl.EventEnvelope;
-import com.hazelcast.spi.impl.eventservice.impl.Registration;
-import com.hazelcast.spi.impl.eventservice.impl.TrueEventFilter;
-import com.hazelcast.spi.impl.eventservice.impl.operations.DeregistrationOperation;
-import com.hazelcast.spi.impl.eventservice.impl.operations.OnJoinRegistrationOperation;
-import com.hazelcast.spi.impl.eventservice.impl.operations.RegistrationOperation;
-import com.hazelcast.spi.impl.eventservice.impl.operations.SendEventOperation;
-import com.hazelcast.spi.impl.operationservice.BinaryOperationFactory;
-import com.hazelcast.spi.impl.operationservice.OperationControl;
-import com.hazelcast.spi.impl.operationservice.impl.operations.Backup;
-import com.hazelcast.spi.impl.operationservice.impl.operations.PartitionIteratingOperation;
-import com.hazelcast.spi.impl.operationservice.impl.operations.PartitionIteratingOperation.PartitionResponse;
-import com.hazelcast.spi.impl.operationservice.impl.responses.BackupAckResponse;
-import com.hazelcast.spi.impl.operationservice.impl.responses.CallTimeoutResponse;
-import com.hazelcast.spi.impl.operationservice.impl.responses.ErrorResponse;
-import com.hazelcast.spi.impl.operationservice.impl.responses.NormalResponse;
-import com.hazelcast.spi.impl.proxyservice.impl.DistributedObjectEventPacket;
-import com.hazelcast.spi.impl.proxyservice.impl.operations.DistributedObjectDestroyOperation;
-import com.hazelcast.spi.impl.proxyservice.impl.operations.InitializeDistributedObjectOperation;
-import com.hazelcast.spi.impl.proxyservice.impl.operations.PostJoinProxyOperation;
-import com.hazelcast.spi.impl.tenantcontrol.impl.TenantControlReplicationOperation;
-import com.hazelcast.spi.tenantcontrol.TenantControl;
 
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.SPI_DS_FACTORY;
 import static com.hazelcast.internal.serialization.impl.FactoryIdHelper.SPI_DS_FACTORY_ID;
@@ -93,60 +70,14 @@ public final class SpiDataSerializerHook implements DataSerializerHook {
             @Override
             public IdentifiedDataSerializable create(int typeId) {
                 switch (typeId) {
-                    case NORMAL_RESPONSE:
-                        return new NormalResponse();
-                    case BACKUP:
-                        return new Backup();
-                    case BACKUP_ACK_RESPONSE:
-                        return new BackupAckResponse();
-                    case PARTITION_ITERATOR:
-                        return new PartitionIteratingOperation();
-                    case PARTITION_RESPONSE:
-                        return new PartitionResponse();
-                    case PARALLEL_OPERATION_FACTORY:
-                        return new BinaryOperationFactory();
-                    case EVENT_ENVELOPE:
-                        return new EventEnvelope();
                     case COLLECTION:
                         return new SerializableList();
-                    case CALL_TIMEOUT_RESPONSE:
-                        return new CallTimeoutResponse();
-                    case ERROR_RESPONSE:
-                        return new ErrorResponse();
-                    case DEREGISTRATION:
-                        return new DeregistrationOperation();
-                    case ON_JOIN_REGISTRATION:
-                        return new OnJoinRegistrationOperation();
-                    case REGISTRATION_OPERATION:
-                        return new RegistrationOperation();
-                    case SEND_EVENT:
-                        return new SendEventOperation();
-                    case DIST_OBJECT_INIT:
-                        return new InitializeDistributedObjectOperation();
-                    case DIST_OBJECT_DESTROY:
-                        return new DistributedObjectDestroyOperation();
-                    case POST_JOIN_PROXY:
-                        return new PostJoinProxyOperation();
-                    case TRUE_EVENT_FILTER:
-                        return new TrueEventFilter();
                     case UNMODIFIABLE_LAZY_LIST:
                         return new UnmodifiableLazyList();
-                    case OPERATION_CONTROL:
-                        return new OperationControl();
-                    case DISTRIBUTED_OBJECT_NS:
-                        return new DistributedObjectNamespace();
-                    case REGISTRATION:
-                        return new Registration();
-                    case NOOP_TENANT_CONTROL:
-                        return (IdentifiedDataSerializable) TenantControl.NOOP_TENANT_CONTROL;
                     case USERNAME_PWD_CRED:
                         return new UsernamePasswordCredentials();
                     case SIMPLE_TOKEN_CRED:
                         return new SimpleTokenCredentials();
-                    case DISTRIBUTED_OBJECT_EVENT_PACKET:
-                        return new DistributedObjectEventPacket();
-                    case APPEND_TENANT_CONTROL_OPERATION:
-                        return new TenantControlReplicationOperation();
                     default:
                         return null;
                 }

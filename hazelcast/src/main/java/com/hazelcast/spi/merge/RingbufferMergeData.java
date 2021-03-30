@@ -18,7 +18,6 @@ package com.hazelcast.spi.merge;
 
 import com.hazelcast.ringbuffer.StaleSequenceException;
 import com.hazelcast.ringbuffer.impl.Ringbuffer;
-import com.hazelcast.spi.impl.merge.RingbufferMergingValueImpl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.Arrays;
