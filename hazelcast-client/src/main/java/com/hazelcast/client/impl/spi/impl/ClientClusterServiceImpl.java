@@ -31,7 +31,6 @@ import com.hazelcast.cluster.Member;
 import com.hazelcast.cluster.MemberSelector;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.cluster.MembershipListener;
-import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.instance.EndpointQualifier;
 import com.hazelcast.internal.cluster.MemberInfo;
 import com.hazelcast.internal.cluster.impl.MemberSelectingCollection;
@@ -273,19 +272,19 @@ public class ClientClusterServiceImpl
     private MemberListSnapshot createSnapshot(int memberListVersion, Collection<MemberInfo> memberInfos) {
         LinkedHashMap<UUID, Member> newMembers = new LinkedHashMap<>();
         for (MemberInfo memberInfo : memberInfos) {
-            MemberImpl.Builder memberBuilder;
+            ClientMemberImpl.Builder memberBuilder;
             Map<EndpointQualifier, Address> addressMap = memberInfo.getAddressMap();
             if (addressMap == null || addressMap.isEmpty()) {
-                memberBuilder = new MemberImpl.Builder(memberInfo.getAddress());
+                memberBuilder = new ClientMemberImpl.Builder(memberInfo.getAddress());
             } else {
-                memberBuilder = new MemberImpl.Builder(addressMap)
+                memberBuilder = new ClientMemberImpl.Builder(addressMap)
                         .address(addressMap.getOrDefault(CLIENT, addressMap.get(MEMBER)));
             }
             memberBuilder.version(memberInfo.getVersion())
                     .uuid(memberInfo.getUuid())
                     .attributes(memberInfo.getAttributes())
                     .liteMember(memberInfo.isLiteMember())
-                    .memberListJoinVersion(memberInfo.getMemberListJoinVersion()).build();
+                    .build();
             newMembers.put(memberInfo.getUuid(), memberBuilder.build());
         }
         return new MemberListSnapshot(memberListVersion, newMembers);
