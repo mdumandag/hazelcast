@@ -26,7 +26,7 @@ import com.hazelcast.cp.internal.RaftService;
 import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.AddAndGetOp;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp;
-import com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp.AlterResultType;
+import com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.ApplyOp;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.CompareAndSetOp;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.GetAndAddOp;

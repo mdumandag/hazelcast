@@ -40,8 +40,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static com.hazelcast.cp.internal.RaftService.getCPGroupPartitionId;
-import static com.hazelcast.cp.internal.RaftService.getObjectNameForProxy;
-import static com.hazelcast.cp.internal.RaftService.withoutDefaultGroupName;
+import static com.hazelcast.cp.internal.RaftNameUtil.getObjectNameForProxy;
+import static com.hazelcast.cp.internal.RaftNameUtil.withoutDefaultGroupName;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 import static java.util.Collections.newSetFromMap;

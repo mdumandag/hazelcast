@@ -22,7 +22,7 @@ import com.hazelcast.core.IFunction;
 import com.hazelcast.cp.internal.client.AbstractCPMessageTask;
 import com.hazelcast.cp.internal.datastructures.atomiclong.AtomicLongService;
 import com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp;
-import com.hazelcast.cp.internal.datastructures.atomiclong.operation.AlterOp.AlterResultType;
+import com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType;
 import com.hazelcast.instance.impl.Node;
 import com.hazelcast.internal.nio.Connection;
 import com.hazelcast.security.permission.ActionConstants;

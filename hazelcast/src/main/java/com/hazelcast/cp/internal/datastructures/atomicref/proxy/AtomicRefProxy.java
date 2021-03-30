@@ -35,9 +35,9 @@ import com.hazelcast.spi.impl.InternalCompletableFuture;
 import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.internal.serialization.SerializationService;
 
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.NO_RETURN_VALUE;
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_NEW_VALUE;
-import static com.hazelcast.cp.internal.datastructures.atomicref.operation.ApplyOp.ReturnValueType.RETURN_OLD_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.NO_RETURN_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_NEW_VALUE;
+import static com.hazelcast.cp.internal.datastructures.atomicref.ReturnValueType.RETURN_OLD_VALUE;
 import static com.hazelcast.cp.internal.raft.QueryPolicy.LINEARIZABLE;
 import static com.hazelcast.internal.util.Preconditions.checkTrue;
 

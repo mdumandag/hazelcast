@@ -24,6 +24,7 @@ import com.hazelcast.jet.JetCacheManager;
 import com.hazelcast.jet.JetInstance;
 import com.hazelcast.jet.Job;
 import com.hazelcast.jet.JobAlreadyExistsException;
+import com.hazelcast.jet.JobStateSnapshot;
 import com.hazelcast.jet.JobStateSnapshotImpl;
 import com.hazelcast.jet.Observable;
 import com.hazelcast.jet.config.JobConfig;
@@ -84,7 +85,7 @@ public abstract class AbstractJetInstance implements JetInstance {
         }
     }
 
-    Collection<JobStateSnapshotImpl> getJobStateSnapshots() {
+    public Collection<JobStateSnapshot> getJobStateSnapshots() {
         return getHazelcastInstance().getMap(JobRepository.EXPORTED_SNAPSHOTS_DETAIL_CACHE)
                 .entrySet().stream()
                 .map(entry -> new JobStateSnapshotImpl(this, (String) entry.getKey(),

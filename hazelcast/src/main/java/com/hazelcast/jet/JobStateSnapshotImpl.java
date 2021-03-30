@@ -36,7 +36,7 @@ public final class JobStateSnapshotImpl implements JobStateSnapshot {
     private final String name;
     private final SnapshotValidationRecord snapshotValidationRecord;
 
-    JobStateSnapshotImpl(@Nonnull JetInstance instance, @Nonnull String name, @Nonnull SnapshotValidationRecord record) {
+    public JobStateSnapshotImpl(@Nonnull JetInstance instance, @Nonnull String name, @Nonnull SnapshotValidationRecord record) {
         this.instance = instance;
         this.name = name;
         this.snapshotValidationRecord = record;
