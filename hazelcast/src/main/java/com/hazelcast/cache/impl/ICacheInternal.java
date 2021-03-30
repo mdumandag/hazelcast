@@ -32,6 +32,12 @@ import java.util.Iterator;
  */
 public interface ICacheInternal<K, V> extends ICache<K, V> {
 
+    String CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE =
+            "There is no valid JCache API library at classpath. "
+                    + "Please be sure that there is a JCache API library in your classpath "
+                    + "and it is newer than `0.x` and `1.0.0-PFD` versions!";
+
+
     /**
      * Opens cache if available (not destroyed).
      * If cache is already open, does nothing.

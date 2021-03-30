@@ -23,6 +23,7 @@ import com.hazelcast.core.ICacheManager;
 import com.hazelcast.instance.impl.HazelcastInstanceImpl;
 import com.hazelcast.spi.exception.ServiceNotFoundException;
 
+import static com.hazelcast.cache.impl.ICacheInternal.CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 
 /**
@@ -51,7 +52,7 @@ public class HazelcastInstanceCacheManager implements ICacheManager {
             return original.getDistributedObject(ICacheService.SERVICE_NAME, fullName);
         } catch (HazelcastException e) {
             if (e.getCause() instanceof ServiceNotFoundException) {
-                throw new IllegalStateException(ICacheService.CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
+                throw new IllegalStateException(CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
             } else {
                 throw e;
             }

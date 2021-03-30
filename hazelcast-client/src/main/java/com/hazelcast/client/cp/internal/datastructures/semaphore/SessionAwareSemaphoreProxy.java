@@ -29,18 +29,17 @@ import com.hazelcast.client.impl.protocol.codec.SemaphoreReleaseCodec;
 import com.hazelcast.client.impl.spi.ClientContext;
 import com.hazelcast.client.impl.spi.ClientProxy;
 import com.hazelcast.client.impl.spi.impl.ClientInvocation;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.cp.CPGroupId;
 import com.hazelcast.cp.ISemaphore;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.cp.internal.datastructures.exception.WaitKeyCancelledException;
-import com.hazelcast.cp.internal.datastructures.semaphore.SemaphoreService;
 import com.hazelcast.cp.internal.session.SessionExpiredException;
 import com.hazelcast.internal.util.Clock;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.hazelcast.cp.internal.datastructures.semaphore.proxy.SessionAwareSemaphoreProxy.DRAIN_SESSION_ACQ_COUNT;
 import static com.hazelcast.cp.internal.session.AbstractProxySessionManager.NO_SESSION_ID;
 import static com.hazelcast.internal.util.Preconditions.checkNotNegative;
 import static com.hazelcast.internal.util.Preconditions.checkPositive;
@@ -53,12 +52,20 @@ import static java.lang.Math.max;
  */
 public class SessionAwareSemaphoreProxy extends ClientProxy implements ISemaphore {
 
+    /**
+     * Since a proxy does not know how many permits will be drained on
+     * the Raft group, it uses this constant to increment its local session
+     * acquire count. Then, it adjusts the local session acquire count after
+     * the drain response is returned.
+     */
+    public static final int DRAIN_SESSION_ACQ_COUNT = 1024;
+
     private final ClientProxySessionManager sessionManager;
     private final RaftGroupId groupId;
     private final String objectName;
 
     public SessionAwareSemaphoreProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(SemaphoreService.SERVICE_NAME, proxyName, context);
+        super(ServiceNames.SEMAPHORE, proxyName, context);
         this.sessionManager = getClient().getProxySessionManager();
         this.groupId = groupId;
         this.objectName = objectName;

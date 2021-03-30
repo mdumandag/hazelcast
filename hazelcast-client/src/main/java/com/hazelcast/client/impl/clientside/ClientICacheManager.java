@@ -18,13 +18,14 @@ package com.hazelcast.client.impl.clientside;
 
 import com.hazelcast.cache.HazelcastCacheManager;
 import com.hazelcast.cache.ICache;
-import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.client.impl.spi.impl.ClientServiceNotFoundException;
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICacheManager;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.spi.exception.ServiceNotFoundException;
 
+import static com.hazelcast.cache.impl.ICacheInternal.CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 
 /**
@@ -50,14 +51,14 @@ public class ClientICacheManager implements ICacheManager {
     public <K, V> ICache<K, V> getCacheByFullName(String fullName) {
         checkNotNull(fullName, "Retrieving a cache instance with a null name is not allowed!");
         try {
-            return instance.getDistributedObject(ICacheService.SERVICE_NAME, fullName);
+            return instance.getDistributedObject(ServiceNames.ICACHE, fullName);
         } catch (ClientServiceNotFoundException e) {
             // Cache support is not available at client side
-            throw new IllegalStateException("At client, " + ICacheService.CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
+            throw new IllegalStateException("At client, " + CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
         } catch (HazelcastException e) {
             if (e.getCause() instanceof ServiceNotFoundException) {
                 // Cache support is not available at server side
-                throw new IllegalStateException("At server, " + ICacheService.CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
+                throw new IllegalStateException("At server, " + CACHE_SUPPORT_NOT_AVAILABLE_ERROR_MESSAGE);
             } else {
                 throw e;
             }
