@@ -79,14 +79,6 @@ public final class ClassLocator {
         this.logger = nodeEngine.getLogger(ClassLocator.class);
     }
 
-    public static void onStartDeserialization() {
-        ThreadLocalClassCache.onStartDeserialization();
-    }
-
-    public static void onFinishDeserialization() {
-        ThreadLocalClassCache.onFinishDeserialization();
-    }
-
     public Class<?> handleClassNotFoundException(String name) throws ClassNotFoundException {
         if (!classNameFilter.accept(name)) {
             throw new ClassNotFoundException("Class " + name + " is not allowed to be loaded from other members");

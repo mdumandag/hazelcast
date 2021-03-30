@@ -28,7 +28,7 @@ import com.hazelcast.internal.serialization.impl.bufferpool.BufferPoolFactoryImp
 import com.hazelcast.internal.serialization.impl.bufferpool.BufferPoolThreadLocal;
 import com.hazelcast.internal.serialization.impl.defaultserializers.ConstantSerializers;
 import com.hazelcast.internal.serialization.impl.portable.PortableGenericRecord;
-import com.hazelcast.internal.usercodedeployment.impl.ClassLocator;
+import com.hazelcast.internal.usercodedeployment.impl.ThreadLocalClassCache;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
 import com.hazelcast.nio.ObjectDataInput;
@@ -195,7 +195,7 @@ public abstract class AbstractSerializationService implements InternalSerializat
         BufferPool pool = bufferPoolThreadLocal.get();
         BufferObjectDataInput in = pool.takeInputBuffer(data);
         try {
-            ClassLocator.onStartDeserialization();
+            ThreadLocalClassCache.onStartDeserialization();
             final int typeId = data.getType();
             final SerializerAdapter serializer = serializerFor(typeId);
             if (serializer == null) {
@@ -213,7 +213,7 @@ public abstract class AbstractSerializationService implements InternalSerializat
         } catch (Throwable e) {
             throw handleException(e);
         } finally {
-            ClassLocator.onFinishDeserialization();
+            ThreadLocalClassCache.onFinishDeserialization();
             pool.returnInputBuffer(in);
         }
     }
@@ -232,7 +232,7 @@ public abstract class AbstractSerializationService implements InternalSerializat
         BufferPool pool = bufferPoolThreadLocal.get();
         BufferObjectDataInput in = pool.takeInputBuffer(data);
         try {
-            ClassLocator.onStartDeserialization();
+            ThreadLocalClassCache.onStartDeserialization();
             final int typeId = data.getType();
             final SerializerAdapter serializer = serializerFor(typeId);
             if (serializer == null) {
@@ -250,7 +250,7 @@ public abstract class AbstractSerializationService implements InternalSerializat
         } catch (Throwable e) {
             throw handleException(e);
         } finally {
-            ClassLocator.onFinishDeserialization();
+            ThreadLocalClassCache.onFinishDeserialization();
             pool.returnInputBuffer(in);
         }
     }

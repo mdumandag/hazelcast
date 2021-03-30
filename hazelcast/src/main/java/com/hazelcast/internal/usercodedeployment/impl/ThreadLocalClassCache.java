@@ -24,12 +24,12 @@ import java.util.Map;
  * at very least for the duration of a single deserialization request. Otherwise things may get funky with e.g.
  * class hierarchies.
  */
-public final class ThreadLocalClassCache {
+public final class ThreadLocalClassCache<E> {
 
-    public static final ThreadLocal<ThreadLocalClassCache> THREAD_LOCAL_CLASS_CACHE = new ThreadLocal<ThreadLocalClassCache>();
+    public static final ThreadLocal<ThreadLocalClassCache> THREAD_LOCAL_CLASS_CACHE = new ThreadLocal<>();
 
     private int counter = 1;
-    private Map<String, ClassSource> map = new HashMap<String, ClassSource>();
+    private Map<String, E> map = new HashMap<>();
 
     private ThreadLocalClassCache() {
     }
@@ -43,33 +43,33 @@ public final class ThreadLocalClassCache {
         counter++;
     }
 
-    public static void onStartDeserialization() {
-        ThreadLocalClassCache threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
+    public static <E> void onStartDeserialization() {
+        ThreadLocalClassCache<E> threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
         if (threadLocalClassCache != null) {
             threadLocalClassCache.incCounter();
         }
     }
 
-    public static void onFinishDeserialization() {
-        ThreadLocalClassCache threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
+    public static <E> void onFinishDeserialization() {
+        ThreadLocalClassCache<E> threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
         if (threadLocalClassCache != null && threadLocalClassCache.decCounter() == 0) {
             THREAD_LOCAL_CLASS_CACHE.remove();
         }
     }
 
-    public static void store(String name, ClassSource classSource) {
-        ThreadLocalClassCache threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
+    public static <E> void store(String name, E classSource) {
+        ThreadLocalClassCache<E> threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
         if (threadLocalClassCache == null) {
-            threadLocalClassCache = new ThreadLocalClassCache();
+            threadLocalClassCache = new ThreadLocalClassCache<E>();
             THREAD_LOCAL_CLASS_CACHE.set(threadLocalClassCache);
         }
         threadLocalClassCache.map.put(name, classSource);
     }
 
-    public static ClassSource getFromCache(String name) {
-        ThreadLocalClassCache threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
+    public static <E> E getFromCache(String name) {
+        ThreadLocalClassCache<E> threadLocalClassCache = THREAD_LOCAL_CLASS_CACHE.get();
         if (threadLocalClassCache != null) {
-            return threadLocalClassCache.map.get(name);
+            return (E) threadLocalClassCache.map.get(name);
         }
         return null;
     }
