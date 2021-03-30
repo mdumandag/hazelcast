@@ -16,7 +16,6 @@
 
 package com.hazelcast.cache.impl;
 
-import com.hazelcast.cache.impl.operation.MutableOperation;
 import com.hazelcast.spi.impl.InternalCompletableFuture;
 
 import javax.cache.configuration.CacheEntryListenerConfiguration;
@@ -28,8 +27,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.hazelcast.cache.impl.operation.MutableOperation.IGNORE_COMPLETION;
 
 /**
  * Abstract {@link CacheSyncListenerCompleter} implementation which provides storage and management of countdown latches
@@ -43,6 +40,8 @@ public abstract class AbstractCacheSyncListenerCompleter
 
     private final ConcurrentMap<CacheEntryListenerConfiguration, UUID> asyncListenerRegistrations = new ConcurrentHashMap<>();
     private final ConcurrentMap<CacheEntryListenerConfiguration, UUID> syncListenerRegistrations = new ConcurrentHashMap<>();
+
+    private static final int IGNORE_COMPLETION = -1;
 
     @Override
     public void countDownCompletionLatch(int countDownLatchId) {
@@ -88,7 +87,7 @@ public abstract class AbstractCacheSyncListenerCompleter
             syncLocks.put(countDownLatchId, countDownLatch);
             return countDownLatchId;
         }
-        return MutableOperation.IGNORE_COMPLETION;
+        return IGNORE_COMPLETION;
     }
 
     public void waitCompletionLatch(Integer countDownLatchId, InternalCompletableFuture future)

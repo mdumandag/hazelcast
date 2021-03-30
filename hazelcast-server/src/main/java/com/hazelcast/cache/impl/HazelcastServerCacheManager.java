@@ -112,7 +112,7 @@ public class HazelcastServerCacheManager extends AbstractHazelcastCacheManager {
                 futures.add(future);
             }
         }
-        waitWithDeadline(futures, CacheProxyUtil.AWAIT_COMPLETION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        waitWithDeadline(futures, CacheProxyUtilBase.AWAIT_COMPLETION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 
     @Override

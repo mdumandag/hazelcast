@@ -89,9 +89,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 
-import static com.hazelcast.cache.impl.CacheProxyUtil.NULL_KEY_IS_NOT_ALLOWED;
-import static com.hazelcast.cache.impl.CacheProxyUtil.validateConfiguredTypes;
-import static com.hazelcast.cache.impl.CacheProxyUtil.validateNotNull;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.NULL_KEY_IS_NOT_ALLOWED;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateConfiguredTypes;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateNotNull;
 import static com.hazelcast.cache.impl.operation.MutableOperation.IGNORE_COMPLETION;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.addCallback;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.getSafely;

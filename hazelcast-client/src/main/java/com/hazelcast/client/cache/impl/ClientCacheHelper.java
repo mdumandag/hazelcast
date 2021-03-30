@@ -16,7 +16,7 @@
 
 package com.hazelcast.client.cache.impl;
 
-import com.hazelcast.cache.impl.CacheProxyUtil;
+import com.hazelcast.cache.impl.CacheProxyUtilBase;
 import com.hazelcast.client.impl.clientside.HazelcastClientInstanceImpl;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.CacheCreateConfigCodec;
@@ -134,6 +134,6 @@ final class ClientCacheHelper {
             }
         }
         // make sure all configs are created
-        FutureUtil.waitWithDeadline(futures, CacheProxyUtil.AWAIT_COMPLETION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        FutureUtil.waitWithDeadline(futures, CacheProxyUtilBase.AWAIT_COMPLETION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 }

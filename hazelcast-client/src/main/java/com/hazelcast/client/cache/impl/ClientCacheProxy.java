@@ -63,9 +63,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static com.hazelcast.cache.impl.CacheProxyUtil.NULL_KEY_IS_NOT_ALLOWED;
-import static com.hazelcast.cache.impl.CacheProxyUtil.validateConfiguredTypes;
-import static com.hazelcast.cache.impl.CacheProxyUtil.validateNotNull;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.NULL_KEY_IS_NOT_ALLOWED;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateConfiguredTypes;
+import static com.hazelcast.cache.impl.CacheProxyUtilBase.validateNotNull;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.createCacheEntryListenerCodec;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.createHandler;
 import static com.hazelcast.client.cache.impl.ClientCacheProxySupportUtil.createPartitionLostListenerCodec;
@@ -131,7 +131,7 @@ public class ClientCacheProxy<K, V> extends ClientCacheProxySupport<K, V>
     @Override
     public boolean containsKey(K key) {
         ensureOpen();
-        validateNotNull(key);
+        checkNotNull(key);
 
         return containsKeyInternal(key);
     }
@@ -139,11 +139,11 @@ public class ClientCacheProxy<K, V> extends ClientCacheProxySupport<K, V>
     @Override
     public void loadAll(Set<? extends K> keys, boolean replaceExistingValues, CompletionListener completionListener) {
         ensureOpen();
-        validateNotNull(keys);
+        checkNotNull(keys);
 
         List<Data> dataKeys = new ArrayList<>(keys.size());
         for (K key : keys) {
-            validateNotNull(key);
+            checkNotNull(key);
             validateConfiguredTypes(cacheConfig, key);
 
             dataKeys.add(toData(key));

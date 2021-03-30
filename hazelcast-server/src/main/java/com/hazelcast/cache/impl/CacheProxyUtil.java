@@ -32,11 +32,8 @@ import static com.hazelcast.internal.util.Preconditions.checkNotNull;
  *
  * @see CacheProxy
  */
-public final class CacheProxyUtil {
+public final class CacheProxyUtil extends CacheProxyUtilBase {
 
-    public static final int AWAIT_COMPLETION_TIMEOUT_SECONDS = 60;
-
-    public static final String NULL_KEY_IS_NOT_ALLOWED = "Null key is not allowed!";
     private static final String NULL_VALUE_IS_NOT_ALLOWED = "Null value is not allowed!";
     private static final String NULL_SET_IS_NOT_ALLOWED = "Null set is not allowed!";
 
@@ -62,17 +59,6 @@ public final class CacheProxyUtil {
 
     public static int getPartitionId(NodeEngine nodeEngine, Data key) {
         return nodeEngine.getPartitionService().getPartitionId(key);
-    }
-
-    /**
-     * Validates that a key is not null.
-     *
-     * @param key the key to be validated.
-     * @param <K> the type of key.
-     * @throws NullPointerException if provided key is null.
-     */
-    public static <K> void validateNotNull(K key) {
-        checkNotNull(key, NULL_KEY_IS_NOT_ALLOWED);
     }
 
     /**
@@ -154,19 +140,6 @@ public final class CacheProxyUtil {
     }
 
     /**
-     * Validates that the configured key matches the provided key.
-     *
-     * @param cacheConfig Cache configuration.
-     * @param key         the key to be validated with its type.
-     * @param <K>         the type of key.
-     * @throws ClassCastException if the provided key does not match with configured type.
-     */
-    public static <K> void validateConfiguredTypes(CacheConfig cacheConfig, K key) throws ClassCastException {
-        Class keyType = cacheConfig.getKeyType();
-        validateConfiguredKeyType(keyType, key);
-    }
-
-    /**
      * Validates the configured key and value types matches the provided key, value types.
      *
      * @param cacheConfig Cache configuration.
@@ -201,23 +174,6 @@ public final class CacheProxyUtil {
         validateConfiguredKeyType(keyType, key);
         validateConfiguredValueType(valueType, value1);
         validateConfiguredValueType(valueType, value2);
-    }
-
-    /**
-     * Validates the key with key type.
-     *
-     * @param keyType key class.
-     * @param key     key to be validated.
-     * @param <K>     the type of key.
-     * @throws ClassCastException if the provided key do not match with keyType.
-     */
-    public static <K> void validateConfiguredKeyType(Class<K> keyType, K key) throws ClassCastException {
-        if (Object.class != keyType) {
-            // means that type checks is required
-            if (!keyType.isAssignableFrom(key.getClass())) {
-                throw new ClassCastException("Key '" + key + "' is not assignable to " + keyType);
-            }
-        }
     }
 
     /**
