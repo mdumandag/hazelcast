@@ -19,7 +19,6 @@ package com.hazelcast.client.map.impl.iterator;
 
 import com.hazelcast.client.impl.proxy.ClientMapProxy;
 import com.hazelcast.map.impl.iterator.AbstractMapIterator;
-import com.hazelcast.map.impl.iterator.MapPartitionIterator;
 
 /**
  * Client-side iterator for iterating map entries in the whole cluster. The values

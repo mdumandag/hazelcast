@@ -18,7 +18,6 @@ package com.hazelcast.client.map.impl.iterator;
 
 import com.hazelcast.client.impl.proxy.ClientMapProxy;
 import com.hazelcast.map.impl.iterator.AbstractMapQueryIterator;
-import com.hazelcast.map.impl.iterator.MapQueryPartitionIterator;
 import com.hazelcast.projection.Projection;
 import com.hazelcast.query.Predicate;
 

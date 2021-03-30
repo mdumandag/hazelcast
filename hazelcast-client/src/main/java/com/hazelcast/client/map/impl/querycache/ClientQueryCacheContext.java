@@ -31,7 +31,6 @@ import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.QueryCacheScheduler;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
-import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 import com.hazelcast.map.impl.querycache.subscriber.InternalQueryCache;
 import com.hazelcast.map.impl.querycache.subscriber.QueryCacheFactory;
 import com.hazelcast.map.impl.querycache.subscriber.SubscriberContext;
@@ -133,12 +132,6 @@ public class ClientQueryCacheContext implements QueryCacheContext {
     @Override
     public void setSubscriberContext(SubscriberContext subscriberContext) {
         this.subscriberContext = subscriberContext;
-    }
-
-    @Override
-    public PublisherContext getPublisherContext() {
-        // no need to implement this for client part
-        throw new UnsupportedOperationException();
     }
 
     @Override
