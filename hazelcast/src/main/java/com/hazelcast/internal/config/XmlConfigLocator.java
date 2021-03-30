@@ -16,8 +16,6 @@
 
 package com.hazelcast.internal.config;
 
-import com.hazelcast.config.XmlConfigBuilder;
-
 import static com.hazelcast.internal.config.DeclarativeConfigUtil.SYSPROP_MEMBER_CONFIG;
 import static com.hazelcast.internal.config.DeclarativeConfigUtil.XML_ACCEPTED_SUFFIXES;
 
