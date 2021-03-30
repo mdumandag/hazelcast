@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.hazelcast.internal.nearcache.impl.invalidation;
+package com.hazelcast.internal.nearcache.impl;
 
-import com.hazelcast.spi.impl.eventservice.EventRegistration;
+import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
 import com.hazelcast.spi.impl.NodeEngine;
+import com.hazelcast.spi.impl.eventservice.EventRegistration;
 
 import java.util.function.Function;
 

@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package com.hazelcast.internal.nearcache.impl.invalidation;
+package com.hazelcast.internal.nearcache.impl;
 
+import com.hazelcast.internal.nearcache.impl.invalidation.Invalidation;
+import com.hazelcast.internal.nearcache.impl.invalidation.MetaDataGenerator;
+import com.hazelcast.internal.nearcache.impl.invalidation.SingleNearCacheInvalidation;
+import com.hazelcast.internal.partition.IPartitionService;
+import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.services.ManagedService;
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.internal.serialization.Data;
+import com.hazelcast.spi.impl.NodeEngine;
 import com.hazelcast.spi.impl.eventservice.EventRegistration;
 import com.hazelcast.spi.impl.eventservice.EventService;
-import com.hazelcast.spi.impl.NodeEngine;
-import com.hazelcast.internal.partition.IPartitionService;
 
 import java.util.Collection;
 import java.util.UUID;
 import java.util.function.Function;
 
-import static com.hazelcast.internal.util.ToHeapDataConverter.toHeapData;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
+import static com.hazelcast.internal.util.ToHeapDataConverter.toHeapData;
 
 /**
  * Contains shared functionality for Near Cache invalidation.

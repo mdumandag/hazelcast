@@ -25,7 +25,6 @@ import com.hazelcast.internal.eviction.impl.strategy.sampling.SamplingEvictionSt
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.impl.querycache.subscriber.record.QueryCacheRecord;
 
-import static com.hazelcast.internal.config.ConfigValidator.checkCacheEvictionConfig;
 import static com.hazelcast.internal.eviction.EvictionChecker.EVICT_ALWAYS;
 import static com.hazelcast.internal.eviction.EvictionPolicyEvaluatorProvider.getEvictionPolicyEvaluator;
 
@@ -81,7 +80,8 @@ class EvictionOperator {
     }
 
     private EvictionPolicyEvaluator<Data, QueryCacheRecord> createEvictionPolicyEvaluator() {
-        checkCacheEvictionConfig(evictionConfig);
+        //todo client
+//        checkCacheEvictionConfig(evictionConfig);
         return getEvictionPolicyEvaluator(evictionConfig, classLoader);
     }
 }
