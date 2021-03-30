@@ -22,8 +22,6 @@ import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
 import com.hazelcast.map.impl.querycache.event.sequence.Sequenced;
-import com.hazelcast.map.impl.querycache.publisher.EventPublisherAccumulatorProcessor;
-import com.hazelcast.map.impl.querycache.publisher.PublisherAccumulatorHandler;
 
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +36,7 @@ import static com.hazelcast.internal.util.Preconditions.checkNotNull;
  * @see com.hazelcast.map.impl.querycache.publisher.NonStopPublisherAccumulator
  * @see com.hazelcast.map.impl.querycache.publisher.BatchPublisherAccumulator
  */
-public class BasicAccumulator<E extends Sequenced> extends AbstractAccumulator<E> {
+public abstract class BasicAccumulator<E extends Sequenced> extends AbstractAccumulator<E> {
 
     protected final AccumulatorHandler<E> handler;
     protected final ILogger logger = Logger.getLogger(getClass());
@@ -156,16 +154,10 @@ public class BasicAccumulator<E extends Sequenced> extends AbstractAccumulator<E
     }
 
     @SuppressWarnings("unchecked")
-    protected AccumulatorHandler<E> createAccumulatorHandler(QueryCacheContext context, AccumulatorInfo info) {
-        QueryCacheEventService queryCacheEventService = context.getQueryCacheEventService();
-        AccumulatorProcessor<Sequenced> processor = createAccumulatorProcessor(info, queryCacheEventService);
-        return (AccumulatorHandler<E>) new PublisherAccumulatorHandler(context, processor);
-    }
+    protected abstract AccumulatorHandler<E> createAccumulatorHandler(QueryCacheContext context, AccumulatorInfo info);
 
-    protected AccumulatorProcessor<Sequenced> createAccumulatorProcessor(AccumulatorInfo info,
-                                                                         QueryCacheEventService eventService) {
-        return new EventPublisherAccumulatorProcessor(info, eventService);
-    }
+    protected abstract AccumulatorProcessor<Sequenced> createAccumulatorProcessor(AccumulatorInfo info,
+                                                                         QueryCacheEventService eventService);
 
     /**
      * Iterator used to read an {@link Accumulator}.

@@ -1202,6 +1202,7 @@ public class MapProxyImpl<K, V> extends MapProxySupport<K, V> implements EventJo
 
         QueryCacheRequest request = newQueryCacheRequest()
                 .forMap(map)
+                .withPartitionStrategy(partitionStrategy)
                 .withCacheName(name)
                 .withListener(listener)
                 .withPredicate(predicate)

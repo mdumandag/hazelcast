@@ -18,8 +18,10 @@ package com.hazelcast.map.impl.querycache.subscriber;
 
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
+import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorHandler;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
+import com.hazelcast.map.impl.querycache.accumulator.AccumulatorProcessor;
 import com.hazelcast.map.impl.querycache.accumulator.BasicAccumulator;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
 import com.hazelcast.map.impl.querycache.event.sequence.DefaultSubscriberSequencerProvider;
@@ -29,7 +31,6 @@ import com.hazelcast.map.impl.querycache.event.sequence.SubscriberSequencerProvi
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static com.hazelcast.map.impl.querycache.publisher.AccumulatorSweeper.END_SEQUENCE;
 import static com.hazelcast.map.impl.querycache.subscriber.EventPublisherHelper.publishEventLost;
 import static java.lang.String.format;
 
@@ -175,6 +176,11 @@ public class SubscriberAccumulator extends BasicAccumulator<QueryCacheEventData>
         InternalQueryCache queryCache = getQueryCache();
         InternalSerializationService serializationService = context.getSerializationService();
         return new SubscriberAccumulatorHandler(includeValue, queryCache, serializationService);
+    }
+
+    protected AccumulatorProcessor<Sequenced> createAccumulatorProcessor(AccumulatorInfo info,
+                                                                         QueryCacheEventService eventService) {
+        return null;
     }
 
     private void addQueryCache(QueryCacheEventData eventData) {

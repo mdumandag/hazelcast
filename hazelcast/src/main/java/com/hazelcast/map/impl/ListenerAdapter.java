@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package com.hazelcast.map.impl.querycache;
+package com.hazelcast.map.impl;
 
-import com.hazelcast.cluster.Member;
-import com.hazelcast.spi.impl.operationservice.Operation;
-
-import java.util.concurrent.Future;
+import com.hazelcast.map.IMap;
 
 /**
- * Provides abstraction over client and node side invocations.
+ * Adapter for all {@link IMap} listeners. This interface is considered to be used only
+ * by {@link IMap} internals.
+ * <p>
+ * Also every {@link com.hazelcast.map.listener.MapListener} should be wrapped
+ * in a {@link ListenerAdapter} before EventService registration.
  */
-public interface InvokerWrapper {
+public interface ListenerAdapter<T> {
 
-    Future invokeOnPartitionOwner(Object request, int partitionId);
-
-    Object invokeOnAllPartitions(Object request, boolean urgent) throws Exception;
-
-    Future invokeOnTarget(Object operation, Member member);
-
-    Object invoke(Object operation, boolean urgent);
-
-    void executeOperation(Operation op);
+    /**
+     * Handle event.
+     *
+     * @param event type of event.
+     */
+    void onEvent(T event);
 }

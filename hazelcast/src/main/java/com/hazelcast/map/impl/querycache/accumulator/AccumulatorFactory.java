@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package com.hazelcast.map.impl;
+package com.hazelcast.map.impl.querycache.accumulator;
 
-import com.hazelcast.map.IMap;
-import com.hazelcast.spi.impl.eventservice.EventService;
+import com.hazelcast.map.impl.querycache.subscriber.SubscriberAccumulatorFactory;
 
 /**
- * Adapter for all {@link IMap} listeners. This interface is considered to be used only
- * by {@link IMap} internals.
+ * Factory which is used to create an {@link Accumulator}.
  * <p>
- * Also every {@link com.hazelcast.map.listener.MapListener} should be wrapped
- * in a {@link ListenerAdapter} before {@link EventService} registration.
+ * PublisherAccumulatorFactory
+ *
+ * @see SubscriberAccumulatorFactory
  */
-public interface ListenerAdapter<T> {
+public interface AccumulatorFactory {
 
     /**
-     * Handle event.
-     *
-     * @param event type of event.
+     * @param info info which will be used by an {@link Accumulator}.
+     * @return an instance of {@link Accumulator}.
      */
-    void onEvent(T event);
+    Accumulator createAccumulator(AccumulatorInfo info);
 }

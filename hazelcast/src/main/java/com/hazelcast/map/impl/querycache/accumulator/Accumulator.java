@@ -30,6 +30,8 @@ import java.util.concurrent.TimeUnit;
  */
 public interface Accumulator<E extends Sequenced> extends Iterable<E> {
 
+    long END_SEQUENCE = -1;
+
     /**
      * Adds event to this accumulator.
      *

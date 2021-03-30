@@ -29,13 +29,13 @@ import com.hazelcast.map.IMap;
 import com.hazelcast.map.impl.EntryEventFilter;
 import com.hazelcast.map.impl.query.QueryEventFilter;
 import com.hazelcast.map.impl.querycache.InvokerWrapper;
-import com.hazelcast.map.impl.querycache.NodeInvokerWrapper;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfoSupplier;
 import com.hazelcast.map.impl.querycache.subscriber.record.QueryCacheRecord;
 import com.hazelcast.map.listener.MapListener;
+import com.hazelcast.partition.PartitioningStrategy;
 import com.hazelcast.query.Predicate;
 import com.hazelcast.query.Predicates;
 import com.hazelcast.query.impl.CachedQueryEntry;
@@ -79,8 +79,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
 
     DefaultQueryCache(String cacheId, String cacheName, QueryCacheConfig queryCacheConfig,
-                      IMap delegate, QueryCacheContext context) {
-        super(cacheId, cacheName, queryCacheConfig, delegate, context);
+                      IMap delegate, PartitioningStrategy partitioningStrategy, QueryCacheContext context) {
+        super(cacheId, cacheName, queryCacheConfig, delegate, partitioningStrategy, context);
     }
 
     @Override
@@ -198,7 +198,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
         SubscriberContextSupport subscriberContextSupport = subscriberContext.getSubscriberContextSupport();
 
         InvokerWrapper invokerWrapper = context.getInvokerWrapper();
-        if (invokerWrapper instanceof NodeInvokerWrapper) {
+        if (!invokerWrapper.isClient()) {
             subscriberContext.getEventService().removePublisherListener(mapName, cacheId, publisherListenerId);
 
             Collection<Member> memberList = context.getMemberList();
@@ -510,6 +510,7 @@ class DefaultQueryCache<K, V> extends AbstractInternalQueryCache<K, V> {
                 QueryCacheRequest request = newQueryCacheRequest()
                         .withCacheName(cacheName)
                         .forMap(delegate)
+                        .withPartitionStrategy(partitioningStrategy)
                         .urgent(true)
                         .withContext(context);
 

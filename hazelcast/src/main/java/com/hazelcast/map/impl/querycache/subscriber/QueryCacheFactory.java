@@ -22,6 +22,7 @@ import com.hazelcast.internal.util.ConstructorFunction;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.listener.MapListener;
+import com.hazelcast.partition.PartitioningStrategy;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -45,12 +46,14 @@ public class QueryCacheFactory {
         @Override
         public InternalQueryCache createNew(String cacheId) {
             IMap delegate = request.getMap();
+            PartitioningStrategy partitioningStrategy = request.getPartitioningStrategy();
             String mapName = request.getMapName();
             String cacheName = request.getCacheName();
             QueryCacheContext context = request.getContext();
             QueryCacheConfig queryCacheConfig = request.getQueryCacheConfig();
 
-            DefaultQueryCache queryCache = new DefaultQueryCache(cacheId, cacheName, queryCacheConfig, delegate, context);
+            DefaultQueryCache queryCache = new DefaultQueryCache(cacheId, cacheName, queryCacheConfig, delegate,
+                    partitioningStrategy, context);
 
             MapListener listener = request.getListener();
             if (listener != null) {

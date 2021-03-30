@@ -43,7 +43,7 @@ import static com.hazelcast.internal.util.MapUtil.createHashMap;
  *
  * @see EventPublisherAccumulatorProcessor
  */
-public class PublisherAccumulatorHandler implements AccumulatorHandler<Sequenced> {
+public class PublisherAccumulatorHandler<E extends Sequenced> implements AccumulatorHandler<E> {
 
     private final QueryCacheContext context;
     private final AccumulatorProcessor<Sequenced> processor;

@@ -27,13 +27,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
+import static com.hazelcast.map.impl.querycache.accumulator.Accumulator.END_SEQUENCE;
+
 /**
  * Responsible for sweeping all registered accumulators of a {@link PublisherContext}.
  * This is needed in situations like ownership changes/graceful shutdown.
  */
 public final class AccumulatorSweeper {
-
-    public static final long END_SEQUENCE = -1;
 
     private AccumulatorSweeper() {
     }

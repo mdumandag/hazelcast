@@ -20,6 +20,7 @@ import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.accumulator.Accumulator;
+import com.hazelcast.map.impl.querycache.accumulator.AccumulatorHandler;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorProcessor;
 import com.hazelcast.map.impl.querycache.accumulator.BasicAccumulator;
@@ -134,5 +135,12 @@ class CoalescingPublisherAccumulator extends BasicAccumulator<QueryCacheEventDat
                         eventData.getKey(), eventData.getSequence(), index.size()));
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected AccumulatorHandler<QueryCacheEventData> createAccumulatorHandler(QueryCacheContext context, AccumulatorInfo info) {
+        QueryCacheEventService queryCacheEventService = context.getQueryCacheEventService();
+        AccumulatorProcessor<Sequenced> processor = createAccumulatorProcessor(info, queryCacheEventService);
+        return (AccumulatorHandler<QueryCacheEventData>) new PublisherAccumulatorHandler(context, processor);
     }
 }

@@ -16,22 +16,26 @@
 
 package com.hazelcast.map.impl.querycache.accumulator;
 
-import com.hazelcast.map.impl.querycache.publisher.EventPublisherAccumulatorProcessor;
-
 /**
- * Responsible for processing of an event of an {@link Accumulator}.
+ * Used to handle elements of an {@link Accumulator}.
  *
- * Processing can vary according to the implementation.
- *
- * @param <T> type of element to process.
- * @see EventPublisherAccumulatorProcessor
+ * @param <T> the type of element in {@link Accumulator}.
+ * PublisherAccumulatorHandler
+ * com.hazelcast.map.impl.querycache.subscriber.SubscriberAccumulatorHandler
  */
-public interface AccumulatorProcessor<T> {
+public interface AccumulatorHandler<T> {
 
     /**
-     * Processes event.
+     * Handles element.
      *
-     * @param event type of event.
+     * @param element     the element to be processed.
+     * @param lastElement {@code true} if this is the last element
+     *                    got from the {@code Accumulator}, otherwise {@code false}.
      */
-    void process(T event);
+    void handle(T element, boolean lastElement);
+
+    /**
+     * Resets this handler to its initial state.
+     */
+    void reset();
 }

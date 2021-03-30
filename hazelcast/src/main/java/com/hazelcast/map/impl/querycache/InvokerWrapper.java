@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.hazelcast.map.impl.querycache.accumulator;
+package com.hazelcast.map.impl.querycache;
 
-import com.hazelcast.map.impl.querycache.publisher.PublisherAccumulatorFactory;
-import com.hazelcast.map.impl.querycache.subscriber.SubscriberAccumulatorFactory;
+import com.hazelcast.cluster.Member;
+
+import java.util.concurrent.Future;
 
 /**
- * Factory which is used to create an {@link Accumulator}.
- *
- * @see PublisherAccumulatorFactory
- * @see SubscriberAccumulatorFactory
+ * Provides abstraction over client and node side invocations.
  */
-public interface AccumulatorFactory {
+public interface InvokerWrapper {
 
-    /**
-     * @param info info which will be used by an {@link Accumulator}.
-     * @return an instance of {@link Accumulator}.
-     */
-    Accumulator createAccumulator(AccumulatorInfo info);
+    Future invokeOnPartitionOwner(Object request, int partitionId);
+
+    Object invokeOnAllPartitions(Object request, boolean urgent) throws Exception;
+
+    Future invokeOnTarget(Object operation, Member member);
+
+    Object invoke(Object operation, boolean urgent);
+
+    void executeOperation(Object op);
+
+    boolean isClient();
+
 }

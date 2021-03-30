@@ -25,7 +25,6 @@ import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.impl.LazyMapEntry;
-import com.hazelcast.map.impl.proxy.MapProxyImpl;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.impl.querycache.QueryCacheEventService;
 import com.hazelcast.map.impl.querycache.subscriber.record.QueryCacheRecord;
@@ -71,7 +70,7 @@ abstract class AbstractInternalQueryCache<K, V> implements InternalQueryCache<K,
     protected volatile UUID publisherListenerId;
 
     AbstractInternalQueryCache(String cacheId, String cacheName, QueryCacheConfig queryCacheConfig,
-                               IMap delegate, QueryCacheContext context) {
+                               IMap delegate,  PartitioningStrategy partitioningStrategy, QueryCacheContext context) {
         this.cacheId = cacheId;
         this.cacheName = cacheName;
         this.queryCacheConfig = queryCacheConfig;
@@ -87,7 +86,7 @@ abstract class AbstractInternalQueryCache<K, V> implements InternalQueryCache<K,
                 .build();
 
         this.includeValue = isIncludeValue();
-        this.partitioningStrategy = getPartitioningStrategy();
+        this.partitioningStrategy = partitioningStrategy;
         this.extractors = Extractors.newBuilder(serializationService).build();
         this.recordStore = new DefaultQueryCacheRecordStore(serializationService, indexes,
                 queryCacheConfig, getEvictionListener(), extractors);
@@ -138,12 +137,7 @@ abstract class AbstractInternalQueryCache<K, V> implements InternalQueryCache<K,
                 dataKey, null, record, EVICTED, extractors);
     }
 
-    PartitioningStrategy getPartitioningStrategy() {
-        if (delegate instanceof MapProxyImpl) {
-            return ((MapProxyImpl) delegate).getPartitionStrategy();
-        }
-        return null;
-    }
+
 
     protected void doFullKeyScan(Predicate predicate, Set<K> resultingSet) {
         InternalSerializationService serializationService = this.serializationService;

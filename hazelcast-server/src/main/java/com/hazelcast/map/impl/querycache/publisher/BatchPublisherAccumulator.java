@@ -17,7 +17,10 @@
 package com.hazelcast.map.impl.querycache.publisher;
 
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
+import com.hazelcast.map.impl.querycache.QueryCacheEventService;
+import com.hazelcast.map.impl.querycache.accumulator.AccumulatorHandler;
 import com.hazelcast.map.impl.querycache.accumulator.AccumulatorInfo;
+import com.hazelcast.map.impl.querycache.accumulator.AccumulatorProcessor;
 import com.hazelcast.map.impl.querycache.accumulator.BasicAccumulator;
 import com.hazelcast.map.impl.querycache.event.sequence.Sequenced;
 
@@ -48,5 +51,17 @@ class BatchPublisherAccumulator extends BasicAccumulator<Sequenced> {
 
         poll(handler, info.getBatchSize());
         poll(handler, info.getDelaySeconds(), TimeUnit.SECONDS);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected AccumulatorHandler<Sequenced> createAccumulatorHandler(QueryCacheContext context, AccumulatorInfo info) {
+        QueryCacheEventService queryCacheEventService = context.getQueryCacheEventService();
+        AccumulatorProcessor<Sequenced> processor = createAccumulatorProcessor(info, queryCacheEventService);
+        return (AccumulatorHandler<Sequenced>) new PublisherAccumulatorHandler(context, processor);
+    }
+
+    protected AccumulatorProcessor<Sequenced> createAccumulatorProcessor(AccumulatorInfo info,
+                                                                         QueryCacheEventService eventService) {
+        return new EventPublisherAccumulatorProcessor(info, eventService);
     }
 }

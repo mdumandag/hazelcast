@@ -22,7 +22,6 @@ import com.hazelcast.client.impl.spi.impl.ClientInvocation;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.map.impl.querycache.InvokerWrapper;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
-import com.hazelcast.spi.impl.operationservice.Operation;
 
 import java.util.concurrent.Future;
 
@@ -94,8 +93,13 @@ public class ClientInvokerWrapper implements InvokerWrapper {
     }
 
     @Override
-    public void executeOperation(Operation op) {
+    public void executeOperation(Object op) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isClient() {
+        return true;
     }
 
 }

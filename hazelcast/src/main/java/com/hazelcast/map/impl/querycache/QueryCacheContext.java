@@ -21,7 +21,6 @@ import com.hazelcast.cluster.Member;
 import com.hazelcast.internal.serialization.Data;
 import com.hazelcast.internal.serialization.InternalSerializationService;
 import com.hazelcast.internal.util.ContextMutexFactory;
-import com.hazelcast.map.impl.querycache.publisher.PublisherContext;
 import com.hazelcast.map.impl.querycache.subscriber.SubscriberContext;
 
 import java.util.Collection;
@@ -35,14 +34,6 @@ import java.util.Collection;
  * on client and on node sides.
  */
 public interface QueryCacheContext {
-
-    /**
-     * Returns {@link PublisherContext} for this context.
-     *
-     * @return {@link PublisherContext}
-     * @see PublisherContext
-     */
-    PublisherContext getPublisherContext();
 
     /**
      * Returns {@link SubscriberContext} for this context.

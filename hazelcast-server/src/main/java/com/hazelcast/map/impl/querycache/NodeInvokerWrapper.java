@@ -18,6 +18,7 @@ package com.hazelcast.map.impl.querycache;
 
 import com.hazelcast.cluster.Member;
 import com.hazelcast.map.impl.MapService;
+import com.hazelcast.spi.impl.PartitionSpecificRunnable;
 import com.hazelcast.spi.impl.operationservice.Operation;
 import com.hazelcast.spi.impl.operationservice.OperationFactory;
 import com.hazelcast.spi.impl.operationservice.OperationService;
@@ -74,9 +75,14 @@ public class NodeInvokerWrapper implements InvokerWrapper {
     }
 
     @Override
-    public void executeOperation(Operation operation) {
+    public void executeOperation(Object operation) {
         checkNotNull(operation, "operation cannot be null");
 
-        operationService.execute(operation);
+        operationService.execute((PartitionSpecificRunnable) operation);
+    }
+
+    @Override
+    public boolean isClient() {
+        return false;
     }
 }

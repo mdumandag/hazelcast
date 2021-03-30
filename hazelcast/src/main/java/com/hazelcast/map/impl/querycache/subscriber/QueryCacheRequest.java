@@ -20,6 +20,7 @@ import com.hazelcast.config.QueryCacheConfig;
 import com.hazelcast.map.IMap;
 import com.hazelcast.map.impl.querycache.QueryCacheContext;
 import com.hazelcast.map.listener.MapListener;
+import com.hazelcast.partition.PartitioningStrategy;
 import com.hazelcast.query.PagingPredicate;
 import com.hazelcast.query.Predicate;
 
@@ -33,6 +34,7 @@ import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 public class QueryCacheRequest {
 
     private IMap map;
+    private PartitioningStrategy partitioningStrategy;
     private String mapName;
     private String cacheName;
     private Predicate predicate;
@@ -52,6 +54,11 @@ public class QueryCacheRequest {
     public QueryCacheRequest forMap(IMap map) {
         this.map = checkNotNull(map, "map cannot be null");
         this.mapName = map.getName();
+        return this;
+    }
+
+    public QueryCacheRequest withPartitionStrategy(PartitioningStrategy partitioningStrategy) {
+        this.partitioningStrategy = partitioningStrategy;
         return this;
     }
 
@@ -94,6 +101,10 @@ public class QueryCacheRequest {
 
     public IMap getMap() {
         return map;
+    }
+
+    public PartitioningStrategy getPartitioningStrategy() {
+        return partitioningStrategy;
     }
 
     public String getMapName() {
