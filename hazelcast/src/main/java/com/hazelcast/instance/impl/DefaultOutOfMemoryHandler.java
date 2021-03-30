@@ -28,7 +28,7 @@ import static com.hazelcast.internal.util.EmptyStatement.ignore;
  * Default OutOfMemoryHandler implementation that tries to release local resources (threads, connections, memory)
  * immediately and disconnects members from the rest of the cluster.
 */
-public class DefaultOutOfMemoryHandler extends OutOfMemoryHandler {
+public abstract class DefaultOutOfMemoryHandler extends OutOfMemoryHandler {
 
     /*
      * Known OOME error messages:
@@ -76,20 +76,7 @@ public class DefaultOutOfMemoryHandler extends OutOfMemoryHandler {
         this.memoryInfoAccessor = memoryInfoAccessor;
     }
 
-    @Override
-    public void onOutOfMemory(OutOfMemoryError oome, HazelcastInstance[] hazelcastInstances) {
-        for (HazelcastInstance instance : hazelcastInstances) {
-            if (instance instanceof HazelcastInstanceImpl) {
-                OutOfMemoryHandlerHelper.tryCloseConnections(instance);
-                OutOfMemoryHandlerHelper.tryShutdown(instance);
-            }
-        }
-        try {
-            oome.printStackTrace(System.err);
-        } catch (Throwable ignored) {
-            ignore(ignored);
-        }
-    }
+    public abstract void onOutOfMemory(OutOfMemoryError oome, HazelcastInstance[] hazelcastInstances);
 
     @Override
     public boolean shouldHandle(OutOfMemoryError oome) {

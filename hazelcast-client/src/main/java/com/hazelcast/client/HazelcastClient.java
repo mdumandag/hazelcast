@@ -27,7 +27,7 @@ import com.hazelcast.config.InvalidConfigurationException;
 import com.hazelcast.core.HazelcastException;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.OutOfMemoryHandler;
-import com.hazelcast.instance.impl.HazelcastInstanceFactory.InstanceFuture;
+import com.hazelcast.instance.impl.InstanceFuture;
 import com.hazelcast.instance.impl.OutOfMemoryErrorDispatcher;
 import com.hazelcast.internal.util.EmptyStatement;
 import com.hazelcast.internal.util.ExceptionUtil;
@@ -45,7 +45,7 @@ import static com.hazelcast.internal.util.Preconditions.checkHasText;
 import static com.hazelcast.internal.util.SetUtil.createHashSet;
 
 /**
- * The HazelcastClient is comparable to the {@link com.hazelcast.core.Hazelcast} class and provides the ability
+ * The HazelcastClient is comparable to the com.hazelcast.core.Hazelcast class and provides the ability
  * the create and manage Hazelcast clients. Hazelcast clients are {@link HazelcastInstance} implementations, so
  * in most cases most of the code is unaware of talking to a cluster member or a client.
  * <p>

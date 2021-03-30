@@ -19,6 +19,7 @@ package com.hazelcast.core;
 import com.hazelcast.config.Config;
 import com.hazelcast.instance.impl.HazelcastInstanceFactory;
 import com.hazelcast.instance.impl.OutOfMemoryErrorDispatcher;
+import com.hazelcast.instance.impl.ServerOutOfMemoryHandler;
 
 import java.util.Set;
 
@@ -26,6 +27,10 @@ import java.util.Set;
  * Factory for {@link HazelcastInstance}'s, a node in a cluster.
  */
 public final class Hazelcast {
+
+    static {
+        OutOfMemoryErrorDispatcher.setServerHandler(new ServerOutOfMemoryHandler());
+    }
 
     private Hazelcast() {
     }
