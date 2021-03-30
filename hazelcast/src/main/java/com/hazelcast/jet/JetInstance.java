@@ -24,13 +24,11 @@ import com.hazelcast.function.FunctionEx;
 import com.hazelcast.internal.util.UuidUtil;
 import com.hazelcast.jet.config.JetConfig;
 import com.hazelcast.jet.config.JobConfig;
-import com.hazelcast.jet.core.DAGInterface;
+import com.hazelcast.jet.core.DAG;
 import com.hazelcast.jet.function.Observer;
 import com.hazelcast.jet.pipeline.GeneralStage;
 import com.hazelcast.jet.pipeline.JournalInitialPosition;
 import com.hazelcast.jet.pipeline.Pipeline;
-import com.hazelcast.jet.pipeline.Sinks;
-import com.hazelcast.jet.pipeline.Sources;
 import com.hazelcast.map.IMap;
 import com.hazelcast.replicatedmap.ReplicatedMap;
 import com.hazelcast.ringbuffer.Ringbuffer;
@@ -86,7 +84,7 @@ public interface JetInstance {
      * asynchronously start executing the job.
      */
     @Nonnull
-    default Job newJob(@Nonnull DAGInterface dag) {
+    default Job newJob(@Nonnull DAG dag) {
         return newJob(dag, new JobConfig());
     }
 
@@ -116,7 +114,7 @@ public interface JetInstance {
      *      an equal name
      */
     @Nonnull
-    Job newJob(@Nonnull DAGInterface dag, @Nonnull JobConfig config);
+    Job newJob(@Nonnull DAG dag, @Nonnull JobConfig config);
 
     /**
      * Creates and returns a Jet job based on the supplied pipeline and job
@@ -159,7 +157,7 @@ public interface JetInstance {
      * See also {@link #newJob}.
      */
     @Nonnull
-    Job newJobIfAbsent(@Nonnull DAGInterface dag, @Nonnull JobConfig config);
+    Job newJobIfAbsent(@Nonnull DAG dag, @Nonnull JobConfig config);
 
     /**
      * Creates and returns a Jet job based on the supplied pipeline and job

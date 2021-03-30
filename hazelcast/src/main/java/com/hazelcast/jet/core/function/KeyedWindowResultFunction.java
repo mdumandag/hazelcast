@@ -16,7 +16,6 @@
 
 package com.hazelcast.jet.core.function;
 
-import com.hazelcast.jet.core.processor.Processors;
 import com.hazelcast.jet.pipeline.WindowDefinition;
 
 import javax.annotation.Nonnull;
