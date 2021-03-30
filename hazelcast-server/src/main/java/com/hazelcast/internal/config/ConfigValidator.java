@@ -334,8 +334,7 @@ public final class ConfigValidator extends CommonConfigValidator {
                                         SplitBrainMergePolicyProvider mergePolicyProvider,
                                         EnumSet<EvictionPolicy> supportedEvictionPolicies) {
         try {
-            ConfigValidator.checkCacheConfig(inMemoryFormat, evictionConfig, supportedEvictionPolicies);
-            checkCacheMaxSizePolicy(evictionConfig.getMaxSizePolicy(), inMemoryFormat);
+            CommonConfigValidator.checkCacheConfig(inMemoryFormat, evictionConfig, supportedEvictionPolicies);
             checkMergeTypeProviderHasRequiredTypes(mergeTypes, mergePolicyProvider, mergePolicyClassname);
         } catch (InvalidConfigurationException e) {
             throw new IllegalArgumentException(e.getMessage());
