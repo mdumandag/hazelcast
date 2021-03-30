@@ -19,13 +19,14 @@ package com.hazelcast.client.cache.impl;
 import com.hazelcast.cache.HazelcastCachingProvider;
 import com.hazelcast.cache.impl.AbstractHazelcastCacheManager;
 import com.hazelcast.cache.impl.ICacheInternal;
-import com.hazelcast.cache.impl.ICacheService;
 import com.hazelcast.client.impl.clientside.ClientICacheManager;
 import com.hazelcast.client.impl.clientside.HazelcastClientInstanceImpl;
 import com.hazelcast.client.impl.clientside.HazelcastClientProxy;
 import com.hazelcast.client.impl.spi.ProxyManager;
 import com.hazelcast.config.CacheConfig;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.ServiceNames;
+import com.hazelcast.internal.config.CommonConfigValidator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.net.URI;
@@ -33,7 +34,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.hazelcast.internal.config.ConfigValidator.checkCacheConfig;
+import static com.hazelcast.internal.config.CommonConfigValidator.checkCacheConfig;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
 
@@ -70,7 +71,7 @@ public final class HazelcastClientCacheManager extends AbstractHazelcastCacheMan
         }
 
         ProxyManager proxyManager = client.getProxyManager();
-        clientCacheProxyFactory = (ClientCacheProxyFactory) proxyManager.getClientProxyFactory(ICacheService.SERVICE_NAME);
+        clientCacheProxyFactory = (ClientCacheProxyFactory) proxyManager.getClientProxyFactory(ServiceNames.ICACHE);
     }
 
     @Override
@@ -172,7 +173,7 @@ public final class HazelcastClientCacheManager extends AbstractHazelcastCacheMan
 
     @Override
     protected <K, V> void validateCacheConfig(CacheConfig<K, V> cacheConfig) {
-        checkCacheConfig(cacheConfig, null);
+        checkCacheConfig(cacheConfig.getInMemoryFormat(), cacheConfig.getEvictionConfig(), CommonConfigValidator.COMMONLY_SUPPORTED_EVICTION_POLICIES);
     }
 
     @Override
