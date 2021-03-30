@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.hazelcast.client.impl.spi.impl;
+package com.hazelcast.cluster.impl;
 
 import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.Member;
-import com.hazelcast.cluster.impl.AbstractMember;
 import com.hazelcast.instance.EndpointQualifier;
 import com.hazelcast.internal.util.Preconditions;
 import com.hazelcast.logging.ILogger;
@@ -30,13 +29,13 @@ import java.util.UUID;
 
 import static com.hazelcast.instance.EndpointQualifier.MEMBER;
 
-public final class ClientMemberImpl extends AbstractMember implements Member {
+public final class SimpleMemberImpl extends AbstractMember implements Member {
 
     private final ILogger logger;
 
-    public ClientMemberImpl(Map<EndpointQualifier, Address> addresses, Address address, MemberVersion version,
-                             UUID uuid, Map<String, String> attributes, boolean liteMember,
-                             ILogger logger) {
+    public SimpleMemberImpl(Map<EndpointQualifier, Address> addresses, Address address, MemberVersion version,
+                            UUID uuid, Map<String, String> attributes, boolean liteMember,
+                            ILogger logger) {
         super(addresses, address, version, uuid, attributes, liteMember);
         this.logger = logger;
     }
@@ -113,14 +112,14 @@ public final class ClientMemberImpl extends AbstractMember implements Member {
             return this;
         }
 
-        public ClientMemberImpl build() {
+        public SimpleMemberImpl build() {
             if (addressMap == null) {
                 addressMap = newHashMap(MEMBER, address);
             }
             if (address == null) {
                 address = addressMap.get(MEMBER);
             }
-            return new ClientMemberImpl(addressMap, address, version, uuid,
+            return new SimpleMemberImpl(addressMap, address, version, uuid,
                     attributes, liteMember, logger);
         }
     }

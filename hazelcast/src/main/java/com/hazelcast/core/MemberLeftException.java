@@ -16,10 +16,10 @@
 
 package com.hazelcast.core;
 
-import com.hazelcast.cluster.Member;
-import com.hazelcast.cluster.impl.MemberImpl;
-import com.hazelcast.internal.util.UUIDSerializationUtil;
 import com.hazelcast.cluster.Address;
+import com.hazelcast.cluster.Member;
+import com.hazelcast.cluster.impl.SimpleMemberImpl;
+import com.hazelcast.internal.util.UUIDSerializationUtil;
 import com.hazelcast.spi.exception.RetryableException;
 import com.hazelcast.version.MemberVersion;
 
@@ -55,6 +55,7 @@ public class MemberLeftException extends ExecutionException implements Retryable
 
     /**
      * Returns the member that left the cluster
+     *
      * @return the member that left the cluster
      */
     public Member getMember() {
@@ -84,7 +85,7 @@ public class MemberLeftException extends ExecutionException implements Retryable
         boolean liteMember = in.readBoolean();
         MemberVersion version = (MemberVersion) in.readObject();
 
-        member = new MemberImpl.Builder(new Address(host, port))
+        member = new SimpleMemberImpl.Builder(new Address(host, port))
                 .version(version)
                 .uuid(uuid)
                 .liteMember(liteMember)

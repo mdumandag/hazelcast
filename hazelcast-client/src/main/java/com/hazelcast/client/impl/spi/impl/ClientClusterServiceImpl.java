@@ -272,12 +272,12 @@ public class ClientClusterServiceImpl
     private MemberListSnapshot createSnapshot(int memberListVersion, Collection<MemberInfo> memberInfos) {
         LinkedHashMap<UUID, Member> newMembers = new LinkedHashMap<>();
         for (MemberInfo memberInfo : memberInfos) {
-            ClientMemberImpl.Builder memberBuilder;
+            SimpleMemberImpl.Builder memberBuilder;
             Map<EndpointQualifier, Address> addressMap = memberInfo.getAddressMap();
             if (addressMap == null || addressMap.isEmpty()) {
-                memberBuilder = new ClientMemberImpl.Builder(memberInfo.getAddress());
+                memberBuilder = new SimpleMemberImpl.Builder(memberInfo.getAddress());
             } else {
-                memberBuilder = new ClientMemberImpl.Builder(addressMap)
+                memberBuilder = new SimpleMemberImpl.Builder(addressMap)
                         .address(addressMap.getOrDefault(CLIENT, addressMap.get(MEMBER)));
             }
             memberBuilder.version(memberInfo.getVersion())
