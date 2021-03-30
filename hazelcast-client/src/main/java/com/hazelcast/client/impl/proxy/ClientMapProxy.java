@@ -176,7 +176,6 @@ import static com.hazelcast.internal.util.TimeUtil.timeInMsOrTimeIfNullUnit;
 import static com.hazelcast.map.impl.ListenerAdapters.createListenerAdapter;
 import static com.hazelcast.map.impl.MapListenerFlagOperator.setAndGetListenerFlags;
 import static com.hazelcast.map.impl.querycache.subscriber.QueryCacheRequest.newQueryCacheRequest;
-import static com.hazelcast.map.impl.record.Record.UNSET;
 import static com.hazelcast.query.impl.predicates.PredicateUtils.unwrapPagingPredicate;
 import static java.lang.Thread.currentThread;
 import static java.util.Collections.emptyMap;
@@ -191,6 +190,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @SuppressWarnings("checkstyle:classdataabstractioncoupling")
 public class ClientMapProxy<K, V> extends ClientProxy
         implements IMap<K, V>, EventJournalReader<EventJournalMapEvent<K, V>> {
+    /**
+     * Represents an unset value. This is the default
+     * value of ttl, max-idle or anything unavailable.
+     */
+    private final int UNSET = -1;
 
     protected static final String NULL_LISTENER_IS_NOT_ALLOWED = "Null listener is not allowed!";
     protected static final String NULL_KEY_IS_NOT_ALLOWED = "Null key is not allowed!";
