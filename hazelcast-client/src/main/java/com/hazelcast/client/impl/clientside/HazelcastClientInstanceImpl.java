@@ -18,7 +18,6 @@ package com.hazelcast.client.impl.clientside;
 
 import com.hazelcast.cache.impl.JCacheDetector;
 import com.hazelcast.cardinality.CardinalityEstimator;
-import com.hazelcast.cardinality.impl.CardinalityEstimatorService;
 import com.hazelcast.client.Client;
 import com.hazelcast.client.ClientService;
 import com.hazelcast.client.LoadBalancer;
@@ -60,26 +59,20 @@ import com.hazelcast.cluster.Cluster;
 import com.hazelcast.collection.IList;
 import com.hazelcast.collection.IQueue;
 import com.hazelcast.collection.ISet;
-import com.hazelcast.collection.impl.list.ListService;
-import com.hazelcast.collection.impl.queue.QueueService;
-import com.hazelcast.collection.impl.set.SetService;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.DistributedObjectListener;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.LifecycleService;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.cp.CPSubsystem;
 import com.hazelcast.cp.event.CPGroupAvailabilityListener;
 import com.hazelcast.cp.event.CPMembershipListener;
 import com.hazelcast.crdt.pncounter.PNCounter;
 import com.hazelcast.durableexecutor.DurableExecutorService;
-import com.hazelcast.durableexecutor.impl.DistributedDurableExecutorService;
-import com.hazelcast.executor.impl.DistributedExecutorService;
 import com.hazelcast.flakeidgen.FlakeIdGenerator;
-import com.hazelcast.flakeidgen.impl.FlakeIdGeneratorService;
 import com.hazelcast.instance.BuildInfoProvider;
-import com.hazelcast.internal.crdt.pncounter.PNCounterService;
 import com.hazelcast.internal.diagnostics.BuildInfoPlugin;
 import com.hazelcast.internal.diagnostics.ConfigPropertiesPlugin;
 import com.hazelcast.internal.diagnostics.Diagnostics;
@@ -105,18 +98,13 @@ import com.hazelcast.jet.JetInstance;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.LoggingService;
 import com.hazelcast.map.IMap;
-import com.hazelcast.map.impl.MapService;
 import com.hazelcast.multimap.MultiMap;
-import com.hazelcast.multimap.impl.MultiMapService;
 import com.hazelcast.partition.MigrationListener;
 import com.hazelcast.partition.PartitionLostListener;
 import com.hazelcast.partition.PartitionService;
 import com.hazelcast.replicatedmap.ReplicatedMap;
-import com.hazelcast.replicatedmap.impl.ReplicatedMapService;
 import com.hazelcast.ringbuffer.Ringbuffer;
-import com.hazelcast.ringbuffer.impl.RingbufferService;
 import com.hazelcast.scheduledexecutor.IScheduledExecutorService;
-import com.hazelcast.scheduledexecutor.impl.DistributedScheduledExecutorService;
 import com.hazelcast.spi.impl.SerializationServiceSupport;
 import com.hazelcast.spi.impl.executionservice.TaskScheduler;
 import com.hazelcast.spi.properties.ClusterProperty;
@@ -125,14 +113,11 @@ import com.hazelcast.splitbrainprotection.SplitBrainProtectionService;
 import com.hazelcast.sql.SqlService;
 import com.hazelcast.sql.impl.client.SqlClientService;
 import com.hazelcast.topic.ITopic;
-import com.hazelcast.topic.impl.TopicService;
-import com.hazelcast.topic.impl.reliable.ReliableTopicService;
 import com.hazelcast.transaction.HazelcastXAResource;
 import com.hazelcast.transaction.TransactionContext;
 import com.hazelcast.transaction.TransactionException;
 import com.hazelcast.transaction.TransactionOptions;
 import com.hazelcast.transaction.TransactionalTask;
-import com.hazelcast.transaction.impl.xa.XAService;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -432,7 +417,7 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
     @Nonnull
     @Override
     public HazelcastXAResource getXAResource() {
-        return getDistributedObject(XAService.SERVICE_NAME, XAService.SERVICE_NAME);
+        return getDistributedObject(ServiceNames.XA, ServiceNames.XA);
     }
 
     @Nonnull
@@ -455,42 +440,42 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
     @Override
     public <E> IQueue<E> getQueue(@Nonnull String name) {
         checkNotNull(name, "Retrieving a queue instance with a null name is not allowed!");
-        return getDistributedObject(QueueService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.QUEUE, name);
     }
 
     @Nonnull
     @Override
     public <E> ITopic<E> getTopic(@Nonnull String name) {
         checkNotNull(name, "Retrieving a topic instance with a null name is not allowed!");
-        return getDistributedObject(TopicService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.TOPIC, name);
     }
 
     @Nonnull
     @Override
     public <E> ISet<E> getSet(@Nonnull String name) {
         checkNotNull(name, "Retrieving a set instance with a null name is not allowed!");
-        return getDistributedObject(SetService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.SET, name);
     }
 
     @Nonnull
     @Override
     public <E> IList<E> getList(@Nonnull String name) {
         checkNotNull(name, "Retrieving a list instance with a null name is not allowed!");
-        return getDistributedObject(ListService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.LIST, name);
     }
 
     @Nonnull
     @Override
     public <K, V> IMap<K, V> getMap(@Nonnull String name) {
         checkNotNull(name, "Retrieving a map instance with a null name is not allowed!");
-        return getDistributedObject(MapService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.MAP, name);
     }
 
     @Nonnull
     @Override
     public <K, V> MultiMap<K, V> getMultiMap(@Nonnull String name) {
         checkNotNull(name, "Retrieving a multi-map instance with a null name is not allowed!");
-        return getDistributedObject(MultiMapService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.MULTI_MAP, name);
 
     }
 
@@ -498,21 +483,21 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
     @Override
     public <K, V> ReplicatedMap<K, V> getReplicatedMap(@Nonnull String name) {
         checkNotNull(name, "Retrieving a replicated map instance with a null name is not allowed!");
-        return getDistributedObject(ReplicatedMapService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.REPLICATED_MAP, name);
     }
 
     @Nonnull
     @Override
     public <E> ITopic<E> getReliableTopic(@Nonnull String name) {
         checkNotNull(name, "Retrieving a topic instance with a null name is not allowed!");
-        return getDistributedObject(ReliableTopicService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.RELIABLE_TOPIC, name);
     }
 
     @Nonnull
     @Override
     public <E> Ringbuffer<E> getRingbuffer(@Nonnull String name) {
         checkNotNull(name, "Retrieving a ringbuffer instance with a null name is not allowed!");
-        return getDistributedObject(RingbufferService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.RINGBUFFER, name);
     }
 
     @Override
@@ -536,14 +521,14 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
     @Override
     public IExecutorService getExecutorService(@Nonnull String name) {
         checkNotNull(name, "Retrieving an executor instance with a null name is not allowed!");
-        return getDistributedObject(DistributedExecutorService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.EXECUTOR, name);
     }
 
     @Nonnull
     @Override
     public DurableExecutorService getDurableExecutorService(@Nonnull String name) {
         checkNotNull(name, "Retrieving a durable executor instance with a null name is not allowed!");
-        return getDistributedObject(DistributedDurableExecutorService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.DURABLE_EXECUTOR, name);
     }
 
     @Override
@@ -576,28 +561,28 @@ public class HazelcastClientInstanceImpl implements HazelcastInstance, Serializa
     @Override
     public FlakeIdGenerator getFlakeIdGenerator(@Nonnull String name) {
         checkNotNull(name, "Retrieving a Flake ID-generator instance with a null name is not allowed!");
-        return getDistributedObject(FlakeIdGeneratorService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.FLAKE_ID_GENERATOR, name);
     }
 
     @Nonnull
     @Override
     public CardinalityEstimator getCardinalityEstimator(@Nonnull String name) {
         checkNotNull(name, "Retrieving a cardinality estimator instance with a null name is not allowed!");
-        return getDistributedObject(CardinalityEstimatorService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.CARDINALITY_ESTIMATOR, name);
     }
 
     @Nonnull
     @Override
     public PNCounter getPNCounter(@Nonnull String name) {
         checkNotNull(name, "Retrieving a PN counter instance with a null name is not allowed!");
-        return getDistributedObject(PNCounterService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.PN_COUNTER, name);
     }
 
     @Nonnull
     @Override
     public IScheduledExecutorService getScheduledExecutorService(@Nonnull String name) {
         checkNotNull(name, "Retrieving a scheduled executor instance with a null name is not allowed!");
-        return getDistributedObject(DistributedScheduledExecutorService.SERVICE_NAME, name);
+        return getDistributedObject(ServiceNames.SCHEDULED_EXECUTOR, name);
     }
 
     @Override

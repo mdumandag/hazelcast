@@ -70,7 +70,7 @@ public abstract class AbstractJetInstance implements JetInstance {
 
     public JobStateSnapshotImpl getJobStateSnapshot(@Nonnull String name) {
         String mapName = JobRepository.exportedSnapshotMapName(name);
-        if (!((AbstractJetInstance) this).existsDistributedObject(ServiceNames.MAP_SERVICE_NAME, mapName)) {
+        if (!((AbstractJetInstance) this).existsDistributedObject(ServiceNames.MAP, mapName)) {
             return null;
         }
         IMap<Object, Object> map = getMap(mapName);

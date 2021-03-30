@@ -20,6 +20,7 @@ import com.hazelcast.config.MergePolicyConfig;
 import com.hazelcast.config.ScheduledExecutorConfig;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricsCollectionContext;
@@ -78,7 +79,7 @@ public class DistributedScheduledExecutorService
         DynamicMetricsProvider {
 
     public static final int MEMBER_BIN = -1;
-    public static final String SERVICE_NAME = "hz:impl:scheduledExecutorService";
+    public static final String SERVICE_NAME = ServiceNames.SCHEDULED_EXECUTOR;
     public static final CapacityPermit NOOP_PERMIT = new NoopCapacityPermit();
 
     //Testing only

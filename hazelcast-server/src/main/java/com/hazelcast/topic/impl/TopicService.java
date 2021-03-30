@@ -20,6 +20,7 @@ import com.hazelcast.cluster.Address;
 import com.hazelcast.cluster.impl.MemberImpl;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.TopicConfig;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.cluster.ClusterService;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
@@ -63,7 +64,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutSynchronized;
 public class TopicService implements ManagedService, RemoteService, EventPublishingService,
                                      StatisticsAwareService<LocalTopicStats>, DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:topicService";
+    public static final String SERVICE_NAME = ServiceNames.TOPIC;
 
     public static final int ORDERING_LOCKS_LENGTH = 1000;
 

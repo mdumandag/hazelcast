@@ -21,6 +21,7 @@ import com.hazelcast.config.MultiMapConfig;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.EntryEventType;
 import com.hazelcast.core.EntryListener;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.cluster.ClusterService;
 import com.hazelcast.internal.locksupport.LockStoreInfo;
 import com.hazelcast.internal.locksupport.LockSupportService;
@@ -104,7 +105,7 @@ public class MultiMapService implements ManagedService, RemoteService, Fragmente
         SplitBrainProtectionAwareService, SplitBrainHandlerService, LockInterceptorService<Data>,
         DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:multiMapService";
+    public static final String SERVICE_NAME = ServiceNames.MULTI_MAP;
 
     private static final Object NULL_OBJECT = new Object();
 

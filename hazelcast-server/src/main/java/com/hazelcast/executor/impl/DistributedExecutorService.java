@@ -17,6 +17,7 @@
 package com.hazelcast.executor.impl;
 
 import com.hazelcast.config.ExecutorConfig;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.executor.LocalExecutorStats;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
@@ -59,7 +60,7 @@ public class DistributedExecutorService implements ManagedService, RemoteService
         StatisticsAwareService<LocalExecutorStatsImpl>, SplitBrainProtectionAwareService,
         DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:executorService";
+    public static final String SERVICE_NAME = ServiceNames.EXECUTOR;
 
     private static final Object NULL_OBJECT = new Object();
 

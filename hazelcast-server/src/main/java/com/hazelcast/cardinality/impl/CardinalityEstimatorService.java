@@ -20,6 +20,7 @@ import com.hazelcast.cardinality.impl.hyperloglog.HyperLogLog;
 import com.hazelcast.cardinality.impl.operations.MergeOperation;
 import com.hazelcast.cardinality.impl.operations.ReplicationOperation;
 import com.hazelcast.config.CardinalityEstimatorConfig;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.services.ManagedService;
 import com.hazelcast.internal.services.RemoteService;
 import com.hazelcast.internal.services.SplitBrainHandlerService;
@@ -55,7 +56,7 @@ public class CardinalityEstimatorService
         implements ManagedService, RemoteService, MigrationAwareService, SplitBrainProtectionAwareService,
         SplitBrainHandlerService {
 
-    public static final String SERVICE_NAME = "hz:impl:cardinalityEstimatorService";
+    public static final String SERVICE_NAME = ServiceNames.CARDINALITY_ESTIMATOR;
 
     /**
      * Speculative factor to be used when initialising collections

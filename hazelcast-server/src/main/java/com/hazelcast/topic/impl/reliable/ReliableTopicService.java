@@ -19,6 +19,7 @@ package com.hazelcast.topic.impl.reliable;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ReliableTopicConfig;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricsCollectionContext;
@@ -45,7 +46,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutSynchronized;
 
 public class ReliableTopicService implements ManagedService, RemoteService, StatisticsAwareService, DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:reliableTopicService";
+    public static final String SERVICE_NAME = ServiceNames.RELIABLE_TOPIC;
     private final ConcurrentMap<String, LocalTopicStatsImpl> statsMap = new ConcurrentHashMap<>();
     private final ConstructorFunction<String, LocalTopicStatsImpl> localTopicStatsConstructorFunction =
         mapName -> new LocalTopicStatsImpl();

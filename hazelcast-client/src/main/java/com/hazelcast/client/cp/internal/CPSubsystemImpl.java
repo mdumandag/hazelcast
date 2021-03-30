@@ -76,35 +76,35 @@ public class CPSubsystemImpl implements CPSubsystem {
     @Override
     public IAtomicLong getAtomicLong(@Nonnull String name) {
         checkNotNull(name, "Retrieving an atomic long instance with a null name is not allowed!");
-        return proxyFactory.createProxy(ServiceNames.ATOMIC_LONG_SERVICE, name);
+        return proxyFactory.createProxy(ServiceNames.ATOMIC_LONG, name);
     }
 
     @Nonnull
     @Override
     public <E> IAtomicReference<E> getAtomicReference(@Nonnull String name) {
         checkNotNull(name, "Retrieving an atomic reference instance with a null name is not allowed!");
-        return proxyFactory.createProxy(ServiceNames.ATOMIC_REF_SERVICE, name);
+        return proxyFactory.createProxy(ServiceNames.ATOMIC_REF, name);
     }
 
     @Nonnull
     @Override
     public ICountDownLatch getCountDownLatch(@Nonnull String name) {
         checkNotNull(name, "Retrieving a count down latch instance with a null name is not allowed!");
-        return proxyFactory.createProxy(ServiceNames.COUNTDOWN_LATCH_SERVICE, name);
+        return proxyFactory.createProxy(ServiceNames.COUNTDOWN_LATCH, name);
     }
 
     @Nonnull
     @Override
     public FencedLock getLock(@Nonnull String name) {
         checkNotNull(name, "Retrieving an fenced lock instance with a null name is not allowed!");
-        return proxyFactory.createProxy(ServiceNames.LOCK_SERVICE, name);
+        return proxyFactory.createProxy(ServiceNames.LOCK, name);
     }
 
     @Nonnull
     @Override
     public ISemaphore getSemaphore(@Nonnull String name) {
         checkNotNull(name, "Retrieving a semaphore instance with a null name is not allowed!");
-        return proxyFactory.createProxy(ServiceNames.SEMAPHORE_SERVICE, name);
+        return proxyFactory.createProxy(ServiceNames.SEMAPHORE, name);
     }
 
     @Override

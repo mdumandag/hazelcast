@@ -19,6 +19,7 @@ package com.hazelcast.map.impl;
 import com.hazelcast.cluster.ClusterState;
 import com.hazelcast.config.WanAcknowledgeType;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.cluster.ClusterStateListener;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
@@ -98,7 +99,7 @@ public class MapService implements ManagedService, FragmentedMigrationAwareServi
         NotifiableEventListener, ClusterStateListener, LockInterceptorService<Data>,
         DynamicMetricsProvider, TenantContextAwareService {
 
-    public static final String SERVICE_NAME = "hz:impl:mapService";
+    public static final String SERVICE_NAME = ServiceNames.MAP;
 
     protected ManagedService managedService;
     protected CountingMigrationAwareService migrationAwareService;

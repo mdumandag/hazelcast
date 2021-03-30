@@ -18,6 +18,7 @@ package com.hazelcast.durableexecutor.impl;
 
 import com.hazelcast.config.DurableExecutorConfig;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricsCollectionContext;
@@ -53,7 +54,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutSynchronized;
 public class DistributedDurableExecutorService implements ManagedService, RemoteService, MigrationAwareService,
         SplitBrainProtectionAwareService, StatisticsAwareService<LocalExecutorStatsImpl>, DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:durableExecutorService";
+    public static final String SERVICE_NAME = ServiceNames.DURABLE_EXECUTOR;
 
     private static final Object NULL_OBJECT = new Object();
 

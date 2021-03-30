@@ -17,6 +17,7 @@
 package com.hazelcast.transaction.impl.xa;
 
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.partition.InternalPartitionService;
 import com.hazelcast.internal.services.ManagedService;
 import com.hazelcast.internal.partition.MigrationAwareService;
@@ -48,7 +49,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class XAService implements ManagedService, RemoteService, MigrationAwareService {
 
-    public static final String SERVICE_NAME = "hz:impl:xaService";
+    public static final String SERVICE_NAME = ServiceNames.XA;
 
     private final NodeEngineImpl nodeEngine;
 

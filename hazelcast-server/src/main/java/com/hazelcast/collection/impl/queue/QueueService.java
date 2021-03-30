@@ -28,6 +28,7 @@ import com.hazelcast.collection.impl.txnqueue.TransactionalQueueProxy;
 import com.hazelcast.collection.impl.txnqueue.operations.QueueTransactionRollbackOperation;
 import com.hazelcast.config.QueueConfig;
 import com.hazelcast.core.ItemEventType;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricsCollectionContext;
@@ -101,7 +102,7 @@ public class QueueService implements ManagedService, MigrationAwareService, Tran
         SplitBrainProtectionAwareService, SplitBrainHandlerService, DynamicMetricsProvider,
         TenantContextAwareService {
 
-    public static final String SERVICE_NAME = "hz:impl:queueService";
+    public static final String SERVICE_NAME = ServiceNames.QUEUE;
 
     private static final Object NULL_OBJECT = new Object();
 

@@ -26,6 +26,7 @@ import com.hazelcast.config.ReplicatedMapConfig;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.HazelcastInstanceAware;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.cluster.ClusterService;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
@@ -90,7 +91,7 @@ public class ReplicatedMapService implements ManagedService, RemoteService, Even
                                              StatisticsAwareService<LocalReplicatedMapStats>,
                                              SplitBrainProtectionAwareService, DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:replicatedMapService";
+    public static final String SERVICE_NAME = ServiceNames.REPLICATED_MAP;
     public static final int INVOCATION_TRY_COUNT = 3;
 
     private static final int SYNC_INTERVAL_SECONDS = 30;

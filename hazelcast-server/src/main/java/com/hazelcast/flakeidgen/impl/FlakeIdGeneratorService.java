@@ -17,6 +17,7 @@
 package com.hazelcast.flakeidgen.impl;
 
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.flakeidgen.FlakeIdGenerator;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
@@ -44,7 +45,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutIfAbsent;
 public class FlakeIdGeneratorService implements ManagedService, RemoteService,
                                                 StatisticsAwareService<LocalFlakeIdGeneratorStats>, DynamicMetricsProvider {
 
-    public static final String SERVICE_NAME = "hz:impl:flakeIdGeneratorService";
+    public static final String SERVICE_NAME = ServiceNames.FLAKE_ID_GENERATOR;
 
     private NodeEngine nodeEngine;
     private final ConcurrentHashMap<String, LocalFlakeIdGeneratorStatsImpl> statsMap = new ConcurrentHashMap<>();

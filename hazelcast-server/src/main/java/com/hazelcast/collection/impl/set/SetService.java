@@ -23,6 +23,7 @@ import com.hazelcast.collection.impl.set.operations.SetReplicationOperation;
 import com.hazelcast.collection.impl.txnset.TransactionalSetProxy;
 import com.hazelcast.config.SetConfig;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricDescriptorConstants;
@@ -53,7 +54,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutSynchronized;
 public class SetService extends CollectionService implements DynamicMetricsProvider,
         StatisticsAwareService<LocalSetStats>, TenantContextAwareService {
 
-    public static final String SERVICE_NAME = "hz:impl:setService";
+    public static final String SERVICE_NAME = ServiceNames.SET;
 
     private static final Object NULL_OBJECT = new Object();
 

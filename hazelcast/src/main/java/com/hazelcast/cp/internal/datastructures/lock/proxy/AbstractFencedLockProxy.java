@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
-import static com.hazelcast.core.ServiceNames.LOCK_SERVICE;
+import static com.hazelcast.core.ServiceNames.LOCK;
 import static com.hazelcast.cp.internal.session.AbstractProxySessionManager.NO_SESSION_ID;
 import static com.hazelcast.internal.util.ExceptionUtil.rethrow;
 import static com.hazelcast.internal.util.Preconditions.checkNotNull;
@@ -334,7 +334,7 @@ public abstract class AbstractFencedLockProxy extends SessionAwareProxy implemen
 
     @Override
     public String getServiceName() {
-        return LOCK_SERVICE;
+        return LOCK;
     }
 
     // !!! only for testing !!!

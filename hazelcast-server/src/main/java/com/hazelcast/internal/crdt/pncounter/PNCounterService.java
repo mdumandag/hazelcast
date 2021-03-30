@@ -19,6 +19,7 @@ package com.hazelcast.internal.crdt.pncounter;
 import com.hazelcast.cluster.impl.VectorClock;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.PNCounterConfig;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.crdt.MutationDisallowedException;
 import com.hazelcast.crdt.pncounter.PNCounter;
 import com.hazelcast.internal.crdt.CRDTReplicationAwareService;
@@ -59,7 +60,7 @@ public class PNCounterService implements ManagedService, RemoteService, CRDTRepl
                                          SplitBrainProtectionAwareService, StatisticsAwareService<LocalPNCounterStats>,
                                          DynamicMetricsProvider {
     /** The name under which this service is registered */
-    public static final String SERVICE_NAME = "hz:impl:PNCounterService";
+    public static final String SERVICE_NAME = ServiceNames.PN_COUNTER;
 
     /** Map from counter name to counter implementations */
     private final ConcurrentMap<String, PNCounterImpl> counters = new ConcurrentHashMap<>();

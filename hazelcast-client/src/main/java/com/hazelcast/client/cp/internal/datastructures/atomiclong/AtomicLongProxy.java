@@ -39,7 +39,7 @@ import com.hazelcast.spi.impl.InternalCompletableFuture;
 
 import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.NEW_VALUE;
 import static com.hazelcast.cp.internal.datastructures.atomiclong.AlterResultType.OLD_VALUE;
-import static com.hazelcast.core.ServiceNames.ATOMIC_LONG_SERVICE;
+import static com.hazelcast.core.ServiceNames.ATOMIC_LONG;
 
 /**
  * Client-side Raft-based proxy implementation of {@link IAtomicLong}
@@ -51,7 +51,7 @@ public class AtomicLongProxy extends ClientProxy implements IAtomicLong {
     private final String objectName;
 
     public AtomicLongProxy(ClientContext context, RaftGroupId groupId, String proxyName, String objectName) {
-        super(ATOMIC_LONG_SERVICE, proxyName, context);
+        super(ATOMIC_LONG, proxyName, context);
         this.groupId = groupId;
         this.objectName = objectName;
     }

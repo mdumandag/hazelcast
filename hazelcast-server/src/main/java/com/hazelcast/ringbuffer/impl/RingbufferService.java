@@ -19,6 +19,7 @@ package com.hazelcast.ringbuffer.impl;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.RingbufferConfig;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.partition.FragmentedMigrationAwareService;
 import com.hazelcast.internal.partition.IPartitionService;
 import com.hazelcast.internal.partition.PartitionMigrationEvent;
@@ -82,7 +83,7 @@ public class RingbufferService implements ManagedService, RemoteService, Fragmen
     /**
      * The ringbuffer service name which defines it in the node engine.
      */
-    public static final String SERVICE_NAME = "hz:impl:ringbufferService";
+    public static final String SERVICE_NAME = ServiceNames.RINGBUFFER;
 
     private static final Object NULL_OBJECT = new Object();
 

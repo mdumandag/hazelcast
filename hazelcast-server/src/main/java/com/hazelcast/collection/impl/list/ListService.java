@@ -23,6 +23,7 @@ import com.hazelcast.collection.impl.list.operations.ListReplicationOperation;
 import com.hazelcast.collection.impl.txnlist.TransactionalListProxy;
 import com.hazelcast.config.ListConfig;
 import com.hazelcast.core.DistributedObject;
+import com.hazelcast.core.ServiceNames;
 import com.hazelcast.internal.metrics.DynamicMetricsProvider;
 import com.hazelcast.internal.metrics.MetricDescriptor;
 import com.hazelcast.internal.metrics.MetricDescriptorConstants;
@@ -53,7 +54,7 @@ import static com.hazelcast.internal.util.ConcurrencyUtil.getOrPutSynchronized;
 public class ListService extends CollectionService implements DynamicMetricsProvider,
         StatisticsAwareService<LocalListStats>, TenantContextAwareService {
 
-    public static final String SERVICE_NAME = "hz:impl:listService";
+    public static final String SERVICE_NAME = ServiceNames.LIST;
 
     private static final Object NULL_OBJECT = new Object();
 

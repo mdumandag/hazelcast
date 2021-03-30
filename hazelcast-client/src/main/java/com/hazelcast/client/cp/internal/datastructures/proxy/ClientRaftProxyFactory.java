@@ -67,15 +67,15 @@ public class ClientRaftProxyFactory {
 
         RaftGroupId groupId = getGroupId(proxyName, objectName);
 
-        if (serviceName.equals(ATOMIC_LONG_SERVICE)) {
+        if (serviceName.equals(ATOMIC_LONG)) {
             return (T) new AtomicLongProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(ATOMIC_REF_SERVICE)) {
+        } else if (serviceName.equals(ATOMIC_REF)) {
             return (T) new AtomicRefProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(COUNTDOWN_LATCH_SERVICE)) {
+        } else if (serviceName.equals(COUNTDOWN_LATCH)) {
             return (T) new CountDownLatchProxy(context, groupId, proxyName, objectName);
-        } else if (serviceName.equals(LOCK_SERVICE)) {
+        } else if (serviceName.equals(LOCK)) {
             return (T) createFencedLock(groupId, proxyName, objectName);
-        } else if (serviceName.equals(SEMAPHORE_SERVICE)) {
+        } else if (serviceName.equals(SEMAPHORE)) {
             return (T) createSemaphore(groupId, proxyName, objectName);
         } else {
             throw new IllegalArgumentException();
