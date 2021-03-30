@@ -18,7 +18,6 @@ package com.hazelcast.client.config;
 
 import com.hazelcast.client.impl.proxy.ClientReliableTopicProxy;
 import com.hazelcast.config.NamedConfig;
-import com.hazelcast.spi.impl.executionservice.ExecutionService;
 import com.hazelcast.topic.TopicOverloadPolicy;
 
 import java.util.concurrent.Executor;
