@@ -17,6 +17,7 @@
 package com.hazelcast.internal.serialization.impl.compact;
 
 import com.hazelcast.internal.nio.BufferObjectDataInput;
+import com.hazelcast.internal.nio.BufferObjectDataOutput;
 import com.hazelcast.internal.nio.IOUtil;
 import com.hazelcast.internal.serialization.impl.InternalGenericRecord;
 import com.hazelcast.nio.ObjectDataInput;
@@ -78,7 +79,7 @@ import static com.hazelcast.nio.serialization.FieldType.TIME_ARRAY;
 import static com.hazelcast.nio.serialization.FieldType.UTF;
 import static com.hazelcast.nio.serialization.FieldType.UTF_ARRAY;
 
-public class CompactInternalGenericRecord extends CompactGenericRecord implements InternalGenericRecord {
+public abstract class AbstractCompactInternalGenericRecord extends CompactGenericRecord implements InternalGenericRecord {
 
     private final OffsetReader offsetReader;
     private final Schema schema;
@@ -86,18 +87,12 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
     private final int finalPosition;
     private final int dataStartPosition;
     private final int variableOffsetsPosition;
-    private final CompactStreamSerializer serializer;
-    private final boolean schemaIncludedInBinary;
-    private final @Nullable
-    Class associatedClass;
+    private final @Nullable Class associatedClass;
 
-    public CompactInternalGenericRecord(CompactStreamSerializer serializer, BufferObjectDataInput in, Schema schema,
-                                        @Nullable Class associatedClass, boolean schemaIncludedInBinary) {
+    public AbstractCompactInternalGenericRecord(BufferObjectDataInput in, Schema schema, @Nullable Class associatedClass) {
         this.in = in;
-        this.serializer = serializer;
         this.schema = schema;
         this.associatedClass = associatedClass;
-        this.schemaIncludedInBinary = schemaIncludedInBinary;
         try {
             int numberOfVariableLengthFields = schema.getNumberOfVariableSizeFields();
             if (numberOfVariableLengthFields != 0) {
@@ -128,6 +123,18 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
         }
     }
 
+    public abstract Object readObjectInternal(BufferObjectDataInput in) throws IOException;
+
+    public abstract GenericRecord readGenericRecordInternal(BufferObjectDataInput in) throws IOException;
+
+    @Override
+    @Nonnull
+    public abstract GenericRecordBuilder newBuilder();
+
+    @Override
+    @Nonnull
+    public abstract GenericRecordBuilder cloneWithBuilder();
+
     @Nullable
     public Class getAssociatedClass() {
         return associatedClass;
@@ -140,18 +147,6 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
     @Override
     public Schema getSchema() {
         return schema;
-    }
-
-    @Override
-    @Nonnull
-    public GenericRecordBuilder newBuilder() {
-        return serializer.createGenericRecordBuilder(schema);
-    }
-
-    @Override
-    @Nonnull
-    public GenericRecordBuilder cloneWithBuilder() {
-        return serializer.createGenericRecordCloner(schema, this);
     }
 
     @Override
@@ -338,12 +333,12 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
 
     @Override
     public GenericRecord getGenericRecord(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, COMPOSED, in -> serializer.readGenericRecord(in, schemaIncludedInBinary));
+        return getVariableLength(fieldName, COMPOSED, this::readGenericRecordInternal);
     }
 
     @Override
     public <T> T getObject(@Nonnull String fieldName) {
-        return (T) getVariableLength(fieldName, COMPOSED, in -> serializer.read(in, schemaIncludedInBinary));
+        return (T) getVariableLength(fieldName, COMPOSED, this::readObjectInternal);
     }
 
     @Override
@@ -353,7 +348,7 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
 
     @Override
     public boolean[] getBooleanArray(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, BOOLEAN_ARRAY, DefaultCompactReader::readBooleanBits);
+        return getVariableLength(fieldName, BOOLEAN_ARRAY, AbstractCompactInternalGenericRecord::readBooleanBits);
     }
 
     @Override
@@ -398,35 +393,34 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
 
     @Override
     public LocalTime[] getTimeArray(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, TIME_ARRAY, DefaultCompactReader::getTimeArray);
+        return getVariableLength(fieldName, TIME_ARRAY, AbstractCompactInternalGenericRecord::getTimeArray);
     }
 
     @Override
     public LocalDate[] getDateArray(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, DATE_ARRAY, DefaultCompactReader::getDateArray);
+        return getVariableLength(fieldName, DATE_ARRAY, AbstractCompactInternalGenericRecord::getDateArray);
     }
 
     @Override
     public LocalDateTime[] getTimestampArray(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, TIMESTAMP_ARRAY, DefaultCompactReader::getTimestampArray);
+        return getVariableLength(fieldName, TIMESTAMP_ARRAY, AbstractCompactInternalGenericRecord::getTimestampArray);
     }
 
     @Override
     public OffsetDateTime[] getTimestampWithTimezoneArray(@Nonnull String fieldName) {
-        return getVariableLength(fieldName, TIMESTAMP_WITH_TIMEZONE_ARRAY, DefaultCompactReader::getTimestampWithTimezoneArray);
+        return getVariableLength(fieldName, TIMESTAMP_WITH_TIMEZONE_ARRAY, AbstractCompactInternalGenericRecord::getTimestampWithTimezoneArray);
     }
 
     @Override
     public GenericRecord[] getGenericRecordArray(@Nonnull String fieldName) {
-        return getVariableSizeArray(fieldName, COMPOSED_ARRAY, GenericRecord[]::new,
-                in -> serializer.readGenericRecord(in, schemaIncludedInBinary));
+        return getVariableSizeArray(fieldName, COMPOSED_ARRAY, GenericRecord[]::new, this::readGenericRecordInternal);
     }
 
     @Override
     public <T> T[] getObjectArray(@Nonnull String fieldName, Class<T> componentType) {
         return (T[]) getVariableSizeArray(fieldName, COMPOSED_ARRAY,
                 length -> (T[]) Array.newInstance(componentType, length),
-                in -> serializer.read(in, schemaIncludedInBinary));
+                this::readObjectInternal);
     }
 
     protected interface Reader<R> {
@@ -598,8 +592,7 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
 
     @Override
     public GenericRecord getGenericRecordFromArray(@Nonnull String fieldName, int index) {
-        return getVarSizeFromArray(fieldName, COMPOSED_ARRAY,
-                in -> serializer.readGenericRecord(in, schemaIncludedInBinary), index);
+        return getVarSizeFromArray(fieldName, COMPOSED_ARRAY, this::readGenericRecordInternal, index);
     }
 
     @Override
@@ -629,8 +622,7 @@ public class CompactInternalGenericRecord extends CompactGenericRecord implement
 
     @Override
     public Object getObjectFromArray(@Nonnull String fieldName, int index) {
-        return getVarSizeFromArray(fieldName, COMPOSED_ARRAY,
-                in -> serializer.read(in, schemaIncludedInBinary), index);
+        return getVarSizeFromArray(fieldName, COMPOSED_ARRAY, this::readObjectInternal, index);
     }
 
     private <T> T getVarSizeFromArray(@Nonnull String fieldName, FieldType fieldType,

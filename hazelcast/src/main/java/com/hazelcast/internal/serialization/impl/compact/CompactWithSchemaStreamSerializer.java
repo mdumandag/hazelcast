@@ -30,16 +30,20 @@ import com.hazelcast.nio.serialization.StreamSerializer;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.hazelcast.internal.nio.Bits.INT_SIZE_IN_BYTES;
 import static com.hazelcast.internal.serialization.impl.FieldOperations.fieldOperations;
-import static com.hazelcast.internal.serialization.impl.SerializationConstants.TYPE_COMPACT;
+import static com.hazelcast.internal.serialization.impl.SerializationConstants.TYPE_COMPACT_WITH_SCHEMA;
 
-public class CompactStreamSerializer extends CompactStreamSerializerBase implements StreamSerializer<Object> {
+public class CompactWithSchemaStreamSerializer extends CompactStreamSerializerBase implements StreamSerializer<Object> {
 
-    public CompactStreamSerializer(CompactSerializationConfig compactSerializationConfig,
+    public CompactWithSchemaStreamSerializer(CompactSerializationConfig compactSerializationConfig,
                                    ManagedContext managedContext, SchemaService schemaService,
                                    ClassLoader classLoader,
                                    Function<byte[], BufferObjectDataInput> bufferObjectDataInputFunc,
@@ -47,30 +51,22 @@ public class CompactStreamSerializer extends CompactStreamSerializerBase impleme
         super(compactSerializationConfig, managedContext, schemaService, classLoader, bufferObjectDataInputFunc, bufferObjectDataOutputSupplier);
     }
 
-    public GenericRecord readGenericRecord(ObjectDataInput in) throws IOException {
-        Schema schema = getSchema(in);
-        BufferObjectDataInput input = (BufferObjectDataInput) in;
-        return new DefaultCompactReader(this, input, schema, null);
-    }
-
     @Override
     public int getTypeId() {
-        return TYPE_COMPACT;
+        return TYPE_COMPACT_WITH_SCHEMA;
     }
 
     public GenericRecordBuilder createGenericRecordBuilder(Schema schema) {
-        // TODO: this seems hacky, update it
         return new SerializingGenericRecordBuilder(schema,
-                new DefaultCompactWriter(this, bufferObjectDataOutputSupplier.get(), schema),
-                (bytes -> new DefaultCompactReader(this, bufferObjectDataInputFunc.apply(bytes), schema, null)),
+                new DefaultCompactWithSchemaWriter(this, bufferObjectDataOutputSupplier.get(), schema, new HashSet<>()),
+                (bytes -> new DefaultCompactWithSchemaReader(this, bufferObjectDataInputFunc.apply(bytes), schema, null)),
                 bufferObjectDataInputFunc);
     }
 
-    public GenericRecordBuilder createGenericRecordCloner(Schema schema, AbstractDefaultCompactReader record) {
-        // TODO: this seems hacky, update it
+    public GenericRecordBuilder createGenericRecordCloner(Schema schema, AbstractCompactInternalGenericRecord record) {
         return new SerializingGenericRecordCloner(schema, record,
-                new DefaultCompactWriter(this, bufferObjectDataOutputSupplier.get(), schema),
-                (bytes, associatedClass) -> new DefaultCompactReader(this, bufferObjectDataInputFunc.apply(bytes), schema, associatedClass),
+                new DefaultCompactWithSchemaWriter(this, bufferObjectDataOutputSupplier.get(), schema, new HashSet<>()),
+                (bytes, associatedClass) -> new DefaultCompactWithSchemaReader(this, bufferObjectDataInputFunc.apply(bytes), schema, associatedClass),
                 bufferObjectDataInputFunc);
     }
 
@@ -79,18 +75,23 @@ public class CompactStreamSerializer extends CompactStreamSerializerBase impleme
     public void write(ObjectDataOutput out, Object o) throws IOException {
         assert out instanceof BufferObjectDataOutput;
         BufferObjectDataOutput bufferObjectDataOutput = (BufferObjectDataOutput) out;
+        Set<Schema> schemas = new HashSet<>(1);
+        int position = bufferObjectDataOutput.position();
+        bufferObjectDataOutput.writeZeroBytes(INT_SIZE_IN_BYTES);
         if (o instanceof CompactGenericRecord) {
-            writeGenericRecord(bufferObjectDataOutput, (CompactGenericRecord) o);
+            writeGenericRecord(bufferObjectDataOutput, (CompactGenericRecord) o, schemas);
         } else {
-            writeObject(bufferObjectDataOutput, o);
+            writeObject(bufferObjectDataOutput, o, schemas);
         }
+        writeSchemas(bufferObjectDataOutput, position, schemas);
     }
 
-    void writeGenericRecord(BufferObjectDataOutput out, CompactGenericRecord record) throws IOException {
+    void writeGenericRecord(BufferObjectDataOutput out, CompactGenericRecord record, Set<Schema> schemas) throws IOException {
         Schema schema = record.getSchema();
         schemaService.put(schema);
         out.writeLong(schema.getSchemaId());
-        DefaultCompactWriter writer = new DefaultCompactWriter(this, out, schema);
+        schemas.add(schema);
+        DefaultCompactWithSchemaWriter writer = new DefaultCompactWithSchemaWriter(this, out, schema, schemas);
         Collection<FieldDescriptor> fields = schema.getFields();
         for (FieldDescriptor fieldDescriptor : fields) {
             String fieldName = fieldDescriptor.getFieldName();
@@ -100,7 +101,7 @@ public class CompactStreamSerializer extends CompactStreamSerializerBase impleme
         writer.end();
     }
 
-    public void writeObject(BufferObjectDataOutput out, Object o) throws IOException {
+    public void writeObject(BufferObjectDataOutput out, Object o, Set<Schema> schemas) throws IOException {
         ConfigurationRegistry registry = getOrCreateRegistry(o);
         Class<?> aClass = o.getClass();
 
@@ -109,11 +110,14 @@ public class CompactStreamSerializer extends CompactStreamSerializerBase impleme
             SchemaWriter writer = new SchemaWriter(registry.getTypeName());
             registry.getSerializer().write(writer, o);
             schema = writer.build();
-            schemaService.put(schema);
+            //if we will include the schema on binary, the schema will be delivered anyway.
+            //No need to put it to cluster. Putting it local only in order not to ask from remote on read.
+            schemaService.putLocal(schema);
             classToSchemaMap.put(aClass, schema);
         }
         out.writeLong(schema.getSchemaId());
-        DefaultCompactWriter writer = new DefaultCompactWriter(this, out, schema);
+        schemas.add(schema);
+        DefaultCompactWithSchemaWriter writer = new DefaultCompactWithSchemaWriter(this, out, schema, schemas);
         registry.getSerializer().write(writer, o);
         writer.end();
     }
@@ -123,25 +127,67 @@ public class CompactStreamSerializer extends CompactStreamSerializerBase impleme
     @Override
     public Object read(@Nonnull ObjectDataInput in) throws IOException {
         BufferObjectDataInput input = (BufferObjectDataInput) in;
-        Schema schema = getSchema(in);
+        int schemaStartPosition = input.readInt();
+        LazySchemaReader schemaReader = new LazySchemaReader(input, schemaStartPosition);
+        return read(input, schemaReader);
+    }
+
+    public Object read(BufferObjectDataInput in, LazySchemaReader schemaReader) throws IOException {
+        Schema schema = getOrReadSchema(in, schemaReader);
         ConfigurationRegistry registry = getOrCreateRegistry(schema.getTypeName());
 
         if (registry == null) {
             //we have tried to load class via class loader, it did not work. We are returning a GenericRecord.
-            return new DefaultCompactReader(this, input, schema, null);
+            return new DefaultCompactWithSchemaReader(this, in, schema, null, schemaReader);
         }
 
-        DefaultCompactReader genericRecord = new DefaultCompactReader(this, input, schema, registry.getClazz());
+        DefaultCompactWithSchemaReader genericRecord = new DefaultCompactWithSchemaReader(this, in, schema,
+                registry.getClazz(), schemaReader);
         Object object = registry.getSerializer().read(genericRecord);
         return managedContext != null ? managedContext.initialize(object) : object;
     }
 
-    private Schema getSchema(ObjectDataInput input) throws IOException {
+    public GenericRecord readGenericRecord(ObjectDataInput in) throws IOException {
+        BufferObjectDataInput input = (BufferObjectDataInput) in;
+        int schemaStartPosition = input.readInt();
+        LazySchemaReader schemaReader = new LazySchemaReader(input, schemaStartPosition);
+        return readGenericRecord(input, schemaReader);
+    }
+
+    public GenericRecord readGenericRecord(BufferObjectDataInput in, LazySchemaReader schemaReader) throws IOException {
+        Schema schema = getOrReadSchema(in, schemaReader);
+        return new DefaultCompactWithSchemaReader(this, in, schema, null, schemaReader);
+    }
+
+    private void writeSchemas(BufferObjectDataOutput out, int position, Set<Schema> schemas) throws IOException {
+        int pos = out.position();
+        out.writeInt(position, pos);
+        out.writeInt(schemas.size());
+        for (Schema schema : schemas) {
+            out.writeLong(schema.getSchemaId());
+            int sizeOfSchemaPosition = out.position();
+            out.writeInt(0);
+            int schemaBeginPos = out.position();
+            schema.writeData(out);
+            int schemaEndPosition = out.position();
+            out.writeInt(sizeOfSchemaPosition, schemaEndPosition - schemaBeginPos);
+        }
+    }
+
+    private Schema getOrReadSchema(ObjectDataInput input, LazySchemaReader schemaReader) throws IOException {
         long schemaId = input.readLong();
         Schema schema = schemaService.get(schemaId);
         if (schema != null) {
             return schema;
         }
-        throw new HazelcastSerializationException("The schema can not be found with id " + schemaId);
+
+        schema = schemaReader.getSchema(schemaId);
+        if (schema == null) {
+            throw new HazelcastSerializationException("Cannot find schema with the id of '" + schemaId + "' in data.");
+        }
+
+        // TODO: Should we put local here?
+        schemaService.put(schema);
+        return schema;
     }
 }

@@ -16,26 +16,26 @@
 
 package com.hazelcast.internal.serialization.impl.compact;
 
-import com.hazelcast.internal.nio.BufferObjectDataOutput;
+import com.hazelcast.internal.nio.BufferObjectDataInput;
 
 import java.io.IOException;
 
-public class DefaultCompactWriter extends AbstractDefaultCompactWriter {
+public class LazySchema extends Schema {
 
-    private final CompactStreamSerializer serializer;
+    private final BufferObjectDataInput in;
+    private final int schemaOffset;
+    private volatile boolean initialized = false;
 
-    public DefaultCompactWriter(CompactStreamSerializer serializer, BufferObjectDataOutput out, Schema schema) {
-        super(out, schema);
-        this.serializer = serializer;
+    public LazySchema(BufferObjectDataInput in, int schemaOffset) {
+        this.in = in;
+        this.schemaOffset = schemaOffset;
     }
 
-    @Override
-    public void writeObjectInternal(BufferObjectDataOutput out, Object value) throws IOException {
-        serializer.writeObject(out, value);
-    }
-
-    @Override
-    public void writeGenericRecordInternal(BufferObjectDataOutput out, CompactGenericRecord value) throws IOException {
-        serializer.writeGenericRecord(out, value);
+    public void init() throws IOException {
+        if (initialized) {
+            return;
+        }
+        in.position(schemaOffset);
+        readData(in);
     }
 }

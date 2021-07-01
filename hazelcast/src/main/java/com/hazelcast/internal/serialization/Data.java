@@ -23,7 +23,7 @@ import com.hazelcast.partition.PartitioningStrategy;
  * Data is basic unit of serialization. It stores binary form of an object serialized
  * by {@link SerializationService#toData(Object)}.
  */
-public interface Data {
+public interface  Data {
 
     /**
      * Returns byte array representation of internal binary format.

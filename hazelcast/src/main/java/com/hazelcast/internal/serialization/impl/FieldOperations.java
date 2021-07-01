@@ -16,6 +16,7 @@
 
 package com.hazelcast.internal.serialization.impl;
 
+import com.hazelcast.internal.serialization.impl.compact.AbstractDefaultCompactWriter;
 import com.hazelcast.internal.serialization.impl.compact.DefaultCompactWriter;
 import com.hazelcast.nio.serialization.FieldType;
 import com.hazelcast.nio.serialization.GenericRecord;
@@ -40,7 +41,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeGenericRecord(fieldName, genericRecord.getGenericRecord(fieldName));
         }
     }),
@@ -51,7 +52,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeByte(fieldName, genericRecord.getByte(fieldName));
         }
     }),
@@ -62,7 +63,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeBoolean(fieldName, genericRecord.getBoolean(fieldName));
         }
     }),
@@ -73,7 +74,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeChar(fieldName, genericRecord.getChar(fieldName));
         }
     }),
@@ -84,7 +85,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeShort(fieldName, genericRecord.getShort(fieldName));
         }
     }),
@@ -95,7 +96,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeInt(fieldName, genericRecord.getInt(fieldName));
         }
     }),
@@ -106,7 +107,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeLong(fieldName, genericRecord.getLong(fieldName));
         }
     }),
@@ -117,7 +118,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeFloat(fieldName, genericRecord.getFloat(fieldName));
         }
     }),
@@ -128,7 +129,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeDouble(fieldName, genericRecord.getDouble(fieldName));
         }
     }),
@@ -139,7 +140,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeString(fieldName, genericRecord.getString(fieldName));
         }
     }),
@@ -166,7 +167,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeGenericRecordArray(fieldName, record.getGenericRecordArray(fieldName));
         }
     }),
@@ -187,7 +188,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeByteArray(fieldName, record.getByteArray(fieldName));
         }
     }),
@@ -208,7 +209,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeBooleanArray(fieldName, record.getBooleanArray(fieldName));
         }
     }),
@@ -229,7 +230,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeCharArray(fieldName, record.getCharArray(fieldName));
         }
     }),
@@ -250,7 +251,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeShortArray(fieldName, record.getShortArray(fieldName));
         }
     }),
@@ -271,7 +272,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeIntArray(fieldName, record.getIntArray(fieldName));
         }
     }),
@@ -292,7 +293,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeLongArray(fieldName, record.getLongArray(fieldName));
         }
     }),
@@ -313,7 +314,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeFloatArray(fieldName, record.getFloatArray(fieldName));
         }
     }),
@@ -334,7 +335,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeDoubleArray(fieldName, record.getDoubleArray(fieldName));
         }
     }),
@@ -355,7 +356,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeStringArray(fieldName, record.getStringArray(fieldName));
         }
     }),
@@ -366,7 +367,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeDecimal(fieldName, genericRecord.getDecimal(fieldName));
         }
     }),
@@ -387,7 +388,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeDecimalArray(fieldName, record.getDecimalArray(fieldName));
         }
     }),
@@ -398,7 +399,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeTime(fieldName, genericRecord.getTime(fieldName));
         }
     }),
@@ -419,7 +420,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeTimeArray(fieldName, record.getTimeArray(fieldName));
         }
     }),
@@ -430,7 +431,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeDate(fieldName, genericRecord.getDate(fieldName));
         }
     }),
@@ -451,7 +452,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeDateArray(fieldName, record.getDateArray(fieldName));
         }
     }),
@@ -462,7 +463,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeTimestamp(fieldName, genericRecord.getTimestamp(fieldName));
         }
     }),
@@ -483,7 +484,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeTimestampArray(fieldName, record.getTimestampArray(fieldName));
         }
     }),
@@ -494,7 +495,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeTimestampWithTimezone(fieldName, genericRecord.getTimestampWithTimezone(fieldName));
         }
     }),
@@ -515,7 +516,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeTimestampWithTimezoneArray(fieldName, record.getTimestampWithTimezoneArray(fieldName));
         }
     }),
@@ -531,7 +532,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName) {
             writer.writeGenericRecord(fieldName, genericRecord.getGenericRecord(fieldName));
         }
     }),
@@ -557,7 +558,7 @@ public enum FieldOperations {
         }
 
         @Override
-        public void readFromGenericRecordToWriter(DefaultCompactWriter writer, GenericRecord record, String fieldName) {
+        public void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord record, String fieldName) {
             writer.writeGenericRecordArray(fieldName, record.getGenericRecordArray(fieldName));
         }
     });

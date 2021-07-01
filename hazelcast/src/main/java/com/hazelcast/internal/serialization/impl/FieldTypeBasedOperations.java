@@ -16,7 +16,7 @@
 
 package com.hazelcast.internal.serialization.impl;
 
-import com.hazelcast.internal.serialization.impl.compact.DefaultCompactWriter;
+import com.hazelcast.internal.serialization.impl.compact.AbstractDefaultCompactWriter;
 import com.hazelcast.nio.serialization.GenericRecord;
 
 import java.util.Objects;
@@ -45,5 +45,5 @@ public interface FieldTypeBasedOperations {
         return Objects.hashCode(readInSerializedForm(record, fieldName));
     }
 
-    void readFromGenericRecordToWriter(DefaultCompactWriter defaultCompactWriter, GenericRecord genericRecord, String fieldName);
+    void readFromGenericRecordToWriter(AbstractDefaultCompactWriter writer, GenericRecord genericRecord, String fieldName);
 }

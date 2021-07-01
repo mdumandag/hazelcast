@@ -23,13 +23,13 @@ import com.hazelcast.nio.serialization.FieldType;
 import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 /**
  * Represents the schema of a class.
@@ -41,7 +41,8 @@ public class Schema implements IdentifiedDataSerializable {
     private TreeMap<String, FieldDescriptor> fieldDefinitionMap;
     private int numberVarSizeFields;
     private int fixedSizeFieldsLength;
-    private transient long schemaId;
+    private long schemaId;
+    private boolean hasNestedSchemas;
 
     public Schema() {
     }
@@ -53,25 +54,40 @@ public class Schema implements IdentifiedDataSerializable {
     }
 
     private void init() {
-        int offset = 0;
-        int bitOffset = 0;
+        List<FieldDescriptor> fixedSizeFields = new ArrayList<>();
+        List<FieldDescriptor> booleanFields = new ArrayList<>();
+        List<FieldDescriptor> variableSizeFields = new ArrayList<>();
 
-        List<FieldDescriptor> definiteSizedList = fieldDefinitionMap.values().stream()
-                .filter(fieldDescriptor -> fieldDescriptor.getType().hasDefiniteSize())
-                .filter(fieldDescriptor -> !fieldDescriptor.getType().equals(FieldType.BOOLEAN))
-                .sorted(Comparator.comparingInt(o -> ((FieldDescriptor) o).getType().getTypeSize()).reversed())
-                .collect(Collectors.toList());
-        for (FieldDescriptor fieldDefinition : definiteSizedList) {
-            fieldDefinition.setOffset(offset);
-            offset += fieldDefinition.getType().getTypeSize();
+        for (FieldDescriptor descriptor : fieldDefinitionMap.values()) {
+            FieldType fieldType = descriptor.getType();
+            if (fieldType.hasDefiniteSize()) {
+                if (FieldType.BOOLEAN.equals(fieldType)) {
+                    booleanFields.add(descriptor);
+                } else {
+                    fixedSizeFields.add(descriptor);
+                }
+            } else {
+                variableSizeFields.add(descriptor);
+                if (FieldType.PORTABLE.equals(fieldType) || FieldType.PORTABLE_ARRAY.equals(fieldType)) {
+                    hasNestedSchemas = true;
+                }
+            }
         }
 
-        List<FieldDescriptor> booleanFieldsList = fieldDefinitionMap.values().stream()
-                .filter(fieldDescriptor -> fieldDescriptor.getType().equals(FieldType.BOOLEAN))
-                .collect(Collectors.toList());
-        for (FieldDescriptor fieldDefinition : booleanFieldsList) {
-            fieldDefinition.setOffset(offset);
-            fieldDefinition.setBitOffset((byte) (bitOffset % Byte.SIZE));
+        fixedSizeFields.sort(Comparator.comparingInt(descriptor -> ((FieldDescriptor) descriptor).getType().getTypeSize()).reversed());
+
+        int offset = 0;
+
+        for (FieldDescriptor descriptor : fixedSizeFields) {
+            descriptor.setOffset(offset);
+            offset += descriptor.getType().getTypeSize();
+        }
+
+        int bitOffset = 0;
+
+        for (FieldDescriptor descriptor : booleanFields) {
+            descriptor.setOffset(offset);
+            descriptor.setBitOffset((byte) (bitOffset % Byte.SIZE));
             bitOffset++;
             if (bitOffset % Byte.SIZE == 0) {
                 offset += 1;
@@ -84,12 +100,9 @@ public class Schema implements IdentifiedDataSerializable {
         fixedSizeFieldsLength = offset;
 
         int index = 0;
-        List<FieldDescriptor> varSizeList = fieldDefinitionMap.values().stream()
-                .filter(fieldDescriptor -> !fieldDescriptor.getType().hasDefiniteSize())
-                .collect(Collectors.toList());
 
-        for (FieldDescriptor fieldDefinition : varSizeList) {
-            fieldDefinition.setIndex(index++);
+        for (FieldDescriptor descriptor : variableSizeFields) {
+            descriptor.setIndex(index++);
         }
 
         numberVarSizeFields = index;
@@ -136,6 +149,10 @@ public class Schema implements IdentifiedDataSerializable {
 
     public long getSchemaId() {
         return schemaId;
+    }
+
+    public boolean hasNestedSchemas() {
+        return hasNestedSchemas;
     }
 
     @Override

@@ -34,20 +34,20 @@ import static com.hazelcast.internal.serialization.impl.SerializationConstants.T
  */
 public class CompactWithSchemaStreamSerializerAdapter implements SerializerAdapter {
 
-    private final CompactStreamSerializer serializer;
+    private final CompactWithSchemaStreamSerializer serializer;
 
-    public CompactWithSchemaStreamSerializerAdapter(CompactStreamSerializer compactStreamSerializer) {
+    public CompactWithSchemaStreamSerializerAdapter(CompactWithSchemaStreamSerializer compactStreamSerializer) {
         this.serializer = compactStreamSerializer;
     }
 
     @Override
     public void write(ObjectDataOutput out, Object object) throws IOException {
-        serializer.write((BufferObjectDataOutput) out, object, true);
+        serializer.write(out, object);
     }
 
     @Override
     public Object read(ObjectDataInput in) throws IOException {
-        return serializer.read((BufferObjectDataInput) in, true);
+        return serializer.read(in);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CompactWithSchemaStreamSerializerAdapter implements SerializerAdapt
 
     @Override
     public void conditionallyReturnInputBufferToPool(Object object, BufferObjectDataInput inputBuffer, BufferPool pool) {
-        if (!(object instanceof DefaultCompactReader)) {
+        if (!(object instanceof DefaultCompactWithSchemaReader)) {
             pool.returnInputBuffer(inputBuffer);
         }
     }

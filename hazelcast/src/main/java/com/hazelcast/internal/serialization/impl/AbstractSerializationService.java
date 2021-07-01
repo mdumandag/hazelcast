@@ -30,6 +30,7 @@ import com.hazelcast.internal.serialization.impl.bufferpool.BufferPoolThreadLoca
 import com.hazelcast.internal.serialization.impl.compact.CompactGenericRecord;
 import com.hazelcast.internal.serialization.impl.compact.CompactStreamSerializer;
 import com.hazelcast.internal.serialization.impl.compact.CompactStreamSerializerAdapter;
+import com.hazelcast.internal.serialization.impl.compact.CompactWithSchemaStreamSerializer;
 import com.hazelcast.internal.serialization.impl.compact.CompactWithSchemaStreamSerializerAdapter;
 import com.hazelcast.internal.serialization.impl.compact.SchemaService;
 import com.hazelcast.internal.serialization.impl.defaultserializers.ConstantSerializers;
@@ -82,6 +83,7 @@ public abstract class AbstractSerializationService implements InternalSerializat
     protected SerializerAdapter javaExternalizableAdapter;
     protected SerializerAdapter compactSerializerAdapter;
     protected CompactStreamSerializer compactStreamSerializer;
+    protected CompactWithSchemaStreamSerializer compactWithSchemaStreamSerializer;
     protected CompactWithSchemaStreamSerializerAdapter compactWithSchemaSerializerAdapter;
 
     private final IdentityHashMap<Class, SerializerAdapter> constantTypesMap = new IdentityHashMap<>(
@@ -117,8 +119,10 @@ public abstract class AbstractSerializationService implements InternalSerializat
                 ? new CompactSerializationConfig() : builder.compactSerializationConfig;
         compactStreamSerializer = new CompactStreamSerializer(compactSerializationCfg,
                 managedContext, builder.schemaService, classLoader, this::createObjectDataInput, this::createObjectDataOutput);
-        this.compactWithSchemaSerializerAdapter = new CompactWithSchemaStreamSerializerAdapter(compactStreamSerializer);
+        compactWithSchemaStreamSerializer = new CompactWithSchemaStreamSerializer(compactSerializationCfg,
+                managedContext, builder.schemaService, classLoader, this::createObjectDataInput, this::createObjectDataOutput);
         this.compactSerializerAdapter = new CompactStreamSerializerAdapter(compactStreamSerializer);
+        this.compactWithSchemaSerializerAdapter = new CompactWithSchemaStreamSerializerAdapter(compactWithSchemaStreamSerializer);
     }
 
     // used by jet

@@ -24,23 +24,26 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
-public class DefaultCompactReader extends AbstractDefaultCompactReader {
+public class DefaultCompactWithSchemaReader extends AbstractDefaultCompactReader {
 
-    private final CompactStreamSerializer serializer;
+    private final CompactWithSchemaStreamSerializer serializer;
+    private final LazySchemaReader schemaReader;
 
-    public DefaultCompactReader(CompactStreamSerializer serializer, BufferObjectDataInput in, Schema schema, @Nullable Class associatedClass) {
+    public DefaultCompactWithSchemaReader(CompactWithSchemaStreamSerializer serializer, BufferObjectDataInput in,
+                                          Schema schema, @Nullable Class associatedClass, LazySchemaReader schemaReader) {
         super(in, schema, associatedClass);
         this.serializer = serializer;
+        this.schemaReader = schemaReader;
     }
 
     @Override
     public Object readObjectInternal(BufferObjectDataInput in) throws IOException {
-        return serializer.read(in);
+        return serializer.read(in, schemaReader);
     }
 
     @Override
     public GenericRecord readGenericRecordInternal(BufferObjectDataInput in) throws IOException {
-        return serializer.readGenericRecord(in);
+        return serializer.readGenericRecord(in, schemaReader);
     }
 
     @Nonnull
